@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Viny2030</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <h1>📊 Viny2030</h1>
+                <h2>Crear Cuenta</h2>
+                <p>Comienza tu prueba gratuita de 7 días</p>
+            </div>
+
+            <form id="registroForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre de la Empresa *</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Mi Empresa S.A.">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Corporativo *</label>
+                    <input type="email" id="email" name="email" required placeholder="contacto@empresa.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="+1 234 567 8900">
+                </div>
+
+                <div class="form-info">
+                    <h3>¿Qué incluye?</h3>
+                    <ul>
+                        <li>✓ Repositorio privado en GitHub</li>
+                        <li>✓ Bucket privado en Backblaze B2</li>
+                        <li>✓ Scripts Python de análisis financiero</li>
+                        <li>✓ Sincronización automática diaria</li>
+                        <li>✓ API Key personalizada</li>
+                    </ul>
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="terminos" required>
+                    <label for="terminos">Acepto los <a href="#">términos y condiciones</a></label>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSubmit">
+                    Crear mi Cuenta Gratis
+                </button>
+
+                <div class="form-note">
+                    <p>No se requiere tarjeta de crédito. Cancelación en cualquier momento.</p>
+                </div>
+            </form>
+
+            <div id="resultadoRegistro" class="resultado" style="display: none;"></div>
+
+            <div class="form-footer">
+                <p>¿Ya tienes cuenta? <a href="dashboard.html">Inicia Sesión</a></p>
+            </div>
+        </div>
+
+        <div class="form-benefits">
+            <h3>Configuración Automática</h3>
+            <div class="benefit-item">
+                <div class="benefit-icon">🔧</div>
+                <div>
+                    <h4>GitHub Repository</h4>
+                    <p>Repo privado con Actions configuradas</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">☁️</div>
+                <div>
+                    <h4>Backblaze B2</h4>
+                    <p>10 GB de almacenamiento seguro</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🐍</div>
+                <div>
+                    <h4>Scripts Python</h4>
+                    <p>Balance, ratios y reportes automáticos</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">⏰</div>
+                <div>
+                    <h4>Sync Diario</h4>
+                    <p>Análisis cada 24 horas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost/viny2030/backend';
+
+        document.getElementById('registroForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btnSubmit = document.getElementById('btnSubmit');
+            const resultado = document.getElementById('resultadoRegistro');
+            
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Creando cuenta...';
+            
+            const datos = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/crear-empresa`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datos)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultado.className = 'resultado success';
+                    resultado.innerHTML = `
+                        <h3>✅ ¡Cuenta Creada Exitosamente!</h3>
+                        <p><strong>API Key:</strong> <code>${data.empresa.api_key}</code></p>
+                        <p><strong>GitHub Repo:</strong> ${data.empresa.github_repo}</p>
+                        <p><strong>B2 Bucket:</strong> ${data.empresa.b2_bucket}</p>
+                        <p>Tienes <strong>7 días de prueba gratis</strong>.</p>
+                        <p>Revisa tu email para más detalles.</p>
+                        <a href="dashboard.html?api_key=${data.empresa.api_key}" class="btn-primary">Ir al Dashboard</a>
+                    `;
+                    document.getElementById('registroForm').reset();
+                } else {
+                    throw new Error(data.error || 'Error desconocido');
+                }
+                
+            } catch (error) {
+                resultado.className = 'resultado error';
+                resultado.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+            } finally {
+                resultado.style.display = 'block';
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Crear mi Cuenta Gratis';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+name: Daily Sync - Viny2030
+
+on:
+  schedule:
+    # Ejecutar todos los días a las 6:00 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # Permitir ejecución manual
+
+jobs:
+  sync-and-analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Verificar estado de suscripción
+        env:
+          VINY_API_KEY: ${{ secrets.VINY_API_KEY }}
+          VINY_API_URL: ${{ secrets.VINY_API_URL }}
+        run: |
+          python verificar_estado.py
+          if [ $? -ne 0 ]; then
+            echo "❌ Suscripción inactiva o expirada"
+            exit 1
+          fi
+      
+      - name: Download data from B2
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET_NAME: ${{ secrets.B2_BUCKET_NAME }}
+        run: |
+          echo "📥 Descargando datos de B2..."
+          python b2_connector.py download
+      
+      - name: Generate Balance General
+        run: |
+          echo "📊 Generando Balance General..."
+          python balance_general.py
+      
+      - name: Calculate Financial Ratios
+        run: |
+          echo "📈 Calculando Ratios Financieros..."
+          python ratios_financieros.py
+      
+      - name: Upload results to B2
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET_NAME: ${{ secrets.B2_BUCKET_NAME }}
+        run: |
+          echo "📤 Subiendo resultados a B2..."
+          python b2_connector.py upload
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add results/
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto: Daily sync $(date +'%Y-%m-%d')"
+          git push
+        continue-on-error: true
+      
+      - name: Notify completion
+        if: always()
+        run: |
+          echo "✅ Proceso completado"
+          echo "Timestamp: $(date)"

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Viny2030</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📊 Viny2030</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <span>📈</span> Dashboard
+            </a>
+            <a href="#" class="nav-item">
+                <span>📁</span> Archivos
+            </a>
+            <a href="#" class="nav-item">
+                <span>📊</span> Reportes
+            </a>
+            <a href="#" class="nav-item">
+                <span>⚙️</span> Configuración
+            </a>
+            <a href="#" class="nav-item">
+                <span>💳</span> Facturación
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar">E</div>
+                <div>
+                    <div class="user-name">Cargando...</div>
+                    <div class="user-status">---</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p id="empresaNombre">Cargando información...</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" title="Notificaciones">🔔</button>
+                <button class="btn-icon" title="Ayuda">❓</button>
+            </div>
+        </header>
+
+        <!-- Alert de Suscripción -->
+        <div id="alertSuscripcion" class="alert" style="display: none;"></div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">📊</div>
+                <div class="stat-info">
+                    <div class="stat-label">Estado de Cuenta</div>
+                    <div class="stat-value" id="estadoCuenta">Activa</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">📅</div>
+                <div class="stat-info">
+                    <div class="stat-label">Días Restantes</div>
+                    <div class="stat-value" id="diasRestantes">---</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">🔄</div>
+                <div class="stat-info">
+                    <div class="stat-label">Última Sincronización</div>
+                    <div class="stat-value">Hoy, 06:00 AM</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">📁</div>
+                <div class="stat-info">
+                    <div class="stat-label">Archivos Procesados</div>
+                    <div class="stat-value">24</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="dashboard-section">
+            <h2>Tus Recursos</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <h3>🐙 GitHub Repository</h3>
+                        <span class="badge success">Activo</span>
+                    </div>
+                    <p id="githubRepo">Cargando...</p>
+                    <a href="#" id="githubLink" class="btn-small" target="_blank">Abrir en GitHub</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <h3>☁️ Backblaze B2 Bucket</h3>
+                        <span class="badge success">Activo</span>
+                    </div>
+                    <p id="b2Bucket">Cargando...</p>
+                    <button class="btn-small">Ver Archivos</button>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <h3>🔑 API Key</h3>
+                        <span class="badge info">Privada</span>
+                    </div>
+                    <div class="api-key-display">
+                        <code id="apiKeyDisplay">••••••••••••••••</code>
+                        <button class="btn-icon" onclick="toggleApiKey()">👁️</button>
+                    </div>
+                    <button class="btn-small" onclick="copyApiKey()">Copiar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-section">
+            <h2>Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-card">
+                    <span class="action-icon">📤</span>
+                    <div>
+                        <h3>Subir Datos</h3>
+                        <p>Cargar archivo CSV/Excel</p>
+                    </div>
+                </button>
+                <button class="action-card">
+                    <span class="action-icon">📊</span>
+                    <div>
+                        <h3>Ver Balance</h3>
+                        <p>Balance general actual</p>
+                    </div>
+                </button>
+                <button class="action-card">
+                    <span class="action-icon">📈</span>
+                    <div>
+                        <h3>Ratios Financieros</h3>
+                        <p>Análisis de ratios</p>
+                    </div>
+                </button>
+                <button class="action-card">
+                    <span class="action-icon">📄</span>
+                    <div>
+                        <h3>Descargar Reportes</h3>
+                        <p>Reportes en PDF</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost/viny2030/backend';
+        let currentApiKey = '';
+        let apiKeyVisible = false;
+
+        // Obtener API Key de la URL o localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiKey = urlParams.get('api_key') || localStorage.getItem('viny_api_key');
+
+        if (!apiKey) {
+            alert('No se encontró API Key. Por favor, inicia sesión.');
+            window.location.href = 'formulario.html';
+        } else {
+            localStorage.setItem('viny_api_key', apiKey);
+            currentApiKey = apiKey;
+            cargarDatosEmpresa();
+        }
+
+        async function cargarDatosEmpresa() {
+            try {
+                // Obtener datos de empresa
+                const response = await fetch(`${API_URL}/empresa?api_key=${apiKey}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const empresa = data.empresa;
+                    
+                    // Actualizar UI
+                    document.getElementById('empresaNombre').textContent = empresa.nombre;
+                    document.getElementById('githubRepo').textContent = empresa.github_repo;
+                    document.getElementById('b2Bucket').textContent = empresa.b2_bucket;
+                    
+                    // User info
+                    document.querySelector('.user-name').textContent = empresa.nombre;
+                    document.querySelector('.user-avatar').textContent = empresa.nombre.charAt(0);
+                    
+                    // Verificar estado de suscripción
+                    verificarEstado();
+                }
+            } catch (error) {
+                console.error('Error al cargar datos:', error);
+            }
+        }
+
+        async function verificarEstado() {
+            try {
+                const response = await fetch(`${API_URL}/verificar-estado?api_key=${apiKey}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const empresa = data.empresa;
+                    
+                    document.getElementById('estadoCuenta').textContent = 
+                        empresa.estado === 'activa' ? 'Activa' : 
+                        empresa.estado === 'pendiente' ? 'Prueba' : 'Cancelada';
+                    
+                    document.getElementById('diasRestantes').textContent = empresa.dias_restantes;
+                    document.querySelector('.user-status').textContent = 
+                        empresa.estado === 'activa' ? `Vence en ${empresa.dias_restantes} días` : 
+                        empresa.estado;
+
+                    // Mostrar alerta si está por vencer
+                    if (empresa.dias_restantes <= 3 && empresa.activa) {
+                        const alert = document.getElementById('alertSuscripcion');
+                        alert.className = 'alert warning';
+                        alert.innerHTML = `⚠️ Tu suscripción vence en ${empresa.dias_restantes} días. <a href="#">Renovar ahora</a>`;
+                        alert.style.display = 'block';
+                    } else if (!empresa.activa) {
+                        const alert = document.getElementById('alertSuscripcion');
+                        alert.className = 'alert error';
+                        alert.innerHTML = `❌ Tu suscripción ha expirado. <a href="#">Renovar ahora</a>`;
+                        alert.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error al verificar estado:', error);
+            }
+        }
+
+        function toggleApiKey() {
+            apiKeyVisible = !apiKeyVisible;
+            document.getElementById('apiKeyDisplay').textContent = 
+                apiKeyVisible ? currentApiKey : '••••••••••••••••';
+        }
+
+        function copyApiKey() {
+            navigator.clipboard.writeText(currentApiKey);
+            alert('API Key copiada al portapapeles');
+        }
+
+        // Actualizar cada 5 minutos
+        setInterval(verificarEstado, 300000);
+    </script>
+</body>
+</html>
