@@ -12,11 +12,10 @@ from pathlib import Path
 import sys
 
 # Configuración de rutas para importar scripts desde la carpeta 'python'
-# Esto asegura que Render encuentre los archivos sin importar desde donde se ejecute gunicorn
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'python'))
 
-# Importar scripts de creación (Asegúrate de que los nombres coincidan con los archivos)
+# Importar scripts de creación
 try:
     from crear_repo_github import crear_repositorio_github
     from crear_estructura_b2 import crear_bucket_b2
@@ -64,15 +63,12 @@ def index():
     return jsonify({
         'status': 'online',
         'mensaje': 'Viny2030 API activa',
-        'version': '1.0.0'
+        'version': '1.0.1'
     })
 
 @app.route('/api/crear-empresa', methods=['POST'])
 def crear_empresa():
-    """
-    Endpoint para registrar una nueva empresa y crear su infraestructura
-    Recibe: nombre, email, telefono
-    """
+    """Crear nueva empresa e infraestructura"""
     data = request.json
     
     if not data or 'nombre' not in data or 'email' not in data:
@@ -82,31 +78,40 @@ def crear_empresa():
     email = data['email']
     telefono = data.get('telefono', '')
     
-    # 1. Generar API Key
     api_key = generar_api_key()
     
-    # 2. Definir nombres para infraestructura
+    # Nombres de infraestructura
     repo_name = f"viny-{nombre.lower().replace(' ', '-')}-{datetime.now().strftime('%m%d')}"
     bucket_name = f"viny-storage-{nombre.lower().replace(' ', '-')}"
     
     try:
-        # 3. Crear Repositorio en GitHub
-        # Usamos el nombre corregido: crear_repositorio_github
-        github_url = crear_repositorio_github(repo_name, email)
-        
-        # 4. Crear Bucket en Backblaze B2
-        b2_info = crear_bucket_b2(bucket_name)
-        
-        # 5. Guardar en Base de Datos
+        # 1. Conectar a la base de datos
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         
+        # 2. Insertar primero para obtener el ID real
         fecha_expiracion = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')
         
         cursor.execute('''
-            INSERT INTO empresas (nombre, email, telefono, api_key, github_repo, b2_bucket, fecha_expiracion)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (nombre, email, telefono, api_key, github_url, bucket_name, fecha_expiracion))
+            INSERT INTO empresas (nombre, email, telefono, api_key, fecha_expiracion)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (nombre, email, telefono, api_key, fecha_expiracion))
+        
+        empresa_id = cursor.lastrowid # Obtenemos el ID generado
+        
+        # 3. Crear Infraestructura
+        # GitHub (recibe nombre y email)
+        github_url = crear_repositorio_github(repo_name, email)
+        
+        # Backblaze B2 (recibe nombre y el empresa_id obtenido arriba)
+        b2_info = crear_bucket_b2(bucket_name, empresa_id)
+        
+        # 4. Actualizar el registro con las URLs/Nombres creados
+        cursor.execute('''
+            UPDATE empresas 
+            SET github_repo = ?, b2_bucket = ? 
+            WHERE id = ?
+        ''', (github_url, bucket_name, empresa_id))
         
         conn.commit()
         conn.close()
@@ -114,6 +119,7 @@ def crear_empresa():
         return jsonify({
             'mensaje': 'Empresa creada exitosamente',
             'api_key': api_key,
+            'empresa_id': empresa_id,
             'github_repo': github_url,
             'b2_bucket': bucket_name,
             'fecha_expiracion': fecha_expiracion
@@ -126,7 +132,7 @@ def crear_empresa():
 
 @app.route('/api/verificar-key', methods=['POST'])
 def verificar_key():
-    """Verificar si una API key es válida y obtener datos de la empresa"""
+    """Verificar API key"""
     data = request.json
     api_key = data.get('api_key')
     
@@ -154,5 +160,5 @@ def verificar_key():
 
 if __name__ == '__main__':
     init_db()
-    # Para ejecución local
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
