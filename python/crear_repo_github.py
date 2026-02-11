@@ -10,7 +10,7 @@ from datetime import datetime
 
 # Configuración
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', 'ghp_YOUR_TOKEN_HERE')
-GITHUB_ORG = 'viny2030'  # O tu username si no es organización
+GITHUB_ORG = 'Viny2030-BA'  # O tu username si no es organización
 GITHUB_API = 'https://api.github.com'
 
 def crear_repositorio_github(nombre_repo, email_cliente):
