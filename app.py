@@ -9,18 +9,25 @@ import json
 from datetime import datetime, timedelta
 import sqlite3
 from pathlib import Path
-
-# Importar scripts de creación
 import sys
-sys.path.append('./python')
-from crear_repo_github import crear_repositorio_github
-from crear_estructura_b2 import crear_bucket_b2
+
+# Configuración de rutas para importar scripts desde la carpeta 'python'
+# Esto asegura que Render encuentre los archivos sin importar desde donde se ejecute gunicorn
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(BASE_DIR, 'python'))
+
+# Importar scripts de creación (Asegúrate de que los nombres coincidan con los archivos)
+try:
+    from crear_repo_github import crear_repositorio_github
+    from crear_estructura_b2 import crear_bucket_b2
+except ImportError as e:
+    print(f"Error importando módulos: {e}")
 
 app = Flask(__name__)
 CORS(app)
 
-# Configuración
-DATABASE = 'viny2030.db'
+# Configuración de Base de Datos
+DATABASE = os.path.join(BASE_DIR, 'viny2030.db')
 
 def init_db():
     """Inicializar base de datos SQLite"""
@@ -55,137 +62,73 @@ def generar_api_key():
 def index():
     """Endpoint raíz"""
     return jsonify({
-        'mensaje': 'Viny2030 API',
-        'version': '1.0',
-        'endpoints': [
-            '/api/crear-empresa',
-            '/api/verificar-estado',
-            '/api/obtener-datos'
-        ]
+        'status': 'online',
+        'mensaje': 'Viny2030 API activa',
+        'version': '1.0.0'
     })
 
 @app.route('/api/crear-empresa', methods=['POST'])
 def crear_empresa():
-    """Crear nueva empresa con repo GitHub y bucket B2"""
+    """
+    Endpoint para registrar una nueva empresa y crear su infraestructura
+    Recibe: nombre, email, telefono
+    """
+    data = request.json
+    
+    if not data or 'nombre' not in data or 'email' not in data:
+        return jsonify({'error': 'Faltan datos obligatorios (nombre, email)'}), 400
+    
+    nombre = data['nombre']
+    email = data['email']
+    telefono = data.get('telefono', '')
+    
+    # 1. Generar API Key
+    api_key = generar_api_key()
+    
+    # 2. Definir nombres para infraestructura
+    repo_name = f"viny-{nombre.lower().replace(' ', '-')}-{datetime.now().strftime('%m%d')}"
+    bucket_name = f"viny-storage-{nombre.lower().replace(' ', '-')}"
+    
     try:
-        data = request.json
-        nombre = data.get('nombre')
-        email = data.get('email')
-        telefono = data.get('telefono', '')
+        # 3. Crear Repositorio en GitHub
+        # Usamos el nombre corregido: crear_repositorio_github
+        github_url = crear_repositorio_github(repo_name, email)
         
-        if not nombre or not email:
-            return jsonify({'error': 'Nombre y email son requeridos'}), 400
+        # 4. Crear Bucket en Backblaze B2
+        b2_info = crear_bucket_b2(bucket_name)
         
-        # Generar API key
-        api_key = generar_api_key()
-        
-        # Fecha de expiración (7 días trial)
-        fecha_expiracion = datetime.now() + timedelta(days=7)
-        
-        # Crear en base de datos
+        # 5. Guardar en Base de Datos
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         
-        try:
-            cursor.execute('''
-                INSERT INTO empresas (nombre, email, telefono, api_key, fecha_expiracion)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (nombre, email, telefono, api_key, fecha_expiracion.isoformat()))
-            
-            empresa_id = cursor.lastrowid
-            conn.commit()
-            
-        except sqlite3.IntegrityError:
-            conn.close()
-            return jsonify({'error': 'El email ya está registrado'}), 400
+        fecha_expiracion = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')
         
-        # Crear repositorio GitHub (si hay token configurado)
-        github_repo = None
-        github_token = os.environ.get('GITHUB_TOKEN')
-        if github_token:
-            try:
-                repo_name = f"viny-{email.split('@')[0]}-{empresa_id}"
-                github_repo = crear_repositorio_github(repo_name, email)
-                
-                # Actualizar en BD
-                cursor.execute('UPDATE empresas SET github_repo = ? WHERE id = ?', 
-                             (github_repo, empresa_id))
-                conn.commit()
-            except Exception as e:
-                print(f"Error creando repo GitHub: {e}")
+        cursor.execute('''
+            INSERT INTO empresas (nombre, email, telefono, api_key, github_repo, b2_bucket, fecha_expiracion)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (nombre, email, telefono, api_key, github_url, bucket_name, fecha_expiracion))
         
-        # Crear bucket B2 (si hay credenciales)
-        b2_bucket = None
-        b2_key_id = os.environ.get('B2_KEY_ID')
-        b2_app_key = os.environ.get('B2_APP_KEY')
-        if b2_key_id and b2_app_key:
-            try:
-                bucket_name = f"viny-{empresa_id}"
-                b2_bucket = crear_bucket_b2(bucket_name, empresa_id)
-                
-                # Actualizar en BD
-                cursor.execute('UPDATE empresas SET b2_bucket = ? WHERE id = ?', 
-                             (b2_bucket, empresa_id))
-                conn.commit()
-            except Exception as e:
-                print(f"Error creando bucket B2: {e}")
-        
+        conn.commit()
         conn.close()
         
         return jsonify({
-            'exito': True,
             'mensaje': 'Empresa creada exitosamente',
             'api_key': api_key,
-            'empresa_id': empresa_id,
-            'github_repo': github_repo,
-            'b2_bucket': b2_bucket,
-            'fecha_expiracion': fecha_expiracion.isoformat(),
-            'dias_trial': 7
+            'github_repo': github_url,
+            'b2_bucket': bucket_name,
+            'fecha_expiracion': fecha_expiracion
         }), 201
         
+    except sqlite3.IntegrityError:
+        return jsonify({'error': 'El email ya está registrado'}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Error en el proceso: {str(e)}'}), 500
 
-@app.route('/api/verificar-estado', methods=['GET'])
-def verificar_estado():
-    """Verificar estado de suscripción"""
-    api_key = request.args.get('api_key')
-    
-    if not api_key:
-        return jsonify({'error': 'API key requerida'}), 400
-    
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    
-    cursor.execute('SELECT * FROM empresas WHERE api_key = ?', (api_key,))
-    empresa = cursor.fetchone()
-    conn.close()
-    
-    if not empresa:
-        return jsonify({'error': 'API key inválida'}), 404
-    
-    # Verificar expiración
-    fecha_expiracion = datetime.fromisoformat(empresa['fecha_expiracion'])
-    dias_restantes = (fecha_expiracion - datetime.now()).days
-    
-    activo = dias_restantes > 0
-    
-    return jsonify({
-        'activo': activo,
-        'nombre': empresa['nombre'],
-        'email': empresa['email'],
-        'estado': empresa['estado_suscripcion'],
-        'dias_restantes': max(0, dias_restantes),
-        'fecha_expiracion': empresa['fecha_expiracion'],
-        'github_repo': empresa['github_repo'],
-        'b2_bucket': empresa['b2_bucket']
-    })
-
-@app.route('/api/obtener-datos', methods=['GET'])
-def obtener_datos():
-    """Obtener datos de una empresa"""
-    api_key = request.args.get('api_key')
+@app.route('/api/verificar-key', methods=['POST'])
+def verificar_key():
+    """Verificar si una API key es válida y obtener datos de la empresa"""
+    data = request.json
+    api_key = data.get('api_key')
     
     if not api_key:
         return jsonify({'error': 'API key requerida'}), 400
@@ -204,36 +147,12 @@ def obtener_datos():
     return jsonify({
         'nombre': empresa['nombre'],
         'email': empresa['email'],
-        'telefono': empresa['telefono'],
         'github_repo': empresa['github_repo'],
         'b2_bucket': empresa['b2_bucket'],
-        'estado': empresa['estado_suscripcion'],
-        'fecha_creacion': empresa['fecha_creacion']
+        'estado': empresa['estado_suscripcion']
     })
 
-@app.route('/api/empresas', methods=['GET'])
-def listar_empresas():
-    """Listar todas las empresas (solo para admin)"""
-    # TODO: Agregar autenticación de admin
-    
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    
-    cursor.execute('SELECT id, nombre, email, estado_suscripcion, fecha_creacion FROM empresas')
-    empresas = [dict(row) for row in cursor.fetchall()]
-    conn.close()
-    
-    return jsonify({'empresas': empresas})
-
 if __name__ == '__main__':
-    # Inicializar base de datos
     init_db()
-    
-    # Obtener puerto de variable de entorno (Render)
-    port = int(os.environ.get('PORT', 5000))
-    
-    # Modo debug solo en desarrollo
-    debug = os.environ.get('FLASK_ENV') == 'development'
-    
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    # Para ejecución local
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
