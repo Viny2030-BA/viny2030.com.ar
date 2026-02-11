@@ -1,7 +1,3 @@
-"""
-Viny2030 - Backend Flask API
-Sistema de contabilidad automatizada
-"""
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
@@ -9,12 +5,9 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 
-# 1. Configuración de rutas absolutas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Añadir carpeta python al path para los imports
 sys.path.append(os.path.join(BASE_DIR, 'python'))
 
-# Importar scripts de creación
 try:
     from crear_repo_github import crear_repositorio_github
     from crear_estructura_b2 import crear_bucket_b2
@@ -23,12 +16,9 @@ except ImportError as e:
 
 app = Flask(__name__)
 CORS(app)
-
-# Base de datos en ruta absoluta
 DATABASE = os.path.join(BASE_DIR, 'viny2030.db')
 
 def init_db():
-    """Asegura que la tabla empresas exista"""
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -54,24 +44,17 @@ def generar_api_key():
 
 @app.route('/')
 def index():
-    return jsonify({
-        'status': 'online',
-        'mensaje': 'Viny2030 API activa',
-        'version': '1.0.3'
-    })
+    return jsonify({'mensaje': 'Viny2030 API activa', 'version': '1.0.4'})
 
 @app.route('/api/crear-empresa', methods=['POST'])
 def crear_empresa():
-    # EJECUTAR SIEMPRE PARA EVITAR "NO SUCH TABLE"
-    init_db()
-    
+    init_db() # Garantiza que la tabla existe
     data = request.json
     if not data or 'nombre' not in data or 'email' not in data:
-        return jsonify({'error': 'Faltan datos obligatorios'}), 400
+        return jsonify({'error': 'Faltan datos'}), 400
     
     nombre = data['nombre']
     email = data['email']
-    telefono = data.get('telefono', '')
     api_key = generar_api_key()
     
     repo_name = f"viny-{nombre.lower().replace(' ', '-')}-{datetime.now().strftime('%m%d')}"
@@ -80,44 +63,36 @@ def crear_empresa():
     try:
         with sqlite3.connect(DATABASE) as conn:
             cursor = conn.cursor()
-            
-            # 1. Insertar registro inicial para obtener el ID
             fecha_expiracion = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')
-            cursor.execute('''
-                INSERT INTO empresas (nombre, email, telefono, api_key, fecha_expiracion)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (nombre, email, telefono, api_key, fecha_expiracion))
             
+            # 1. Insertar primero
+            cursor.execute('''
+                INSERT INTO empresas (nombre, email, api_key, fecha_expiracion)
+                VALUES (?, ?, ?, ?)
+            ''', (nombre, email, api_key, fecha_expiracion))
             empresa_id = cursor.lastrowid
             
-            # 2. Crear infraestructura externa
-            # Asegúrate de que estas funciones acepten los argumentos correctos
+            # 2. Crear infraestructura (GitHub y B2)
             github_url = crear_repositorio_github(repo_name, email)
-            b2_res = crear_bucket_b2(bucket_name, empresa_id)
+            b2_res = crear_bucket_b2(bucket_name, empresa_id) # Usa los 2 argumentos corregidos
             
-            # 3. Actualizar el registro con los datos creados
+            # 3. Actualizar
             cursor.execute('''
-                UPDATE empresas 
-                SET github_repo = ?, b2_bucket = ? 
-                WHERE id = ?
+                UPDATE empresas SET github_repo = ?, b2_bucket = ? WHERE id = ?
             ''', (github_url, bucket_name, empresa_id))
-            
             conn.commit()
-        
+            
         return jsonify({
             'mensaje': 'Éxito',
             'api_key': api_key,
-            'empresa_id': empresa_id,
             'github_repo': github_url,
             'b2_bucket': bucket_name
         }), 201
-        
     except sqlite3.IntegrityError:
-        return jsonify({'error': 'El email ya está registrado'}), 400
+        return jsonify({'error': 'Email ya registrado'}), 400
     except Exception as e:
-        return jsonify({'error': f'Error detallado: {str(e)}'}), 500
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     init_db()
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
