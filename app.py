@@ -263,3 +263,9 @@ if __name__ == '__main__':
     # Usar puerto de variable de entorno para Render
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
+from flask import render_template
+
+@app.route('/dashboard')
+def dashboard():
+    """Renderiza el dashboard empresarial"""
+    return render_template('dashboard.html')
