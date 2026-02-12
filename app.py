@@ -14,8 +14,14 @@ try:
     from crear_estructura_b2 import crear_bucket_b2
 except ImportError as e:
     print(f"⚠️ Error importando módulos: {e}")
+# AGREGAR: Especificar rutas explícitas para templates y static
+template_dir = os.path.join(BASE_DIR, 'templates')
+static_dir = os.path.join(BASE_DIR, 'static')
 
-app = Flask(__name__)
+app = Flask(__name__, 
+            template_folder=template_dir,
+            static_folder=static_dir,
+            static_url_path='/static')
 CORS(app)
 DATABASE = os.path.join(BASE_DIR, 'viny2030.db')
 
