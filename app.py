@@ -264,6 +264,55 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
 from flask import render_template
+@app.route('/api/actualizar-datos-contables', methods=['POST'])
+def actualizar_datos_contables():
+    """Actualizar información contable de una empresa"""
+    
+    # Verificar API key
+    api_key = request.headers.get('X-API-Key')
+    if not api_key:
+        return jsonify({'error': 'API key requerida en header X-API-Key'}), 401
+    
+    data = request.json
+    
+    try:
+        with sqlite3.connect(DATABASE) as conn:
+            cursor = conn.cursor()
+            
+            # Verificar que la empresa existe
+            cursor.execute('SELECT id FROM empresas WHERE api_key = ?', (api_key,))
+            empresa = cursor.fetchone()
+            
+            if not empresa:
+                return jsonify({'error': 'API key inválida'}), 401
+            
+            empresa_id = empresa[0]
+            
+            # Actualizar datos contables
+            cursor.execute('''
+                UPDATE empresas 
+                SET activos_corrientes = ?,
+                    activos_no_corrientes = ?,
+                    pasivos_corrientes = ?,
+                    pasivos_no_corrientes = ?,
+                    patrimonio_neto = ?
+                WHERE id = ?
+            ''', (
+                data.get('activos_corrientes', 0),
+                data.get('activos_no_corrientes', 0),
+                data.get('pasivos_corrientes', 0),
+                data.get('pasivos_no_corrientes', 0),
+                data.get('patrimonio_neto', 0),
+                empresa_id
+            ))
+            conn.commit()
+            
+            return jsonify({
+                'mensaje': 'Datos contables actualizados exitosamente'
+            }), 200
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/dashboard')
 def dashboard():
