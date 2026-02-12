@@ -1,129 +1,57 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viny2030 - Dashboard Empresarial</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <h1>🏢 Viny2030</h1>
-                <p>Contabilidad Automatizada</p>
-            </div>
-            <div class="user-info">
-                <span id="empresa-nombre">Cargando...</span>
-                <button id="btn-logout" class="btn-secondary">Cerrar Sesión</button>
-            </div>
-        </header>
-
-        <!-- Login Section (mostrar cuando no hay API key) -->
-        <section id="login-section" class="login-section">
-            <div class="login-card">
-                <h2>Acceso al Dashboard</h2>
-                <p>Ingresa tu API Key para acceder</p>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="api-key-input">API Key:</label>
-                        <input 
-                            type="text" 
-                            id="api-key-input" 
-                            placeholder="viny_xxxxxxxxxxxxxxxxxx"
-                            required
-                        >
-                    </div>
-                    <button type="submit" class="btn-primary">Acceder</button>
-                </form>
-                <p class="help-text">¿No tienes una API Key? Regístrate en <a href="/">viny2030.com.ar</a></p>
-            </div>
-        </section>
-
-        <!-- Dashboard Section (mostrar cuando hay API key válida) -->
-        <section id="dashboard-section" class="dashboard-section" style="display: none;">
-            
-            <!-- Información de la Empresa -->
+<!-- Información Contable -->
             <div class="info-panel">
-                <h2>📊 Información de tu Cuenta</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="info-label">Empresa</div>
-                        <div class="info-value" id="info-nombre">-</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Email</div>
-                        <div class="info-value" id="info-email">-</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Estado</div>
-                        <div class="info-value" id="info-estado">-</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Vencimiento</div>
-                        <div class="info-value" id="info-expiracion">-</div>
-                    </div>
-                    <div class="info-card full-width">
-                        <div class="info-label">API Key</div>
-                        <div class="info-value api-key-display">
-                            <code id="info-apikey">-</code>
-                            <button id="btn-copy-apikey" class="btn-copy">📋 Copiar</button>
+                <h2>💰 Información Contable</h2>
+                <form id="form-contable" class="contable-form">
+                    <div class="contable-grid">
+                        <div class="form-group">
+                            <label for="activos_corrientes">Activos Corrientes ($)</label>
+                            <input type="number" id="activos_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activos_no_corrientes">Activos No Corrientes ($)</label>
+                            <input type="number" id="activos_no_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pasivos_corrientes">Pasivos Corrientes ($)</label>
+                            <input type="number" id="pasivos_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pasivos_no_corrientes">Pasivos No Corrientes ($)</label>
+                            <input type="number" id="pasivos_no_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="patrimonio_neto">Patrimonio Neto ($)</label>
+                            <input type="number" id="patrimonio_neto" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <button type="submit" class="btn-primary">Guardar Datos Contables</button>
                         </div>
                     </div>
-                    <div class="info-card full-width">
-                        <div class="info-label">Repositorio GitHub</div>
-                        <div class="info-value">
-                            <a id="info-github" href="#" target="_blank">-</a>
-                        </div>
-                    </div>
-                    <div class="info-card full-width">
-                        <div class="info-label">Bucket B2</div>
-                        <div class="info-value" id="info-bucket">-</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Subir Archivos -->
-            <div class="upload-panel">
-                <h2>📤 Subir Documentos</h2>
-                <form id="upload-form" class="upload-form">
-                    <div class="upload-area" id="upload-area">
-                        <div class="upload-icon">📄</div>
-                        <p>Arrastra archivos aquí o haz click para seleccionar</p>
-                        <input 
-                            type="file" 
-                            id="file-input" 
-                            multiple 
-                            accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv"
-                            style="display: none;"
-                        >
-                        <button type="button" id="btn-select-file" class="btn-primary">Seleccionar Archivos</button>
-                    </div>
-                    <div id="file-list" class="file-list"></div>
-                    <button type="submit" id="btn-upload" class="btn-primary" style="display: none;">
-                        Subir Archivos
-                    </button>
                 </form>
-                <div id="upload-status" class="upload-status"></div>
-            </div>
-
-            <!-- Archivos Subidos -->
-            <div class="files-panel">
-                <h2>📁 Archivos Subidos</h2>
-                <div id="files-list" class="files-grid">
-                    <p class="empty-state">Aún no has subido ningún archivo</p>
+                
+                <div id="contable-status" class="upload-status"></div>
+                
+                <!-- Resumen Calculado -->
+                <div class="resumen-contable">
+                    <h3>📊 Resumen Automático</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label">Total Activos</div>
+                            <div class="info-value" id="total-activos">$0.00</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Total Pasivos</div>
+                            <div class="info-value" id="total-pasivos">$0.00</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Ecuación Contable</div>
+                            <div class="info-value" id="ecuacion-contable">-</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2026 Viny2030 - Contabilidad Automatizada | <a href="/api">API Docs</a></p>
-        </footer>
-    </div>
-
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-</body>
-</html>
