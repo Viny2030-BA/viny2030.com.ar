@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
 import sqlite3
@@ -36,7 +36,12 @@ def init_db():
                 estado_suscripcion TEXT DEFAULT 'trial',
                 fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
                 fecha_expiracion DATETIME,
-                precio_mensual REAL DEFAULT 29.99
+                precio_mensual REAL DEFAULT 29.99,
+                activos_corrientes REAL DEFAULT 0,
+                activos_no_corrientes REAL DEFAULT 0,
+                pasivos_corrientes REAL DEFAULT 0,
+                pasivos_no_corrientes REAL DEFAULT 0,
+                patrimonio_neto REAL DEFAULT 0
             )
         ''')
         conn.commit()
@@ -48,7 +53,12 @@ def generar_api_key():
 
 @app.route('/')
 def index():
-    return jsonify({'mensaje': 'Viny2030 API activa', 'version': '2.0.0'})
+    return jsonify({'mensaje': 'Viny2030 API activa', 'version': '2.1.0'})
+
+@app.route('/dashboard')
+def dashboard():
+    """Renderiza el dashboard empresarial"""
+    return render_template('dashboard.html')
 
 @app.route('/api/crear-empresa', methods=['POST'])
 def crear_empresa():
@@ -96,7 +106,7 @@ def crear_empresa():
             ''', (github_url, empresa_id))
             conn.commit()
             
-            print(f"✅ Empresa {nombre} registrada exitosamente (ID: {empresa_id})")
+            print(f"EXITO: Empresa {nombre} registrada exitosamente (ID: {empresa_id})")
             
         return jsonify({
             'mensaje': 'Empresa registrada exitosamente',
@@ -110,7 +120,7 @@ def crear_empresa():
     except sqlite3.IntegrityError:
         return jsonify({'error': f'El email {email} ya está registrado en el sistema.'}), 400
     except Exception as e:
-        print(f"❌ ERROR EN SISTEMA: {str(e)}")
+        print(f"ERROR EN SISTEMA: {str(e)}")
         return jsonify({
             'error': 'Fallo en el registro de empresa',
             'detalle': str(e)
@@ -125,7 +135,9 @@ def obtener_empresa(api_key):
             cursor.execute('''
                 SELECT id, nombre, email, telefono, github_repo, b2_bucket, 
                        b2_bucket_created, estado_suscripcion, fecha_creacion, 
-                       fecha_expiracion, precio_mensual
+                       fecha_expiracion, precio_mensual,
+                       activos_corrientes, activos_no_corrientes,
+                       pasivos_corrientes, pasivos_no_corrientes, patrimonio_neto
                 FROM empresas 
                 WHERE api_key = ?
             ''', (api_key,))
@@ -146,7 +158,62 @@ def obtener_empresa(api_key):
                 'estado_suscripcion': empresa[7],
                 'fecha_creacion': empresa[8],
                 'fecha_expiracion': empresa[9],
-                'precio_mensual': empresa[10]
+                'precio_mensual': empresa[10],
+                'activos_corrientes': empresa[11],
+                'activos_no_corrientes': empresa[12],
+                'pasivos_corrientes': empresa[13],
+                'pasivos_no_corrientes': empresa[14],
+                'patrimonio_neto': empresa[15]
+            }), 200
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/actualizar-datos-contables', methods=['POST'])
+def actualizar_datos_contables():
+    """Actualizar información contable de una empresa"""
+    
+    # Verificar API key
+    api_key = request.headers.get('X-API-Key')
+    if not api_key:
+        return jsonify({'error': 'API key requerida en header X-API-Key'}), 401
+    
+    data = request.json
+    
+    try:
+        with sqlite3.connect(DATABASE) as conn:
+            cursor = conn.cursor()
+            
+            # Verificar que la empresa existe
+            cursor.execute('SELECT id FROM empresas WHERE api_key = ?', (api_key,))
+            empresa = cursor.fetchone()
+            
+            if not empresa:
+                return jsonify({'error': 'API key inválida'}), 401
+            
+            empresa_id = empresa[0]
+            
+            # Actualizar datos contables
+            cursor.execute('''
+                UPDATE empresas 
+                SET activos_corrientes = ?,
+                    activos_no_corrientes = ?,
+                    pasivos_corrientes = ?,
+                    pasivos_no_corrientes = ?,
+                    patrimonio_neto = ?
+                WHERE id = ?
+            ''', (
+                data.get('activos_corrientes', 0),
+                data.get('activos_no_corrientes', 0),
+                data.get('pasivos_corrientes', 0),
+                data.get('pasivos_no_corrientes', 0),
+                data.get('patrimonio_neto', 0),
+                empresa_id
+            ))
+            conn.commit()
+            
+            return jsonify({
+                'mensaje': 'Datos contables actualizados exitosamente'
             }), 200
             
     except Exception as e:
@@ -202,13 +269,13 @@ def subir_archivo():
                 ''', (empresa_id,))
                 conn.commit()
             
-            print(f"✅ Bucket B2 creado exitosamente: {bucket_name}")
+            print(f"EXITO: Bucket B2 creado exitosamente: {bucket_name}")
         else:
             print(f"--- Bucket B2 ya existe: {bucket_name} ---")
         
         # Aquí agregarías la lógica real para subir el archivo al bucket
         # Por ahora solo confirmamos que el bucket existe
-        print(f"📤 Subiendo archivo: {archivo.filename}")
+        print(f"Subiendo archivo: {archivo.filename}")
         
         return jsonify({
             'mensaje': 'Archivo procesado exitosamente',
@@ -219,7 +286,7 @@ def subir_archivo():
         }), 200
         
     except Exception as e:
-        print(f"❌ ERROR al subir archivo: {str(e)}")
+        print(f"ERROR al subir archivo: {str(e)}")
         return jsonify({
             'error': 'Error al procesar archivo',
             'detalle': str(e)
@@ -263,58 +330,3 @@ if __name__ == '__main__':
     # Usar puerto de variable de entorno para Render
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
-from flask import render_template
-@app.route('/api/actualizar-datos-contables', methods=['POST'])
-def actualizar_datos_contables():
-    """Actualizar información contable de una empresa"""
-    
-    # Verificar API key
-    api_key = request.headers.get('X-API-Key')
-    if not api_key:
-        return jsonify({'error': 'API key requerida en header X-API-Key'}), 401
-    
-    data = request.json
-    
-    try:
-        with sqlite3.connect(DATABASE) as conn:
-            cursor = conn.cursor()
-            
-            # Verificar que la empresa existe
-            cursor.execute('SELECT id FROM empresas WHERE api_key = ?', (api_key,))
-            empresa = cursor.fetchone()
-            
-            if not empresa:
-                return jsonify({'error': 'API key inválida'}), 401
-            
-            empresa_id = empresa[0]
-            
-            # Actualizar datos contables
-            cursor.execute('''
-                UPDATE empresas 
-                SET activos_corrientes = ?,
-                    activos_no_corrientes = ?,
-                    pasivos_corrientes = ?,
-                    pasivos_no_corrientes = ?,
-                    patrimonio_neto = ?
-                WHERE id = ?
-            ''', (
-                data.get('activos_corrientes', 0),
-                data.get('activos_no_corrientes', 0),
-                data.get('pasivos_corrientes', 0),
-                data.get('pasivos_no_corrientes', 0),
-                data.get('patrimonio_neto', 0),
-                empresa_id
-            ))
-            conn.commit()
-            
-            return jsonify({
-                'mensaje': 'Datos contables actualizados exitosamente'
-            }), 200
-            
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/dashboard')
-def dashboard():
-    """Renderiza el dashboard empresarial"""
-    return render_template('dashboard.html')
