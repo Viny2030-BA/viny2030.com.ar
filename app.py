@@ -3,30 +3,9 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 import requests
-import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
-# PRIMERO crear la app
-app = Flask(__name__)
-CORS(app)
-
-# DESPUÉS definir las rutas
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-# Al inicio del archivo
-API_KEY = os.environ.get('API_KEY')
-
-# Donde validas la API Key (probablemente en una función o decorator)
-@app.route('/dashboard')
-def dashboard():
-    user_api_key = request.args.get('api_key') or request.form.get('api_key')
-    
-    if user_api_key != API_KEY:
-        return "API Key inválida", 401
-    
-    return render_template('dashboard.html')
 # Configuración de rutas para encontrar los módulos en la carpeta 'python'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'python'))
@@ -36,20 +15,22 @@ try:
     from crear_estructura_b2 import crear_bucket_b2
 except ImportError as e:
     print(f"⚠️ Error importando módulos: {e}")
-    
-# AGREGAR: Especificar rutas explícitas para templates y static
+
+# Especificar rutas explícitas para templates y static
 template_dir = os.path.join(BASE_DIR, 'templates')
 static_dir = os.path.join(BASE_DIR, 'static')
 
+# CREAR LA APP UNA SOLA VEZ
 app = Flask(__name__, 
             template_folder=template_dir,
             static_folder=static_dir,
             static_url_path='/static')
 CORS(app)
-DATABASE = os.path.join(BASE_DIR, 'viny2030.db')
 
-# Configuración de GitHub
+# Configuración
+DATABASE = os.path.join(BASE_DIR, 'viny2030.db')
 GITHUB_API = 'https://api.github.com'
+API_KEY = os.environ.get('API_KEY')
 
 def init_db():
     """Inicializa la base de datos y crea la tabla si no existe."""
@@ -128,13 +109,19 @@ def subir_archivo_a_github(owner, repo_name, categoria, filename, content):
         print(f"ERROR al subir archivo a GitHub: {e}")
         return False
 
+# RUTAS
 @app.route('/')
 def index():
     return jsonify({'mensaje': 'Viny2030 API activa', 'version': '2.2.0'})
 
 @app.route('/dashboard')
 def dashboard():
-    """Renderiza el dashboard empresarial"""
+    """Renderiza el dashboard empresarial con validación de API Key"""
+    user_api_key = request.args.get('api_key') or request.form.get('api_key')
+    
+    if API_KEY and user_api_key != API_KEY:
+        return "API Key inválida", 401
+    
     return render_template('dashboard.html')
 
 @app.route('/api/crear-empresa', methods=['POST'])
