@@ -116,12 +116,7 @@ def index():
 
 @app.route('/dashboard')
 def dashboard():
-    """Renderiza el dashboard empresarial con validación de API Key"""
-    user_api_key = request.args.get('api_key') or request.form.get('api_key')
-    
-    if API_KEY and user_api_key != API_KEY:
-        return "API Key inválida", 401
-    
+    """Renderiza el dashboard empresarial"""
     return render_template('dashboard.html')
 
 @app.route('/api/crear-empresa', methods=['POST'])
