@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viny2030 - Dashboard Empresarial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        /* Estilos adicionales para las categorías */
+        .category-upload {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .category-icon {
+            font-size: 24px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .category-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-upload-area:hover {
+            border-color: #4CAF50;
+            background: #f9f9f9;
+        }
+        
+        .category-upload-area.drag-over {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .category-file-list {
+            margin-top: 10px;
+        }
+        
+        .category-file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .category-file-item button {
+            padding: 5px 10px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .category-file-item button:hover {
+            background: #cc0000;
+        }
+        
+        .category-upload-btn {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🏢 Viny2030</h1>
+                <p>Contabilidad Automatizada</p>
+            </div>
+            <div class="user-info">
+                <span id="empresa-nombre">Cargando...</span>
+                <button id="btn-logout" class="btn-secondary">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <!-- Login Section (mostrar cuando no hay API key) -->
+        <section id="login-section" class="login-section">
+            <div class="login-card">
+                <h2>Acceso al Dashboard</h2>
+                <p>Ingresa tu API Key para acceder</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="api-key-input">API Key:</label>
+                        <input 
+                            type="text" 
+                            id="api-key-input" 
+                            placeholder="viny_xxxxxxxxxxxxxxxxxx"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn-primary">Acceder</button>
+                </form>
+                <p class="help-text">¿No tienes una API Key? Regístrate en <a href="/">viny2030.com.ar</a></p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section (mostrar cuando hay API key válida) -->
+        <section id="dashboard-section" class="dashboard-section" style="display: none;">
+            
+            <!-- Información de la Empresa -->
+            <div class="info-panel">
+                <h2>📊 Información de tu Cuenta</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-label">Empresa</div>
+                        <div class="info-value" id="info-nombre">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="info-email">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Estado</div>
+                        <div class="info-value" id="info-estado">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Vencimiento</div>
+                        <div class="info-value" id="info-expiracion">-</div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">API Key</div>
+                        <div class="info-value api-key-display">
+                            <code id="info-apikey">-</code>
+                            <button id="btn-copy-apikey" class="btn-copy">📋 Copiar</button>
+                        </div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">Repositorio GitHub</div>
+                        <div class="info-value">
+                            <a id="info-github" href="#" target="_blank">-</a>
+                        </div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">Bucket B2</div>
+                        <div class="info-value" id="info-bucket">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Contable -->
+            <div class="info-panel">
+                <h2>💰 Información Contable</h2>
+                <form id="form-contable" class="contable-form">
+                    <div class="contable-grid">
+                        <div class="form-group">
+                            <label for="activos_corrientes">Activos Corrientes ($)</label>
+                            <input type="number" id="activos_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activos_no_corrientes">Activos No Corrientes ($)</label>
+                            <input type="number" id="activos_no_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pasivos_corrientes">Pasivos Corrientes ($)</label>
+                            <input type="number" id="pasivos_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pasivos_no_corrientes">Pasivos No Corrientes ($)</label>
+                            <input type="number" id="pasivos_no_corrientes" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="patrimonio_neto">Patrimonio Neto ($)</label>
+                            <input type="number" id="patrimonio_neto" step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <button type="submit" class="btn-primary">Guardar Datos Contables</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div id="contable-status" class="upload-status"></div>
+                
+                <!-- Resumen Calculado -->
+                <div class="resumen-contable">
+                    <h3>📊 Resumen Automático</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label">Total Activos</div>
+                            <div class="info-value" id="total-activos">$0.00</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Total Pasivos</div>
+                            <div class="info-value" id="total-pasivos">$0.00</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Ecuación Contable</div>
+                            <div class="info-value" id="ecuacion-contable">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NUEVA SECCIÓN: Subir Archivos por Categoría -->
+            <div class="upload-panel">
+                <h2>📤 Subir Documentos por Categoría</h2>
+                <p style="margin-bottom: 20px; color: #666;">Selecciona la categoría contable correspondiente para cada documento</p>
+                
+                <!-- Activos Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💵</span>
+                        <h3 class="category-title">Activos Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="activos_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="activos_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="activos_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="activos_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="activos_corrientes" style="display: none;">Subir a Activos Corrientes</button>
+                </div>
+
+                <!-- Activos No Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">🏢</span>
+                        <h3 class="category-title">Activos No Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="activos_no_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="activos_no_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="activos_no_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="activos_no_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="activos_no_corrientes" style="display: none;">Subir a Activos No Corrientes</button>
+                </div>
+
+                <!-- Pasivos Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💳</span>
+                        <h3 class="category-title">Pasivos Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="pasivos_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="pasivos_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="pasivos_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="pasivos_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="pasivos_corrientes" style="display: none;">Subir a Pasivos Corrientes</button>
+                </div>
+
+                <!-- Pasivos No Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">🏦</span>
+                        <h3 class="category-title">Pasivos No Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="pasivos_no_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="pasivos_no_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="pasivos_no_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="pasivos_no_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="pasivos_no_corrientes" style="display: none;">Subir a Pasivos No Corrientes</button>
+                </div>
+
+                <!-- Patrimonio Neto -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💼</span>
+                        <h3 class="category-title">Patrimonio Neto</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="patrimonio_neto">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="patrimonio_neto" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="patrimonio_neto">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="patrimonio_neto"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="patrimonio_neto" style="display: none;">Subir a Patrimonio Neto</button>
+                </div>
+
+                <div id="upload-status" class="upload-status"></div>
+            </div>
+
+            <!-- Archivos Subidos -->
+            <div class="files-panel">
+                <h2>📁 Archivos Subidos</h2>
+                <div id="files-list" class="files-grid">
+                    <p class="empty-state">Aún no has subido ningún archivo</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Viny2030 - Contabilidad Automatizada | <a href="/api">API Docs</a></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
