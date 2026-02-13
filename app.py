@@ -5,7 +5,20 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 import requests
+import os
 
+# Al inicio del archivo
+API_KEY = os.environ.get('API_KEY')
+
+# Donde validas la API Key (probablemente en una función o decorator)
+@app.route('/dashboard')
+def dashboard():
+    user_api_key = request.args.get('api_key') or request.form.get('api_key')
+    
+    if user_api_key != API_KEY:
+        return "API Key inválida", 401
+    
+    return render_template('dashboard.html')
 # Configuración de rutas para encontrar los módulos en la carpeta 'python'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'python'))
