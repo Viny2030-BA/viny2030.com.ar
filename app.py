@@ -1,12 +1,20 @@
-from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
 import os
 import sqlite3
 import sys
 from datetime import datetime, timedelta
 import requests
 import os
+from flask import Flask, render_template, request
+from flask_cors import CORS
 
+# PRIMERO crear la app
+app = Flask(__name__)
+CORS(app)
+
+# DESPUÉS definir las rutas
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 # Al inicio del archivo
 API_KEY = os.environ.get('API_KEY')
 
