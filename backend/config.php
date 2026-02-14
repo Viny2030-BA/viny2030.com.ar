@@ -26,7 +26,7 @@ define('PRECIO_MENSUAL', 29.99);
 // Headers CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-API-Key');
 header('Content-Type: application/json; charset=UTF-8');
 
 // Conexión a base de datos
@@ -48,15 +48,27 @@ function getDB() {
     }
 }
 
-// Generar API Key única
+// Generar API Key única - VERSIÓN MEJORADA
 function generarApiKey($email) {
-    return hash('sha256', $email . time() . rand());
+    // Formato: viny_[timestamp]_[hash_corto]
+    // Ejemplo: viny_1739537892_a1b2c3d4e5f6g7h8
+    
+    $timestamp = time();
+    $random = bin2hex(random_bytes(8)); // 16 caracteres hexadecimales
+    $hash = substr(hash('sha256', $email . $timestamp . $random), 0, 16);
+    
+    return 'viny_' . $timestamp . '_' . $hash;
 }
 
 // Logging
 function registrarLog($empresa_id, $accion, $descripcion) {
-    $db = getDB();
-    $stmt = $db->prepare("INSERT INTO logs (empresa_id, accion, descripcion) VALUES (?, ?, ?)");
-    $stmt->execute([$empresa_id, $accion, $descripcion]);
+    try {
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO logs (empresa_id, accion, descripcion) VALUES (?, ?, ?)");
+        $stmt->execute([$empresa_id, $accion, $descripcion]);
+    } catch (Exception $e) {
+        // Log silencioso para evitar interrumpir el flujo
+        error_log("Error en registrarLog: " . $e->getMessage());
+    }
 }
 ?>
