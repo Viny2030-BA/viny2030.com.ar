@@ -85,6 +85,43 @@
             margin-top: 10px;
             width: 100%;
         }
+
+        /* Estilo para lista de archivos subidos */
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-category {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .file-date {
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -202,25 +239,6 @@
                 </form>
                 
                 <div id="contable-status" class="upload-status"></div>
-                
-                <!-- Resumen Calculado -->
-                <div class="resumen-contable">
-                    <h3>📊 Resumen Automático</h3>
-                    <div class="info-grid">
-                        <div class="info-card">
-                            <div class="info-label">Total Activos</div>
-                            <div class="info-value" id="total-activos">$0.00</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="info-label">Total Pasivos</div>
-                            <div class="info-value" id="total-pasivos">$0.00</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="info-label">Ecuación Contable</div>
-                            <div class="info-value" id="ecuacion-contable">-</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- NUEVA SECCIÓN: Subir Archivos por Categoría -->
@@ -310,7 +328,7 @@
             <div class="files-panel">
                 <h2>📁 Archivos Subidos</h2>
                 <div id="files-list" class="files-grid">
-                    <p class="empty-state">Aún no has subido ningún archivo</p>
+                    <p class="empty-state">Cargando archivos...</p>
                 </div>
             </div>
 
