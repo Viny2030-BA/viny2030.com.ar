@@ -91,8 +91,10 @@ async function cargarDashboard() {
         document.getElementById('pasivos_no_corrientes').value = data.pasivos_no_corrientes || 0;
         document.getElementById('patrimonio_neto').value = data.patrimonio_neto || 0;
         
-        calcularResumen();
         mostrarDashboard();
+        
+        // Cargar lista de archivos subidos
+        await cargarArchivosSubidos();
         
     } catch (error) {
         console.error('Error al cargar dashboard:', error);
@@ -142,8 +144,6 @@ async function guardarDatosContables(e) {
         statusDiv.textContent = '✅ Datos guardados exitosamente';
         statusDiv.className = 'upload-status success';
         
-        calcularResumen();
-        
         setTimeout(() => {
             statusDiv.textContent = '';
         }, 3000);
@@ -153,24 +153,6 @@ async function guardarDatosContables(e) {
         statusDiv.textContent = '❌ Error al guardar datos';
         statusDiv.className = 'upload-status error';
     }
-}
-
-function calcularResumen() {
-    const activosCorrientes = parseFloat(document.getElementById('activos_corrientes').value) || 0;
-    const activosNoCorrientes = parseFloat(document.getElementById('activos_no_corrientes').value) || 0;
-    const pasivosCorrientes = parseFloat(document.getElementById('pasivos_corrientes').value) || 0;
-    const pasivosNoCorrientes = parseFloat(document.getElementById('pasivos_no_corrientes').value) || 0;
-    const patrimonioNeto = parseFloat(document.getElementById('patrimonio_neto').value) || 0;
-    
-    const totalActivos = activosCorrientes + activosNoCorrientes;
-    const totalPasivos = pasivosCorrientes + pasivosNoCorrientes;
-    
-    document.getElementById('total-activos').textContent = '$' + totalActivos.toFixed(2);
-    document.getElementById('total-pasivos').textContent = '$' + totalPasivos.toFixed(2);
-    
-    const diferencia = totalActivos - totalPasivos - patrimonioNeto;
-    const ecuacion = diferencia === 0 ? '✅ Balanceado' : `⚠️ Diferencia: $${diferencia.toFixed(2)}`;
-    document.getElementById('ecuacion-contable').textContent = ecuacion;
 }
 
 // Configurar upload por categorías
@@ -264,8 +246,13 @@ async function uploadCategoryFiles(category, files) {
     if (files.length === 0) return;
     
     const statusDiv = document.getElementById('upload-status');
-    statusDiv.textContent = `Subiendo ${files.length} archivo(s) a ${category.replace(/_/g, ' ')}...`;
+    const categoryName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    statusDiv.textContent = `Subiendo ${files.length} archivo(s) a ${categoryName}...`;
     statusDiv.className = 'upload-status';
+    
+    let successCount = 0;
+    let errorCount = 0;
     
     for (let file of files) {
         try {
@@ -281,30 +268,94 @@ async function uploadCategoryFiles(category, files) {
                 body: formData
             });
             
-            if (!response.ok) {
-                throw new Error(`Error al subir ${file.name}`);
-            }
-            
             const result = await response.json();
-            console.log('Archivo subido:', result);
+            
+            if (!response.ok) {
+                console.error(`Error al subir ${file.name}:`, result);
+                errorCount++;
+            } else {
+                console.log('Archivo subido:', result);
+                successCount++;
+            }
             
         } catch (error) {
             console.error('Error:', error);
-            statusDiv.textContent = `❌ Error: ${error.message}`;
-            statusDiv.className = 'upload-status error';
-            return;
+            errorCount++;
         }
     }
     
-    statusDiv.textContent = `✅ ${files.length} archivo(s) subido(s) exitosamente`;
-    statusDiv.className = 'upload-status success';
+    // Mostrar resultado final
+    if (errorCount === 0) {
+        statusDiv.textContent = `✅ ${successCount} archivo(s) subido(s) exitosamente`;
+        statusDiv.className = 'upload-status success';
+    } else if (successCount > 0) {
+        statusDiv.textContent = `⚠️ ${successCount} subidos, ${errorCount} con errores`;
+        statusDiv.className = 'upload-status';
+    } else {
+        statusDiv.textContent = `❌ Error al subir archivos`;
+        statusDiv.className = 'upload-status error';
+    }
     
     // Limpiar inputs
     const fileInput = document.querySelector(`.category-file-input[data-category="${category}"]`);
     fileInput.value = '';
     updateFileList(category, fileInput.files);
     
+    // Recargar lista de archivos
+    await cargarArchivosSubidos();
+    
     setTimeout(() => {
         statusDiv.textContent = '';
-    }, 3000);
+    }, 5000);
+}
+
+// NUEVA FUNCIÓN: Cargar y mostrar archivos subidos
+async function cargarArchivosSubidos() {
+    try {
+        const response = await fetch('/api/listar-archivos', {
+            method: 'GET',
+            headers: {
+                'X-API-Key': currentApiKey
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Error al cargar archivos');
+        }
+        
+        const data = await response.json();
+        const filesListDiv = document.getElementById('files-list');
+        
+        if (!data.archivos || data.archivos.length === 0) {
+            filesListDiv.innerHTML = '<p class="empty-state">Aún no has subido ningún archivo</p>';
+            return;
+        }
+        
+        // Crear HTML para cada archivo
+        filesListDiv.innerHTML = data.archivos.map(archivo => {
+            const categoryName = archivo.categoria.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const fecha = new Date(archivo.fecha).toLocaleDateString('es-AR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            return `
+                <div class="file-item">
+                    <div class="file-info">
+                        <span class="file-category">${categoryName}</span>
+                        <span class="file-name">📄 ${archivo.nombre}</span>
+                    </div>
+                    <div class="file-date">${fecha}</div>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (error) {
+        console.error('Error al cargar archivos:', error);
+        const filesListDiv = document.getElementById('files-list');
+        filesListDiv.innerHTML = '<p class="empty-state">Error al cargar la lista de archivos</p>';
+    }
 }
