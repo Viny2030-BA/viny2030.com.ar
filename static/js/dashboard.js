@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('btn-logout').addEventListener('click', handleLogout);
     document.getElementById('btn-copy-apikey').addEventListener('click', copyApiKey);
-    document.getElementById('form-contable').addEventListener('submit', guardarDatosContables);
     
     // Event listeners para upload de archivos por categoría
     setupCategoryUploads();
@@ -84,13 +83,6 @@ async function cargarDashboard() {
         document.getElementById('info-github').href = data.github_repo || '#';
         document.getElementById('info-bucket').textContent = data.b2_bucket || 'No configurado';
         
-        // Cargar datos contables
-        document.getElementById('activos_corrientes').value = data.activos_corrientes || 0;
-        document.getElementById('activos_no_corrientes').value = data.activos_no_corrientes || 0;
-        document.getElementById('pasivos_corrientes').value = data.pasivos_corrientes || 0;
-        document.getElementById('pasivos_no_corrientes').value = data.pasivos_no_corrientes || 0;
-        document.getElementById('patrimonio_neto').value = data.patrimonio_neto || 0;
-        
         mostrarDashboard();
         
         // Cargar lista de archivos subidos
@@ -112,48 +104,6 @@ function copyApiKey() {
     });
 }
 
-async function guardarDatosContables(e) {
-    e.preventDefault();
-    
-    const statusDiv = document.getElementById('contable-status');
-    statusDiv.textContent = 'Guardando...';
-    statusDiv.className = 'upload-status';
-    
-    const datos = {
-        activos_corrientes: parseFloat(document.getElementById('activos_corrientes').value) || 0,
-        activos_no_corrientes: parseFloat(document.getElementById('activos_no_corrientes').value) || 0,
-        pasivos_corrientes: parseFloat(document.getElementById('pasivos_corrientes').value) || 0,
-        pasivos_no_corrientes: parseFloat(document.getElementById('pasivos_no_corrientes').value) || 0,
-        patrimonio_neto: parseFloat(document.getElementById('patrimonio_neto').value) || 0
-    };
-    
-    try {
-        const response = await fetch('/api/actualizar-datos-contables', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Key': currentApiKey
-            },
-            body: JSON.stringify(datos)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Error al guardar datos');
-        }
-        
-        statusDiv.textContent = '✅ Datos guardados exitosamente';
-        statusDiv.className = 'upload-status success';
-        
-        setTimeout(() => {
-            statusDiv.textContent = '';
-        }, 3000);
-        
-    } catch (error) {
-        console.error('Error:', error);
-        statusDiv.textContent = '❌ Error al guardar datos';
-        statusDiv.className = 'upload-status error';
-    }
-}
 
 // Configurar upload por categorías
 function setupCategoryUploads() {
