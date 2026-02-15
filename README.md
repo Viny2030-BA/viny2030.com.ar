@@ -1,203 +1,371 @@
-# 📊 Viny2030 - Sistema de Contabilidad Automatizada
+# 🏢 Viny2030 - Sistema de Contabilidad Automatizada
 
-Sistema completo de contabilidad automatizada que integra **GitHub**, **Backblaze B2** y **Python** para proporcionar análisis financieros diarios a empresas.
+Sistema completo de gestión contable que automatiza la organización de documentos financieros en GitHub y Backblaze B2.
 
-## 🌟 Características
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- ✅ **Registro automatizado** de nuevas empresas
-- ✅ **Creación automática** de repositorio privado en GitHub
-- ✅ **Bucket privado** en Backblaze B2 por cliente
-- ✅ **Scripts Python** para análisis financiero
-- ✅ **GitHub Actions** ejecutándose diariamente
-- ✅ **Dashboard web** para clientes
-- ✅ **Sistema de suscripciones** con verificación automática
+## 🚀 Características
+
+- ✅ **Gestión automática de repositorios GitHub** con estructura de 5 carpetas contables
+- ✅ **Almacenamiento en Backblaze B2** (opcional)
+- ✅ **API RESTful** para integración con aplicaciones
+- ✅ **Base de datos SQLite** para gestión de empresas
+- ✅ **Subida de archivos por categoría** contable
+- ✅ **Sistema de API Keys** para autenticación
 
 ## 📁 Estructura del Proyecto
 
 ```
-viny2030/
-├── backend/                    # PHP Backend (XAMPP)
-│   ├── index.php              # API principal
-│   ├── config.php             # Configuración
-│   ├── crear_empresa.php      # Lógica creación empresa
-│   ├── verificar_estado.php   # Check estado suscripción
-│   └── db/
-│       └── database.sql       # Base de datos MySQL
-├── frontend/                   # Frontend web
-│   ├── index.html             # Landing page
-│   ├── formulario.html        # Formulario registro
-│   ├── dashboard.html         # Panel cliente
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       └── app.js
-├── python/                     # Scripts Python (GitHub/B2)
-│   ├── crear_estructura_b2.py
-│   ├── crear_repo_github.py
-│   └── requirements.txt
-└── templates/                  # Templates para repos
-    ├── daily-sync.yml
-    ├── b2_connector.py
-    ├── balance_general.py
-    ├── ratios_financieros.py
-    └── verificar_estado.py
+viny2030.com.ar/
+├── app.py                          # Aplicación Flask principal
+├── requirements.txt                # Dependencias Python
+├── python/                         # Módulos del sistema
+│   ├── crear_repo_github.py       # Creación de repositorios
+│   └── crear_estructura_b2.py     # Gestión de buckets B2
+├── .gitignore                      # Archivos ignorados
+├── README.md                       # Este archivo
+└── test_crear_empresa.sh          # Script de prueba
 ```
 
-## 🚀 Instalación
+## 🔧 Configuración Inicial
 
-### Requisitos
-
-- XAMPP (PHP 8.0+, MySQL)
-- Python 3.8+
-- Cuenta GitHub con token de acceso
-- Cuenta Backblaze B2
-
-### Paso 1: Base de Datos
-
-1. Abre XAMPP y inicia MySQL
-2. Importa el archivo `backend/db/database.sql`
+### 1. Clonar el repositorio
 
 ```bash
-mysql -u root -p < backend/db/database.sql
+git clone https://github.com/Viny2030-BA/viny2030.com.ar.git
+cd viny2030.com.ar
 ```
 
-### Paso 2: Configurar Backend
-
-Edita `backend/config.php`:
-
-```php
-// GitHub
-define('GITHUB_TOKEN', 'ghp_TU_TOKEN_AQUI');
-define('GITHUB_ORG', 'tu-organizacion');
-
-// Backblaze B2
-define('B2_KEY_ID', 'TU_KEY_ID');
-define('B2_APP_KEY', 'TU_APP_KEY');
-```
-
-### Paso 3: Instalar Dependencias Python
+### 2. Crear entorno virtual
 
 ```bash
-cd python
+python3 -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+```
+
+### 3. Instalar dependencias
+
+```bash
 pip install -r requirements.txt
 ```
 
-### Paso 4: Variables de Entorno
+### 4. Configurar variables de entorno
 
-Configura las variables de entorno para Python:
-
-```bash
-export GITHUB_TOKEN="ghp_tu_token"
-export B2_KEY_ID="tu_key_id"
-export B2_APP_KEY="tu_app_key"
-```
-
-### Paso 5: Configurar XAMPP
-
-1. Copia el proyecto a `C:\xampp\htdocs\viny2030\`
-2. Accede a: `http://localhost/viny2030/frontend/index.html`
-
-## 📖 Uso
-
-### Para Administradores
-
-1. **Landing Page**: `http://localhost/viny2030/frontend/index.html`
-2. **Formulario Registro**: `http://localhost/viny2030/frontend/formulario.html`
-
-### Crear Nueva Empresa
+Crea un archivo `.env` (no se sube a Git):
 
 ```bash
-# Vía Web
-# Ir a formulario.html y completar datos
+# GitHub (OBLIGATORIO)
+GITHUB_TOKEN=ghp_tu_token_github_aqui
 
-# O vía API
-curl -X POST http://localhost/viny2030/backend/crear-empresa \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Empresa S.A.",
-    "email": "contacto@empresa.com",
-    "telefono": "+123456789"
-  }'
+# Backblaze B2 (OPCIONAL)
+B2_APPLICATION_KEY_ID=tu_key_id_aqui
+B2_APPLICATION_KEY=tu_application_key_aqui
+
+# Puerto (opcional)
+PORT=5000
 ```
 
-### Para Clientes
+### 5. Obtener GitHub Token
 
-Acceder al dashboard con su API Key:
+1. Ve a https://github.com/settings/tokens/new
+2. Nombre: `viny2030-production-token`
+3. Expiration: `No expiration` o `1 year`
+4. Permisos necesarios:
+   - ✅ `repo` (Full control of private repositories)
+   - ✅ `delete_repo` (Delete repositories) - opcional
+   - ✅ `workflow` (Update GitHub Action workflows) - opcional
+5. Click en "Generate token"
+6. Copia el token (empieza con `ghp_`)
+7. Guárdalo en `.env` como `GITHUB_TOKEN`
+
+### 6. Crear Organización en GitHub (Recomendado)
+
+1. Ve a https://github.com/organizations/plan
+2. Crea organización: `Viny2030-BA`
+3. Invita tu usuario como Owner
+4. Los repositorios se crearán automáticamente en esta org
+
+## 🏃 Ejecutar la aplicación
+
+### Desarrollo local
+
+```bash
+python app.py
 ```
-http://localhost/viny2030/frontend/dashboard.html?api_key=SU_API_KEY
+
+La aplicación estará en: `http://localhost:5000`
+
+### Producción (con Gunicorn)
+
+```bash
+gunicorn app:app
 ```
 
-## 🔄 Flujo de Trabajo
+## 📡 API Endpoints
 
-1. **Registro**: Cliente completa formulario
-2. **Creación Automática**:
-   - Registro en base de datos
-   - Creación de repo GitHub privado
-   - Creación de bucket B2 privado
-   - Copia de templates Python
-   - Configuración de GitHub Actions
-3. **Uso Diario**:
-   - Cliente sube datos contables a B2
-   - GitHub Actions se ejecuta diariamente (6 AM UTC)
-   - Scripts analizan datos y generan reportes
-   - Resultados se suben a B2
-   - Cliente accede vía dashboard
+### 1. Health Check
 
-## 📊 Reportes Generados
+```bash
+GET /health
+```
 
-- **Balance General**: Activos, Pasivos, Patrimonio
-- **Ratios Financieros**: Liquidez, Rentabilidad, Endeudamiento
-- **Estado de Resultados**: Ingresos, Gastos, Utilidad
-- **Análisis de Tendencias**: Comparativas mensuales
+**Respuesta:**
+```json
+{
+  "status": "healthy",
+  "version": "2.3.0",
+  "database": "connected"
+}
+```
+
+### 2. Información del sistema
+
+```bash
+GET /
+```
+
+**Respuesta:**
+```json
+{
+  "mensaje": "Viny2030 API activa",
+  "version": "2.3.0",
+  "endpoints": {
+    "dashboard_demo": "/demo",
+    "dashboard_empresarial": "/dashboard",
+    "api_crear_empresa": "/api/crear-empresa",
+    "api_subir_archivo": "/api/subir-archivo"
+  }
+}
+```
+
+### 3. Crear Empresa
+
+```bash
+POST /api/crear-empresa
+Content-Type: application/json
+
+{
+  "nombre": "Mi Empresa S.A.",
+  "email": "contacto@miempresa.com",
+  "telefono": "+54 11 1234-5678"
+}
+```
+
+**Respuesta:**
+```json
+{
+  "mensaje": "Empresa creada exitosamente",
+  "api_key": "viny_xxxxxxxxxxx",
+  "nombre": "Mi Empresa S.A.",
+  "email": "contacto@miempresa.com",
+  "github_repo": "https://github.com/Viny2030-BA/viny-mi-empresa-sa-02151930",
+  "b2_bucket": "viny-storage-mi-empresa-sa-02151930",
+  "fecha_expiracion": "2026-03-15 19:30:00"
+}
+```
+
+### 4. Obtener datos de empresa
+
+```bash
+GET /api/empresa/:apiKey
+X-API-Key: viny_xxxxxxxxxxx
+```
+
+**Respuesta:**
+```json
+{
+  "id": 1,
+  "nombre": "Mi Empresa S.A.",
+  "email": "contacto@miempresa.com",
+  "telefono": "+54 11 1234-5678",
+  "github_repo": "https://github.com/Viny2030-BA/viny-mi-empresa-sa-02151930",
+  "b2_bucket": "viny-storage-mi-empresa-sa-02151930",
+  "estado_suscripcion": "trial",
+  "fecha_expiracion": "2026-03-15 19:30:00"
+}
+```
+
+### 5. Subir archivo
+
+```bash
+POST /api/subir-archivo
+X-API-Key: viny_xxxxxxxxxxx
+Content-Type: multipart/form-data
+
+archivo: [archivo binario]
+categoria: activos_corrientes
+```
+
+**Categorías válidas:**
+- `activos_corrientes`
+- `activos_no_corrientes`
+- `pasivos_corrientes`
+- `pasivos_no_corrientes`
+- `patrimonio_neto`
+
+**Respuesta:**
+```json
+{
+  "mensaje": "Archivo subido exitosamente",
+  "categoria": "activos_corrientes",
+  "archivo": "factura_001.pdf",
+  "empresa": "Mi Empresa S.A.",
+  "repositorio": "Viny2030-BA/viny-mi-empresa-sa-02151930",
+  "ruta": "activos_corrientes/factura_001.pdf"
+}
+```
+
+### 6. Listar empresas
+
+```bash
+GET /api/listar-empresas
+```
+
+**Respuesta:**
+```json
+{
+  "total": 5,
+  "empresas": [
+    {
+      "id": 1,
+      "nombre": "Mi Empresa S.A.",
+      "email": "contacto@miempresa.com",
+      "estado": "trial",
+      "fecha_creacion": "2026-02-15 19:30:00",
+      "fecha_expiracion": "2026-03-15 19:30:00",
+      "bucket_activo": true
+    }
+  ]
+}
+```
+
+## 🧪 Testing
+
+### Probar creación de empresa
+
+```bash
+chmod +x test_crear_empresa.sh
+./test_crear_empresa.sh
+```
+
+### Probar subida de archivo
+
+```bash
+# Obtén tu API key primero
+API_KEY="viny_xxxxxxxxxxx"
+
+# Sube un archivo
+curl -X POST https://viny2030-com-ar.onrender.com/api/subir-archivo \
+  -H "X-API-Key: $API_KEY" \
+  -F "archivo=@factura.pdf" \
+  -F "categoria=activos_corrientes"
+```
+
+## 🌐 Deploy en Render.com
+
+### 1. Variables de entorno
+
+En Render Dashboard → Environment:
+
+```
+GITHUB_TOKEN=ghp_tu_token_aqui
+B2_APPLICATION_KEY_ID=tu_key_id (opcional)
+B2_APPLICATION_KEY=tu_key (opcional)
+```
+
+### 2. Build Command
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Start Command
+
+```bash
+gunicorn app:app
+```
+
+## 📂 Estructura de Repositorios Generados
+
+Cada empresa obtiene un repositorio con esta estructura:
+
+```
+viny-nombre-empresa-timestamp/
+├── README.md
+├── activos_corrientes/
+│   ├── README.md
+│   └── [archivos subidos]
+├── activos_no_corrientes/
+│   ├── README.md
+│   └── [archivos subidos]
+├── pasivos_corrientes/
+│   ├── README.md
+│   └── [archivos subidos]
+├── pasivos_no_corrientes/
+│   ├── README.md
+│   └── [archivos subidos]
+└── patrimonio_neto/
+    ├── README.md
+    └── [archivos subidos]
+```
 
 ## 🔐 Seguridad
 
-- ✅ Repositorios privados por cliente
-- ✅ Buckets privados en B2
-- ✅ API Keys únicas por empresa
-- ✅ Verificación de suscripción antes de cada análisis
-- ✅ HTTPS en producción (recomendado)
+- ✅ API Keys únicas y seguras (32 bytes)
+- ✅ No se almacenan contraseñas
+- ✅ Tokens de GitHub no se exponen
+- ✅ Base de datos SQLite local
+- ✅ CORS configurado
+- ✅ Validación de tipos de archivo
 
-## 💳 Sistema de Suscripciones
+## 📝 Notas
 
-- **Precio**: $29.99/mes
-- **Prueba gratis**: 7 días
-- **Verificación automática**: Scripts validan estado antes de ejecutar
-- **Alertas**: Notificaciones cuando quedan 3 días
+- **Base de datos:** Se crea automáticamente en `viny2030.db`
+- **Período de prueba:** 30 días por defecto
+- **Backblaze B2:** Opcional, se crea en la primera subida
+- **GitHub:** Los repos pueden ser públicos o privados (configurable)
 
-## 🛠️ Desarrollo
+## 🐛 Problemas Comunes
 
-### Ejecutar Localmente
+### Error: "GITHUB_TOKEN no configurado"
 
-```bash
-# Backend (XAMPP debe estar corriendo)
-http://localhost/viny2030/backend/
+Solución: Configura la variable de entorno `GITHUB_TOKEN` con un token válido.
 
-# Frontend
-http://localhost/viny2030/frontend/
-```
+### Error: "No se pudo crear repositorio"
 
-### Testing de Scripts Python
+Solución: Verifica que:
+1. El token tenga permisos `repo`
+2. La organización `Viny2030-BA` exista
+3. Tu usuario sea Owner de la organización
 
-```bash
-cd python
+### Error: "Bucket B2 no se pudo crear"
 
-# Crear repo GitHub
-python crear_repo_github.py "test-repo" "test@email.com"
-
-# Crear bucket B2
-python crear_estructura_b2.py "test-bucket" "1"
-```
-
-## 📞 Soporte
-
-- Email: soporte@viny2030.com
-- Documentación: https://docs.viny2030.com
+Esto es opcional. El sistema funciona sin B2. Para habilitarlo, configura:
+- `B2_APPLICATION_KEY_ID`
+- `B2_APPLICATION_KEY`
 
 ## 📄 Licencia
 
-Propietario - Viny2030 © 2025
+MIT License - Ver archivo [LICENSE](LICENSE)
+
+## 👥 Autor
+
+**Viny2030 Team**
+- GitHub: [@Viny2030-BA](https://github.com/Viny2030-BA)
+- Website: https://www.viny2030.com.ar
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork el proyecto
+2. Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -m 'Add: nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
 
 ---
 
-**Desarrollado con ❤️ por el equipo Viny2030**
+**⚡ Hecho con ❤️ en Argentina 🇦🇷**
