@@ -131,7 +131,7 @@ def index():
 def demo():
     """Sirve el dashboard demo con datos de ejemplo"""
     try:
-        return send_from_directory(BASE_DIR, 'dashboard_viny2030_demo.html')
+        return send_from_directory(BASE_DIR, 'dashboard_DEMO.html')
     except Exception as e:
         return jsonify({'error': f'Dashboard demo no encontrado: {str(e)}'}), 404
 
