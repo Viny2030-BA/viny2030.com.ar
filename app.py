@@ -140,17 +140,21 @@ def dashboard():
     """Renderiza el dashboard empresarial desde templates"""
     return render_template('dashboard.html')
 
-# Ruta genérica para servir archivos HTML estáticos desde la raíz
+# Ruta genérica para servir archivos estáticos desde la raíz
 @app.route('/<path:filename>')
-def serve_html_files(filename):
-    """Sirve archivos HTML estáticos desde la raíz del proyecto"""
-    if filename.endswith('.html'):
+def serve_static_files(filename):
+    """Sirve archivos estáticos (HTML, JS, CSS, ICO, etc.) desde la raíz del proyecto"""
+    # Lista de extensiones permitidas
+    allowed_extensions = ['.html', '.js', '.css', '.ico', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.json']
+    
+    # Verificar si el archivo tiene una extensión permitida
+    if any(filename.endswith(ext) for ext in allowed_extensions):
         try:
             return send_from_directory(BASE_DIR, filename)
         except Exception as e:
             return jsonify({'error': f'Archivo {filename} no encontrado'}), 404
     else:
-        return jsonify({'error': 'Solo se permiten archivos HTML en esta ruta'}), 400
+        return jsonify({'error': 'Tipo de archivo no permitido'}), 400
 
 # =====================================================
 # API ENDPOINTS
