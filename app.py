@@ -3,7 +3,7 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 import requests
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 # Configuración de rutas para encontrar los módulos en la carpeta 'python'
@@ -109,15 +109,52 @@ def subir_archivo_a_github(owner, repo_name, categoria, filename, content):
         print(f"ERROR al subir archivo a GitHub: {e}")
         return False
 
-# RUTAS
+# =====================================================
+# RUTAS PRINCIPALES
+# =====================================================
+
 @app.route('/')
 def index():
-    return jsonify({'mensaje': 'Viny2030 API activa', 'version': '2.2.0'})
+    """Página principal - redirige al dashboard demo"""
+    return jsonify({
+        'mensaje': 'Viny2030 API activa', 
+        'version': '2.3.0',
+        'endpoints': {
+            'dashboard_demo': '/demo',
+            'dashboard_empresarial': '/dashboard',
+            'api_crear_empresa': '/api/crear-empresa',
+            'api_subir_archivo': '/api/subir-archivo'
+        }
+    })
+
+@app.route('/demo')
+def demo():
+    """Sirve el dashboard demo con datos de ejemplo"""
+    try:
+        return send_from_directory(BASE_DIR, 'dashboard_viny2030_demo.html')
+    except Exception as e:
+        return jsonify({'error': f'Dashboard demo no encontrado: {str(e)}'}), 404
 
 @app.route('/dashboard')
 def dashboard():
-    """Renderiza el dashboard empresarial"""
+    """Renderiza el dashboard empresarial desde templates"""
     return render_template('dashboard.html')
+
+# Ruta genérica para servir archivos HTML estáticos desde la raíz
+@app.route('/<path:filename>')
+def serve_html_files(filename):
+    """Sirve archivos HTML estáticos desde la raíz del proyecto"""
+    if filename.endswith('.html'):
+        try:
+            return send_from_directory(BASE_DIR, filename)
+        except Exception as e:
+            return jsonify({'error': f'Archivo {filename} no encontrado'}), 404
+    else:
+        return jsonify({'error': 'Solo se permiten archivos HTML en esta ruta'}), 400
+
+# =====================================================
+# API ENDPOINTS
+# =====================================================
 
 @app.route('/api/crear-empresa', methods=['POST'])
 def crear_empresa():
@@ -417,6 +454,23 @@ def listar_empresas():
             
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# =====================================================
+# HEALTH CHECK
+# =====================================================
+
+@app.route('/health')
+def health():
+    """Health check para Render"""
+    return jsonify({
+        'status': 'healthy',
+        'version': '2.3.0',
+        'database': 'connected' if os.path.exists(DATABASE) else 'not_found'
+    }), 200
+
+# =====================================================
+# INICIO DE LA APLICACIÓN
+# =====================================================
 
 if __name__ == '__main__':
     init_db()
