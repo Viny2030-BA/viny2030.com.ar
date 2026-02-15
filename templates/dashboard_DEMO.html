@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viny2030 - Dashboard Empresarial DEMO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #e5e7eb;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        .btn-primary {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        
+        /* Login Section */
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+        
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .login-card h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .login-card > p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .help-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .help-text a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* Info Panel */
+        .info-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .info-panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-card {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-card.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .info-label {
+            color: #666;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .api-key-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .api-key-display code {
+            background: #e5e7eb;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .btn-copy {
+            padding: 6px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        /* Upload Panel */
+        .upload-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .upload-panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .category-upload {
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .category-icon {
+            font-size: 24px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .category-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #fafafa;
+        }
+        
+        .category-upload-area:hover {
+            border-color: #667eea;
+            background: #f3f4f6;
+        }
+        
+        .category-upload-area.drag-over {
+            border-color: #667eea;
+            background: #e0e7ff;
+        }
+        
+        .category-upload-area p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .category-file-list {
+            margin-top: 15px;
+        }
+        
+        .category-file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .category-file-item button {
+            padding: 6px 12px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        
+        .category-file-item button:hover {
+            background: #dc2626;
+        }
+        
+        .category-upload-btn {
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .upload-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .upload-status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .upload-status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        
+        /* Files Panel */
+        .files-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .files-panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-category {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .file-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .demo-badge {
+            background: #fbbf24;
+            color: #78350f;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🏢 Viny2030 <span class="demo-badge">MODO DEMO</span></h1>
+                <p>Contabilidad Automatizada</p>
+            </div>
+            <div class="user-info">
+                <span id="empresa-nombre">Cargando...</span>
+                <button id="btn-logout" class="btn-secondary">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <!-- Login Section -->
+        <section id="login-section" class="login-section">
+            <div class="login-card">
+                <h2>Acceso al Dashboard</h2>
+                <p>Ingresa cualquier API Key para acceder al DEMO</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="api-key-input">API Key:</label>
+                        <input 
+                            type="text" 
+                            id="api-key-input" 
+                            placeholder="viny_xxxxxxxxxxxxxxxxxx"
+                            value="viny_demo_test_2026"
+                        >
+                    </div>
+                    <button type="submit" class="btn-primary">Acceder</button>
+                </form>
+                <p class="help-text">💡 <strong>MODO DEMO</strong> - Cualquier texto funciona como API Key</p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="dashboard-section" style="display: none;">
+            
+            <!-- Información de la Empresa -->
+            <div class="info-panel">
+                <h2>📊 Información de tu Cuenta</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-label">Empresa</div>
+                        <div class="info-value" id="info-nombre">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="info-email">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Estado</div>
+                        <div class="info-value" id="info-estado">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Vencimiento</div>
+                        <div class="info-value" id="info-expiracion">-</div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">API Key</div>
+                        <div class="info-value api-key-display">
+                            <code id="info-apikey">-</code>
+                            <button id="btn-copy-apikey" class="btn-copy">📋 Copiar</button>
+                        </div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">Repositorio GitHub</div>
+                        <div class="info-value">
+                            <a id="info-github" href="#" target="_blank">-</a>
+                        </div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="info-label">Bucket B2</div>
+                        <div class="info-value" id="info-bucket">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subir Archivos por Categoría -->
+            <div class="upload-panel">
+                <h2>📤 Subir Documentos por Categoría</h2>
+                <p style="margin-bottom: 20px; color: #666;">Selecciona la categoría contable correspondiente para cada documento</p>
+                
+                <!-- Activos Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💵</span>
+                        <h3 class="category-title">Activos Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="activos_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="activos_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="activos_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="activos_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="activos_corrientes" style="display: none;">Subir a Activos Corrientes</button>
+                </div>
+
+                <!-- Activos No Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">🏢</span>
+                        <h3 class="category-title">Activos No Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="activos_no_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="activos_no_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="activos_no_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="activos_no_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="activos_no_corrientes" style="display: none;">Subir a Activos No Corrientes</button>
+                </div>
+
+                <!-- Pasivos Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💳</span>
+                        <h3 class="category-title">Pasivos Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="pasivos_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="pasivos_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="pasivos_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="pasivos_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="pasivos_corrientes" style="display: none;">Subir a Pasivos Corrientes</button>
+                </div>
+
+                <!-- Pasivos No Corrientes -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">🏦</span>
+                        <h3 class="category-title">Pasivos No Corrientes</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="pasivos_no_corrientes">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="pasivos_no_corrientes" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="pasivos_no_corrientes">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="pasivos_no_corrientes"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="pasivos_no_corrientes" style="display: none;">Subir a Pasivos No Corrientes</button>
+                </div>
+
+                <!-- Patrimonio Neto -->
+                <div class="category-upload">
+                    <div class="category-header">
+                        <span class="category-icon">💼</span>
+                        <h3 class="category-title">Patrimonio Neto</h3>
+                    </div>
+                    <div class="category-upload-area" data-category="patrimonio_neto">
+                        <p>📄 Arrastra archivos aquí o haz click para seleccionar</p>
+                        <input type="file" class="category-file-input" data-category="patrimonio_neto" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display: none;">
+                        <button type="button" class="btn-primary category-select-btn" data-category="patrimonio_neto">Seleccionar Archivos</button>
+                    </div>
+                    <div class="category-file-list" data-category="patrimonio_neto"></div>
+                    <button type="button" class="btn-primary category-upload-btn" data-category="patrimonio_neto" style="display: none;">Subir a Patrimonio Neto</button>
+                </div>
+
+                <div id="upload-status" class="upload-status"></div>
+            </div>
+
+            <!-- Archivos Subidos -->
+            <div class="files-panel">
+                <h2>📁 Archivos Subidos</h2>
+                <div id="files-list" class="files-grid">
+                    <p class="empty-state">Cargando archivos...</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Viny2030 - Contabilidad Automatizada (MODO DEMO) | <a href="#" onclick="alert('Documentación API disponible en producción')">API Docs</a></p>
+        </footer>
+    </div>
+
+    <script src="dashboard_demo_complete.js"></script>
+</body>
+</html>
