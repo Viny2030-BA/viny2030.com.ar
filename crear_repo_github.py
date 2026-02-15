@@ -2,6 +2,7 @@
 import sys
 import os
 import requests
+import base64
 from datetime import datetime
 
 # Configuración - Organización de GitHub
@@ -31,7 +32,7 @@ def crear_estructura_carpetas(owner, repo_name, github_token):
             
             data = {
                 'message': f'Crear carpeta {carpeta}',
-                'content': ''  # Archivo vacío
+                'content': base64.b64encode(b'').decode('utf-8')  # Archivo vacío en base64
             }
             
             response = requests.put(url, headers=headers, json=data)
