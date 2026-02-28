@@ -100,3 +100,9 @@ temp_uploads/
 # Backups
 *.backup
 backup/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
