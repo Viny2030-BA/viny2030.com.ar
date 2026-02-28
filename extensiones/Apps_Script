@@ -39,3 +39,10 @@ Fecha: ${data.fecha}
   return ContentService.createTextOutput(JSON.stringify({status: 'ok'}))
     .setMimeType(ContentService.MimeType.JSON);
 }
+function testEmail() {
+  MailApp.sendEmail({
+    to: 'viny01958@gmail.com',
+    subject: '🔔 TEST - Viny2030',
+    body: 'Prueba de email desde Apps Script funcionando correctamente.'
+  });
+}
