@@ -1,6 +1,3 @@
-// utils/orderCode.js
-// Genera códigos únicos tipo VNY-2026-XXXX
-
 const fs = require('fs');
 const path = require('path');
 
