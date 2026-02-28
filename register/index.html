@@ -723,6 +723,28 @@ function enviarFormulario() {
         return;
     }
 
+    // Enviar datos a Google Sheets
+    const payload = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        pais: document.getElementById('pais').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        empresa: document.getElementById('empresa').value.trim(),
+        intencion: intencion.value,
+        firmaNombre: document.getElementById('firma-nombre').value.trim(),
+        firmaApellido: document.getElementById('firma-apellido').value.trim(),
+        fecha: document.getElementById('fecha').value,
+        idioma: currentLang
+    };
+
+    fetch('https://script.google.com/macros/s/AKfycbxAaZbr6UwrKYeUItN4oyYUP_ep5APoTpC1mMObnA6SQavjAZB0PfCgw7CIs0oU0zxNDg/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
     // Show success
     document.getElementById('form-section').style.display = 'none';
     const s = document.getElementById('success-section');
