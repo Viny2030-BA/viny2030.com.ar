@@ -1,0 +1,41 @@
+function doPost(e) {
+  const sheet = SpreadsheetApp.openById('1HRClhTtJO-vVpUoheTxlnY2CvOhNXKqw73HdnNqURtM').getSheets()[0];
+  const data = JSON.parse(e.postData.contents);
+  
+  sheet.appendRow([
+    new Date(),
+    data.nombre,
+    data.apellido,
+    data.email,
+    data.pais,
+    data.telefono,
+    data.empresa,
+    data.intencion,
+    data.firmaNombre,
+    data.firmaApellido,
+    data.fecha,
+    data.idioma
+  ]);
+
+  MailApp.sendEmail({
+    to: 'Viny01958@gmail.com',
+    subject: '🔔 Nuevo registro VNY - ' + data.nombre + ' ' + data.apellido,
+    body: `
+NUEVO REGISTRO VINY2030
+=======================
+Nombre: ${data.nombre} ${data.apellido}
+Email: ${data.email}
+País: ${data.pais}
+Teléfono: ${data.telefono}
+Empresa: ${data.empresa}
+Intención: ${data.intencion}
+Idioma: ${data.idioma}
+Firma: ${data.firmaNombre} ${data.firmaApellido}
+Fecha: ${data.fecha}
+=======================
+    `
+  });
+
+  return ContentService.createTextOutput(JSON.stringify({status: 'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
