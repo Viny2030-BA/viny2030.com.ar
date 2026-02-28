@@ -228,6 +228,69 @@
             animation: fadeUp 0.6s ease 0.4s both;
         }
 
+        /* Selector lateral de idiomas */
+        .lang-sidebar {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 200;
+        }
+
+        .lang-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1.2em;
+            box-shadow: 0 2px 8px rgba(26,111,181,0.1);
+            transition: all 0.2s;
+            gap: 2px;
+        }
+
+        .lang-item span {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45em;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        .lang-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(26,111,181,0.2);
+            transform: translateX(-3px);
+        }
+
+        .lang-item.active {
+            border-color: var(--accent);
+            background: rgba(26,111,181,0.06);
+        }
+
+        .lang-item.active span { color: var(--accent); }
+
+        @media (max-width: 760px) {
+            .lang-sidebar {
+                position: fixed;
+                right: unset;
+                top: unset;
+                bottom: 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                flex-direction: row;
+                gap: 8px;
+            }
+            .lang-item:hover { transform: translateY(-3px); }
+        }
+
         @keyframes fadeDown {
             from { opacity: 0; transform: translateY(-16px); }
             to { opacity: 1; transform: translateY(0); }
@@ -246,6 +309,15 @@
     </style>
 </head>
 <body>
+
+<!-- Selector de idiomas lateral -->
+<div class="lang-sidebar">
+    <a href="/es/" class="lang-item active" title="Español">🇦🇷<span>ES</span></a>
+    <a href="/en/" class="lang-item" title="English">🇺🇸<span>EN</span></a>
+    <a href="/fr/" class="lang-item" title="Français">🇫🇷<span>FR</span></a>
+    <a href="/de/" class="lang-item" title="Deutsch">🇩🇪<span>DE</span></a>
+    <a href="/it/" class="lang-item" title="Italiano">🇮🇹<span>IT</span></a>
+</div>
 
 <div class="container">
 
