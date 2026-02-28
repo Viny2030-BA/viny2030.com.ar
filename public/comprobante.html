@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Comprobante - VINY 2030</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #1a1a2e;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo h1 { color: #e94560; font-size: 32px; letter-spacing: 2px; }
+    .logo p { color: #888; font-size: 14px; margin-top: 4px; }
+    h2 {
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .form-group { margin-bottom: 18px; }
+    label { color: #aaa; font-size: 13px; display: block; margin-bottom: 6px; }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      background: #0f0f1a;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus {
+      outline: none;
+      border-color: #e94560;
+    }
+    .upload-area {
+      border: 2px dashed #333;
+      border-radius: 10px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: #e94560;
+      background: rgba(233,69,96,0.05);
+    }
+    .upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icon { font-size: 40px; margin-bottom: 10px; }
+    .upload-area p { color: #888; font-size: 14px; }
+    .upload-area .filename { color: #e94560; margin-top: 8px; font-size: 13px; }
+    button[type="submit"] {
+      width: 100%;
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover { background: #c73652; }
+    button[type="submit"]:disabled { background: #555; cursor: not-allowed; }
+    .alert {
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+      display: none;
+    }
+    .alert.success { background: #0d3320; color: #4ade80; border: 1px solid #166534; }
+    .alert.error { background: #3b0a0a; color: #f87171; border: 1px solid #7f1d1d; }
+    .code-badge {
+      background: rgba(233,69,96,0.15);
+      border: 1px solid #e94560;
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .code-badge span { color: #e94560; font-size: 18px; font-weight: bold; letter-spacing: 2px; }
+    .code-badge p { color: #888; font-size: 12px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <h1>VINY 2030</h1>
+      <p>Sistema de pagos</p>
+    </div>
+
+    <h2>📤 Subir comprobante de pago</h2>
+
+    <div class="code-badge" id="codeBadge" style="display:none">
+      <span id="codeDisplay"></span>
+      <p>Código de tu orden</p>
+    </div>
+
+    <form id="uploadForm">
+      <div class="form-group">
+        <label>Código de orden *</label>
+        <input type="text" id="orderCode" name="orderCode" placeholder="VNY-2026-0001" required
+          style="text-transform: uppercase; letter-spacing: 2px;">
+      </div>
+
+      <div class="form-group">
+        <label>Tu nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre completo">
+      </div>
+
+      <div class="form-group">
+        <label>Tu email</label>
+        <input type="email" id="email" name="email" placeholder="tu@email.com">
+      </div>
+
+      <div class="form-group">
+        <label>Comprobante de pago *</label>
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="fileInput" name="comprobante" accept=".jpg,.jpeg,.png,.pdf,.webp" required>
+          <div class="upload-icon">📎</div>
+          <p>Arrastrá o hacé click para seleccionar</p>
+          <p style="font-size:12px; margin-top:4px;">JPG, PNG, PDF hasta 10MB</p>
+          <div class="filename" id="fileName"></div>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn">Enviar comprobante</button>
+
+      <div class="alert success" id="successMsg">
+        ✅ ¡Comprobante recibido! Te avisamos cuando confirmemos el pago.
+      </div>
+      <div class="alert error" id="errorMsg"></div>
+    </form>
+  </div>
+
+  <script>
+    // Pre-fill code from URL param
+    const params = new URLSearchParams(window.location.search);
+    const codigoParam = params.get('codigo');
+    if (codigoParam) {
+      document.getElementById('orderCode').value = codigoParam.toUpperCase();
+      document.getElementById('codeDisplay').textContent = codigoParam.toUpperCase();
+      document.getElementById('codeBadge').style.display = 'block';
+    }
+
+    // Show filename on select
+    document.getElementById('fileInput').addEventListener('change', function() {
+      const name = this.files[0]?.name || '';
+      document.getElementById('fileName').textContent = name ? `✓ ${name}` : '';
+    });
+
+    // Drag over effect
+    const uploadArea = document.getElementById('uploadArea');
+    uploadArea.addEventListener('dragover', () => uploadArea.classList.add('dragover'));
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+    uploadArea.addEventListener('drop', () => uploadArea.classList.remove('dragover'));
+
+    // Submit
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      const formData = new FormData(e.target);
+
+      try {
+        const res = await fetch('/api/comprobante', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('successMsg').style.display = 'block';
+          document.getElementById('errorMsg').style.display = 'none';
+          e.target.reset();
+          document.getElementById('fileName').textContent = '';
+          btn.textContent = '✅ Enviado';
+        } else {
+          throw new Error(data.error || 'Error desconocido');
+        }
+      } catch (err) {
+        document.getElementById('errorMsg').textContent = `❌ Error: ${err.message}`;
+        document.getElementById('errorMsg').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Enviar comprobante';
+      }
+    });
+  </script>
+</body>
+</html>
