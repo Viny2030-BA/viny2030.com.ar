@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const nodemailer = require('nodemailer');
 const fs = require('fs');
+const { sendEmail } = require('../utils/mailer');
 
 // Storage config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../uploads');
+    const dir = path.join(__dirname, '../public/uploads');
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
@@ -27,41 +27,34 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter, limits: { fileSize: 10 * 1024 * 1024 } });
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS
-  }
-});
-
-// POST /api/upload - Upload receipt
+// POST /api/upload - Subir comprobante
+// Nota: también acepta POST /api/comprobante desde comprobante.html
 router.post('/', upload.single('comprobante'), async (req, res) => {
   try {
-    const { orderCode, name, email } = req.body;
+    const { orderCode, nombre, email } = req.body;
 
     if (!req.file) {
-      return res.status(400).json({ error: 'No se recibió ningún archivo' });
+      return res.status(400).json({ success: false, error: 'No se recibió ningún archivo' });
     }
 
     if (!orderCode) {
-      return res.status(400).json({ error: 'Código de orden requerido' });
+      return res.status(400).json({ success: false, error: 'Código de orden requerido' });
     }
 
-    // Notify admin with attachment
-    await transporter.sendMail({
-      from: `"Viny 2030 Sistema" <${process.env.GMAIL_USER}>`,
+    // Notificar al admin con adjunto
+    await sendEmail({
       to: process.env.ADMIN_EMAIL || process.env.GMAIL_USER,
-      subject: `💰 Comprobante recibido: ${orderCode} — ${name || 'Cliente'}`,
+      subject: `💰 Comprobante recibido: ${orderCode} — ${nombre || 'Cliente'}`,
       html: `
-        <h2 style="color:#c9a84c">Comprobante de pago recibido</h2>
-        <p><strong>Código:</strong> ${orderCode}</p>
-        <p><strong>Nombre:</strong> ${name || 'No especificado'}</p>
-        <p><strong>Email:</strong> ${email || 'No especificado'}</p>
-        <p><strong>Archivo:</strong> ${req.file.originalname}</p>
-        <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-AR')}</p>
-        <p>El archivo está adjunto a este email.</p>
-      `,
+        <div style="font-family:Arial;padding:20px;">
+          <h2 style="color:#c9a84c;">Comprobante de pago recibido</h2>
+          <p><strong>Código:</strong> ${orderCode}</p>
+          <p><strong>Nombre:</strong> ${nombre || 'No especificado'}</p>
+          <p><strong>Email:</strong> ${email || 'No especificado'}</p>
+          <p><strong>Archivo:</strong> ${req.file.originalname}</p>
+          <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-AR')}</p>
+          <p>El archivo está adjunto a este email.</p>
+        </div>`,
       attachments: [{
         filename: req.file.originalname,
         path: req.file.path
@@ -72,7 +65,7 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
 
   } catch (err) {
     console.error('Error uploading receipt:', err);
-    res.status(500).json({ error: 'Error al procesar el comprobante', detail: err.message });
+    res.status(500).json({ success: false, error: 'Error al procesar el comprobante', detail: err.message });
   }
 });
 

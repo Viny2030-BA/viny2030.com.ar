@@ -1,26 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const nodemailer = require('nodemailer');
+const { generateOrderCode } = require('../utils/orderCode');
 const { generatePaymentEmail } = require('../templates/emails');
+const { sendEmail } = require('../utils/mailer');
 
-// Simple in-memory store (replace with DB in production)
+// In-memory store (se pierde al reiniciar — para producción usar DB)
 const orders = [];
-let orderCounter = parseInt(process.env.ORDER_START || '1');
 
-function generateOrderCode() {
-  const num = String(orderCounter++).padStart(4, '0');
-  return `VNY-2026-${num}`;
-}
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS  // App Password from Google
-  }
-});
-
-// POST /api/orders - Create order and send payment email
+// POST /api/orders - Crear orden y enviar email de pago
 router.post('/', async (req, res) => {
   try {
     const { name, email, amount, lang = 'es', product = '' } = req.body;
@@ -30,9 +17,9 @@ router.post('/', async (req, res) => {
     }
 
     const orderCode = generateOrderCode();
-    const uploadUrl = `${process.env.BASE_URL || 'https://tu-app.railway.app'}/comprobante?code=${orderCode}`;
+    const uploadUrl = `${process.env.BASE_URL || 'http://localhost:3000'}/comprobante?codigo=${orderCode}`;
 
-    // Save order
+    // Guardar orden
     const order = {
       id: orderCode,
       name,
@@ -46,29 +33,24 @@ router.post('/', async (req, res) => {
     };
     orders.push(order);
 
-    // Generate email
+    // Generar y enviar email al cliente
     const { subject, html } = generatePaymentEmail({ name, email, amount, orderCode, lang, uploadUrl });
+    await sendEmail({ to: email, subject, html });
 
-    // Send to client
-    await transporter.sendMail({
-      from: `"Viny 2030" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject,
-      html
-    });
-
-    // Notify admin
-    await transporter.sendMail({
-      from: `"Viny 2030 Sistema" <${process.env.GMAIL_USER}>`,
+    // Notificar al admin
+    await sendEmail({
       to: process.env.ADMIN_EMAIL || process.env.GMAIL_USER,
       subject: `🆕 Nueva orden: ${orderCode} — ${name} — $${amount}`,
-      html: `<p><strong>Código:</strong> ${orderCode}</p>
-             <p><strong>Cliente:</strong> ${name}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Monto:</strong> $${amount}</p>
-             <p><strong>Producto:</strong> ${product}</p>
-             <p><strong>Idioma:</strong> ${lang}</p>
-             <p><strong>Estado:</strong> Pendiente de pago</p>`
+      html: `<div style="font-family:Arial;padding:20px;">
+        <h2 style="color:#c9a84c;">Nueva orden recibida</h2>
+        <p><strong>Código:</strong> ${orderCode}</p>
+        <p><strong>Cliente:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Monto:</strong> $${amount}</p>
+        <p><strong>Producto:</strong> ${product}</p>
+        <p><strong>Idioma:</strong> ${lang}</p>
+        <p><strong>Estado:</strong> Pendiente de pago</p>
+      </div>`
     });
 
     res.json({ success: true, orderCode, message: 'Email enviado correctamente' });
@@ -79,19 +61,19 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/orders - List all orders (admin)
+// GET /api/orders - Listar órdenes (admin)
 router.get('/', (req, res) => {
   res.json(orders);
 });
 
-// GET /api/orders/:code - Get single order
+// GET /api/orders/:code - Obtener una orden
 router.get('/:code', (req, res) => {
   const order = orders.find(o => o.id === req.params.code);
   if (!order) return res.status(404).json({ error: 'Orden no encontrada' });
   res.json(order);
 });
 
-// PATCH /api/orders/:code/status - Update status
+// PATCH /api/orders/:code/status - Cambiar estado
 router.patch('/:code/status', (req, res) => {
   const order = orders.find(o => o.id === req.params.code);
   if (!order) return res.status(404).json({ error: 'Orden no encontrada' });
