@@ -1,9 +1,11 @@
-const BANK_DATA = {
-  cbu: process.env.CBU || '0000000000000000000000',
-  alias: process.env.ALIAS || 'VINY.2030.PAGOS',
-  titular: process.env.TITULAR || 'Viny 2030 S.A.',
-  banco: process.env.BANCO || 'Banco Galicia'
-};
+function getBankData() {
+  return {
+    cbu: process.env.CBU || '0000000000000000000000',
+    alias: process.env.ALIAS || 'VINY.2030.PAGOS',
+    titular: process.env.TITULAR || 'Viny 2030 S.A.',
+    banco: process.env.BANCO || 'Banco Galicia'
+  };
+}
 
 const translations = {
   es: {
@@ -69,6 +71,7 @@ const translations = {
 };
 
 function generatePaymentEmail({ name, email, amount, orderCode, lang = 'es', uploadUrl }) {
+  const BANK_DATA = getBankData();
   const t = translations[lang] || translations.es;
   const l = t.labels;
 
