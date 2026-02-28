@@ -3,28 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viny2030 | Ingeniería Algorítmica</title>
+    <title>Viny2030 | Motor de Decisiones para tu Negocio</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .console { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 40px; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .brand { color: #58a6ff; font-weight: bold; font-size: 1.5em; margin-bottom: 20px; }
-        .status { color: #238636; margin-bottom: 20px; }
-        .price { font-size: 2em; color: #f85149; margin: 20px 0; }
-        .btn { background: #238636; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; transition: 0.3s; }
-        .btn:hover { background: #2ea043; }
-        .path { color: #8b949e; font-size: 0.8em; margin-top: 20px; }
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #e8f4fd;
+            --surface: #ffffff;
+            --border: #b3d4f0;
+            --accent: #1a6fb5;
+            --accent2: #0a9d6e;
+            --text: #1a3a5c;
+            --muted: #5a7fa0;
+            --input-bg: #f0f7ff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(26,111,181,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(10,157,110,0.06) 0%, transparent 60%);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            z-index: 100;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 660px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeDown 0.6s ease;
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.6em;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 6px;
+        }
+
+        .logo span { color: var(--accent2); }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 0.72em;
+            margin-top: 6px;
+            letter-spacing: 2px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 8px 40px rgba(26,111,181,0.12);
+            animation: fadeUp 0.6s ease 0.2s both;
+        }
+
+        .brand-line {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.05em;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        .status-line {
+            color: var(--accent2);
+            font-size: 0.78em;
+            margin-bottom: 24px;
+        }
+
+        hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+        h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 0.83em;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .levels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 16px 0 24px;
+        }
+
+        .level {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .dot {
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-green { background: #0a9d6e; box-shadow: 0 0 8px rgba(10,157,110,0.4); }
+        .dot-yellow { background: #d4a017; box-shadow: 0 0 8px rgba(212,160,23,0.4); }
+        .dot-red { background: #e53e3e; box-shadow: 0 0 8px rgba(229,62,62,0.4); }
+
+        .level-main { color: var(--text); font-weight: bold; }
+        .level-sub { color: var(--muted); font-size: 0.88em; }
+
+        .price-block {
+            display: flex;
+            gap: 14px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .price-card {
+            flex: 1;
+            min-width: 160px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .price-card.main { border-color: var(--accent); }
+
+        .price-label {
+            font-size: 0.62em;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .price-amount {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .price-desc {
+            font-size: 0.68em;
+            color: var(--muted);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--accent);
+            color: white;
+            padding: 14px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(26,111,181,0.25);
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background: #155d9e;
+            box-shadow: 0 6px 24px rgba(26,111,181,0.4);
+            transform: translateY(-1px);
+        }
+
+        .path {
+            color: var(--muted);
+            font-size: 0.7em;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 0.68em;
+            letter-spacing: 1px;
+            animation: fadeUp 0.6s ease 0.4s both;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 560px) {
+            .card { padding: 24px 18px; }
+            .logo { font-size: 1.9em; }
+            .price-block { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
-    <div class="console">
-        <div class="brand">VINY2030_BA > GOOGLE_ML_ENGINEER</div>
-        <div class="status">[STATUS: ACTIVE] - Pipeline V1.0.0</div>
-        <hr style="border: 0.5px solid #30363d;">
-        <h3>Diagnóstico Algorítmico Inicial</h3>
-        <p>Análisis de viabilidad, arquitectura de datos y hoja de ruta estratégica para proyectos de IA.</p>
-        <div class="price">USD 5.00</div>
-        <a href="https://github.com/Viny2030-BA" class="btn">SOLICITAR ACCESO</a>
-        <div class="path">~/01_business_discovery/diagnostico_base</div>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">VINY<span>2030</span></div>
+        <div class="tagline">MOTOR DE DECISIONES PARA TU NEGOCIO</div>
     </div>
+
+    <div class="card">
+
+        <div class="brand-line">VINY2030_BA › GOOGLE_ML_ENGINEER</div>
+        <div class="status-line">[STATUS: ACTIVE] — Pipeline V1.0.0 — Buenos Aires, Argentina</div>
+
+        <hr>
+
+        <h3>¿TUS DATOS TRABAJAN PARA VOS?</h3>
+        <p>La mayoría de las empresas acumula datos sin saber qué hacer con ellos. Convertimos esa información en decisiones concretas usando algoritmos de inteligencia artificial.</p>
+
+        <hr>
+
+        <h3>DIAGNÓSTICO ALGORÍTMICO INICIAL</h3>
+        <p>Analizamos tu negocio y tus datos. En 48hs recibís tu nivel de madurez algorítmica:</p>
+
+        <div class="levels">
+            <div class="level">
+                <div class="dot dot-green"></div>
+                <div>
+                    <div class="level-main">VERDE — Datos listos</div>
+                    <div class="level-sub">Implementación de modelo predictivo disponible</div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="dot dot-yellow"></div>
+                <div>
+                    <div class="level-main">AMARILLO — Datos sucios</div>
+                    <div class="level-sub">Servicio de estructuración de datos recomendado</div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="dot dot-red"></div>
+                <div>
+                    <div class="level-main">ROJO — Sin datos</div>
+                    <div class="level-sub">Consultoría de captura de datos como primer paso</div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>ESTRUCTURA DE SERVICIOS</h3>
+
+        <div class="price-block">
+            <div class="price-card main">
+                <div class="price-label">FASE 1 — Diagnóstico</div>
+                <div class="price-amount">USD 10</div>
+                <div class="price-desc">Análisis + NDA + Hoja de ruta<br>Crédito aplicable a Fase 2</div>
+            </div>
+            <div class="price-card">
+                <div class="price-label">FASE 2A — Motor Básico</div>
+                <div class="price-amount">USD 50</div>
+                <div class="price-desc">1 algoritmo principal<br>Repo privado GitHub</div>
+            </div>
+            <div class="price-card">
+                <div class="price-label">FASE 2B — Motor Avanzado</div>
+                <div class="price-amount">USD 100</div>
+                <div class="price-desc">Múltiples algoritmos<br>Análisis de mayor profundidad</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <a href="/register/" class="btn">INICIAR DIAGNÓSTICO → USD 10</a>
+
+        <div class="path">~/01_business_discovery/diagnostico_base</div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL
+    </div>
+
+</div>
+
 </body>
 </html>
