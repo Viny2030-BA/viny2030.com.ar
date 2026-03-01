@@ -1,55 +1,58 @@
 const express = require('express');
 const router = express.Router();
 const { generateOrderCode } = require('../utils/orderCode');
-const { generatePaymentEmail } = require('../templates/emails');
+const { getEmailTemplate } = require('../utils/emailTemplates');
 const { sendEmail } = require('../utils/mailer');
 
-// In-memory store (se pierde al reiniciar — para producción usar DB)
 const orders = [];
 
-// POST /api/orders - Crear orden y enviar email de pago
+// POST /api/orders
 router.post('/', async (req, res) => {
   try {
-    const { name, email, amount, lang = 'es', product = '' } = req.body;
+    const { name, email, amount = 10, lang = 'es', product = 'Diagnóstico Algorítmico' } = req.body;
 
-    if (!name || !email || !amount) {
-      return res.status(400).json({ error: 'Faltan datos: name, email, amount' });
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Faltan datos: name, email' });
     }
 
     const orderCode = generateOrderCode();
-    const uploadUrl = `${process.env.BASE_URL || 'http://localhost:3000'}/comprobante?codigo=${orderCode}`;
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+    const uploadUrl = `${baseUrl}/comprobante?codigo=${orderCode}`;
 
-    // Guardar orden
     const order = {
-      id: orderCode,
-      name,
-      email,
-      amount,
-      lang,
-      product,
+      id: orderCode, name, email, amount, lang, product,
       status: 'pending',
       createdAt: new Date().toISOString(),
       uploadUrl
     };
     orders.push(order);
 
-    // Generar y enviar email al cliente
-    const { subject, html } = generatePaymentEmail({ name, email, amount, orderCode, lang, uploadUrl });
+    // Email al cliente en su idioma
+    const { subject, html } = getEmailTemplate(lang, {
+      nombre:  name,
+      monto:   amount,
+      orderCode,
+      cbu:     process.env.CBU_PESOS   || '0140005203400552652310',
+      alias:   process.env.ALIAS_PESOS || 'ALGORIT.MONTE.PESOS',
+      titular: process.env.TITULAR     || 'Vicente Humberto Monteverde',
+      banco:   process.env.BANCO       || 'Banco Santander Argentina',
+      uploadUrl
+    });
+
     await sendEmail({ to: email, subject, html });
 
-    // Notificar al admin
+    // Notificación al admin
     await sendEmail({
       to: process.env.ADMIN_EMAIL || process.env.GMAIL_USER,
-      subject: `🆕 Nueva orden: ${orderCode} — ${name} — $${amount}`,
+      subject: `🆕 Nueva orden: ${orderCode} — ${name} — USD ${amount}`,
       html: `<div style="font-family:Arial;padding:20px;">
-        <h2 style="color:#c9a84c;">Nueva orden recibida</h2>
-        <p><strong>Código:</strong> ${orderCode}</p>
-        <p><strong>Cliente:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Monto:</strong> $${amount}</p>
-        <p><strong>Producto:</strong> ${product}</p>
-        <p><strong>Idioma:</strong> ${lang}</p>
-        <p><strong>Estado:</strong> Pendiente de pago</p>
+        <h2 style="color:#e94560;">Nueva orden recibida</h2>
+        <p><b>Código:</b> ${orderCode}</p>
+        <p><b>Cliente:</b> ${name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Monto:</b> USD ${amount}</p>
+        <p><b>Idioma:</b> ${lang}</p>
+        <p><b>Estado:</b> ⏳ Pendiente</p>
       </div>`
     });
 
@@ -61,19 +64,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/orders - Listar órdenes (admin)
-router.get('/', (req, res) => {
-  res.json(orders);
-});
+router.get('/', (req, res) => res.json(orders));
 
-// GET /api/orders/:code - Obtener una orden
 router.get('/:code', (req, res) => {
   const order = orders.find(o => o.id === req.params.code);
   if (!order) return res.status(404).json({ error: 'Orden no encontrada' });
   res.json(order);
 });
 
-// PATCH /api/orders/:code/status - Cambiar estado
 router.patch('/:code/status', (req, res) => {
   const order = orders.find(o => o.id === req.params.code);
   if (!order) return res.status(404).json({ error: 'Orden no encontrada' });
