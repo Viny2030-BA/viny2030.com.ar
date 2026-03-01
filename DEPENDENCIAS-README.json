@@ -1,0 +1,15 @@
+{
+  "_comment": "Agregá 'multer' a tu package.json existente si no lo tenés:",
+  "_instrucciones": "Corré: npm install multer",
+  
+  "dependencies_a_agregar": {
+    "multer": "^1.4.5-lts.1"
+  },
+
+  "_variables_env_requeridas": {
+    "GMAIL_USER": "tuemail@gmail.com",
+    "GMAIL_PASS": "xxxx xxxx xxxx xxxx (App Password de Google)",
+    "ADMIN_EMAIL": "vicente@email.com",
+    "BASE_URL": "https://viny2030.com.ar"
+  }
+}
