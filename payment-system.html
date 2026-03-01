@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VNY 2030 – Sistema de Pagos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #4A9FE8;
+    --gold-light: #7BBFF5;
+    --dark: #0A2340;
+    --dark2: #102B50;
+    --dark3: #153260;
+    --border: rgba(74,159,232,0.28);
+    --text: #D8E8F5;
+    --muted: #6A90B8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(74,159,232,0.07) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 20%, rgba(74,159,232,0.05) 0%, transparent 50%);
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .logo span { color: var(--text); font-weight: 400; font-size: 1rem; display: block; letter-spacing: 0.2em; text-transform: uppercase; }
+
+  .lang-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover, .lang-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(74,159,232,0.12);
+  }
+
+  main { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 40px;
+    color: var(--text);
+  }
+
+  /* STEP TABS */
+  .steps { display: flex; gap: 0; margin-bottom: 48px; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+  .step-btn {
+    flex: 1;
+    padding: 16px;
+    background: var(--dark2);
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border-right: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .step-btn:last-child { border-right: none; }
+  .step-btn.active {
+    background: rgba(74,159,232,0.15);
+    color: var(--gold);
+  }
+  .step-num { display: block; font-size: 1.4rem; font-weight: 500; margin-bottom: 4px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field.full { grid-column: 1/-1; }
+  label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  input, select, textarea {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+  select option { background: var(--dark2); }
+
+  .btn {
+    background: var(--gold);
+    color: #0A2340;
+    border: none;
+    padding: 16px 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .btn-outline:hover { background: rgba(74,159,232,0.12); transform: translateY(-1px); }
+
+  /* CODE DISPLAY */
+  .code-box {
+    background: var(--dark2);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 32px;
+    text-align: center;
+    margin: 32px 0;
+  }
+  .code-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .code-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  /* PAYMENT INFO */
+  .payment-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .pay-tab {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 10px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+  .pay-tab.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(74,159,232,0.12);
+  }
+
+  .pay-panel { display: none; }
+  .pay-panel.active { display: block; }
+
+  .info-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .info-row {
+    display: flex;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { 
+    min-width: 180px; 
+    font-size: 0.75rem; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--muted);
+    padding-top: 2px;
+  }
+  .info-val { 
+    font-family: 'DM Mono', monospace; 
+    font-size: 0.9rem; 
+    color: var(--text);
+    word-break: break-all;
+  }
+
+  /* EMAIL PREVIEW */
+  .email-preview {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+  .email-header-bar {
+    background: var(--dark3);
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .email-subject { font-size: 0.85rem; color: var(--muted); }
+  .email-subject strong { color: var(--text); }
+  .email-body { padding: 32px; line-height: 1.8; font-size: 0.95rem; white-space: pre-wrap; }
+
+  /* UPLOAD */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 2px;
+    padding: 60px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--dark2);
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold);
+    background: rgba(74,159,232,0.06);
+  }
+  .upload-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+  .upload-text { font-size: 0.9rem; color: var(--muted); }
+  .upload-text strong { color: var(--gold); }
+  #file-input { display: none; }
+
+  .file-preview {
+    display: none;
+    background: var(--dark2);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin-top: 16px;
+    align-items: center;
+    gap: 16px;
+  }
+  .file-preview.show { display: flex; }
+  .file-icon { font-size: 2rem; }
+  .file-info { flex: 1; }
+  .file-name { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--text); }
+  .file-size { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  /* CONFIRMATION */
+  .success-box {
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--dark2);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+  }
+  .success-icon { font-size: 4rem; margin-bottom: 24px; }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); margin-bottom: 12px; }
+  .success-text { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+
+  .divider { 
+    border: none; 
+    border-top: 1px solid var(--border); 
+    margin: 40px 0; 
+  }
+
+  .actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .amount-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin: 16px 0;
+  }
+
+  .summary-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+  .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .key { color: var(--muted); }
+  .summary-row .val { font-family: 'DM Mono', monospace; color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">VNY 2030<span>Sistema de Pagos</span></div>
+  <div class="lang-selector">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+  </div>
+</header>
+
+<main>
+  <div class="section-title" id="t-section">Proceso de Pago</div>
+  <h1 id="t-title">Completá tu reserva</h1>
+
+  <div class="steps">
+    <button class="step-btn active" onclick="goStep(1)"><span class="step-num">01</span><span id="t-step1">Datos del Cliente</span></button>
+    <button class="step-btn" onclick="goStep(2)"><span class="step-num">02</span><span id="t-step2">Información de Pago</span></button>
+    <button class="step-btn" onclick="goStep(3)"><span class="step-num">03</span><span id="t-step3">Subir Comprobante</span></button>
+    <button class="step-btn" onclick="goStep(4)"><span class="step-num">04</span><span id="t-step4">Confirmación</span></button>
+  </div>
+
+  <!-- STEP 1: CLIENT DATA -->
+  <div class="panel active" id="panel1">
+    <div class="form-grid">
+      <div class="field">
+        <label id="t-name">Nombre Completo</label>
+        <input type="text" id="client-name" placeholder="Vicente Monteverde">
+      </div>
+      <div class="field">
+        <label id="t-email">Email</label>
+        <input type="email" id="client-email" placeholder="cliente@email.com">
+      </div>
+      <div class="field">
+        <label id="t-country">País</label>
+        <select id="client-country" onchange="detectLang()">
+          <option value="AR">Argentina</option>
+          <option value="US">United States</option>
+          <option value="FR">France</option>
+          <option value="DE">Germany</option>
+          <option value="IT">Italy</option>
+          <option value="ES">España</option>
+          <option value="UY">Uruguay</option>
+          <option value="BR">Brazil</option>
+          <option value="OTHER">Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="t-currency">Moneda de Pago</label>
+        <select id="payment-currency" onchange="updateCurrencyInfo()">
+          <option value="ARS">Pesos Argentinos (ARS)</option>
+          <option value="USD_AR">Dólares – Cuenta Argentina (USD)</option>
+          <option value="USD_EX">Transferencia Internacional (USD)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="t-amount">Monto</label>
+        <input type="number" id="payment-amount" placeholder="0.00">
+      </div>
+      <div class="field">
+        <label id="t-service">Servicio / Concepto</label>
+        <input type="text" id="payment-service" placeholder="Ej: Reserva Tour VNY 2030">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="generateCode()" id="t-btn-generate">Generar Código y Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: PAYMENT INFO -->
+  <div class="panel" id="panel2">
+    <div class="code-box">
+      <div class="code-label" id="t-code-label">Código de Operación</div>
+      <div class="code-value" id="operation-code">VNY-2026-0000</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-row"><span class="key" id="t-client-label">Cliente</span><span class="val" id="sum-name">—</span></div>
+      <div class="summary-row"><span class="key" id="t-service-label">Servicio</span><span class="val" id="sum-service">—</span></div>
+      <div class="summary-row"><span class="key" id="t-amount-label">Monto</span><span class="val" id="sum-amount">—</span></div>
+    </div>
+
+    <div class="payment-tabs">
+      <button class="pay-tab active" onclick="showPayTab('ars')" id="tab-ars">🇦🇷 Pesos ARS</button>
+      <button class="pay-tab" onclick="showPayTab('usd_ar')" id="tab-usd-ar">💵 Dólares (AR)</button>
+      <button class="pay-tab" onclick="showPayTab('usd_ex')" id="tab-usd-ex">🌐 Internacional</button>
+    </div>
+
+    <!-- ARS -->
+    <div class="pay-panel active" id="pay-ars">
+      <div class="info-card">
+        <div class="info-row"><span class="info-key">Tipo de Cuenta</span><span class="info-val">Caja de Ahorro Pesos</span></div>
+        <div class="info-row"><span class="info-key">Banco</span><span class="info-val">Santander Argentina</span></div>
+        <div class="info-row"><span class="info-key">CBU</span><span class="info-val">0140005203400552652310 <button class="copy-btn" onclick="copyText('0140005203400552652310')">COPIAR</button></span></div>
+        <div class="info-row"><span class="info-key">Alias CBU</span><span class="info-val">ALGORIT.MONTE.PESOS <button class="copy-btn" onclick="copyText('ALGORIT.MONTE.PESOS')">COPIAR</button></span></div>
+        <div class="info-row"><span class="info-key">Titular</span><span class="info-val">Vicente Humberto Monteverde</span></div>
+        <div class="info-row"><span class="info-key">CUIL/CUIT</span><span class="info-val">20-12034411-1</span></div>
+      </div>
+    </div>
+
+    <!-- USD AR -->
+    <div class="pay-panel" id="pay-usd-ar">
+      <div class="info-card">
+        <div class="info-row"><span class="info-key">Tipo de Cuenta</span><span class="info-val">Caja de Ahorro Dólares</span></div>
+        <div class="info-row"><span class="info-key">Banco</span><span class="info-val">Santander Argentina</span></div>
+        <div class="info-row"><span class="info-key">CBU</span><span class="info-val">0140005204400550329709 <button class="copy-btn" onclick="copyText('0140005204400550329709')">COPIAR</button></span></div>
+        <div class="info-row"><span class="info-key">Alias CBU</span><span class="info-val">ALGO.MONTE.DOLARES <button class="copy-btn" onclick="copyText('ALGO.MONTE.DOLARES')">COPIAR</button></span></div>
+        <div class="info-row"><span class="info-key">Titular</span><span class="info-val">Vicente Humberto Monteverde</span></div>
+        <div class="info-row"><span class="info-key">CUIL/CUIT</span><span class="info-val">20-12034411-1</span></div>
+      </div>
+    </div>
+
+    <!-- USD INTERNACIONAL -->
+    <div class="pay-panel" id="pay-usd-ex">
+      <div class="info-card">
+        <div class="info-row"><span class="info-key">Banco</span><span class="info-val">Banco Santander Montevideo</span></div>
+        <div class="info-row"><span class="info-key">Beneficiario</span><span class="info-val">Vicente Humberto Monteverde</span></div>
+        <div class="info-row"><span class="info-key">Dirección</span><span class="info-val">Av. Directorio 3024, PB, Dto 04</span></div>
+        <div class="info-row"><span class="info-key">CUIL/CUIT</span><span class="info-val">20-12034411-1</span></div>
+        <div class="info-row"><span class="info-key">Tipo de Cuenta</span><span class="info-val">Caja de Ahorro en Dólares</span></div>
+        <div class="info-row"><span class="info-key">Número de Cuenta</span><span class="info-val">005200183500 <button class="copy-btn" onclick="copyText('005200183500')">COPIAR</button></span></div>
+        <div class="info-row"><span class="info-key">SWIFT / BIC</span><span class="info-val">BSCHUYMM <button class="copy-btn" onclick="copyText('BSCHUYMM')">COPIAR</button></span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-title" id="t-email-preview-label">Vista Previa del Email al Cliente</div>
+    <div class="email-preview">
+      <div class="email-header-bar">
+        <span class="email-subject"><strong id="t-email-subject">Asunto:</strong> <span id="email-subject-text">—</span></span>
+      </div>
+      <div class="email-body" id="email-body-text">—</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="goStep(3)" id="t-btn-upload">Continuar – Subir Comprobante →</button>
+      <button class="btn btn-outline" onclick="copyEmail()" id="t-btn-copy-email">Copiar Email</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: UPLOAD -->
+  <div class="panel" id="panel3">
+    <p style="color:var(--muted);margin-bottom:32px;line-height:1.7;" id="t-upload-desc">
+      Una vez realizada la transferencia, subí tu comprobante de pago. Aceptamos imágenes (JPG, PNG) o PDF.
+    </p>
+
+    <div class="code-box" style="margin-bottom:32px;">
+      <div class="code-label" id="t-code-label2">Código de Operación – incluir en el comprobante</div>
+      <div class="code-value" id="operation-code2">VNY-2026-0000</div>
+    </div>
+
+    <div class="upload-zone" onclick="document.getElementById('file-input').click()" id="upload-zone"
+         ondragover="event.preventDefault();this.classList.add('drag-over')"
+         ondragleave="this.classList.remove('drag-over')"
+         ondrop="handleDrop(event)">
+      <div class="upload-icon">📎</div>
+      <div class="upload-text" id="t-upload-text">
+        <strong>Hacé clic aquí</strong> o arrastrá tu archivo<br>
+        JPG, PNG, PDF · Máximo 10MB
+      </div>
+    </div>
+    <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFile(this.files[0])">
+
+    <div class="file-preview" id="file-preview">
+      <div class="file-icon">📄</div>
+      <div class="file-info">
+        <div class="file-name" id="file-name">archivo.pdf</div>
+        <div class="file-size" id="file-size">0 KB</div>
+      </div>
+    </div>
+
+    <div class="actions" style="margin-top:32px;">
+      <button class="btn" onclick="submitPayment()" id="t-btn-submit">Enviar Comprobante →</button>
+      <button class="btn btn-outline" onclick="goStep(2)" id="t-btn-back">← Volver</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: CONFIRMATION -->
+  <div class="panel" id="panel4">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <div class="success-title" id="t-success-title">¡Comprobante Recibido!</div>
+      <p class="success-text" id="t-success-text">
+        Tu comprobante fue enviado exitosamente.<br>
+        Revisaremos el pago y nos pondremos en contacto dentro de las próximas 24–48 horas.<br><br>
+        <strong style="color:var(--gold);font-family:'DM Mono',monospace;font-size:1.2rem;" id="success-code">VNY-2026-0000</strong>
+      </p>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="https://www.viny2030.com.ar" target="_blank" style="color:var(--gold);font-size:0.85rem;letter-spacing:0.1em;text-decoration:none;font-family:'DM Mono',monospace;">↗ VINY2030.COM.AR</a>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ===================== TRANSLATIONS =====================
+const T = {
+  es: {
+    section: "Proceso de Pago",
+    title: "Completá tu reserva",
+    step1: "Datos del Cliente",
+    step2: "Información de Pago",
+    step3: "Subir Comprobante",
+    step4: "Confirmación",
+    name: "Nombre Completo",
+    email: "Email",
+    country: "País",
+    currency: "Moneda de Pago",
+    amount: "Monto",
+    service: "Servicio / Concepto",
+    btnGenerate: "Generar Código y Continuar →",
+    codeLabel: "Código de Operación",
+    codeLabelUpload: "Código de Operación – incluir en el comprobante",
+    clientLabel: "Cliente",
+    serviceLabel: "Servicio",
+    amountLabel: "Monto",
+    emailPreviewLabel: "Vista Previa del Email al Cliente",
+    emailSubject: "Asunto:",
+    btnUpload: "Continuar – Subir Comprobante →",
+    btnCopyEmail: "Copiar Email",
+    uploadDesc: "Una vez realizada la transferencia, subí tu comprobante de pago. Aceptamos imágenes (JPG, PNG) o PDF.",
+    uploadText: "<strong>Hacé clic aquí</strong> o arrastrá tu archivo<br>JPG, PNG, PDF · Máximo 10MB",
+    btnSubmit: "Enviar Comprobante →",
+    btnBack: "← Volver",
+    successTitle: "¡Comprobante Recibido!",
+    successText: "Tu comprobante fue enviado exitosamente.\nRevisaremos el pago y nos pondremos en contacto dentro de las próximas 24–48 horas.",
+    emailSubjectText: (code, service) => `Datos de pago – ${service} | Código: ${code}`,
+    emailBodyFn: (name, code, amount, currency, service) => `Estimado/a ${name},
+
+Gracias por elegir VNY 2030. A continuación encontrará los datos para realizar su pago.
+
+📋 Código de Operación: ${code}
+🛒 Servicio: ${service}
+💰 Monto a transferir: ${amount} ${currency}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+DATOS BANCARIOS ARGENTINA – PESOS
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banco: Santander Argentina
+Tipo: Caja de Ahorro Pesos
+CBU: 0140005203400552652310
+Alias: ALGORIT.MONTE.PESOS
+Titular: Vicente Humberto Monteverde
+CUIL: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+DATOS BANCARIOS ARGENTINA – DÓLARES
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banco: Santander Argentina
+Tipo: Caja de Ahorro Dólares
+CBU: 0140005204400550329709
+Alias: ALGO.MONTE.DOLARES
+Titular: Vicente Humberto Monteverde
+CUIL: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+TRANSFERENCIA INTERNACIONAL (USD)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banco: Banco Santander Montevideo
+Beneficiario: Vicente Humberto Monteverde
+Dirección: Av. Directorio 3024, PB, Dto 04
+Número de Cuenta: 005200183500
+SWIFT/BIC: BSCHUYMM
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Por favor, una vez realizado el pago, cargue su comprobante en:
+🔗 www.viny2030.com.ar
+
+Mencione su código ${code} en el asunto de su comprobante.
+
+Saludos cordiales,
+Equipo VNY 2030
+www.viny2030.com.ar`
+  },
+  en: {
+    section: "Payment Process",
+    title: "Complete your booking",
+    step1: "Client Details",
+    step2: "Payment Info",
+    step3: "Upload Receipt",
+    step4: "Confirmation",
+    name: "Full Name",
+    email: "Email",
+    country: "Country",
+    currency: "Payment Currency",
+    amount: "Amount",
+    service: "Service / Description",
+    btnGenerate: "Generate Code & Continue →",
+    codeLabel: "Operation Code",
+    codeLabelUpload: "Operation Code – include on your receipt",
+    clientLabel: "Client",
+    serviceLabel: "Service",
+    amountLabel: "Amount",
+    emailPreviewLabel: "Client Email Preview",
+    emailSubject: "Subject:",
+    btnUpload: "Continue – Upload Receipt →",
+    btnCopyEmail: "Copy Email",
+    uploadDesc: "Once you have completed your transfer, please upload your proof of payment. We accept images (JPG, PNG) or PDF.",
+    uploadText: "<strong>Click here</strong> or drag your file<br>JPG, PNG, PDF · Maximum 10MB",
+    btnSubmit: "Submit Receipt →",
+    btnBack: "← Back",
+    successTitle: "Receipt Received!",
+    successText: "Your receipt was successfully submitted.\nWe will review your payment and contact you within 24–48 hours.",
+    emailSubjectText: (code, service) => `Payment details – ${service} | Code: ${code}`,
+    emailBodyFn: (name, code, amount, currency, service) => `Dear ${name},
+
+Thank you for choosing VNY 2030. Below you will find the payment details for your booking.
+
+📋 Operation Code: ${code}
+🛒 Service: ${service}
+💰 Amount to transfer: ${amount} ${currency}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+ARGENTINA BANK – PESOS (ARS)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Santander Argentina
+Account Type: Savings Account (Pesos)
+CBU: 0140005203400552652310
+Alias: ALGORIT.MONTE.PESOS
+Account Holder: Vicente Humberto Monteverde
+Tax ID: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+ARGENTINA BANK – US DOLLARS
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Santander Argentina
+Account Type: Savings Account (USD)
+CBU: 0140005204400550329709
+Alias: ALGO.MONTE.DOLARES
+Account Holder: Vicente Humberto Monteverde
+Tax ID: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+INTERNATIONAL WIRE TRANSFER (USD)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Banco Santander Montevideo
+Beneficiary: Vicente Humberto Monteverde
+Address: Av. Directorio 3024, Ground Floor, Apt 04
+Account Number: 005200183500
+SWIFT/BIC: BSCHUYMM
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Once payment is complete, please upload your receipt at:
+🔗 www.viny2030.com.ar
+
+Include your code ${code} in the subject or description.
+
+Best regards,
+VNY 2030 Team
+www.viny2030.com.ar`
+  },
+  fr: {
+    section: "Processus de Paiement",
+    title: "Finalisez votre réservation",
+    step1: "Données Client",
+    step2: "Infos de Paiement",
+    step3: "Télécharger Reçu",
+    step4: "Confirmation",
+    name: "Nom Complet",
+    email: "Email",
+    country: "Pays",
+    currency: "Devise de Paiement",
+    amount: "Montant",
+    service: "Service / Description",
+    btnGenerate: "Générer le Code et Continuer →",
+    codeLabel: "Code d'Opération",
+    codeLabelUpload: "Code d'Opération – à mentionner sur le reçu",
+    clientLabel: "Client",
+    serviceLabel: "Service",
+    amountLabel: "Montant",
+    emailPreviewLabel: "Aperçu de l'Email Client",
+    emailSubject: "Objet :",
+    btnUpload: "Continuer – Télécharger le Reçu →",
+    btnCopyEmail: "Copier l'Email",
+    uploadDesc: "Une fois le virement effectué, veuillez télécharger votre preuve de paiement. Nous acceptons les images (JPG, PNG) ou PDF.",
+    uploadText: "<strong>Cliquez ici</strong> ou glissez votre fichier<br>JPG, PNG, PDF · Maximum 10 Mo",
+    btnSubmit: "Envoyer le Reçu →",
+    btnBack: "← Retour",
+    successTitle: "Reçu Bien Reçu !",
+    successText: "Votre reçu a été soumis avec succès.\nNous vérifierons votre paiement et vous contacterons dans les 24–48 heures.",
+    emailSubjectText: (code, service) => `Données de paiement – ${service} | Code : ${code}`,
+    emailBodyFn: (name, code, amount, currency, service) => `Cher(e) ${name},
+
+Merci d'avoir choisi VNY 2030. Vous trouverez ci-dessous les informations de paiement pour votre réservation.
+
+📋 Code d'Opération : ${code}
+🛒 Service : ${service}
+💰 Montant à virer : ${amount} ${currency}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+BANQUE ARGENTINE – PESOS (ARS)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banque : Santander Argentine
+Type de compte : Compte Épargne Pesos
+CBU : 0140005203400552652310
+Alias : ALGORIT.MONTE.PESOS
+Titulaire : Vicente Humberto Monteverde
+ID Fiscal : 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+BANQUE ARGENTINE – DOLLARS US
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banque : Santander Argentine
+Type de compte : Compte Épargne USD
+CBU : 0140005204400550329709
+Alias : ALGO.MONTE.DOLARES
+Titulaire : Vicente Humberto Monteverde
+ID Fiscal : 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+VIREMENT INTERNATIONAL (USD)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banque : Banco Santander Montevideo
+Bénéficiaire : Vicente Humberto Monteverde
+Adresse : Av. Directorio 3024, RDC, Apt 04
+Numéro de Compte : 005200183500
+SWIFT/BIC : BSCHUYMM
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Une fois le paiement effectué, veuillez télécharger votre reçu sur :
+🔗 www.viny2030.com.ar
+
+Mentionnez votre code ${code} dans l'objet ou la description.
+
+Cordialement,
+Équipe VNY 2030
+www.viny2030.com.ar`
+  },
+  de: {
+    section: "Zahlungsvorgang",
+    title: "Buchung abschließen",
+    step1: "Kundendaten",
+    step2: "Zahlungsinfo",
+    step3: "Beleg Hochladen",
+    step4: "Bestätigung",
+    name: "Vollständiger Name",
+    email: "E-Mail",
+    country: "Land",
+    currency: "Zahlungswährung",
+    amount: "Betrag",
+    service: "Dienst / Beschreibung",
+    btnGenerate: "Code Erstellen & Weiter →",
+    codeLabel: "Vorgangs-Code",
+    codeLabelUpload: "Vorgangs-Code – bitte auf dem Beleg angeben",
+    clientLabel: "Kunde",
+    serviceLabel: "Dienst",
+    amountLabel: "Betrag",
+    emailPreviewLabel: "E-Mail-Vorschau für Kunden",
+    emailSubject: "Betreff:",
+    btnUpload: "Weiter – Beleg Hochladen →",
+    btnCopyEmail: "E-Mail Kopieren",
+    uploadDesc: "Sobald Sie die Überweisung durchgeführt haben, laden Sie bitte Ihren Zahlungsbeleg hoch. Wir akzeptieren Bilder (JPG, PNG) oder PDF.",
+    uploadText: "<strong>Hier klicken</strong> oder Datei ziehen<br>JPG, PNG, PDF · Maximal 10 MB",
+    btnSubmit: "Beleg Senden →",
+    btnBack: "← Zurück",
+    successTitle: "Beleg Empfangen!",
+    successText: "Ihr Beleg wurde erfolgreich übermittelt.\nWir werden Ihre Zahlung prüfen und uns innerhalb von 24–48 Stunden melden.",
+    emailSubjectText: (code, service) => `Zahlungsdaten – ${service} | Code: ${code}`,
+    emailBodyFn: (name, code, amount, currency, service) => `Sehr geehrte(r) ${name},
+
+vielen Dank, dass Sie VNY 2030 gewählt haben. Nachfolgend finden Sie die Zahlungsdaten für Ihre Buchung.
+
+📋 Vorgangs-Code: ${code}
+🛒 Dienst: ${service}
+💰 Zu überweisender Betrag: ${amount} ${currency}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+ARGENTINISCHE BANK – PESO (ARS)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Santander Argentinien
+Kontotyp: Sparkonto Peso
+CBU: 0140005203400552652310
+Alias: ALGORIT.MONTE.PESOS
+Kontoinhaber: Vicente Humberto Monteverde
+Steuer-ID: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+ARGENTINISCHE BANK – US-DOLLAR
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Santander Argentinien
+Kontotyp: Sparkonto USD
+CBU: 0140005204400550329709
+Alias: ALGO.MONTE.DOLARES
+Kontoinhaber: Vicente Humberto Monteverde
+Steuer-ID: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+INTERNATIONALE ÜBERWEISUNG (USD)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Bank: Banco Santander Montevideo
+Begünstigter: Vicente Humberto Monteverde
+Adresse: Av. Directorio 3024, EG, Whg 04
+Kontonummer: 005200183500
+SWIFT/BIC: BSCHUYMM
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nach erfolgter Zahlung laden Sie bitte Ihren Beleg hoch:
+🔗 www.viny2030.com.ar
+
+Geben Sie bitte Ihren Code ${code} im Betreff oder der Beschreibung an.
+
+Mit freundlichen Grüßen,
+Team VNY 2030
+www.viny2030.com.ar`
+  },
+  it: {
+    section: "Processo di Pagamento",
+    title: "Completa la tua prenotazione",
+    step1: "Dati Cliente",
+    step2: "Info Pagamento",
+    step3: "Carica Ricevuta",
+    step4: "Conferma",
+    name: "Nome Completo",
+    email: "Email",
+    country: "Paese",
+    currency: "Valuta di Pagamento",
+    amount: "Importo",
+    service: "Servizio / Descrizione",
+    btnGenerate: "Genera Codice e Continua →",
+    codeLabel: "Codice Operazione",
+    codeLabelUpload: "Codice Operazione – da indicare nella ricevuta",
+    clientLabel: "Cliente",
+    serviceLabel: "Servizio",
+    amountLabel: "Importo",
+    emailPreviewLabel: "Anteprima Email Cliente",
+    emailSubject: "Oggetto:",
+    btnUpload: "Continua – Carica Ricevuta →",
+    btnCopyEmail: "Copia Email",
+    uploadDesc: "Una volta effettuato il bonifico, carica la tua ricevuta di pagamento. Accettiamo immagini (JPG, PNG) o PDF.",
+    uploadText: "<strong>Clicca qui</strong> o trascina il file<br>JPG, PNG, PDF · Massimo 10 MB",
+    btnSubmit: "Invia Ricevuta →",
+    btnBack: "← Indietro",
+    successTitle: "Ricevuta Ricevuta!",
+    successText: "La tua ricevuta è stata inviata con successo.\nVerificheremo il pagamento e ti contatteremo entro 24–48 ore.",
+    emailSubjectText: (code, service) => `Dati di pagamento – ${service} | Codice: ${code}`,
+    emailBodyFn: (name, code, amount, currency, service) => `Gentile ${name},
+
+Grazie per aver scelto VNY 2030. Di seguito troverà i dati per effettuare il pagamento.
+
+📋 Codice Operazione: ${code}
+🛒 Servizio: ${service}
+💰 Importo da trasferire: ${amount} ${currency}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+BANCA ARGENTINA – PESOS (ARS)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banca: Santander Argentina
+Tipo di conto: Conto di Risparmio Pesos
+CBU: 0140005203400552652310
+Alias: ALGORIT.MONTE.PESOS
+Intestatario: Vicente Humberto Monteverde
+Codice Fiscale: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+BANCA ARGENTINA – DOLLARI USA
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banca: Santander Argentina
+Tipo di conto: Conto di Risparmio USD
+CBU: 0140005204400550329709
+Alias: ALGO.MONTE.DOLARES
+Intestatario: Vicente Humberto Monteverde
+Codice Fiscale: 20-12034411-1
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+BONIFICO INTERNAZIONALE (USD)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Banca: Banco Santander Montevideo
+Beneficiario: Vicente Humberto Monteverde
+Indirizzo: Av. Directorio 3024, PT, App 04
+Numero di Conto: 005200183500
+SWIFT/BIC: BSCHUYMM
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Una volta effettuato il pagamento, carichi la sua ricevuta su:
+🔗 www.viny2030.com.ar
+
+Indichi il codice ${code} nell'oggetto o nella descrizione.
+
+Cordiali saluti,
+Team VNY 2030
+www.viny2030.com.ar`
+  }
+};
+
+let currentLang = 'es';
+let currentCode = '';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  applyTranslations();
+  if (currentCode) updateEmailPreview();
+}
+
+function applyTranslations() {
+  const t = T[currentLang];
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  const setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val; };
+
+  set('t-section', t.section);
+  set('t-title', t.title);
+  set('t-step1', t.step1);
+  set('t-step2', t.step2);
+  set('t-step3', t.step3);
+  set('t-step4', t.step4);
+  set('t-name', t.name);
+  set('t-email', t.email);
+  set('t-country', t.country);
+  set('t-currency', t.currency);
+  set('t-amount', t.amount);
+  set('t-service', t.service);
+  set('t-btn-generate', t.btnGenerate);
+  set('t-code-label', t.codeLabel);
+  set('t-code-label2', t.codeLabelUpload);
+  set('t-client-label', t.clientLabel);
+  set('t-service-label', t.serviceLabel);
+  set('t-amount-label', t.amountLabel);
+  set('t-email-preview-label', t.emailPreviewLabel);
+  set('t-email-subject', t.emailSubject);
+  set('t-btn-upload', t.btnUpload);
+  set('t-btn-copy-email', t.btnCopyEmail);
+  set('t-upload-desc', t.uploadDesc);
+  setHTML('t-upload-text', t.uploadText);
+  set('t-btn-submit', t.btnSubmit);
+  set('t-btn-back', t.btnBack);
+  set('t-success-title', t.successTitle);
+  set('t-success-text', t.successText);
+}
+
+function detectLang() {
+  const map = { FR: 'fr', DE: 'de', IT: 'it', US: 'en', BR: 'en' };
+  const country = document.getElementById('client-country').value;
+  const lang = map[country] || 'es';
+  setLang(lang);
+}
+
+function generateCode() {
+  const name = document.getElementById('client-name').value.trim();
+  const email = document.getElementById('client-email').value.trim();
+  if (!name || !email) { alert('Por favor completá nombre y email.'); return; }
+  
+  const num = String(Math.floor(Math.random() * 9000) + 1000);
+  currentCode = `VNY-2026-${num}`;
+  
+  document.getElementById('operation-code').textContent = currentCode;
+  document.getElementById('operation-code2').textContent = currentCode;
+  document.getElementById('success-code').textContent = currentCode;
+
+  const amount = document.getElementById('payment-amount').value || '—';
+  const service = document.getElementById('payment-service').value || '—';
+  const currency = document.getElementById('payment-currency').options[document.getElementById('payment-currency').selectedIndex].text;
+
+  document.getElementById('sum-name').textContent = name;
+  document.getElementById('sum-service').textContent = service;
+  document.getElementById('sum-amount').textContent = `${amount} – ${currency}`;
+
+  updateEmailPreview();
+  
+  // Select appropriate payment tab based on currency
+  const cur = document.getElementById('payment-currency').value;
+  if (cur === 'ARS') showPayTab('ars');
+  else if (cur === 'USD_AR') showPayTab('usd_ar');
+  else showPayTab('usd_ex');
+
+  goStep(2);
+}
+
+function updateEmailPreview() {
+  const t = T[currentLang];
+  const name = document.getElementById('client-name').value.trim() || '—';
+  const amount = document.getElementById('payment-amount').value || '—';
+  const service = document.getElementById('payment-service').value || '—';
+  const currency = document.getElementById('payment-currency').options[document.getElementById('payment-currency').selectedIndex].text;
+
+  document.getElementById('email-subject-text').textContent = t.emailSubjectText(currentCode, service);
+  document.getElementById('email-body-text').textContent = t.emailBodyFn(name, currentCode, amount, currency, service);
+}
+
+function copyEmail() {
+  const body = document.getElementById('email-body-text').textContent;
+  navigator.clipboard.writeText(body).then(() => {
+    const btn = document.getElementById('t-btn-copy-email');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function showPayTab(tab) {
+  document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pay-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('pay-' + tab).classList.add('active');
+  const tabMap = { ars: 'tab-ars', usd_ar: 'tab-usd-ar', usd_ex: 'tab-usd-ex' };
+  document.getElementById(tabMap[tab]).classList.add('active');
+}
+
+function updateCurrencyInfo() {
+  const cur = document.getElementById('payment-currency').value;
+  if (cur === 'ARS') showPayTab('ars');
+  else if (cur === 'USD_AR') showPayTab('usd_ar');
+  else showPayTab('usd_ex');
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    // Brief visual feedback
+  });
+}
+
+function goStep(n) {
+  document.querySelectorAll('.panel').forEach((p,i) => p.classList.toggle('active', i === n-1));
+  document.querySelectorAll('.step-btn').forEach((b,i) => b.classList.toggle('active', i === n-1));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleFile(file) {
+  if (!file) return;
+  const preview = document.getElementById('file-preview');
+  document.getElementById('file-name').textContent = file.name;
+  document.getElementById('file-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  preview.classList.add('show');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+}
+
+function submitPayment() {
+  const fileInput = document.getElementById('file-input');
+  if (!fileInput.files.length) { 
+    alert('Por favor seleccioná un archivo.'); 
+    return; 
+  }
+  goStep(4);
+}
+
+// Init
+applyTranslations();
+</script>
+</body>
+</html>
