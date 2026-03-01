@@ -21,3 +21,19 @@ app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'adm
 app.listen(PORT, () => {
   console.log(`Viny2030 server running on port ${PORT}`);
 });
+// ─────────────────────────────────────────────────────────────
+// AGREGAR ESTO EN TU server.js EXISTENTE
+// ─────────────────────────────────────────────────────────────
+
+// 1) Importar la ruta (junto a tus otros require)
+const pagosRouter = require('./routes/pagos');
+
+// 2) Montar la ruta (junto a tus otras rutas, ANTES del 404 handler)
+app.use('/pagos', pagosRouter);
+
+// ─────────────────────────────────────────────────────────────
+// VERIFICAR que tu server.js tenga esto para servir archivos estáticos:
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// ─────────────────────────────────────────────────────────────
