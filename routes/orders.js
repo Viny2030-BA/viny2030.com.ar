@@ -27,15 +27,24 @@ router.post('/', async (req, res) => {
     };
     orders.push(order);
 
-    // Email al cliente en su idioma
+    // Email al cliente con TODOS los datos de pago
     const { subject, html } = getEmailTemplate(lang, {
-      nombre:  name,
-      monto:   amount,
+      nombre:   name,
+      monto:    amount,
       orderCode,
-      cbu:     process.env.CBU_PESOS   || '0140005203400552652310',
-      alias:   process.env.ALIAS_PESOS || 'ALGORIT.MONTE.PESOS',
-      titular: process.env.TITULAR     || 'Vicente Humberto Monteverde',
-      banco:   process.env.BANCO       || 'Banco Santander Argentina',
+      // Pesos
+      cbu:      process.env.CBU_PESOS        || '0140005203400552652310',
+      alias:    process.env.ALIAS_PESOS      || 'ALGORIT.MONTE.PESOS',
+      titular:  process.env.TITULAR          || 'Vicente Humberto Monteverde',
+      banco:    process.env.BANCO            || 'Banco Santander Argentina',
+      // Dólares
+      cbuDolares:   process.env.CBU_DOLARES      || '0140005204400550329709',
+      aliasDolares: process.env.ALIAS_DOLARES    || 'ALGO.MONTE.DOLARES',
+      // Internacional
+      swift:                 process.env.SWIFT                  || 'BSCHUYMM',
+      bancoInternacional:    process.env.BANCO_INTERNACIONAL     || 'Banco Santander Montevideo',
+      cuentaInternacional:   process.env.CUENTA_INTERNACIONAL    || '005200183500',
+      direccionBeneficiario: process.env.DIRECCION_BENEFICIARIO  || 'Av. Directorio 3024-PB-Dto 04',
       uploadUrl
     });
 
@@ -45,18 +54,21 @@ router.post('/', async (req, res) => {
     await sendEmail({
       to: process.env.ADMIN_EMAIL || process.env.GMAIL_USER,
       subject: `🆕 Nueva orden: ${orderCode} — ${name} — USD ${amount}`,
-      html: `<div style="font-family:Arial;padding:20px;">
-        <h2 style="color:#e94560;">Nueva orden recibida</h2>
-        <p><b>Código:</b> ${orderCode}</p>
-        <p><b>Cliente:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Monto:</b> USD ${amount}</p>
-        <p><b>Idioma:</b> ${lang}</p>
-        <p><b>Estado:</b> ⏳ Pendiente</p>
-      </div>`
+      html: `
+        <div style="font-family:Arial;padding:20px;">
+          <h2 style="color:#e94560;">Nueva orden recibida</h2>
+          <p><b>Código:</b> ${orderCode}</p>
+          <p><b>Cliente:</b> ${name}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Monto:</b> USD ${amount}</p>
+          <p><b>Producto:</b> ${product}</p>
+          <p><b>Idioma:</b> ${lang}</p>
+          <p><b>Estado:</b> ⏳ Pendiente</p>
+          <p><b>Link comprobante:</b> <a href="${uploadUrl}">${uploadUrl}</a></p>
+        </div>`
     });
 
-    res.json({ success: true, orderCode, message: 'Email enviado correctamente' });
+    res.json({ success: true, orderCode, uploadUrl, message: 'Email enviado correctamente' });
 
   } catch (err) {
     console.error('Error creating order:', err);

@@ -1,169 +1,165 @@
-function getBankData() {
-  return {
-    cbu: process.env.CBU || '0000000000000000000000',
-    alias: process.env.ALIAS || 'VINY.2030.PAGOS',
-    titular: process.env.TITULAR || 'Viny 2030 S.A.',
-    banco: process.env.BANCO || 'Banco Galicia'
+// utils/emailTemplates.js — Plantillas en 5 idiomas con datos de pago completos
+
+function getEmailTemplate(lang, data) {
+  const {
+    nombre, monto, orderCode,
+    cbu, alias, titular, banco,
+    cbuDolares, aliasDolares,
+    swift, bancoInternacional, cuentaInternacional, direccionBeneficiario,
+    uploadUrl
+  } = data;
+
+  // Bloque de datos bancarios completo (pesos + dólares + internacional)
+  const bankBlockES = `
+    <div style="background:#f0f4ff;border-left:4px solid #e94560;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">💳 Transferencia en PESOS (ARS)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">Banco:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${banco}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Titular:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">CBU:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;font-size:14px;letter-spacing:1px;">${cbu}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Alias:</td><td style="padding:6px 0;font-weight:bold;color:#e94560;font-size:18px;">${alias}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Monto:</td><td style="padding:6px 0;font-weight:bold;color:#333;font-size:20px;">USD ${monto}</td></tr>
+      </table>
+    </div>
+    <div style="background:#f0fff4;border-left:4px solid #22c55e;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">💵 Transferencia en DÓLARES (USD)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">Banco:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${banco}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Titular:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">CBU:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;font-size:14px;letter-spacing:1px;">${cbuDolares}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Alias:</td><td style="padding:6px 0;font-weight:bold;color:#22c55e;font-size:18px;">${aliasDolares}</td></tr>
+      </table>
+    </div>
+    <div style="background:#fff8e1;border-left:4px solid #f59e0b;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">🌍 Transferencia Internacional (SWIFT)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">SWIFT:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;letter-spacing:2px;">${swift}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Banco:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${bancoInternacional}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Cuenta:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${cuentaInternacional}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Titular:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Dirección:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${direccionBeneficiario}</td></tr>
+      </table>
+    </div>`;
+
+  const bankBlockEN = `
+    <div style="background:#f0f4ff;border-left:4px solid #e94560;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">💳 Transfer in PESOS (ARS)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">Bank:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${banco}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Account holder:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">CBU:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;font-size:14px;letter-spacing:1px;">${cbu}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Alias:</td><td style="padding:6px 0;font-weight:bold;color:#e94560;font-size:18px;">${alias}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Amount:</td><td style="padding:6px 0;font-weight:bold;color:#333;font-size:20px;">USD ${monto}</td></tr>
+      </table>
+    </div>
+    <div style="background:#f0fff4;border-left:4px solid #22c55e;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">💵 Transfer in USD</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">Bank:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${banco}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Account holder:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">CBU:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;font-size:14px;letter-spacing:1px;">${cbuDolares}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Alias:</td><td style="padding:6px 0;font-weight:bold;color:#22c55e;font-size:18px;">${aliasDolares}</td></tr>
+      </table>
+    </div>
+    <div style="background:#fff8e1;border-left:4px solid #f59e0b;padding:20px;border-radius:5px;margin:20px 0;">
+      <h3 style="margin:0 0 15px;color:#1a1a2e;">🌍 International Wire Transfer (SWIFT)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:#666;width:40%;">SWIFT:</td><td style="padding:6px 0;font-weight:bold;color:#1a1a2e;letter-spacing:2px;">${swift}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Bank:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${bancoInternacional}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Account:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${cuentaInternacional}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Beneficiary:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${titular}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Address:</td><td style="padding:6px 0;font-weight:bold;color:#333;">${direccionBeneficiario}</td></tr>
+      </table>
+    </div>`;
+
+  const codeBadge = (txt) => `
+    <div style="background:rgba(233,69,96,0.1);border:1px solid #e94560;border-radius:8px;padding:12px 18px;text-align:center;margin:20px 0;">
+      <p style="margin:0;color:#e94560;font-size:11px;letter-spacing:2px;text-transform:uppercase;">${txt}</p>
+      <p style="margin:6px 0 0;color:#e94560;font-size:22px;font-weight:bold;letter-spacing:3px;">${orderCode}</p>
+    </div>`;
+
+  const uploadBtn = (txt) => `
+    <div style="text-align:center;margin:25px 0;">
+      <a href="${uploadUrl}" style="background:#e94560;color:white;padding:14px 30px;text-decoration:none;border-radius:6px;font-size:16px;font-weight:bold;display:inline-block;">
+        📤 ${txt}
+      </a>
+    </div>`;
+
+  const footer = (txt) => `<p style="color:#999;font-size:12px;text-align:center;margin-top:30px;">${txt}</p>`;
+
+  const wrap = (body) => `
+    <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;background:#f9f9f9;padding:20px;">
+      <div style="background:#1a1a2e;padding:30px;border-radius:10px 10px 0 0;text-align:center;">
+        <h1 style="color:#e94560;margin:0;font-size:28px;">VINY 2030</h1>
+        <p style="color:#aaa;margin:5px 0 0;font-size:13px;letter-spacing:2px;">DIAGNÓSTICO ALGORÍTMICO</p>
+      </div>
+      <div style="background:white;padding:30px;border-radius:0 0 10px 10px;">${body}</div>
+    </div>`;
+
+  const templates = {
+    es: {
+      subject: `✅ Datos de pago — Pedido ${orderCode}`,
+      html: wrap(`
+        <p style="font-size:16px;color:#333;">Hola <strong>${nombre}</strong>,</p>
+        <p style="color:#555;margin:10px 0 20px;">Gracias por tu pedido. A continuación encontrás <strong>todas las opciones de pago</strong>:</p>
+        ${bankBlockES}
+        ${codeBadge('Tu código de pedido')}
+        <p style="color:#666;font-size:13px;text-align:center;">Guardá este código — lo necesitás para subir el comprobante.</p>
+        ${uploadBtn('Subir comprobante de pago')}
+        ${footer('viny2030.com.ar · Ante cualquier consulta respondé este email.')}
+      `)
+    },
+    en: {
+      subject: `✅ Payment details — Order ${orderCode}`,
+      html: wrap(`
+        <p style="font-size:16px;color:#333;">Hello <strong>${nombre}</strong>,</p>
+        <p style="color:#555;margin:10px 0 20px;">Thank you for your order. Here are <strong>all payment options</strong>:</p>
+        ${bankBlockEN}
+        ${codeBadge('Your order code')}
+        <p style="color:#666;font-size:13px;text-align:center;">Save this code — you'll need it to upload your receipt.</p>
+        ${uploadBtn('Upload payment receipt')}
+        ${footer('viny2030.com.ar · For any questions, reply to this email.')}
+      `)
+    },
+    fr: {
+      subject: `✅ Détails de paiement — Commande ${orderCode}`,
+      html: wrap(`
+        <p style="font-size:16px;color:#333;">Bonjour <strong>${nombre}</strong>,</p>
+        <p style="color:#555;margin:10px 0 20px;">Merci pour votre commande. Voici <strong>toutes les options de paiement</strong> :</p>
+        ${bankBlockES.replace('PESOS (ARS)','PESOS (ARS)').replace('Banco:','Banque :').replace('Titular:','Titulaire :').replace('Monto:','Montant :')}
+        ${codeBadge('Votre code de commande')}
+        <p style="color:#666;font-size:13px;text-align:center;">Conservez ce code — vous en aurez besoin pour envoyer le justificatif.</p>
+        ${uploadBtn('Envoyer le justificatif')}
+        ${footer('viny2030.com.ar · Pour toute question, répondez à cet email.')}
+      `)
+    },
+    de: {
+      subject: `✅ Zahlungsdaten — Bestellung ${orderCode}`,
+      html: wrap(`
+        <p style="font-size:16px;color:#333;">Hallo <strong>${nombre}</strong>,</p>
+        <p style="color:#555;margin:10px 0 20px;">Vielen Dank für Ihre Bestellung. Hier sind <strong>alle Zahlungsoptionen</strong>:</p>
+        ${bankBlockES.replace('Titular:','Inhaber :').replace('Monto:','Betrag :')}
+        ${codeBadge('Ihr Bestellcode')}
+        <p style="color:#666;font-size:13px;text-align:center;">Bewahren Sie diesen Code auf — Sie benötigen ihn für den Zahlungsbeleg.</p>
+        ${uploadBtn('Zahlungsbeleg hochladen')}
+        ${footer('viny2030.com.ar · Bei Fragen antworten Sie auf diese E-Mail.')}
+      `)
+    },
+    it: {
+      subject: `✅ Dati di pagamento — Ordine ${orderCode}`,
+      html: wrap(`
+        <p style="font-size:16px;color:#333;">Ciao <strong>${nombre}</strong>,</p>
+        <p style="color:#555;margin:10px 0 20px;">Grazie per il tuo ordine. Di seguito trovi <strong>tutte le opzioni di pagamento</strong>:</p>
+        ${bankBlockES.replace('Titular:','Intestatario :').replace('Monto:','Importo :')}
+        ${codeBadge('Il tuo codice ordine')}
+        <p style="color:#666;font-size:13px;text-align:center;">Salva questo codice — ti servirà per caricare la ricevuta.</p>
+        ${uploadBtn('Carica la ricevuta di pagamento')}
+        ${footer('viny2030.com.ar · Per qualsiasi domanda, rispondi a questa email.')}
+      `)
+    }
   };
+
+  return templates[lang] || templates['es'];
 }
 
-const translations = {
-  es: {
-    subject: (code) => `✅ Orden ${code} – Datos de pago | Viny 2030`,
-    greeting: (name) => `Hola ${name},`,
-    intro: 'Gracias por tu pedido. A continuación encontrás los datos para realizar la transferencia bancaria:',
-    paymentTitle: '💳 DATOS DE PAGO',
-    labels: { bank: 'Banco', titular: 'Titular', cbu: 'CBU', alias: 'Alias', amount: 'Monto a transferir', code: 'Código de orden' },
-    upload: 'Una vez realizado el pago, subí tu comprobante en:',
-    uploadBtn: 'Subir comprobante',
-    deadline: '⚠️ Tenés 48 horas para completar el pago.',
-    footer: 'Si tenés alguna consulta, respondé este email.',
-    thanks: '¡Gracias por confiar en Viny 2030!'
-  },
-  en: {
-    subject: (code) => `✅ Order ${code} – Payment details | Viny 2030`,
-    greeting: (name) => `Hello ${name},`,
-    intro: 'Thank you for your order. Below you will find the bank transfer details:',
-    paymentTitle: '💳 PAYMENT DETAILS',
-    labels: { bank: 'Bank', titular: 'Account holder', cbu: 'CBU', alias: 'Alias', amount: 'Amount to transfer', code: 'Order code' },
-    upload: 'Once payment is done, upload your receipt at:',
-    uploadBtn: 'Upload receipt',
-    deadline: '⚠️ You have 48 hours to complete the payment.',
-    footer: 'If you have any questions, reply to this email.',
-    thanks: 'Thank you for choosing Viny 2030!'
-  },
-  fr: {
-    subject: (code) => `✅ Commande ${code} – Détails de paiement | Viny 2030`,
-    greeting: (name) => `Bonjour ${name},`,
-    intro: 'Merci pour votre commande. Voici les coordonnées bancaires pour effectuer le virement :',
-    paymentTitle: '💳 DÉTAILS DE PAIEMENT',
-    labels: { bank: 'Banque', titular: 'Titulaire', cbu: 'CBU', alias: 'Alias', amount: 'Montant à transférer', code: 'Code de commande' },
-    upload: 'Une fois le paiement effectué, téléchargez votre reçu ici :',
-    uploadBtn: 'Télécharger le reçu',
-    deadline: '⚠️ Vous avez 48 heures pour finaliser le paiement.',
-    footer: 'Pour toute question, répondez à cet email.',
-    thanks: 'Merci de faire confiance à Viny 2030 !'
-  },
-  de: {
-    subject: (code) => `✅ Bestellung ${code} – Zahlungsdaten | Viny 2030`,
-    greeting: (name) => `Hallo ${name},`,
-    intro: 'Vielen Dank für Ihre Bestellung. Hier sind die Bankdaten für die Überweisung:',
-    paymentTitle: '💳 ZAHLUNGSDATEN',
-    labels: { bank: 'Bank', titular: 'Kontoinhaber', cbu: 'CBU', alias: 'Alias', amount: 'Zu überweisender Betrag', code: 'Bestellcode' },
-    upload: 'Nach der Zahlung laden Sie Ihren Beleg hier hoch:',
-    uploadBtn: 'Beleg hochladen',
-    deadline: '⚠️ Sie haben 48 Stunden, um die Zahlung abzuschließen.',
-    footer: 'Bei Fragen antworten Sie auf diese E-Mail.',
-    thanks: 'Vielen Dank, dass Sie Viny 2030 gewählt haben!'
-  },
-  it: {
-    subject: (code) => `✅ Ordine ${code} – Dati di pagamento | Viny 2030`,
-    greeting: (name) => `Ciao ${name},`,
-    intro: 'Grazie per il tuo ordine. Di seguito trovi i dati bancari per effettuare il bonifico:',
-    paymentTitle: '💳 DATI DI PAGAMENTO',
-    labels: { bank: 'Banca', titular: 'Intestatario', cbu: 'CBU', alias: 'Alias', amount: 'Importo da trasferire', code: 'Codice ordine' },
-    upload: 'Una volta effettuato il pagamento, carica la ricevuta qui:',
-    uploadBtn: 'Carica ricevuta',
-    deadline: '⚠️ Hai 48 ore per completare il pagamento.',
-    footer: 'Per qualsiasi domanda, rispondi a questa email.',
-    thanks: 'Grazie per aver scelto Viny 2030!'
-  }
-};
-
-function generatePaymentEmail({ name, email, amount, orderCode, lang = 'es', uploadUrl }) {
-  const BANK_DATA = getBankData();
-  const t = translations[lang] || translations.es;
-  const l = t.labels;
-
-  const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; font-family: 'Georgia', serif; color: #e8e0d0; }
-    .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-    .header { text-align: center; padding: 40px 0 30px; border-bottom: 1px solid #2a2a2a; }
-    .logo { font-size: 32px; font-weight: 900; letter-spacing: 8px; color: #c9a84c; text-transform: uppercase; }
-    .logo-sub { font-size: 11px; letter-spacing: 4px; color: #666; margin-top: 4px; text-transform: uppercase; }
-    .greeting { padding: 32px 0 16px; font-size: 18px; color: #e8e0d0; }
-    .intro { font-size: 15px; color: #aaa; line-height: 1.6; padding-bottom: 28px; }
-    .payment-card { background: #111; border: 1px solid #2a2a2a; border-radius: 12px; padding: 28px; margin: 8px 0 28px; }
-    .payment-title { font-size: 12px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; margin-bottom: 20px; }
-    .payment-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
-    .payment-row:last-child { border-bottom: none; }
-    .payment-label { font-size: 11px; letter-spacing: 2px; color: #666; text-transform: uppercase; }
-    .payment-value { font-size: 15px; color: #e8e0d0; font-weight: 600; }
-    .payment-value.highlight { color: #c9a84c; font-size: 18px; }
-    .code-box { background: #1a1a1a; border: 1px dashed #c9a84c; border-radius: 8px; padding: 16px; text-align: center; margin: 8px 0 28px; }
-    .code-label { font-size: 10px; letter-spacing: 3px; color: #666; text-transform: uppercase; margin-bottom: 8px; }
-    .code-value { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #c9a84c; font-family: monospace; }
-    .upload-section { background: #0d1a0d; border: 1px solid #1a3a1a; border-radius: 12px; padding: 24px; margin: 8px 0 28px; text-align: center; }
-    .upload-text { font-size: 14px; color: #aaa; margin-bottom: 16px; }
-    .upload-btn { display: inline-block; background: #c9a84c; color: #0a0a0a; text-decoration: none; font-weight: 900; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 32px; border-radius: 6px; }
-    .deadline { background: #1a0d00; border-left: 3px solid #c9a84c; padding: 12px 16px; font-size: 13px; color: #c9a84c; margin: 0 0 28px; border-radius: 0 6px 6px 0; }
-    .footer { border-top: 1px solid #1e1e1e; padding-top: 24px; text-align: center; }
-    .footer-text { font-size: 13px; color: #555; line-height: 1.8; }
-    .footer-thanks { font-size: 16px; color: #c9a84c; margin-top: 12px; font-style: italic; }
-  </style>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="header">
-      <div class="logo">VINY 2030</div>
-      <div class="logo-sub">Argentina · Premium</div>
-    </div>
-
-    <div class="greeting">${t.greeting(name)}</div>
-    <div class="intro">${t.intro}</div>
-
-    <div class="code-box">
-      <div class="code-label">${l.code}</div>
-      <div class="code-value">${orderCode}</div>
-    </div>
-
-    <div class="payment-card">
-      <div class="payment-title">${t.paymentTitle}</div>
-      <div class="payment-row">
-        <span class="payment-label">${l.bank}</span>
-        <span class="payment-value">${BANK_DATA.banco}</span>
-      </div>
-      <div class="payment-row">
-        <span class="payment-label">${l.titular}</span>
-        <span class="payment-value">${BANK_DATA.titular}</span>
-      </div>
-      <div class="payment-row">
-        <span class="payment-label">${l.cbu}</span>
-        <span class="payment-value">${BANK_DATA.cbu}</span>
-      </div>
-      <div class="payment-row">
-        <span class="payment-label">${l.alias}</span>
-        <span class="payment-value">${BANK_DATA.alias}</span>
-      </div>
-      <div class="payment-row">
-        <span class="payment-label">${l.amount}</span>
-        <span class="payment-value highlight">$${Number(amount).toLocaleString('es-AR')}</span>
-      </div>
-    </div>
-
-    <div class="upload-section">
-      <div class="upload-text">${t.upload}</div>
-      <a href="${uploadUrl}" class="upload-btn">${t.uploadBtn}</a>
-    </div>
-
-    <div class="deadline">${t.deadline}</div>
-
-    <div class="footer">
-      <div class="footer-text">${t.footer}</div>
-      <div class="footer-thanks">${t.thanks}</div>
-    </div>
-  </div>
-</body>
-</html>`;
-
-  return { subject: t.subject(orderCode), html };
-}
-
-module.exports = { generatePaymentEmail };
+module.exports = { getEmailTemplate };
