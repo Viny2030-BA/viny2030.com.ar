@@ -733,7 +733,7 @@ async function enviarFormulario() {
 
     try {
         // 1. Enviar al backend → genera código VNY y envía email
-        const res = await fetch('/api/orders', {
+        const res = await fetch('https://www.viny2030.com.ar/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
