@@ -36,7 +36,6 @@
                 radial-gradient(ellipse at 80% 20%, rgba(10,157,110,0.06) 0%, transparent 60%);
         }
 
-        /* Subtle top border */
         body::before {
             content: '';
             position: fixed;
@@ -46,12 +45,8 @@
             z-index: 100;
         }
 
-        .container {
-            width: 100%;
-            max-width: 680px;
-        }
+        .container { width: 100%; max-width: 680px; }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -76,7 +71,6 @@
             letter-spacing: 2px;
         }
 
-        /* Lang selector */
         .lang-bar {
             display: flex;
             justify-content: center;
@@ -104,7 +98,6 @@
             background: rgba(0,212,255,0.05);
         }
 
-        /* Form card */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -134,12 +127,7 @@
             margin-bottom: 24px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
 
         label {
@@ -168,16 +156,9 @@
         }
 
         select option { background: var(--surface); }
-
         textarea { resize: vertical; min-height: 80px; }
 
-        /* Radio group */
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 4px;
-        }
+        .radio-group { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 
         .radio-option {
             display: flex;
@@ -191,60 +172,34 @@
             background: var(--input-bg);
         }
 
-        .radio-option:hover {
-            border-color: var(--accent);
-            background: rgba(26,111,181,0.04);
-        }
+        .radio-option:hover { border-color: var(--accent); background: rgba(26,111,181,0.04); }
 
-        /* Círculo visual custom */
         .radio-circle {
-            width: 18px;
-            height: 18px;
+            width: 18px; height: 18px;
             border-radius: 50%;
             border: 2px solid var(--border);
             flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
             background: white;
         }
 
         .radio-circle::after {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
             background: var(--accent);
             opacity: 0;
             transition: opacity 0.2s;
         }
 
-        .radio-option input[type="radio"] {
-            display: none;
-        }
-
-        .radio-option input[type="radio"]:checked ~ .radio-circle {
-            border-color: var(--accent);
-        }
-
-        .radio-option input[type="radio"]:checked ~ .radio-circle::after {
-            opacity: 1;
-        }
-
-        .radio-option:has(input:checked) {
-            border-color: var(--accent);
-            background: rgba(26,111,181,0.06);
-        }
-
-        .radio-option:has(input:checked) .radio-text {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
+        .radio-option input[type="radio"] { display: none; }
+        .radio-option input[type="radio"]:checked ~ .radio-circle { border-color: var(--accent); }
+        .radio-option input[type="radio"]:checked ~ .radio-circle::after { opacity: 1; }
+        .radio-option:has(input:checked) { border-color: var(--accent); background: rgba(26,111,181,0.06); }
+        .radio-option:has(input:checked) .radio-text { color: var(--accent); font-weight: bold; }
         .radio-text { font-size: 0.82em; line-height: 1.4; color: var(--text); }
 
-        /* NDA */
         .nda-box {
             background: var(--input-bg);
             border: 1px solid var(--border);
@@ -259,12 +214,7 @@
 
         .nda-box strong { color: var(--text); }
 
-        .checkbox-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-top: 16px;
-        }
+        .checkbox-row { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; }
 
         .checkbox-row input[type="checkbox"] {
             width: auto;
@@ -282,14 +232,8 @@
 
         .checkbox-label strong { color: var(--accent2); }
 
-        /* Divider */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 28px 0;
-        }
+        .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
 
-        /* Submit */
         .btn-submit {
             width: 100%;
             background: transparent;
@@ -318,24 +262,29 @@
         }
 
         .btn-submit:hover::before { left: 100%; }
+        .btn-submit:hover { background: rgba(0,212,255,0.08); box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-submit:hover {
-            background: rgba(0,212,255,0.08);
-            box-shadow: 0 0 20px rgba(0,212,255,0.2);
+        /* Error box */
+        .error-box {
+            display: none;
+            background: rgba(229,62,62,0.08);
+            border: 1px solid rgba(229,62,62,0.3);
+            border-radius: 4px;
+            padding: 14px 18px;
+            margin-top: 16px;
+            font-size: 0.8em;
+            color: var(--danger);
+            text-align: center;
         }
 
-        /* Success */
         .success {
             display: none;
             text-align: center;
             padding: 40px 20px;
         }
 
-        .success-icon {
-            font-size: 3em;
-            color: var(--accent2);
-            margin-bottom: 16px;
-        }
+        .success-icon { font-size: 3em; color: var(--accent2); margin-bottom: 16px; }
 
         .success h2 {
             font-family: 'Rajdhani', sans-serif;
@@ -345,9 +294,21 @@
             margin-bottom: 12px;
         }
 
+        .success-code {
+            font-size: 1.8em;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--accent);
+            font-family: monospace;
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
         .success p { color: var(--muted); font-size: 0.85em; line-height: 1.7; }
 
-        /* Footer */
         .footer {
             text-align: center;
             margin-top: 24px;
@@ -357,7 +318,6 @@
             animation: fadeUp 0.6s ease 0.4s both;
         }
 
-        /* Animations */
         @keyframes fadeDown {
             from { opacity: 0; transform: translateY(-16px); }
             to { opacity: 1; transform: translateY(0); }
@@ -395,7 +355,6 @@
     <div class="card">
         <div id="form-section">
 
-            <!-- BLOQUE 1: DATOS PERSONALES -->
             <div class="section-title" id="lbl-block1">DATOS DE CONTACTO</div>
             <div class="form-grid">
                 <div class="form-group">
@@ -426,7 +385,6 @@
 
             <hr class="divider">
 
-            <!-- BLOQUE 2: INTENCIÓN -->
             <div class="section-title" id="lbl-block2">¿QUÉ TE TRAJO HASTA ACÁ?</div>
             <div class="form-group full" style="margin-bottom: 24px;">
                 <div class="radio-group" id="radio-group">
@@ -455,7 +413,6 @@
 
             <hr class="divider">
 
-            <!-- BLOQUE 3: NDA -->
             <div class="section-title" id="lbl-block3">ACUERDO DE CONFIDENCIALIDAD</div>
 
             <div class="nda-box" id="nda-text">
@@ -500,18 +457,17 @@
                 INICIAR DIAGNÓSTICO → USD 10
             </button>
 
+            <div class="error-box" id="error-box"></div>
+
         </div>
 
         <!-- SUCCESS STATE -->
         <div class="success" id="success-section">
             <div class="success-icon">✓</div>
             <h2 id="success-title">REGISTRO COMPLETADO</h2>
+            <div class="success-code" id="success-code"></div>
             <p id="success-msg">
-                Recibimos tu solicitud. En las próximas <strong>24 horas</strong> 
-                te enviaremos al email registrado los datos de pago para activar 
-                tu diagnóstico algorítmico.<br><br>
-                <span style="color: var(--accent);">Código provisional generado.</span><br>
-                Revisá tu bandeja de entrada.
+                Revisá tu bandeja de entrada con los datos de pago.
             </p>
         </div>
 
@@ -524,13 +480,12 @@
 </div>
 
 <script>
-// Language strings
+const API_URL = 'https://www.viny2030.com.ar/api/orders';
+
 const langs = {
     es: {
         tagline: 'MOTOR DE DECISIONES PARA TU NEGOCIO',
-        block1: 'DATOS DE CONTACTO',
-        block2: '¿QUÉ TE TRAJO HASTA ACÁ?',
-        block3: 'ACUERDO DE CONFIDENCIALIDAD',
+        block1: 'DATOS DE CONTACTO', block2: '¿QUÉ TE TRAJO HASTA ACÁ?', block3: 'ACUERDO DE CONFIDENCIALIDAD',
         nombre: 'NOMBRE', apellido: 'APELLIDO', email: 'EMAIL',
         pais: 'PAÍS', telefono: 'TELÉFONO (opcional)', empresa: 'EMPRESA / ORGANIZACIÓN',
         optA: 'Tengo datos pero no sé qué hacer con ellos',
@@ -541,18 +496,22 @@ const langs = {
         ndaBody: 'Al completar este formulario, el solicitante declara que toda la información provista es verídica y de su propiedad o tiene autorización para compartirla.',
         ndaList: ['Tratar toda la información con estricta confidencialidad.','Usar los datos exclusivamente para el diagnóstico contratado.','No compartir, vender ni transferir información a terceros.','Conservar los datos por un máximo de 90 días tras la entrega del diagnóstico.'],
         ndaFinal: 'Este acuerdo aplica a todas las fases del servicio.',
+        ndaCommit: 'se compromete a',
         firmaNombre: 'NOMBRE (firma)', firmaApellido: 'APELLIDO (firma)', fecha: 'FECHA',
         acepto: 'Leí y acepto el <strong>Acuerdo de Confidencialidad</strong> de Viny2030. Entiendo que mis datos serán tratados con estricta reserva y utilizados únicamente para el diagnóstico algorítmico contratado.',
         btn: 'INICIAR DIAGNÓSTICO → USD 10',
         successTitle: 'REGISTRO COMPLETADO',
-        successMsg: 'Recibimos tu solicitud. En las próximas <strong>24 horas</strong> te enviaremos al email registrado los datos de pago para activar tu diagnóstico algorítmico.<br><br><span style="color: var(--accent);">Código provisional generado.</span><br>Revisá tu bandeja de entrada.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL'
+        successMsg: 'Recibimos tu solicitud. Revisá tu bandeja de entrada — te enviamos los <strong>datos de pago completos</strong> y tu código único para el seguimiento.',
+        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL',
+        errorRequired: 'Por favor completá todos los campos obligatorios.',
+        errorOption: 'Por favor seleccioná una opción.',
+        errorNda: 'Debés aceptar el acuerdo de confidencialidad.',
+        errorServer: 'Error al procesar. Intentá de nuevo.',
+        sending: 'ENVIANDO...'
     },
     en: {
         tagline: 'DECISION ENGINE FOR YOUR BUSINESS',
-        block1: 'CONTACT INFORMATION',
-        block2: 'WHAT BROUGHT YOU HERE?',
-        block3: 'CONFIDENTIALITY AGREEMENT',
+        block1: 'CONTACT INFORMATION', block2: 'WHAT BROUGHT YOU HERE?', block3: 'CONFIDENTIALITY AGREEMENT',
         nombre: 'FIRST NAME', apellido: 'LAST NAME', email: 'EMAIL',
         pais: 'COUNTRY', telefono: 'PHONE (optional)', empresa: 'COMPANY / ORGANIZATION',
         optA: 'I have data but don\'t know what to do with it',
@@ -563,18 +522,22 @@ const langs = {
         ndaBody: 'By completing this form, the applicant declares that all information provided is truthful and owned by them or they have authorization to share it.',
         ndaList: ['Treat all information with strict confidentiality.','Use the data exclusively for the contracted diagnosis.','Not share, sell or transfer information to third parties.','Retain data for a maximum of 90 days after diagnosis delivery.'],
         ndaFinal: 'This agreement applies to all phases of the service.',
+        ndaCommit: 'commits to',
         firmaNombre: 'FIRST NAME (signature)', firmaApellido: 'LAST NAME (signature)', fecha: 'DATE',
         acepto: 'I have read and accept the <strong>Confidentiality Agreement</strong> of Viny2030. I understand that my data will be treated with strict confidentiality and used solely for the contracted algorithmic diagnosis.',
         btn: 'START DIAGNOSIS → USD 10',
         successTitle: 'REGISTRATION COMPLETE',
-        successMsg: 'We received your request. Within the next <strong>24 hours</strong> we will send payment details to your registered email to activate your algorithmic diagnosis.<br><br><span style="color: var(--accent);">Provisional code generated.</span><br>Check your inbox.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENTIAL'
+        successMsg: 'We received your request. Check your inbox — we sent you the <strong>complete payment details</strong> and your unique tracking code.',
+        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENTIAL',
+        errorRequired: 'Please complete all required fields.',
+        errorOption: 'Please select an option.',
+        errorNda: 'You must accept the confidentiality agreement.',
+        errorServer: 'Processing error. Please try again.',
+        sending: 'SENDING...'
     },
     fr: {
         tagline: 'MOTEUR DE DÉCISION POUR VOTRE ENTREPRISE',
-        block1: 'COORDONNÉES',
-        block2: 'QU\'EST-CE QUI VOUS A AMENÉ ICI?',
-        block3: 'ACCORD DE CONFIDENTIALITÉ',
+        block1: 'COORDONNÉES', block2: 'QU\'EST-CE QUI VOUS A AMENÉ ICI?', block3: 'ACCORD DE CONFIDENTIALITÉ',
         nombre: 'PRÉNOM', apellido: 'NOM', email: 'EMAIL',
         pais: 'PAYS', telefono: 'TÉLÉPHONE (optionnel)', empresa: 'ENTREPRISE / ORGANISATION',
         optA: 'J\'ai des données mais je ne sais pas quoi en faire',
@@ -582,21 +545,25 @@ const langs = {
         optC: 'Je veux savoir si l\'IA s\'applique à mon entreprise',
         optD: 'On m\'a recommandé ce service',
         ndaTitle: 'Déclaration de Confidentialité — Viny2030',
-        ndaBody: 'En remplissant ce formulaire, le demandeur déclare que toutes les informations fournies sont véridiques et lui appartiennent ou qu\'il est autorisé à les partager.',
+        ndaBody: 'En remplissant ce formulaire, le demandeur déclare que toutes les informations fournies sont véridiques.',
         ndaList: ['Traiter toutes les informations avec une stricte confidentialité.','Utiliser les données exclusivement pour le diagnostic contracté.','Ne pas partager, vendre ou transférer des informations à des tiers.','Conserver les données pendant 90 jours maximum après la livraison du diagnostic.'],
         ndaFinal: 'Cet accord s\'applique à toutes les phases du service.',
+        ndaCommit: 's\'engage à',
         firmaNombre: 'PRÉNOM (signature)', firmaApellido: 'NOM (signature)', fecha: 'DATE',
-        acepto: 'J\'ai lu et j\'accepte l\'<strong>Accord de Confidentialité</strong> de Viny2030. Je comprends que mes données seront traitées avec une stricte confidentialité et utilisées uniquement pour le diagnostic algorithmique contracté.',
+        acepto: 'J\'ai lu et j\'accepte l\'<strong>Accord de Confidentialité</strong> de Viny2030.',
         btn: 'DÉMARRER LE DIAGNOSTIC → USD 10',
         successTitle: 'INSCRIPTION COMPLÈTE',
-        successMsg: 'Nous avons reçu votre demande. Dans les prochaines <strong>24 heures</strong> nous vous enverrons les détails de paiement à votre email enregistré.<br><br><span style="color: var(--accent);">Code provisoire généré.</span><br>Vérifiez votre boîte de réception.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINE — CONFIDENTIEL'
+        successMsg: 'Nous avons reçu votre demande. Vérifiez votre boîte de réception pour les <strong>détails de paiement</strong> et votre code unique.',
+        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINE — CONFIDENTIEL',
+        errorRequired: 'Veuillez remplir tous les champs obligatoires.',
+        errorOption: 'Veuillez sélectionner une option.',
+        errorNda: 'Vous devez accepter l\'accord de confidentialité.',
+        errorServer: 'Erreur de traitement. Veuillez réessayer.',
+        sending: 'ENVOI...'
     },
     de: {
         tagline: 'ENTSCHEIDUNGSMOTOR FÜR IHR UNTERNEHMEN',
-        block1: 'KONTAKTDATEN',
-        block2: 'WAS HAT SIE HIERHER GEBRACHT?',
-        block3: 'VERTRAULICHKEITSVEREINBARUNG',
+        block1: 'KONTAKTDATEN', block2: 'WAS HAT SIE HIERHER GEBRACHT?', block3: 'VERTRAULICHKEITSVEREINBARUNG',
         nombre: 'VORNAME', apellido: 'NACHNAME', email: 'E-MAIL',
         pais: 'LAND', telefono: 'TELEFON (optional)', empresa: 'UNTERNEHMEN / ORGANISATION',
         optA: 'Ich habe Daten, weiß aber nicht, was ich damit machen soll',
@@ -604,21 +571,25 @@ const langs = {
         optC: 'Ich möchte wissen, ob KI für mein Unternehmen geeignet ist',
         optD: 'Mir wurde dieser Service empfohlen',
         ndaTitle: 'Vertraulichkeitserklärung — Viny2030',
-        ndaBody: 'Mit dem Ausfüllen dieses Formulars erklärt der Antragsteller, dass alle bereitgestellten Informationen wahrheitsgemäß sind und ihm gehören oder er berechtigt ist, sie zu teilen.',
+        ndaBody: 'Mit dem Ausfüllen dieses Formulars erklärt der Antragsteller, dass alle bereitgestellten Informationen wahrheitsgemäß sind.',
         ndaList: ['Alle Informationen streng vertraulich behandeln.','Die Daten ausschließlich für die beauftragte Diagnose verwenden.','Informationen nicht an Dritte weitergeben, verkaufen oder übertragen.','Daten maximal 90 Tage nach Lieferung der Diagnose aufbewahren.'],
         ndaFinal: 'Diese Vereinbarung gilt für alle Phasen des Dienstes.',
+        ndaCommit: 'verpflichtet sich',
         firmaNombre: 'VORNAME (Unterschrift)', firmaApellido: 'NACHNAME (Unterschrift)', fecha: 'DATUM',
-        acepto: 'Ich habe die <strong>Vertraulichkeitsvereinbarung</strong> von Viny2030 gelesen und akzeptiere sie. Ich verstehe, dass meine Daten streng vertraulich behandelt und ausschließlich für die beauftragte algorithmische Diagnose verwendet werden.',
+        acepto: 'Ich habe die <strong>Vertraulichkeitsvereinbarung</strong> von Viny2030 gelesen und akzeptiere sie.',
         btn: 'DIAGNOSE STARTEN → USD 10',
         successTitle: 'REGISTRIERUNG ABGESCHLOSSEN',
-        successMsg: 'Wir haben Ihre Anfrage erhalten. Innerhalb der nächsten <strong>24 Stunden</strong> senden wir Ihnen die Zahlungsdetails an Ihre registrierte E-Mail.<br><br><span style="color: var(--accent);">Vorläufiger Code generiert.</span><br>Überprüfen Sie Ihren Posteingang.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINIEN — VERTRAULICH'
+        successMsg: 'Wir haben Ihre Anfrage erhalten. Überprüfen Sie Ihren Posteingang für die <strong>vollständigen Zahlungsdetails</strong> und Ihren Code.',
+        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINIEN — VERTRAULICH',
+        errorRequired: 'Bitte füllen Sie alle Pflichtfelder aus.',
+        errorOption: 'Bitte wählen Sie eine Option.',
+        errorNda: 'Sie müssen die Vertraulichkeitsvereinbarung akzeptieren.',
+        errorServer: 'Verarbeitungsfehler. Bitte versuchen Sie es erneut.',
+        sending: 'SENDEN...'
     },
     it: {
         tagline: 'MOTORE DECISIONALE PER LA TUA AZIENDA',
-        block1: 'DATI DI CONTATTO',
-        block2: 'COSA TI HA PORTATO QUI?',
-        block3: 'ACCORDO DI RISERVATEZZA',
+        block1: 'DATI DI CONTATTO', block2: 'COSA TI HA PORTATO QUI?', block3: 'ACCORDO DI RISERVATEZZA',
         nombre: 'NOME', apellido: 'COGNOME', email: 'EMAIL',
         pais: 'PAESE', telefono: 'TELEFONO (opzionale)', empresa: 'AZIENDA / ORGANIZZAZIONE',
         optA: 'Ho dati ma non so cosa farne',
@@ -626,15 +597,21 @@ const langs = {
         optC: 'Voglio sapere se l\'IA si applica alla mia azienda',
         optD: 'Mi è stato raccomandato questo servizio',
         ndaTitle: 'Dichiarazione di Riservatezza — Viny2030',
-        ndaBody: 'Compilando questo modulo, il richiedente dichiara che tutte le informazioni fornite sono veritiere e di sua proprietà o ha l\'autorizzazione a condividerle.',
+        ndaBody: 'Compilando questo modulo, il richiedente dichiara che tutte le informazioni fornite sono veritiere.',
         ndaList: ['Trattare tutte le informazioni con stretta riservatezza.','Utilizzare i dati esclusivamente per la diagnosi contrattata.','Non condividere, vendere o trasferire informazioni a terzi.','Conservare i dati per un massimo di 90 giorni dopo la consegna della diagnosi.'],
         ndaFinal: 'Questo accordo si applica a tutte le fasi del servizio.',
+        ndaCommit: 'si impegna a',
         firmaNombre: 'NOME (firma)', firmaApellido: 'COGNOME (firma)', fecha: 'DATA',
-        acepto: 'Ho letto e accetto l\'<strong>Accordo di Riservatezza</strong> di Viny2030. Capisco che i miei dati saranno trattati con stretta riservatezza e utilizzati esclusivamente per la diagnosi algoritmica contrattata.',
+        acepto: 'Ho letto e accetto l\'<strong>Accordo di Riservatezza</strong> di Viny2030.',
         btn: 'AVVIA DIAGNOSI → USD 10',
         successTitle: 'REGISTRAZIONE COMPLETATA',
-        successMsg: 'Abbiamo ricevuto la tua richiesta. Nelle prossime <strong>24 ore</strong> ti invieremo i dettagli di pagamento all\'email registrata.<br><br><span style="color: var(--accent);">Codice provvisorio generato.</span><br>Controlla la tua casella di posta.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — RISERVATO'
+        successMsg: 'Abbiamo ricevuto la tua richiesta. Controlla la tua casella di posta per i <strong>dettagli di pagamento</strong> e il tuo codice.',
+        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — RISERVATO',
+        errorRequired: 'Per favore compila tutti i campi obbligatori.',
+        errorOption: 'Per favore seleziona un\'opzione.',
+        errorNda: 'Devi accettare l\'accordo di riservatezza.',
+        errorServer: 'Errore di elaborazione. Riprova.',
+        sending: 'INVIO...'
     }
 };
 
@@ -667,25 +644,25 @@ function setLang(lang) {
     document.getElementById('btn-enviar').textContent = t.btn;
     document.getElementById('footer-text').textContent = t.footer;
 
-    // Update NDA
     document.getElementById('nda-text').innerHTML = `
         <strong>${t.ndaTitle}</strong><br><br>
         ${t.ndaBody}<br><br>
-        <strong>Viny2030</strong> ${lang === 'es' ? 'se compromete a' : lang === 'en' ? 'commits to' : lang === 'fr' ? 's\'engage à' : lang === 'de' ? 'verpflichtet sich' : 'si impegna a'}:<br>
+        <strong>Viny2030</strong> ${t.ndaCommit}:<br>
         ${t.ndaList.map(i => `• ${i}`).join('<br>')}<br><br>
         ${t.ndaFinal}
     `;
 
-    // Update date format
     const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    document.getElementById('fecha').value = new Date().toLocaleDateString(
-        lang === 'en' ? 'en-US' : lang === 'fr' ? 'fr-FR' : lang === 'de' ? 'de-DE' : lang === 'it' ? 'it-IT' : 'es-AR',
-        dateOptions
-    );
+    const localeMap = { es: 'es-AR', en: 'en-US', fr: 'fr-FR', de: 'de-DE', it: 'it-IT' };
+    document.getElementById('fecha').value = new Date().toLocaleDateString(localeMap[lang] || 'es-AR', dateOptions);
 }
 
-function enviarFormulario() {
+async function enviarFormulario() {
     const t = langs[currentLang];
+    const btn = document.getElementById('btn-enviar');
+    const errorBox = document.getElementById('error-box');
+    errorBox.style.display = 'none';
+
     const nombre = document.getElementById('nombre').value.trim();
     const apellido = document.getElementById('apellido').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -697,74 +674,66 @@ function enviarFormulario() {
     const intencion = document.querySelector('input[name="intencion"]:checked');
 
     if (!nombre || !apellido || !email || !pais || !empresa || !firmaNombre || !firmaApellido) {
-        alert(currentLang === 'es' ? 'Por favor completá todos los campos obligatorios.' :
-              currentLang === 'en' ? 'Please complete all required fields.' :
-              currentLang === 'fr' ? 'Veuillez remplir tous les champs obligatoires.' :
-              currentLang === 'de' ? 'Bitte füllen Sie alle Pflichtfelder aus.' :
-              'Per favore compila tutti i campi obbligatori.');
+        errorBox.textContent = t.errorRequired;
+        errorBox.style.display = 'block';
         return;
     }
-
     if (!intencion) {
-        alert(currentLang === 'es' ? 'Por favor seleccioná una opción.' :
-              currentLang === 'en' ? 'Please select an option.' :
-              currentLang === 'fr' ? 'Veuillez sélectionner une option.' :
-              currentLang === 'de' ? 'Bitte wählen Sie eine Option.' :
-              'Per favore seleziona un\'opzione.');
+        errorBox.textContent = t.errorOption;
+        errorBox.style.display = 'block';
         return;
     }
-
     if (!acepto) {
-        alert(currentLang === 'es' ? 'Debés aceptar el acuerdo de confidencialidad.' :
-              currentLang === 'en' ? 'You must accept the confidentiality agreement.' :
-              currentLang === 'fr' ? 'Vous devez accepter l\'accord de confidentialité.' :
-              currentLang === 'de' ? 'Sie müssen die Vertraulichkeitsvereinbarung akzeptieren.' :
-              'Devi accettare l\'accordo di riservatezza.');
+        errorBox.textContent = t.errorNda;
+        errorBox.style.display = 'block';
         return;
     }
 
-    // Enviar datos a Google Sheets
-    const payload = {
-        nombre: document.getElementById('nombre').value.trim(),
-        apellido: document.getElementById('apellido').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        pais: document.getElementById('pais').value.trim(),
-        telefono: document.getElementById('telefono').value.trim(),
-        empresa: document.getElementById('empresa').value.trim(),
-        intencion: intencion.value,
-        firmaNombre: document.getElementById('firma-nombre').value.trim(),
-        firmaApellido: document.getElementById('firma-apellido').value.trim(),
-        fecha: document.getElementById('fecha').value,
-        idioma: currentLang
-    };
+    btn.disabled = true;
+    btn.textContent = t.sending;
 
-    fetch('https://script.google.com/macros/s/AKfycbxUSFBRkHGtMbZf0O5DI-JR7gkvH1mmsbD1DxCLLEsFA78p4ifQAwO20RC6YXwspyfpgg/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
+    try {
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: `${nombre} ${apellido}`,
+                email: email,
+                lang: currentLang,
+                amount: 10,
+                product: `Diagnóstico Algorítmico — ${empresa} — Opción ${intencion.value} — ${pais}`
+            })
+        });
 
-    // Show success
-    document.getElementById('form-section').style.display = 'none';
-    const s = document.getElementById('success-section');
-    s.style.display = 'block';
-    document.getElementById('success-title').textContent = t.successTitle;
-    document.getElementById('success-msg').innerHTML = t.successMsg;
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('form-section').style.display = 'none';
+            const s = document.getElementById('success-section');
+            s.style.display = 'block';
+            document.getElementById('success-title').textContent = t.successTitle;
+            document.getElementById('success-code').textContent = data.orderCode;
+            document.getElementById('success-msg').innerHTML = t.successMsg;
+        } else {
+            throw new Error(data.error || t.errorServer);
+        }
+
+    } catch (err) {
+        errorBox.textContent = `❌ ${err.message || t.errorServer}`;
+        errorBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = t.btn;
+    }
 }
 
-// Set today's date
+// Init date and lang
 document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR', {
     day: '2-digit', month: '2-digit', year: 'numeric'
 });
 
-// Detect lang from URL parameter and initialize
 const urlLang = new URLSearchParams(window.location.search).get('lang');
-if (urlLang && langs[urlLang]) {
-    setLang(urlLang);
-} else {
-    setLang('es');
-}
+if (urlLang && langs[urlLang]) setLang(urlLang);
+else setLang('es');
 </script>
 
 </body>
