@@ -1,22 +1,18 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail({ to, subject, html, attachments }) {
-  const info = await transporter.sendMail({
-    from: `"Viny 2030" <${process.env.GMAIL_USER}>`,
-    to,
-    subject,
-    html,
-    attachments: attachments || []
-  });
-  return info;
+    const { data, error } = await resend.emails.send({
+          from: 'Viny 2030 <onboarding@resend.dev>',
+          to,
+          subject,
+          html,
+          attachments: attachments || []
+    });
+
+  if (error) throw new Error(error.message);
+    return data;
 }
 
 module.exports = { sendEmail };
