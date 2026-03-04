@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viny 2030 — Relato del problema</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #f0f0f0; font-family: 'Arial', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .container { width: 100%; max-width: 600px; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { color: #c9a84c; font-size: 32px; margin-bottom: 8px; }
+    .header p { color: #aaa; font-size: 14px; }
+    .order-badge { display: inline-block; background: #1a1a1a; border: 1px solid #c9a84c; color: #c9a84c; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-top: 8px; }
+    .card { background: #111; border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; color: #c9a84c; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    input[type="text"], input[type="date"], textarea, select {
+      width: 100%; background: #1a1a1a; border: 1px solid #333; color: #f0f0f0;
+      padding: 12px 15px; border-radius: 8px; font-size: 15px; transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #c9a84c; }
+    textarea { resize: vertical; min-height: 120px; }
+    select option { background: #1a1a1a; }
+    .urgencia-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .urgencia-btn { background: #1a1a1a; border: 2px solid #333; color: #aaa; padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s; font-size: 14px; }
+    .urgencia-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+    .urgencia-btn.active { border-color: #c9a84c; background: #1f1a0e; color: #c9a84c; font-weight: bold; }
+    .upload-area { border: 2px dashed #333; border-radius: 8px; padding: 30px; text-align: center; cursor: pointer; transition: border-color 0.2s; position: relative; }
+    .upload-area:hover { border-color: #c9a84c; }
+    .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { font-size: 36px; margin-bottom: 10px; }
+    .upload-text { color: #aaa; font-size: 14px; }
+    .upload-text span { color: #c9a84c; }
+    .file-list { margin-top: 15px; }
+    .file-item { display: flex; align-items: center; gap: 10px; background: #1a1a1a; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; }
+    .file-item .remove { color: #ff4444; cursor: pointer; margin-left: auto; font-size: 16px; }
+    .btn-submit { width: 100%; background: #c9a84c; color: #000; border: none; padding: 16px; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+    .btn-submit:hover { background: #e0bf6a; }
+    .btn-submit:disabled { background: #555; color: #888; cursor: not-allowed; }
+    .success { display: none; text-align: center; padding: 40px 20px; }
+    .success .icon { font-size: 60px; margin-bottom: 20px; }
+    .success h2 { color: #c9a84c; margin-bottom: 10px; }
+    .success p { color: #aaa; }
+    .error-msg { color: #ff4444; font-size: 13px; margin-top: 8px; display: none; }
+    .loading { display: none; text-align: center; padding: 20px; color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🍷 Viny 2030</h1>
+      <p>Formulario de consulta</p>
+      <div class="order-badge" id="orderBadge">Cargando...</div>
+    </div>
+
+    <div id="formSection">
+      <form id="relatoForm">
+        <div class="card">
+          <div class="form-group">
+            <label>Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label>Fecha del problema</label>
+            <input type="date" id="fechaProblema" required>
+          </div>
+          <div class="form-group">
+            <label>Nivel de urgencia</label>
+            <div class="urgencia-grid">
+              <div class="urgencia-btn" data-value="Baja" onclick="selectUrgencia(this)">🟢 Baja</div>
+              <div class="urgencia-btn active" data-value="Normal" onclick="selectUrgencia(this)">🟡 Normal</div>
+              <div class="urgencia-btn" data-value="Alta" onclick="selectUrgencia(this)">🔴 Alta</div>
+            </div>
+            <input type="hidden" id="urgencia" value="Normal">
+          </div>
+          <div class="form-group">
+            <label>Descripción del problema</label>
+            <textarea id="descripcion" placeholder="Describí detalladamente tu consulta o problema..." required></textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <label style="margin-bottom:15px;display:block;">Archivos adjuntos <span style="color:#666;font-weight:normal;">(fotos, videos, documentos — máx. 10 archivos)</span></label>
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="archivos" name="archivos" multiple accept="image/*,video/*,.pdf,.doc,.docx" onchange="handleFiles(this.files)">
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">Arrastrá archivos acá o <span>hacé clic para seleccionar</span></div>
+            <div class="upload-text" style="margin-top:5px;font-size:12px;">JPG, PNG, PDF, MP4, MOV — máx. 20MB por archivo</div>
+          </div>
+          <div class="file-list" id="fileList"></div>
+        </div>
+
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="loading" id="loading">⏳ Enviando tu consulta...</div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">
+          📤 Enviar consulta
+        </button>
+      </form>
+    </div>
+
+    <div class="success" id="successSection">
+      <div class="icon">✅</div>
+      <h2>¡Consulta enviada!</h2>
+      <p>Recibimos tu relato para la orden <strong id="successOrder" style="color:#c9a84c;"></strong>.</p>
+      <p style="margin-top:10px;">Nuestro equipo analizará tu caso y te responderemos a la brevedad.</p>
+    </div>
+  </div>
+
+  <script>
+    // Obtener parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const orderCode = params.get('orden') || '';
+    const emailParam = params.get('email') || '';
+
+    document.getElementById('orderBadge').textContent = orderCode || 'Sin código';
+    document.getElementById('successOrder').textContent = orderCode;
+
+    // Establecer fecha de hoy por defecto
+    document.getElementById('fechaProblema').valueAsDate = new Date();
+
+    let selectedFiles = [];
+
+    function selectUrgencia(el) {
+      document.querySelectorAll('.urgencia-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('urgencia').value = el.dataset.value;
+    }
+
+    function handleFiles(files) {
+      for (const file of files) {
+        if (selectedFiles.length >= 10) break;
+        if (!selectedFiles.find(f => f.name === file.name)) {
+          selectedFiles.push(file);
+        }
+      }
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const list = document.getElementById('fileList');
+      list.innerHTML = selectedFiles.map((f, i) => `
+        <div class="file-item">
+          <span>${getFileIcon(f.type)}</span>
+          <span>${f.name}</span>
+          <span style="color:#666;font-size:12px;">${(f.size/1024/1024).toFixed(1)}MB</span>
+          <span class="remove" onclick="removeFile(${i})">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function removeFile(i) {
+      selectedFiles.splice(i, 1);
+      renderFileList();
+    }
+
+    function getFileIcon(type) {
+      if (type.startsWith('image')) return '🖼️';
+      if (type.startsWith('video')) return '🎥';
+      if (type === 'application/pdf') return '📄';
+      return '📎';
+    }
+
+    // Drag and drop
+    const uploadArea = document.getElementById('uploadArea');
+    uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.style.borderColor = '#c9a84c'; });
+    uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = '#333'; });
+    uploadArea.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#333';
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // Submit
+    document.getElementById('relatoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const fechaProblema = document.getElementById('fechaProblema').value;
+      const urgencia = document.getElementById('urgencia').value;
+
+      if (!nombre || !descripcion) {
+        showError('Por favor completá todos los campos obligatorios.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmit');
+      const loading = document.getElementById('loading');
+      btn.disabled = true;
+      loading.style.display = 'block';
+      hideError();
+
+      const formData = new FormData();
+      formData.append('orderCode', orderCode);
+      formData.append('nombre', nombre);
+      formData.append('email', emailParam);
+      formData.append('descripcion', descripcion);
+      formData.append('fechaProblema', fechaProblema);
+      formData.append('urgencia', urgencia);
+      selectedFiles.forEach(f => formData.append('archivos', f));
+
+      try {
+        const res = await fetch('/api/upload/relato', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('formSection').style.display = 'none';
+          document.getElementById('successSection').style.display = 'block';
+        } else {
+          showError(data.error || 'Error al enviar. Intentá nuevamente.');
+          btn.disabled = false;
+          loading.style.display = 'none';
+        }
+      } catch (err) {
+        showError('Error de conexión. Intentá nuevamente.');
+        btn.disabled = false;
+        loading.style.display = 'none';
+      }
+    });
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function hideError() {
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
