@@ -75,7 +75,7 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
           <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-AR')}</p>
           <p>📁 <a href="https://github.com/${GITHUB_ORG}/${orderCode.toLowerCase()}">Ver expediente en GitHub</a></p>
         </div>`,
-      attachments: [{ filename: req.file.originalname, path: req.file.path }]
+      attachments: [{ filename: req.file.originalname, content: fs.readFileSync(req.file.path) }]
     });
 
     // 3. Email al cliente con opciones de pago + link al formulario
@@ -258,7 +258,7 @@ _Pendiente_
           <p><strong>Archivos adjuntos:</strong> ${req.files ? req.files.length : 0}</p>
           <p>📁 <a href="https://github.com/${GITHUB_ORG}/${repoName}">Ver expediente completo en GitHub</a></p>
         </div>`,
-      attachments: req.files ? req.files.map(f => ({ filename: f.originalname, path: f.path })) : []
+      attachments: req.files ? req.files.map(f => ({ filename: f.originalname, content: fs.readFileSync(f.path) })) : []
     });
 
     // 3. Confirmar al cliente
