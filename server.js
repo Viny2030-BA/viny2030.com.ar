@@ -14,12 +14,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas API
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/upload', require('./routes/upload'));
-app.use('/api/comprobante', require('./routes/upload')); // alias para comprobante.html
+app.use('/api/comprobante', require('./routes/upload')); // alias
 
 // Páginas
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.get('/comprobante', (req, res) => res.sendFile(path.join(__dirname, 'public', 'comprobante.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+app.get('/relato', (req, res) => res.sendFile(path.join(__dirname, 'public', 'relato.html')));
 
 app.listen(PORT, () => {
   console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
