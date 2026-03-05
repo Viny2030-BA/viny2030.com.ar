@@ -1,0 +1,236 @@
+// ─────────────────────────────────────────────────────────────
+// AGREGAR ESTO en routes/orders.js ANTES de "module.exports = router;"
+// ─────────────────────────────────────────────────────────────
+
+// ───────────────────────────────────────────────────────────────
+// POST /api/orders/:code/aceptar
+// El cliente acepta el planteo → cambia estado + envía email $40
+// ───────────────────────────────────────────────────────────────
+router.post('/:code/aceptar', async (req, res) => {
+  try {
+    const order = orders.find(o => o.id === req.params.code);
+    if (!order) return res.status(404).json({ error: 'Orden no encontrada' });
+
+    // Guardar aceptación
+    order.status = 'aceptado';
+    order.aceptadoAt = new Date().toISOString();
+
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+
+    // ── Textos por idioma ──
+    const LANG = {
+      es: {
+        subject: `✅ Viny 2030 — Aceptaste el planteo ${order.id} — Segunda etapa: USD 40`,
+        hola: 'Hola',
+        gracias: '¡Gracias por aceptar el planteo! Estamos listos para arrancar la segunda etapa.',
+        instrucciones: 'A continuación los datos para realizar el pago de la segunda etapa:',
+        monto: 'Monto',
+        siguiente: 'Una vez recibido el pago, nos ponemos en contacto para coordinar la implementación.',
+        tituloPagos: 'OPCIONES DE PAGO',
+        ars: '🇦🇷 Desde Argentina — Pesos (ARS)',
+        usd_arg: '🇦🇷 Desde Argentina — Dólares (USD)',
+        exterior: '🌍 Desde el Exterior — Wire Transfer',
+        tipo: 'Tipo', cbu: 'CBU', alias: 'Alias', titular: 'Titular', cuil: 'CUIL/CUIT',
+        banco: 'Banco', beneficiario: 'Beneficiario', direccion: 'Dirección', cuenta: 'Cuenta', numero: 'Número', swift: 'SWIFT',
+        plazo: '⏳ Plazo para realizar el pago: 72 horas',
+        asunto_admin: `✅ ACEPTACIÓN: ${order.id} — ${order.name} — USD 40 pendiente`
+      },
+      en: {
+        subject: `✅ Viny 2030 — You accepted the proposal ${order.id} — Second stage: USD 40`,
+        hola: 'Hello',
+        gracias: 'Thank you for accepting the proposal! We are ready to start the second stage.',
+        instrucciones: 'Below are the payment details for the second stage:',
+        monto: 'Amount',
+        siguiente: 'Once we receive your payment, we will get in touch to coordinate the implementation.',
+        tituloPagos: 'PAYMENT OPTIONS',
+        ars: '🇦🇷 From Argentina — Argentine Pesos (ARS)',
+        usd_arg: '🇦🇷 From Argentina — US Dollars (USD)',
+        exterior: '🌍 From abroad — Wire Transfer',
+        tipo: 'Type', cbu: 'CBU', alias: 'Alias', titular: 'Account holder', cuil: 'Tax ID',
+        banco: 'Bank', beneficiario: 'Beneficiary', direccion: 'Address', cuenta: 'Account', numero: 'Number', swift: 'SWIFT',
+        plazo: '⏳ Payment deadline: 72 hours',
+        asunto_admin: `✅ ACCEPTED: ${order.id} — ${order.name} — USD 40 pending`
+      },
+      fr: {
+        subject: `✅ Viny 2030 — Vous avez accepté la proposition ${order.id} — Deuxième étape: USD 40`,
+        hola: 'Bonjour',
+        gracias: 'Merci d\'avoir accepté la proposition! Nous sommes prêts à commencer la deuxième étape.',
+        instrucciones: 'Voici les coordonnées de paiement pour la deuxième étape:',
+        monto: 'Montant',
+        siguiente: 'Dès réception de votre paiement, nous vous contacterons pour coordonner la mise en œuvre.',
+        tituloPagos: 'OPTIONS DE PAIEMENT',
+        ars: '🇦🇷 Depuis l\'Argentine — Pesos argentins (ARS)',
+        usd_arg: '🇦🇷 Depuis l\'Argentine — Dollars US (USD)',
+        exterior: '🌍 Depuis l\'étranger — Virement bancaire',
+        tipo: 'Type', cbu: 'CBU', alias: 'Alias', titular: 'Titulaire', cuil: 'N° fiscal',
+        banco: 'Banque', beneficiario: 'Bénéficiaire', direccion: 'Adresse', cuenta: 'Compte', numero: 'Numéro', swift: 'SWIFT',
+        plazo: '⏳ Délai de paiement: 72 heures',
+        asunto_admin: `✅ ACCEPTÉ: ${order.id} — ${order.name} — USD 40 en attente`
+      },
+      de: {
+        subject: `✅ Viny 2030 — Sie haben den Vorschlag akzeptiert ${order.id} — Zweite Stufe: USD 40`,
+        hola: 'Hallo',
+        gracias: 'Danke, dass Sie den Vorschlag akzeptiert haben! Wir sind bereit, die zweite Stufe zu starten.',
+        instrucciones: 'Nachfolgend die Zahlungsdetails für die zweite Stufe:',
+        monto: 'Betrag',
+        siguiente: 'Sobald wir Ihre Zahlung erhalten haben, nehmen wir Kontakt auf, um die Implementierung zu koordinieren.',
+        tituloPagos: 'ZAHLUNGSOPTIONEN',
+        ars: '🇦🇷 Aus Argentinien — Argentinische Pesos (ARS)',
+        usd_arg: '🇦🇷 Aus Argentinien — US-Dollar (USD)',
+        exterior: '🌍 Aus dem Ausland — Banküberweisung',
+        tipo: 'Typ', cbu: 'CBU', alias: 'Alias', titular: 'Kontoinhaber', cuil: 'Steuer-ID',
+        banco: 'Bank', beneficiario: 'Begünstigter', direccion: 'Adresse', cuenta: 'Konto', numero: 'Nummer', swift: 'SWIFT',
+        plazo: '⏳ Zahlungsfrist: 72 Stunden',
+        asunto_admin: `✅ AKZEPTIERT: ${order.id} — ${order.name} — USD 40 ausstehend`
+      },
+      it: {
+        subject: `✅ Viny 2030 — Hai accettato la proposta ${order.id} — Seconda fase: USD 40`,
+        hola: 'Ciao',
+        gracias: 'Grazie per aver accettato la proposta! Siamo pronti per iniziare la seconda fase.',
+        instrucciones: 'Di seguito i dati di pagamento per la seconda fase:',
+        monto: 'Importo',
+        siguiente: 'Una volta ricevuto il pagamento, ti contatteremo per coordinare l\'implementazione.',
+        tituloPagos: 'OPZIONI DI PAGAMENTO',
+        ars: '🇦🇷 Dall\'Argentina — Pesos argentini (ARS)',
+        usd_arg: '🇦🇷 Dall\'Argentina — Dollari USA (USD)',
+        exterior: '🌍 Dall\'estero — Bonifico bancario',
+        tipo: 'Tipo', cbu: 'CBU', alias: 'Alias', titular: 'Intestatario', cuil: 'C. fiscale',
+        banco: 'Banca', beneficiario: 'Beneficiario', direccion: 'Indirizzo', cuenta: 'Conto', numero: 'Numero', swift: 'SWIFT',
+        plazo: '⏳ Scadenza pagamento: 72 ore',
+        asunto_admin: `✅ ACCETTATO: ${order.id} — ${order.name} — USD 40 in sospeso`
+      }
+    };
+
+    const tx = LANG[order.lang] || LANG['es'];
+
+    // ── Datos bancarios ──
+    const cbuPesos      = process.env.CBU_PESOS       || '0140005203400552652310';
+    const aliasPesos    = process.env.ALIAS_PESOS      || 'ALGORIT.MONTE.PESOS';
+    const cbuDolares    = process.env.CBU_DOLARES      || '0140005204400550329709';
+    const aliasDolares  = process.env.ALIAS_DOLARES    || 'ALGO.MONTE.DOLARES';
+    const titular       = process.env.TITULAR          || 'Vicente Humberto Monteverde';
+    const cuit          = '20-12034411-1';
+    const banco         = process.env.BANCO            || 'Banco Santander Argentina';
+    const swift         = process.env.SWIFT            || 'BSCHUYMM';
+    const bancoIntl     = process.env.BANCO_INTERNACIONAL || 'Banco Santander Montevideo';
+    const cuentaIntl    = process.env.CUENTA_INTERNACIONAL || '005200183500';
+    const direccion     = process.env.DIRECCION_BENEFICIARIO || 'Av. Directorio 3024-PB-Dto 04';
+
+    const row = (label, val) => `
+      <tr>
+        <td style="padding:6px 12px;color:#888;font-size:12px;white-space:nowrap;">${label}</td>
+        <td style="padding:6px 12px;color:#e8c96d;font-weight:bold;font-size:12px;letter-spacing:1px;">${val}</td>
+      </tr>`;
+
+    const emailHtml = `
+<div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;background:#060810;color:#e8eaf0;padding:32px;border-radius:10px;">
+
+  <!-- HEADER -->
+  <div style="text-align:center;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid #1e2a38;">
+    <h1 style="color:#c9a84c;font-family:Georgia,serif;font-size:26px;letter-spacing:6px;margin:0;">🍷 VINY 2030</h1>
+    <p style="color:#6b7a8d;font-size:11px;letter-spacing:3px;margin:6px 0 0;text-transform:uppercase;">Diagnóstico Algorítmico</p>
+    <p style="color:#0a9d6e;font-size:11px;letter-spacing:2px;margin:10px 0 0;">✅ ${order.id} — ACEPTADO</p>
+  </div>
+
+  <!-- SALUDO -->
+  <p style="font-size:15px;margin-bottom:8px;">${tx.hola} <strong>${order.name}</strong>,</p>
+  <p style="color:#aaa;line-height:1.7;margin-bottom:24px;">${tx.gracias}</p>
+  <p style="color:#aaa;line-height:1.7;margin-bottom:24px;">${tx.instrucciones}</p>
+
+  <!-- MONTO -->
+  <div style="background:#111820;border:2px solid #c9a84c;border-radius:8px;padding:20px;text-align:center;margin-bottom:28px;">
+    <p style="color:#6b7a8d;font-size:11px;letter-spacing:3px;margin:0 0 8px;text-transform:uppercase;">${tx.monto}</p>
+    <p style="color:#c9a84c;font-size:36px;font-family:Georgia,serif;font-weight:bold;margin:0;letter-spacing:2px;">USD 40</p>
+    <p style="color:#6b7a8d;font-size:11px;margin:8px 0 0;letter-spacing:1px;">Segunda Etapa — Implementación</p>
+  </div>
+
+  <!-- TÍTULO OPCIONES -->
+  <p style="color:#c9a84c;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">💳 ${tx.tituloPagos}</p>
+
+  <!-- PESOS ARS -->
+  <div style="background:#0d1117;border:1px solid #1e2a38;border-left:3px solid #c9a84c;border-radius:4px;padding:16px;margin-bottom:14px;">
+    <p style="color:#c9a84c;font-size:11px;letter-spacing:2px;margin:0 0 12px;text-transform:uppercase;">🇦🇷 ${tx.ars}</p>
+    <table style="width:100%;border-collapse:collapse;">
+      ${row(tx.tipo, 'Caja de Ahorro')}
+      ${row(tx.cbu, cbuPesos)}
+      ${row(tx.alias, aliasPesos)}
+      ${row(tx.titular, titular)}
+      ${row(tx.cuil, cuit)}
+    </table>
+  </div>
+
+  <!-- DOLARES ARG -->
+  <div style="background:#0d1117;border:1px solid #1e2a38;border-left:3px solid #6b7a8d;border-radius:4px;padding:16px;margin-bottom:14px;">
+    <p style="color:#aaa;font-size:11px;letter-spacing:2px;margin:0 0 12px;text-transform:uppercase;">🇦🇷 ${tx.usd_arg}</p>
+    <table style="width:100%;border-collapse:collapse;">
+      ${row(tx.tipo, 'Caja de Ahorro Dólares')}
+      ${row(tx.cbu, cbuDolares)}
+      ${row(tx.alias, aliasDolares)}
+      ${row(tx.titular, titular)}
+      ${row(tx.cuil, cuit)}
+    </table>
+  </div>
+
+  <!-- WIRE TRANSFER -->
+  <div style="background:#0d1117;border:1px solid #1e2a38;border-left:3px solid #e94560;border-radius:4px;padding:16px;margin-bottom:24px;">
+    <p style="color:#e94560;font-size:11px;letter-spacing:2px;margin:0 0 12px;text-transform:uppercase;">🌍 ${tx.exterior}</p>
+    <table style="width:100%;border-collapse:collapse;">
+      ${row(tx.banco, bancoIntl)}
+      ${row(tx.beneficiario, titular)}
+      ${row(tx.direccion, direccion)}
+      ${row('CUIT', cuit)}
+      ${row(tx.cuenta, 'Caja de Ahorro Dólares')}
+      ${row(tx.numero, cuentaIntl)}
+      ${row(tx.swift, swift)}
+    </table>
+  </div>
+
+  <!-- PLAZO -->
+  <div style="background:#111820;border:1px solid #1e2a38;border-radius:4px;padding:14px;text-align:center;margin-bottom:24px;">
+    <p style="color:#6b7a8d;font-size:12px;margin:0;">${tx.plazo}</p>
+  </div>
+
+  <!-- SIGUIENTE PASO -->
+  <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:28px;">${tx.siguiente}</p>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid #1e2a38;padding-top:20px;text-align:center;">
+    <p style="color:#3a4a5a;font-size:11px;margin:0;">viny2030.com.ar · ${order.id}</p>
+  </div>
+
+</div>`;
+
+    // Enviar email al cliente
+    await sendEmail({
+      to: order.email,
+      subject: tx.subject,
+      html: emailHtml
+    });
+
+    // Notificar admin
+    await sendEmail({
+      to: process.env.ADMIN_EMAIL || process.env.GMAIL_USER,
+      subject: tx.asunto_admin,
+      html: `
+        <div style="font-family:Arial;padding:20px;background:#111;color:#eee;">
+          <h2 style="color:#c9a84c;">✅ Cliente aceptó el planteo</h2>
+          <p><strong>Orden:</strong> ${order.id}</p>
+          <p><strong>Cliente:</strong> ${order.name} (${order.email})</p>
+          <p><strong>Idioma:</strong> ${order.lang}</p>
+          <p><strong>Estado:</strong> ✅ Aceptado — esperando pago USD 40</p>
+          <p><strong>Aceptado el:</strong> ${order.aceptadoAt}</p>
+        </div>`
+    });
+
+    res.json({
+      success: true,
+      message: 'Aceptación registrada y email de pago enviado',
+      orderCode: order.id,
+      status: order.status
+    });
+
+  } catch (err) {
+    console.error('Error en /aceptar:', err);
+    res.status(500).json({ error: 'Error al procesar la aceptación', detail: err.message });
+  }
+});
