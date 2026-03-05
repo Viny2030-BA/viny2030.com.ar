@@ -1,139 +1,406 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viny 2030 — Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --gold: #c9a84c; --bg: #080808; --surface: #111; --surface2: #191919; --border: #222; --text: #e8e0d0; --muted: #666; }
-    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; padding: 40px 20px; }
-    .header { text-align: center; margin-bottom: 40px; }
-    .logo { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: var(--gold); }
-    .sub { font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto 40px; }
-    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
-    .stat-num { font-size: 32px; font-weight: 700; color: var(--gold); }
-    .stat-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
-    .orders-table { max-width: 1000px; margin: 0 auto; }
-    .table-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 12px 16px; border-bottom: 1px solid var(--border); }
-    td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    tr:hover td { background: var(--surface); }
-    .code { font-family: monospace; color: var(--gold); font-size: 14px; font-weight: 700; letter-spacing: 2px; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-    .badge.pending { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-    .badge.paid { background: rgba(50,180,50,0.1); color: #6bc96b; border: 1px solid rgba(50,180,50,0.3); }
-    .badge.cancelled { background: rgba(220,50,50,0.1); color: #e06060; border: 1px solid rgba(220,50,50,0.3); }
-    .empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
-    .refresh-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; transition: border-color 0.2s; }
-    .refresh-btn:hover { border-color: var(--gold); }
-    .nav-links { text-align: center; margin-top: 40px; }
-    .nav-links a { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; margin: 0 12px; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--gold); }
-    select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viny 2030 — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --gold: #c9a84c;
+  --red: #e94560;
+  --bg: #080808;
+  --surface: #111;
+  --surface2: #191919;
+  --surface3: #222;
+  --border: #2a2a2a;
+  --text: #e8e0d0;
+  --muted: #666;
+  --green: #6bc96b;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; padding: 40px 20px; min-height: 100vh; }
+
+/* HEADER */
+.header { text-align: center; margin-bottom: 40px; }
+.logo { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: var(--gold); }
+.sub { font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto 40px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: border-color 0.2s; }
+.stat:hover { border-color: var(--gold); }
+.stat-num { font-size: 32px; font-weight: 700; color: var(--gold); }
+.stat-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+
+/* TABLA */
+.orders-table { max-width: 1100px; margin: 0 auto; }
+.table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.table-title { font-family: 'Playfair Display', serif; font-size: 20px; }
+.btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s; }
+.btn:hover { border-color: var(--gold); color: var(--gold); }
+.btn-gold { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 600; }
+.btn-gold:hover { background: #b8963e; border-color: #b8963e; color: #000; }
+.btn-red { background: transparent; border-color: var(--red); color: var(--red); }
+.btn-red:hover { background: var(--red); color: #fff; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:hover td { background: var(--surface); }
+
+.code { font-family: monospace; color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 2px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+.badge.pending { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.badge.paid { background: rgba(107,201,107,0.1); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
+.badge.analizado { background: rgba(100,150,255,0.1); color: #88aaff; border: 1px solid rgba(100,150,255,0.3); }
+.badge.aceptado { background: rgba(255,200,50,0.1); color: #ffc832; border: 1px solid rgba(255,200,50,0.3); }
+.badge.cancelled { background: rgba(220,50,50,0.1); color: #e06060; border: 1px solid rgba(220,50,50,0.3); }
+
+.btn-expediente { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+.btn-expediente:hover { border-color: var(--gold); color: var(--gold); }
+.btn-analisis-ok { border-color: rgba(107,201,107,0.4); color: var(--green); }
+.btn-analisis-ok:hover { background: rgba(107,201,107,0.1); }
+
+select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+
+.empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; padding: 32px; position: relative; }
+.modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+.modal-close:hover { color: var(--text); }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); margin-bottom: 6px; }
+.modal-subtitle { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 24px; }
+
+.client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: var(--surface2); border-radius: 10px; padding: 16px; }
+.info-item label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 4px; }
+.info-item span { font-size: 14px; color: var(--text); }
+.info-item span.highlight { color: var(--gold); font-weight: 600; }
+
+.field-group { margin-bottom: 20px; }
+.field-group label { display: block; font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; transition: border-color 0.2s; }
+textarea:focus { outline: none; border-color: var(--gold); }
+.textarea-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+.translation-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(100,150,255,0.1); border: 1px solid rgba(100,150,255,0.3); color: #88aaff; padding: 4px 10px; border-radius: 20px; font-size: 11px; margin-bottom: 16px; }
+
+.existing-analisis { background: var(--surface2); border: 1px solid rgba(107,201,107,0.2); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+.existing-analisis h4 { font-size: 11px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 10px; }
+.existing-text { font-size: 13px; color: #aaa; line-height: 1.6; white-space: pre-wrap; max-height: 120px; overflow-y: auto; }
+
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
+
+.status-banner { padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; display: none; }
+.status-banner.success { background: rgba(107,201,107,0.1); border: 1px solid rgba(107,201,107,0.3); color: var(--green); display: block; }
+.status-banner.error { background: rgba(220,50,50,0.1); border: 1px solid rgba(220,50,50,0.3); color: #e06060; display: block; }
+.status-banner.loading { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); display: block; }
+
+.lang-flag { font-size: 18px; }
+
+/* NAV */
+.nav-links { text-align: center; margin-top: 40px; }
+.nav-links a { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; margin: 0 12px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+</style>
 </head>
 <body>
-  <div class="header">
-    <div class="logo">Viny 2030</div>
-    <div class="sub">Panel de Administración</div>
-  </div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-num" id="totalOrders">—</div><div class="stat-label">Total Órdenes</div></div>
-    <div class="stat"><div class="stat-num" id="pendingOrders">—</div><div class="stat-label">Pendientes</div></div>
-    <div class="stat"><div class="stat-num" id="paidOrders">—</div><div class="stat-label">Confirmadas</div></div>
-    <div class="stat"><div class="stat-num" id="totalAmount">—</div><div class="stat-label">Total ARS</div></div>
-  </div>
+<div class="header">
+  <div class="logo">Viny 2030</div>
+  <div class="sub">Panel de Administración</div>
+</div>
 
-  <div class="orders-table">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div class="table-title">Órdenes</div>
-      <button class="refresh-btn" onclick="loadOrders()">↻ Actualizar</button>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="totalOrders">—</div><div class="stat-label">Total Órdenes</div></div>
+  <div class="stat"><div class="stat-num" id="pendingOrders">—</div><div class="stat-label">Pendientes</div></div>
+  <div class="stat"><div class="stat-num" id="analizadoOrders">—</div><div class="stat-label">Analizados</div></div>
+  <div class="stat"><div class="stat-num" id="paidOrders">—</div><div class="stat-label">Confirmadas</div></div>
+  <div class="stat"><div class="stat-num" id="totalAmount">—</div><div class="stat-label">Total USD</div></div>
+</div>
+
+<div class="orders-table">
+  <div class="table-header">
+    <div class="table-title">Expedientes</div>
+    <button class="btn" onclick="loadOrders()">↻ Actualizar</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Cliente</th>
+        <th>Email</th>
+        <th>Monto</th>
+        <th>Idioma</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th>Expediente</th>
+      </tr>
+    </thead>
+    <tbody id="ordersBody">
+      <tr><td colspan="8" class="empty">Cargando...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav-links">
+  <a href="/">Nuevo pedido</a>
+  <a href="/comprobante">Subir comprobante</a>
+</div>
+
+<!-- MODAL EXPEDIENTE -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">×</button>
+    <div class="modal-title" id="modalTitle">Expediente</div>
+    <div class="modal-subtitle" id="modalSubtitle">—</div>
+
+    <div class="client-info" id="clientInfo"></div>
+
+    <div id="statusBanner" class="status-banner"></div>
+
+    <div id="existingAnalisis" style="display:none;" class="existing-analisis">
+      <h4>✅ Análisis enviado anteriormente</h4>
+      <div class="existing-text" id="existingText"></div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Cliente</th>
-          <th>Email</th>
-          <th>Monto</th>
-          <th>Idioma</th>
-          <th>Estado</th>
-          <th>Fecha</th>
-        </tr>
-      </thead>
-      <tbody id="ordersBody">
-        <tr><td colspan="7" class="empty">Cargando...</td></tr>
-      </tbody>
-    </table>
+
+    <div id="translationNote" class="translation-badge" style="display:none;">
+      🌐 <span id="translationLang"></span> — el texto será traducido automáticamente
+    </div>
+
+    <div class="field-group">
+      <label>📊 Análisis del caso <small style="font-weight:300;text-transform:none;">(escribí en español)</small></label>
+      <textarea id="analisisInput" rows="7" placeholder="Describí tu análisis del problema del cliente. Cuál es la situación, qué detectaste, qué factores están en juego..."></textarea>
+      <div class="textarea-hint">Este texto será traducido automáticamente al idioma del cliente antes de enviarse.</div>
+    </div>
+
+    <div class="field-group">
+      <label>💡 Propuesta de solución <small style="font-weight:300;text-transform:none;">(escribí en español)</small></label>
+      <textarea id="propuestaInput" rows="6" placeholder="Describí qué propuesta le hacés al cliente. Qué se haría en la segunda etapa, qué resultados puede esperar, cuál es el alcance..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModalDirect()">Cerrar</button>
+      <button class="btn btn-gold" id="btnEnviar" onclick="enviarAnalisis()">
+        ✉️ Enviar análisis al cliente
+      </button>
+    </div>
   </div>
+</div>
 
-  <div class="nav-links">
-    <a href="/">Nuevo pedido</a>
-    <a href="/comprobante">Subir comprobante</a>
-  </div>
+<script>
+const LANG_FLAGS = { es: '🇦🇷', en: '🇬🇧', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
+const LANG_NAMES = { es: 'Español', en: 'English', fr: 'Français', de: 'Deutsch', it: 'Italiano' };
+let currentOrder = null;
 
-  <script>
-    const LANG_FLAGS = { es: '🇦🇷', en: '🇬🇧', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
+async function loadOrders() {
+  try {
+    const res = await fetch('/api/orders');
+    const orders = await res.json();
+    const body = document.getElementById('ordersBody');
 
-    async function loadOrders() {
-      try {
-        const res = await fetch('/api/orders');
-        const orders = await res.json();
-
-        const body = document.getElementById('ordersBody');
-        if (!orders.length) {
-          body.innerHTML = '<tr><td colspan="7" class="empty">No hay órdenes aún</td></tr>';
-          updateStats([]);
-          return;
-        }
-
-        body.innerHTML = orders.reverse().map(o => `
-          <tr>
-            <td><span class="code">${o.id}</span></td>
-            <td>${o.name}</td>
-            <td>${o.email}</td>
-            <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
-            <td>${LANG_FLAGS[o.lang] || o.lang}</td>
-            <td>
-              <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
-                <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pendiente</option>
-                <option value="paid" ${o.status==='paid'?'selected':''}>✅ Confirmado</option>
-                <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelado</option>
-              </select>
-            </td>
-            <td>${new Date(o.createdAt).toLocaleString('es-AR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</td>
-          </tr>
-        `).join('');
-
-        updateStats(orders);
-      } catch (err) {
-        document.getElementById('ordersBody').innerHTML = '<tr><td colspan="7" class="empty">Error al cargar órdenes</td></tr>';
-      }
+    if (!orders.length) {
+      body.innerHTML = '<tr><td colspan="8" class="empty">No hay órdenes aún</td></tr>';
+      updateStats([]);
+      return;
     }
 
-    function updateStats(orders) {
-      document.getElementById('totalOrders').textContent = orders.length;
-      document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
-      document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
-      const total = orders.filter(o => o.status === 'paid').reduce((s, o) => s + Number(o.amount), 0);
-      document.getElementById('totalAmount').textContent = total ? '$' + total.toLocaleString('es-AR') : '$0';
-    }
+    body.innerHTML = orders.slice().reverse().map(o => {
+      const tieneAnalisis = o.analisis || o.status === 'analizado';
+      const btnClass = tieneAnalisis ? 'btn-expediente btn-analisis-ok' : 'btn-expediente';
+      const btnLabel = tieneAnalisis ? '✅ Ver análisis' : '📝 Escribir análisis';
 
-    async function updateStatus(code, status) {
-      await fetch(`/api/orders/${code}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
-      });
-      loadOrders();
-    }
+      return `
+      <tr>
+        <td><span class="code">${o.id}</span></td>
+        <td>${o.name}</td>
+        <td style="color:var(--muted);font-size:12px;">${o.email}</td>
+        <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
+        <td><span class="lang-flag" title="${LANG_NAMES[o.lang] || o.lang}">${LANG_FLAGS[o.lang] || o.lang}</span></td>
+        <td>
+          <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
+            <option value="pending"   ${o.status==='pending'   ?'selected':''}>⏳ Pendiente</option>
+            <option value="analizado" ${o.status==='analizado' ?'selected':''}>📊 Analizado</option>
+            <option value="aceptado"  ${o.status==='aceptado'  ?'selected':''}>🤝 Aceptado</option>
+            <option value="paid"      ${o.status==='paid'      ?'selected':''}>✅ Confirmado</option>
+            <option value="cancelled" ${o.status==='cancelled' ?'selected':''}>❌ Cancelado</option>
+          </select>
+        </td>
+        <td style="color:var(--muted);font-size:12px;">
+          ${new Date(o.createdAt).toLocaleString('es-AR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+        </td>
+        <td>
+          <button class="${btnClass}" onclick="openExpediente(${JSON.stringify(o).replace(/"/g,'&quot;')})">
+            ${btnLabel}
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
 
-    loadOrders();
-  </script>
+    updateStats(orders);
+  } catch (err) {
+    document.getElementById('ordersBody').innerHTML = '<tr><td colspan="8" class="empty">Error al cargar órdenes</td></tr>';
+  }
+}
+
+function updateStats(orders) {
+  document.getElementById('totalOrders').textContent = orders.length;
+  document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
+  document.getElementById('analizadoOrders').textContent = orders.filter(o => o.status === 'analizado' || o.status === 'aceptado').length;
+  document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
+  const total = orders.reduce((s, o) => s + Number(o.amount), 0);
+  document.getElementById('totalAmount').textContent = total ? '$' + total.toLocaleString('es-AR') : '$0';
+}
+
+async function updateStatus(code, status) {
+  await fetch(`/api/orders/${code}/status`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  loadOrders();
+}
+
+function openExpediente(order) {
+  currentOrder = order;
+
+  document.getElementById('modalTitle').textContent = `Expediente ${order.id}`;
+  document.getElementById('modalSubtitle').textContent = `${order.name} · ${order.email} · ${LANG_NAMES[order.lang] || order.lang}`;
+
+  document.getElementById('clientInfo').innerHTML = `
+    <div class="info-item">
+      <label>Código</label>
+      <span class="highlight">${order.id}</span>
+    </div>
+    <div class="info-item">
+      <label>Cliente</label>
+      <span>${order.name}</span>
+    </div>
+    <div class="info-item">
+      <label>Email</label>
+      <span>${order.email}</span>
+    </div>
+    <div class="info-item">
+      <label>Monto</label>
+      <span>USD ${order.amount}</span>
+    </div>
+    <div class="info-item">
+      <label>Producto</label>
+      <span>${order.product || 'Diagnóstico Algorítmico'}</span>
+    </div>
+    <div class="info-item">
+      <label>Idioma</label>
+      <span>${LANG_FLAGS[order.lang] || ''} ${LANG_NAMES[order.lang] || order.lang}</span>
+    </div>
+  `;
+
+  // Mostrar análisis existente si hay
+  const existingDiv = document.getElementById('existingAnalisis');
+  const existingText = document.getElementById('existingText');
+  if (order.analisis && order.analisis.es) {
+    existingDiv.style.display = 'block';
+    existingText.textContent = order.analisis.es;
+    document.getElementById('analisisInput').value = order.analisis.es;
+    document.getElementById('propuestaInput').value = order.propuesta?.es || '';
+  } else {
+    existingDiv.style.display = 'none';
+    document.getElementById('analisisInput').value = '';
+    document.getElementById('propuestaInput').value = '';
+  }
+
+  // Mostrar nota de traducción si no es español
+  const translNote = document.getElementById('translationNote');
+  if (order.lang && order.lang !== 'es') {
+    translNote.style.display = 'inline-flex';
+    document.getElementById('translationLang').textContent = LANG_NAMES[order.lang] || order.lang;
+  } else {
+    translNote.style.display = 'none';
+  }
+
+  // Limpiar banner
+  const banner = document.getElementById('statusBanner');
+  banner.className = 'status-banner';
+  banner.textContent = '';
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(event) {
+  if (event.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  currentOrder = null;
+}
+
+async function enviarAnalisis() {
+  if (!currentOrder) return;
+
+  const analisis = document.getElementById('analisisInput').value.trim();
+  const propuesta = document.getElementById('propuestaInput').value.trim();
+  const banner = document.getElementById('statusBanner');
+  const btn = document.getElementById('btnEnviar');
+
+  if (!analisis) {
+    banner.className = 'status-banner error';
+    banner.textContent = '⚠️ El campo de análisis no puede estar vacío.';
+    return;
+  }
+  if (!propuesta) {
+    banner.className = 'status-banner error';
+    banner.textContent = '⚠️ El campo de propuesta no puede estar vacío.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Traduciendo y enviando...';
+  banner.className = 'status-banner loading';
+  banner.textContent = currentOrder.lang !== 'es'
+    ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang] || currentOrder.lang} y enviando email...`
+    : '📧 Enviando email al cliente...';
+
+  try {
+    const res = await fetch(`/api/orders/${currentOrder.id}/analisis`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ analisis, propuesta })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      banner.className = 'status-banner success';
+      banner.textContent = `✅ Análisis enviado correctamente a ${currentOrder.email}${data.translated ? ' (traducido automáticamente)' : ''}.`;
+      btn.textContent = '✅ Enviado';
+
+      // Actualizar tabla
+      setTimeout(() => {
+        loadOrders();
+        closeModalDirect();
+      }, 2000);
+    } else {
+      throw new Error(data.error || 'Error desconocido');
+    }
+  } catch (err) {
+    banner.className = 'status-banner error';
+    banner.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false;
+    btn.textContent = '✉️ Enviar análisis al cliente';
+  }
+}
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
+loadOrders();
+</script>
 </body>
 </html>
