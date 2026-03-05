@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viny 2030 — Aceptar Planteo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+    :root {
+      --bg: #060810;
+      --surface: #0d1117;
+      --surface2: #111820;
+      --border: #1e2a38;
+      --gold: #c9a84c;
+      --gold2: #e8c96d;
+      --red: #e94560;
+      --green: #0a9d6e;
+      --text: #e8eaf0;
+      --muted: #6b7a8d;
+      --input-bg: #0a0e14;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      padding: 0 0 60px;
+      background-image:
+        radial-gradient(ellipse at 15% 30%, rgba(201,168,76,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 70%, rgba(233,69,96,0.05) 0%, transparent 55%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--red), var(--gold));
+      z-index: 100;
+    }
+
+    /* ─── LOADER ─── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      gap: 20px;
+    }
+
+    .loader-logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 6px;
+    }
+
+    .loader-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      animation: loadBar 1.8s ease forwards;
+    }
+
+    @keyframes loadBar {
+      to { width: 100%; }
+    }
+
+    .loader-text {
+      color: var(--muted);
+      font-size: 0.7em;
+      letter-spacing: 3px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+
+    /* ─── MAIN ─── */
+    #main {
+      display: none;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 2.4em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 6px;
+    }
+
+    .logo span { color: var(--red); }
+
+    .order-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 4px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.7em;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    .order-badge strong {
+      color: var(--gold);
+    }
+
+    /* ─── ERROR STATE ─── */
+    #error-section {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    #error-section h2 {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--red);
+      font-size: 1.5em;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    #error-section p { color: var(--muted); font-size: 0.85em; line-height: 1.7; }
+
+    /* ─── WELCOME ─── */
+    .welcome-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+
+    .client-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.4em;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-text {
+      color: var(--muted);
+      font-size: 0.82em;
+      line-height: 1.8;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .section-analisis { animation: fadeUp 0.5s ease 0.2s both; }
+    .section-propuesta { animation: fadeUp 0.5s ease 0.3s both; }
+
+    .section-label {
+      font-size: 0.65em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label.gold {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .section-label.red {
+      color: var(--red);
+      border-bottom: 1px solid rgba(233,69,96,0.2);
+    }
+
+    .section-content {
+      color: #c8d0dc;
+      font-size: 0.88em;
+      line-height: 1.85;
+      white-space: pre-wrap;
+    }
+
+    /* ─── MONTO ─── */
+    .monto-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeUp 0.5s ease 0.4s both;
+    }
+
+    .monto-label {
+      font-size: 0.7em;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .monto-valor {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 2.2em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .monto-desc {
+      font-size: 0.72em;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .monto-icon {
+      font-size: 2.5em;
+      opacity: 0.6;
+    }
+
+    /* ─── CTA BOX ─── */
+    .cta-box {
+      background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(233,69,96,0.05) 100%);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 8px;
+      padding: 32px;
+      text-align: center;
+      animation: fadeUp 0.5s ease 0.5s both;
+    }
+
+    .cta-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1em;
+      color: var(--text);
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .cta-sub {
+      font-size: 0.75em;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .btn-aceptar {
+      width: 100%;
+      background: var(--gold);
+      color: #0a0810;
+      border: none;
+      padding: 18px 32px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1em;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-aceptar::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .btn-aceptar:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201,168,76,0.35);
+    }
+
+    .btn-aceptar:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-aceptar:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-declinar {
+      width: 100%;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75em;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 12px;
+      transition: all 0.2s;
+    }
+
+    .btn-declinar:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .seguridad {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 0.68em;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* ─── SUCCESS ─── */
+    #success-section {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .success-icon {
+      font-size: 3.5em;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .success-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.8em;
+      color: var(--green);
+      letter-spacing: 4px;
+      margin-bottom: 14px;
+    }
+
+    .success-msg {
+      color: var(--muted);
+      font-size: 0.82em;
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto 28px;
+    }
+
+    .success-order {
+      display: inline-block;
+      padding: 10px 28px;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      font-size: 1.1em;
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 24px;
+    }
+
+    .payment-info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+      text-align: left;
+      margin-top: 24px;
+    }
+
+    .payment-info-title {
+      font-size: 0.65em;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .payment-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(30,42,56,0.6);
+      font-size: 0.78em;
+    }
+
+    .payment-detail:last-child { border-bottom: none; }
+    .payment-detail .key { color: var(--muted); }
+    .payment-detail .val { color: var(--gold); font-weight: bold; letter-spacing: 1px; }
+
+    /* ─── DECLINED ─── */
+    #declined-section {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    #declined-section h2 {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--muted);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    #declined-section p {
+      color: var(--muted);
+      font-size: 0.8em;
+      line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 0.65em;
+      letter-spacing: 1px;
+      opacity: 0.5;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 560px) {
+      .monto-box { flex-direction: column; gap: 12px; text-align: center; }
+      .logo { font-size: 1.8em; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">VINY<span style="color:#e94560">2030</span></div>
+  <div class="loader-bar"></div>
+  <div class="loader-text">CARGANDO PLANTEO...</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <div class="header">
+    <div class="logo">VINY<span>2030</span></div>
+    <div class="order-badge" id="order-badge">CARGANDO...</div>
+  </div>
+
+  <!-- ERROR -->
+  <div id="error-section">
+    <h2>ORDEN NO ENCONTRADA</h2>
+    <p id="error-msg">No pudimos encontrar el planteo asociado a este link.<br>Verificá que el link sea correcto o contactá a Viny2030.</p>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div id="content-section" style="display:none;">
+
+    <div class="welcome-box">
+      <div class="client-name" id="client-name">—</div>
+      <div class="welcome-text" id="welcome-text">
+        Hola, revisamos tu caso en detalle. A continuación encontrás el análisis y la propuesta de solución que preparamos para vos.
+      </div>
+    </div>
+
+    <!-- ANÁLISIS -->
+    <div class="section section-analisis">
+      <div class="section-label gold">📊 Análisis de tu caso</div>
+      <div class="section-content" id="analisis-text">—</div>
+    </div>
+
+    <!-- PROPUESTA -->
+    <div class="section section-propuesta">
+      <div class="section-label red">💡 Propuesta de solución</div>
+      <div class="section-content" id="propuesta-text">—</div>
+    </div>
+
+    <!-- MONTO -->
+    <div class="monto-box">
+      <div>
+        <div class="monto-label" id="lbl-segunda-etapa">SEGUNDA ETAPA</div>
+        <div class="monto-valor">USD 40</div>
+        <div class="monto-desc" id="lbl-monto-desc">Implementación del diagnóstico<br>y entrega del informe completo</div>
+      </div>
+      <div class="monto-icon">🍷</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <div class="cta-title" id="lbl-cta-title">¿ESTÁS DE ACUERDO CON EL PLANTEO?</div>
+      <div class="cta-sub" id="lbl-cta-sub">Al aceptar, recibirás por email los datos de pago para la segunda etapa (USD 40).<br>El proceso de implementación comienza al confirmar el pago.</div>
+      <button class="btn-aceptar" id="btn-aceptar" onclick="aceptarPlanteo()">
+        ✅ ACEPTO EL PLANTEO — CONTINUAR
+      </button>
+      <button class="btn-declinar" id="btn-declinar" onclick="mostrarDeclinado()">
+        No acepto el planteo
+      </button>
+      <div class="seguridad">
+        🔒 <span id="lbl-seguridad">Tu información está protegida por nuestro acuerdo de confidencialidad</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-section">
+    <span class="success-icon">✅</span>
+    <div class="success-title" id="success-title">¡PLANTEO ACEPTADO!</div>
+    <p class="success-msg" id="success-msg">
+      Excelente decisión. Te enviamos al email los datos de pago para la segunda etapa.<br><br>
+      Una vez que confirmemos el pago de <strong style="color:var(--gold)">USD 40</strong>, comenzamos la implementación.
+    </p>
+    <div class="success-order" id="success-order">—</div>
+
+    <div class="payment-info-box">
+      <div class="payment-info-title" id="lbl-instrucciones-pago">📧 INSTRUCCIONES DE PAGO</div>
+      <div class="payment-detail">
+        <span class="key" id="lbl-check-email">Revisá tu email</span>
+        <span class="val" id="client-email-display">—</span>
+      </div>
+      <div class="payment-detail">
+        <span class="key" id="lbl-monto-pagar">Monto a pagar</span>
+        <span class="val">USD 40</span>
+      </div>
+      <div class="payment-detail">
+        <span class="key" id="lbl-plazo">Plazo</span>
+        <span class="val" id="lbl-plazo-val">72 HORAS</span>
+      </div>
+      <div class="payment-detail">
+        <span class="key" id="lbl-estado">Estado</span>
+        <span class="val" style="color:var(--green)">✓ ACEPTADO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECLINED -->
+  <div id="declined-section">
+    <span style="font-size:2.5em;display:block;margin-bottom:16px;">🙏</span>
+    <h2 id="declined-title">ENTENDEMOS TU DECISIÓN</h2>
+    <p id="declined-msg">
+      Gracias por revisar el planteo. Si en algún momento querés reconsiderar o tenés preguntas adicionales,<br>
+      no dudes en contactarnos a través del sitio.
+    </p>
+  </div>
+
+  <div class="footer" id="footer-text">
+    © 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL
+  </div>
+</div>
+
+<script>
+  // ── TRADUCCIONES ──────────────────────────────────────────
+  const t = {
+    es: {
+      loading: 'CARGANDO PLANTEO...',
+      welcomeText: 'Hola, revisamos tu caso en detalle. A continuación encontrás el análisis y la propuesta de solución que preparamos para vos.',
+      analisisTitle: '📊 Análisis de tu caso',
+      propuestaTitle: '💡 Propuesta de solución',
+      segundaEtapa: 'SEGUNDA ETAPA',
+      montoDesc: 'Implementación del diagnóstico\ny entrega del informe completo',
+      ctaTitle: '¿ESTÁS DE ACUERDO CON EL PLANTEO?',
+      ctaSub: 'Al aceptar, recibirás por email los datos de pago para la segunda etapa (USD 40).\nEl proceso de implementación comienza al confirmar el pago.',
+      btnAceptar: '✅ ACEPTO EL PLANTEO — CONTINUAR',
+      btnDeclinar: 'No acepto el planteo',
+      seguridad: 'Tu información está protegida por nuestro acuerdo de confidencialidad',
+      successTitle: '¡PLANTEO ACEPTADO!',
+      successMsg: 'Excelente decisión. Te enviamos al email los datos de pago para la segunda etapa.<br><br>Una vez que confirmemos el pago de <strong style="color:var(--gold)">USD 40</strong>, comenzamos la implementación.',
+      instruccionesPago: '📧 INSTRUCCIONES DE PAGO',
+      checkEmail: 'Revisá tu email',
+      montoPagar: 'Monto a pagar',
+      plazo: 'Plazo',
+      plazoVal: '72 HORAS',
+      estado: 'Estado',
+      declinedTitle: 'ENTENDEMOS TU DECISIÓN',
+      declinedMsg: 'Gracias por revisar el planteo. Si en algún momento querés reconsiderar o tenés preguntas, no dudes en contactarnos.',
+      errorTitle: 'ORDEN NO ENCONTRADA',
+      errorMsg: 'No pudimos encontrar el planteo asociado a este link.\nVerificá que el link sea correcto o contactá a Viny2030.',
+      footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL',
+      procesando: '⏳ PROCESANDO...'
+    },
+    en: {
+      loading: 'LOADING PROPOSAL...',
+      welcomeText: 'Hello, we reviewed your case in detail. Below you will find the analysis and proposed solution we prepared for you.',
+      analisisTitle: '📊 Analysis of your case',
+      propuestaTitle: '💡 Proposed solution',
+      segundaEtapa: 'SECOND STAGE',
+      montoDesc: 'Diagnosis implementation\nand full report delivery',
+      ctaTitle: 'DO YOU AGREE WITH THE PROPOSAL?',
+      ctaSub: 'By accepting, you will receive payment details for the second stage (USD 40) by email.\nImplementation begins once payment is confirmed.',
+      btnAceptar: '✅ I ACCEPT THE PROPOSAL — CONTINUE',
+      btnDeclinar: 'I do not accept the proposal',
+      seguridad: 'Your information is protected by our confidentiality agreement',
+      successTitle: 'PROPOSAL ACCEPTED!',
+      successMsg: 'Excellent decision. We sent you the payment details for the second stage by email.<br><br>Once we confirm payment of <strong style="color:var(--gold)">USD 40</strong>, implementation begins.',
+      instruccionesPago: '📧 PAYMENT INSTRUCTIONS',
+      checkEmail: 'Check your email',
+      montoPagar: 'Amount to pay',
+      plazo: 'Deadline',
+      plazoVal: '72 HOURS',
+      estado: 'Status',
+      declinedTitle: 'WE UNDERSTAND YOUR DECISION',
+      declinedMsg: 'Thank you for reviewing the proposal. If you ever wish to reconsider or have additional questions, feel free to contact us.',
+      errorTitle: 'ORDER NOT FOUND',
+      errorMsg: 'We could not find the proposal associated with this link.\nPlease verify the link is correct or contact Viny2030.',
+      footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENTIAL',
+      procesando: '⏳ PROCESSING...'
+    },
+    fr: {
+      loading: 'CHARGEMENT DE LA PROPOSITION...',
+      welcomeText: "Bonjour, nous avons examiné votre cas en détail. Vous trouverez ci-dessous l'analyse et la solution proposée que nous avons préparée pour vous.",
+      analisisTitle: '📊 Analyse de votre cas',
+      propuestaTitle: '💡 Solution proposée',
+      segundaEtapa: 'DEUXIÈME ÉTAPE',
+      montoDesc: 'Mise en œuvre du diagnostic\net livraison du rapport complet',
+      ctaTitle: 'ÊTES-VOUS D\'ACCORD AVEC LA PROPOSITION?',
+      ctaSub: "En acceptant, vous recevrez par email les détails de paiement pour la deuxième étape (USD 40).\nLa mise en œuvre commence une fois le paiement confirmé.",
+      btnAceptar: "✅ J'ACCEPTE LA PROPOSITION — CONTINUER",
+      btnDeclinar: 'Je n\'accepte pas la proposition',
+      seguridad: 'Vos informations sont protégées par notre accord de confidentialité',
+      successTitle: 'PROPOSITION ACCEPTÉE!',
+      successMsg: "Excellente décision. Nous vous avons envoyé les détails de paiement par email.<br><br>Une fois le paiement de <strong style=\"color:var(--gold)\">USD 40</strong> confirmé, la mise en œuvre commence.",
+      instruccionesPago: '📧 INSTRUCTIONS DE PAIEMENT',
+      checkEmail: 'Vérifiez votre email',
+      montoPagar: 'Montant à payer',
+      plazo: 'Délai',
+      plazoVal: '72 HEURES',
+      estado: 'Statut',
+      declinedTitle: 'NOUS COMPRENONS VOTRE DÉCISION',
+      declinedMsg: 'Merci d\'avoir examiné la proposition. Si vous souhaitez reconsidérer ou avez des questions, n\'hésitez pas à nous contacter.',
+      errorTitle: 'COMMANDE INTROUVABLE',
+      errorMsg: 'Nous n\'avons pas pu trouver la proposition associée à ce lien.',
+      footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINE — CONFIDENTIEL',
+      procesando: '⏳ TRAITEMENT...'
+    },
+    de: {
+      loading: 'VORSCHLAG WIRD GELADEN...',
+      welcomeText: 'Hallo, wir haben Ihren Fall im Detail überprüft. Nachfolgend finden Sie die Analyse und den Lösungsvorschlag, den wir für Sie vorbereitet haben.',
+      analisisTitle: '📊 Analyse Ihres Falls',
+      propuestaTitle: '💡 Lösungsvorschlag',
+      segundaEtapa: 'ZWEITE STUFE',
+      montoDesc: 'Implementierung der Diagnose\nund Lieferung des vollständigen Berichts',
+      ctaTitle: 'SIND SIE MIT DEM VORSCHLAG EINVERSTANDEN?',
+      ctaSub: 'Durch Akzeptieren erhalten Sie die Zahlungsdetails für die zweite Stufe (USD 40) per E-Mail.\nDie Implementierung beginnt nach Zahlungsbestätigung.',
+      btnAceptar: '✅ ICH AKZEPTIERE DEN VORSCHLAG — WEITER',
+      btnDeclinar: 'Ich akzeptiere den Vorschlag nicht',
+      seguridad: 'Ihre Informationen sind durch unsere Vertraulichkeitsvereinbarung geschützt',
+      successTitle: 'VORSCHLAG AKZEPTIERT!',
+      successMsg: 'Ausgezeichnete Entscheidung. Wir haben Ihnen die Zahlungsdetails per E-Mail zugeschickt.<br><br>Sobald die Zahlung von <strong style="color:var(--gold)">USD 40</strong> bestätigt ist, beginnt die Implementierung.',
+      instruccionesPago: '📧 ZAHLUNGSANWEISUNGEN',
+      checkEmail: 'Überprüfen Sie Ihre E-Mail',
+      montoPagar: 'Zu zahlender Betrag',
+      plazo: 'Frist',
+      plazoVal: '72 STUNDEN',
+      estado: 'Status',
+      declinedTitle: 'WIR VERSTEHEN IHRE ENTSCHEIDUNG',
+      declinedMsg: 'Danke, dass Sie den Vorschlag überprüft haben. Wenn Sie es sich anders überlegen, kontaktieren Sie uns gerne.',
+      errorTitle: 'AUFTRAG NICHT GEFUNDEN',
+      errorMsg: 'Wir konnten den mit diesem Link verbundenen Vorschlag nicht finden.',
+      footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINIEN — VERTRAULICH',
+      procesando: '⏳ VERARBEITUNG...'
+    },
+    it: {
+      loading: 'CARICAMENTO PROPOSTA...',
+      welcomeText: 'Ciao, abbiamo esaminato il tuo caso in dettaglio. Di seguito trovi l\'analisi e la proposta di soluzione che abbiamo preparato per te.',
+      analisisTitle: '📊 Analisi del tuo caso',
+      propuestaTitle: '💡 Soluzione proposta',
+      segundaEtapa: 'SECONDA FASE',
+      montoDesc: 'Implementazione della diagnosi\ne consegna del rapporto completo',
+      ctaTitle: 'SEI D\'ACCORDO CON LA PROPOSTA?',
+      ctaSub: "Accettando, riceverai via email i dati di pagamento per la seconda fase (USD 40).\nL'implementazione inizia dopo la conferma del pagamento.",
+      btnAceptar: "✅ ACCETTO LA PROPOSTA — CONTINUA",
+      btnDeclinar: 'Non accetto la proposta',
+      seguridad: 'Le tue informazioni sono protette dal nostro accordo di riservatezza',
+      successTitle: 'PROPOSTA ACCETTATA!',
+      successMsg: "Ottima decisione. Ti abbiamo inviato i dati di pagamento per la seconda fase.<br><br>Una volta confermato il pagamento di <strong style=\"color:var(--gold)\">USD 40</strong>, inizia l'implementazione.",
+      instruccionesPago: '📧 ISTRUZIONI DI PAGAMENTO',
+      checkEmail: 'Controlla la tua email',
+      montoPagar: 'Importo da pagare',
+      plazo: 'Scadenza',
+      plazoVal: '72 ORE',
+      estado: 'Stato',
+      declinedTitle: 'COMPRENDIAMO LA TUA DECISIONE',
+      declinedMsg: 'Grazie per aver esaminato la proposta. Se desideri riconsiderare, non esitare a contattarci.',
+      errorTitle: 'ORDINE NON TROVATO',
+      errorMsg: 'Non siamo riusciti a trovare la proposta associata a questo link.',
+      footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — RISERVATO',
+      procesando: '⏳ ELABORAZIONE...'
+    }
+  };
+
+  let currentLang = 'es';
+  let currentOrder = null;
+
+  function applyLang(lang) {
+    currentLang = lang;
+    const tx = t[lang] || t['es'];
+    document.querySelector('.loader-text').textContent = tx.loading;
+    document.getElementById('welcome-text').textContent = tx.welcomeText;
+    document.querySelectorAll('.section-label')[0].textContent = tx.analisisTitle;
+    document.querySelectorAll('.section-label')[1].textContent = tx.propuestaTitle;
+    document.getElementById('lbl-segunda-etapa').textContent = tx.segundaEtapa;
+    document.getElementById('lbl-monto-desc').textContent = tx.montoDesc;
+    document.getElementById('lbl-cta-title').textContent = tx.ctaTitle;
+    document.getElementById('lbl-cta-sub').textContent = tx.ctaSub;
+    document.getElementById('btn-aceptar').textContent = tx.btnAceptar;
+    document.getElementById('btn-declinar').textContent = tx.btnDeclinar;
+    document.getElementById('lbl-seguridad').textContent = tx.seguridad;
+    document.getElementById('success-title').textContent = tx.successTitle;
+    document.getElementById('success-msg').innerHTML = tx.successMsg;
+    document.getElementById('lbl-instrucciones-pago').textContent = tx.instruccionesPago;
+    document.getElementById('lbl-check-email').textContent = tx.checkEmail;
+    document.getElementById('lbl-monto-pagar').textContent = tx.montoPagar;
+    document.getElementById('lbl-plazo').textContent = tx.plazo;
+    document.getElementById('lbl-plazo-val').textContent = tx.plazoVal;
+    document.getElementById('lbl-estado').textContent = tx.estado;
+    document.getElementById('declined-title').textContent = tx.declinedTitle;
+    document.getElementById('declined-msg').textContent = tx.declinedMsg;
+    document.getElementById('footer-text').textContent = tx.footer;
+  }
+
+  async function init() {
+    const params = new URLSearchParams(window.location.search);
+    const codigo = params.get('codigo');
+    const emailParam = params.get('email');
+
+    // Esperar animación loader
+    await new Promise(r => setTimeout(r, 2000));
+
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+
+    if (!codigo) {
+      showError('Sin código de orden en la URL.');
+      return;
+    }
+
+    try {
+      const baseUrl = window.location.origin;
+      const res = await fetch(`${baseUrl}/api/orders/${codigo}`);
+
+      if (!res.ok) throw new Error('Orden no encontrada');
+      const order = await res.json();
+      currentOrder = order;
+
+      // Aplicar idioma del cliente
+      const lang = order.lang || 'es';
+      applyLang(lang);
+
+      // Verificar que tenga análisis
+      if (!order.analisis || !order.propuesta) {
+        showError('El análisis aún no está disponible. Intentá más tarde.');
+        return;
+      }
+
+      // Mostrar datos
+      document.getElementById('order-badge').innerHTML = `Orden <strong>${order.id}</strong>`;
+      document.getElementById('client-name').textContent = order.name;
+      document.getElementById('client-email-display').textContent = order.email;
+      document.getElementById('success-order').textContent = order.id;
+
+      // Texto traducido si existe, sino el español
+      const analisisTexto = order.analisis?.traducido || order.analisis?.es || order.analisis;
+      const propuestaTexto = order.propuesta?.traducido || order.propuesta?.es || order.propuesta;
+
+      document.getElementById('analisis-text').textContent = analisisTexto;
+      document.getElementById('propuesta-text').textContent = propuestaTexto;
+
+      // Si ya fue aceptado, mostrar success directamente
+      if (order.status === 'aceptado' || order.status === 'paid') {
+        document.getElementById('content-section').style.display = 'none';
+        document.getElementById('success-section').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('content-section').style.display = 'block';
+
+    } catch (err) {
+      showError(err.message);
+    }
+  }
+
+  function showError(msg) {
+    const tx = t[currentLang] || t['es'];
+    document.getElementById('error-section').style.display = 'block';
+    document.getElementById('error-msg').textContent = msg || tx.errorMsg;
+  }
+
+  async function aceptarPlanteo() {
+    if (!currentOrder) return;
+    const btn = document.getElementById('btn-aceptar');
+    const tx = t[currentLang] || t['es'];
+    btn.disabled = true;
+    btn.textContent = tx.procesando;
+
+    try {
+      const baseUrl = window.location.origin;
+      const res = await fetch(`${baseUrl}/api/orders/${currentOrder.id}/aceptar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: currentOrder.email })
+      });
+
+      const data = await res.json();
+
+      if (!data.success) throw new Error(data.error || 'Error al procesar');
+
+      // Mostrar success
+      document.getElementById('content-section').style.display = 'none';
+      document.getElementById('success-section').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = tx.btnAceptar;
+      alert('❌ ' + err.message);
+    }
+  }
+
+  function mostrarDeclinado() {
+    document.getElementById('content-section').style.display = 'none';
+    document.getElementById('declined-section').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Arrancar
+  init();
+</script>
+</body>
+</html>
