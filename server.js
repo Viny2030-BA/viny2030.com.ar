@@ -24,9 +24,9 @@ app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'adm
 app.get('/relato', (req, res) => res.sendFile(path.join(__dirname, 'public', 'relato.html')));
 app.get('/aceptar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'aceptar.html')));
 
-// Iniciar servidor + crear tabla si no existe
-migrate().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
-  });
+// Iniciar servidor siempre — la migración corre en paralelo sin bloquear
+app.listen(PORT, () => {
+  console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
+  // Intentar crear tabla, pero no bloquear si falla (ej: DATABASE_URL no configurada aún)
+  migrate().catch(err => console.warn('⚠️ Migración pendiente:', err.message));
 });
