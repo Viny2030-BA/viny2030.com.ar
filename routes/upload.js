@@ -22,13 +22,42 @@ const storage = multer.diskStorage({
   }
 });
 
-const fileFilter = (req, file, cb) => {
+// ─── fileFilter para comprobante (imágenes/videos/PDF) ───
+const fileFilterComprobante = (req, file, cb) => {
   const allowed = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', 'video/mp4', 'video/quicktime'];
   if (allowed.includes(file.mimetype)) cb(null, true);
   else cb(new Error('Formato no permitido'), false);
 };
 
-const upload = multer({ storage, fileFilter, limits: { fileSize: 20 * 1024 * 1024 } });
+// ─── fileFilter para relato (imágenes, PDF, video + datasets) ───
+const fileFilterRelato = (req, file, cb) => {
+  const allowedMimes = [
+    // Imágenes
+    'image/jpeg', 'image/png', 'image/webp',
+    // Video
+    'video/mp4', 'video/quicktime',
+    // Documentos
+    'application/pdf',
+    // CSV
+    'text/csv', 'text/plain',
+    // Excel / XLSX
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel',
+    // Parquet (no tiene MIME oficial, llega como octet-stream o application/octet-stream)
+    'application/octet-stream',
+    'application/x-parquet',
+  ];
+  const allowedExts = ['.csv', '.xlsx', '.xls', '.parquet', '.jpg', '.jpeg', '.png', '.webp', '.pdf', '.mp4', '.mov'];
+  const ext = path.extname(file.originalname).toLowerCase();
+
+  if (allowedMimes.includes(file.mimetype) || allowedExts.includes(ext)) {
+    cb(null, true);
+  } else {
+    cb(new Error(`Formato no permitido: ${file.originalname}`), false);
+  }
+};
+
+const upload = multer({ storage, fileFilter: fileFilterComprobante, limits: { fileSize: 20 * 1024 * 1024 } });
 
 // ─────────────────────────────────────────────
 // POST /api/upload — Subir comprobante de pago
@@ -46,17 +75,12 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
     // 1. Crear repo en GitHub org
     try {
       await setupClientRepo({
-        orderCode,
-        nombre,
-        email,
-        monto,
-        producto,
+        orderCode, nombre, email, monto, producto,
         comprobantePath: req.file.path,
         comprobanteOriginalName: req.file.originalname
       });
     } catch (ghErr) {
       console.error('Error GitHub:', ghErr.message);
-      // No interrumpir el flujo si falla GitHub
     }
 
     // 2. Notificar al admin
@@ -89,9 +113,7 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
               <h1 style="color:#c9a84c;font-size:28px;">🍷 Viny 2030</h1>
               <p style="color:#aaa;">Orden <strong style="color:#c9a84c;">${orderCode}</strong></p>
             </div>
-
             <p>Hola <strong>${nombre || 'cliente'}</strong>, recibimos tu comprobante. A continuación las opciones de pago:</p>
-
             <div style="background:#111;border-left:4px solid #c9a84c;padding:15px;margin-bottom:15px;border-radius:4px;">
               <h3 style="color:#c9a84c;margin:0 0 10px;">🇦🇷 Desde Argentina — Pesos (ARS)</h3>
               <table style="width:100%;font-size:14px;color:#ddd;">
@@ -102,7 +124,6 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
                 <tr><td style="color:#aaa;padding:4px 0;">CUIL/CUIT:</td><td>20-12034411-1</td></tr>
               </table>
             </div>
-
             <div style="background:#111;border-left:4px solid #c9a84c;padding:15px;margin-bottom:15px;border-radius:4px;">
               <h3 style="color:#c9a84c;margin:0 0 10px;">🇦🇷 Desde Argentina — Dólares (USD)</h3>
               <table style="width:100%;font-size:14px;color:#ddd;">
@@ -113,7 +134,6 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
                 <tr><td style="color:#aaa;padding:4px 0;">CUIL/CUIT:</td><td>20-12034411-1</td></tr>
               </table>
             </div>
-
             <div style="background:#111;border-left:4px solid #c9a84c;padding:15px;margin-bottom:20px;border-radius:4px;">
               <h3 style="color:#c9a84c;margin:0 0 10px;">🌍 Desde el Exterior — Wire Transfer</h3>
               <table style="width:100%;font-size:14px;color:#ddd;">
@@ -126,14 +146,12 @@ router.post('/', upload.single('comprobante'), async (req, res) => {
                 <tr><td style="color:#aaa;padding:4px 0;">SWIFT:</td><td><strong>BSCHUYMM</strong></td></tr>
               </table>
             </div>
-
             <div style="text-align:center;padding:20px;background:#111;border-radius:8px;margin-top:10px;">
               <p style="margin-bottom:15px;font-size:15px;">Una vez realizado el depósito, completá el formulario con el relato de tu consulta:</p>
               <a href="${formularioUrl}" style="background:#c9a84c;color:#000;padding:14px 30px;text-decoration:none;border-radius:6px;font-weight:bold;font-size:16px;display:inline-block;">
                 📝 Completar formulario de consulta
               </a>
             </div>
-
             <p style="color:#aaa;font-size:13px;text-align:center;margin-top:20px;">
               Ante cualquier consulta respondé este email.<br>
               <strong style="color:#c9a84c;">🍷 Viny 2030</strong>
@@ -165,7 +183,7 @@ const uploadRelato = multer({
       cb(null, `${req.body.orderCode || 'UNKNOWN'}_${Date.now()}${ext}`);
     }
   }),
-  fileFilter,
+  fileFilter: fileFilterRelato,   // ← usa el filtro ampliado
   limits: { fileSize: 20 * 1024 * 1024 }
 });
 
@@ -211,10 +229,8 @@ _Pendiente_
 `;
 
     try {
-      // Actualizar analisis.md
       await uploadFileToRepo(repoName, 'analisis.md', analisisMd, '📝 Relato del problema cargado');
 
-      // Subir archivos adjuntos al repo
       if (req.files && req.files.length > 0) {
         for (const file of req.files) {
           await uploadBinaryFileToRepo(
@@ -226,7 +242,6 @@ _Pendiente_
         }
       }
 
-      // Actualizar estado.md
       const estadoUpdate = `# Estado del Expediente — ${orderCode}
 
 ## Historial de estados
@@ -258,7 +273,9 @@ _Pendiente_
           <p><strong>Archivos adjuntos:</strong> ${req.files ? req.files.length : 0}</p>
           <p>📁 <a href="https://github.com/${GITHUB_ORG}/${repoName}">Ver expediente completo en GitHub</a></p>
         </div>`,
-      attachments: req.files ? req.files.map(f => ({ filename: f.originalname, content: fs.readFileSync(f.path) })) : []
+      attachments: req.files
+        ? req.files.map(f => ({ filename: f.originalname, content: fs.readFileSync(f.path) }))
+        : []
     });
 
     // 3. Confirmar al cliente
