@@ -79,7 +79,22 @@ router.get('/:code', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM orders WHERE id = $1', [req.params.code]);
     if (!rows.length) return res.status(404).json({ error: 'Orden no encontrada' });
-    res.json(rows[0]);
+    const o = rows[0];
+    // Normalizar para compatibilidad con el frontend (aceptar.html)
+    res.json({
+      id: o.id,
+      name: o.name,
+      email: o.email,
+      amount: o.amount,
+      lang: o.lang,
+      product: o.product,
+      status: o.status,
+      uploadUrl: o.upload_url,
+      createdAt: o.created_at,
+      aceptadoAt: o.aceptado_at,
+      analisis: o.analisis_es ? { es: o.analisis_es, traducido: o.analisis_trad || o.analisis_es } : null,
+      propuesta: o.propuesta_es ? { es: o.propuesta_es, traducido: o.propuesta_trad || o.propuesta_es } : null
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
