@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const migrate = require('./utils/migrate');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,9 @@ app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'adm
 app.get('/relato', (req, res) => res.sendFile(path.join(__dirname, 'public', 'relato.html')));
 app.get('/aceptar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'aceptar.html')));
 
-app.listen(PORT, () => {
-  console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
+// Iniciar servidor + crear tabla si no existe
+migrate().then(() => {
+  app.listen(PORT, () => {
+    console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
+  });
 });
