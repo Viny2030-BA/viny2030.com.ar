@@ -1,111 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Viny 2030 — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --gold: #c9a84c;
-  --red: #e94560;
-  --bg: #0d1f35;
-  --surface: #1a3a5c;
-  --surface2: #152e4a;
-  --surface3: #1e3555;
-  --border: #2a4f72;
-  --text: #e8e0d0;
-  --muted: #7a9ab8;
-  --green: #6bc96b;
-}
-body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; padding: 40px 20px; min-height: 100vh; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viny 2030 — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #c9a84c; --red: #e94560; --bg: #0d1f35;
+      --surface: #1a3a5c; --surface2: #152e4a; --surface3: #1e3555;
+      --border: #2a4f72; --text: #e8e0d0; --muted: #7a9ab8;
+      --green: #6bc96b; --blue: #88aaff;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; padding: 40px 20px; min-height: 100vh; }
 
-/* HEADER */
-.header { text-align: center; margin-bottom: 40px; }
-.logo { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: var(--gold); }
-.sub { font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
+    .header { text-align: center; margin-bottom: 40px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: var(--gold); }
+    .sub { font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
 
-/* STATS */
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto 40px; }
-.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: border-color 0.2s; }
-.stat:hover { border-color: var(--gold); }
-.stat-num { font-size: 32px; font-weight: 700; color: var(--gold); }
-.stat-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto 40px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: border-color 0.2s; }
+    .stat:hover { border-color: var(--gold); }
+    .stat-num { font-size: 32px; font-weight: 700; color: var(--gold); }
+    .stat-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
 
-/* TABLA */
-.orders-table { max-width: 1100px; margin: 0 auto; }
-.table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-.table-title { font-family: 'Playfair Display', serif; font-size: 20px; }
-.btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s; }
-.btn:hover { border-color: var(--gold); color: var(--gold); }
-.btn-gold { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 600; }
-.btn-gold:hover { background: #b8963e; border-color: #b8963e; color: #000; }
-.btn-red { background: transparent; border-color: var(--red); color: var(--red); }
-.btn-red:hover { background: var(--red); color: #fff; }
+    .orders-table { max-width: 1200px; margin: 0 auto; }
+    .table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .table-title { font-family: 'Playfair Display', serif; font-size: 20px; }
 
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { text-align: left; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 12px 16px; border-bottom: 1px solid var(--border); }
-td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:hover td { background: var(--surface); }
+    .btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s; }
+    .btn:hover { border-color: var(--gold); color: var(--gold); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-gold { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 600; }
+    .btn-gold:hover { background: #b8963e; border-color: #b8963e; color: #000; }
+    .btn-ai { background: linear-gradient(135deg, #1a1f4e, #0d3a5c); border: 1px solid #4a6aaa; color: #88aaff; font-weight: 600; }
+    .btn-ai:hover { background: linear-gradient(135deg, #2a2f6e, #1a4a7c); border-color: var(--blue); color: #aaccff; }
+    .btn-ai:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.code { font-family: monospace; color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 2px; }
-.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-.badge.pending { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-.badge.paid { background: rgba(107,201,107,0.1); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
-.badge.analizado { background: rgba(100,150,255,0.1); color: #88aaff; border: 1px solid rgba(100,150,255,0.3); }
-.badge.aceptado { background: rgba(255,200,50,0.1); color: #ffc832; border: 1px solid rgba(255,200,50,0.3); }
-.badge.cancelled { background: rgba(220,50,50,0.1); color: #e06060; border: 1px solid rgba(220,50,50,0.3); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:hover td { background: var(--surface); }
+    .code { font-family: monospace; color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 2px; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+    .badge.pending { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .badge.paid { background: rgba(107,201,107,0.1); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
+    .badge.analizado { background: rgba(100,150,255,0.1); color: #88aaff; border: 1px solid rgba(100,150,255,0.3); }
+    .badge.aceptado { background: rgba(255,200,50,0.1); color: #ffc832; border: 1px solid rgba(255,200,50,0.3); }
+    .badge.cancelled { background: rgba(220,50,50,0.1); color: #e06060; border: 1px solid rgba(220,50,50,0.3); }
 
-.btn-expediente { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
-.btn-expediente:hover { border-color: var(--gold); color: var(--gold); }
-.btn-analisis-ok { border-color: rgba(107,201,107,0.4); color: var(--green); }
-.btn-analisis-ok:hover { background: rgba(107,201,107,0.1); }
+    .btn-expediente { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+    .btn-expediente:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-expediente.has-relato { border-color: rgba(136,170,255,0.4); color: var(--blue); }
+    .btn-expediente.has-relato:hover { background: rgba(136,170,255,0.1); }
+    .btn-expediente.analisis-ok { border-color: rgba(107,201,107,0.4); color: var(--green); }
+    .btn-expediente.analisis-ok:hover { background: rgba(107,201,107,0.1); }
 
-select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+    select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+    .empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
 
-.empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 800px; padding: 32px; position: relative; margin: auto; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .modal-close:hover { color: var(--text); }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); margin-bottom: 6px; }
+    .modal-subtitle { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 24px; }
 
-/* MODAL */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-.modal-overlay.active { display: flex; }
-.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; padding: 32px; position: relative; }
-.modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.2s; }
-.modal-close:hover { color: var(--text); }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); margin-bottom: 6px; }
-.modal-subtitle { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 24px; }
+    .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: var(--surface2); border-radius: 10px; padding: 16px; }
+    .info-item label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .info-item span { font-size: 14px; color: var(--text); }
+    .info-item span.highlight { color: var(--gold); font-weight: 600; }
 
-.client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: var(--surface2); border-radius: 10px; padding: 16px; }
-.info-item label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 4px; }
-.info-item span { font-size: 14px; color: var(--text); }
-.info-item span.highlight { color: var(--gold); font-weight: 600; }
+    /* DATASET SECTION */
+    .dataset-section { margin-bottom: 24px; }
+    .dataset-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .dataset-title { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .dataset-files { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .file-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+    .file-chip:hover { border-color: var(--blue); color: var(--blue); }
+    .file-chip.selected { border-color: var(--blue); background: rgba(136,170,255,0.1); color: var(--blue); }
+    .file-chip.loading-chip { opacity: 0.6; cursor: default; }
+    .csv-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; max-height: 220px; overflow: auto; font-size: 11px; font-family: monospace; color: #a0c0e0; line-height: 1.5; white-space: pre; display: none; }
+    .csv-preview.visible { display: block; }
 
-.field-group { margin-bottom: 20px; }
-.field-group label { display: block; font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; transition: border-color 0.2s; }
-textarea:focus { outline: none; border-color: var(--gold); }
-.textarea-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    /* AI SECTION */
+    .ai-section { background: linear-gradient(135deg, rgba(26,31,78,0.6), rgba(13,58,92,0.6)); border: 1px solid rgba(74,106,170,0.4); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .ai-icon { font-size: 20px; }
+    .ai-title { font-size: 13px; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; font-weight: 600; }
+    .ai-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+    .ai-context { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(74,106,170,0.3); color: var(--text); border-radius: 8px; padding: 12px; font-family: 'Barlow', sans-serif; font-size: 13px; resize: vertical; min-height: 70px; margin-bottom: 12px; }
+    .ai-context:focus { outline: none; border-color: var(--blue); }
+    .ai-context::placeholder { color: #4a6a88; }
+    .ai-status { font-size: 12px; color: var(--muted); margin-top: 10px; min-height: 20px; }
+    .ai-status.thinking { color: var(--blue); }
+    .ai-status.done { color: var(--green); }
+    .ai-status.err { color: var(--red); }
 
-.translation-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(100,150,255,0.1); border: 1px solid rgba(100,150,255,0.3); color: #88aaff; padding: 4px 10px; border-radius: 20px; font-size: 11px; margin-bottom: 16px; }
+    /* TYPING ANIMATION */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { display: inline-block; width: 2px; height: 1em; background: var(--blue); animation: blink 1s step-start infinite; vertical-align: text-bottom; margin-left: 2px; }
 
-.existing-analisis { background: var(--surface2); border: 1px solid rgba(107,201,107,0.2); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
-.existing-analisis h4 { font-size: 11px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 10px; }
-.existing-text { font-size: 13px; color: #aaa; line-height: 1.6; white-space: pre-wrap; max-height: 120px; overflow-y: auto; }
+    .field-group { margin-bottom: 20px; }
+    .field-group label { display: block; font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+    textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; transition: border-color 0.2s; }
+    textarea:focus { outline: none; border-color: var(--gold); }
+    .textarea-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
 
-.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
+    .translation-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(100,150,255,0.1); border: 1px solid rgba(100,150,255,0.3); color: #88aaff; padding: 4px 10px; border-radius: 20px; font-size: 11px; margin-bottom: 16px; }
+    .existing-analisis { background: var(--surface2); border: 1px solid rgba(107,201,107,0.2); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+    .existing-analisis h4 { font-size: 11px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 10px; }
+    .existing-text { font-size: 13px; color: #aaa; line-height: 1.6; white-space: pre-wrap; max-height: 120px; overflow-y: auto; }
 
-.status-banner { padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; display: none; }
-.status-banner.success { background: rgba(107,201,107,0.1); border: 1px solid rgba(107,201,107,0.3); color: var(--green); display: block; }
-.status-banner.error { background: rgba(220,50,50,0.1); border: 1px solid rgba(220,50,50,0.3); color: #e06060; display: block; }
-.status-banner.loading { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); display: block; }
+    .status-banner { padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; display: none; }
+    .status-banner.success { background: rgba(107,201,107,0.1); border: 1px solid rgba(107,201,107,0.3); color: var(--green); display: block; }
+    .status-banner.error { background: rgba(220,50,50,0.1); border: 1px solid rgba(220,50,50,0.3); color: #e06060; display: block; }
+    .status-banner.loading { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); display: block; }
 
-.lang-flag { font-size: 18px; }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
 
-/* NAV */
-.nav-links { text-align: center; margin-top: 40px; }
-.nav-links a { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; margin: 0 12px; transition: color 0.2s; }
-.nav-links a:hover { color: var(--gold); }
-</style>
+    .nav-links { text-align: center; margin-top: 40px; }
+    .nav-links a { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; margin: 0 12px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+
+    .relato-desc { background: var(--surface2); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #bbb; line-height: 1.6; margin-bottom: 16px; white-space: pre-wrap; }
+    .urgencia-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+    .urgencia-normal { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .urgencia-alta { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.3); }
+    .urgencia-baja { background: rgba(107,201,107,0.15); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
+
+    .github-link { font-size: 12px; color: var(--muted); text-decoration: none; }
+    .github-link:hover { color: var(--blue); }
+  </style>
 </head>
 <body>
 
@@ -134,7 +164,7 @@ textarea:focus { outline: none; border-color: var(--gold); }
         <th>Cliente</th>
         <th>Email</th>
         <th>Monto</th>
-        <th>Idioma</th>
+        <th>Lang</th>
         <th>Estado</th>
         <th>Fecha</th>
         <th>Expediente</th>
@@ -160,6 +190,52 @@ textarea:focus { outline: none; border-color: var(--gold); }
 
     <div class="client-info" id="clientInfo"></div>
 
+    <!-- RELATO DEL CLIENTE -->
+    <div id="relatoSection" style="display:none; margin-bottom:24px;">
+      <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">
+        📋 Relato del cliente
+        <span id="urgenciaBadge" style="margin-left:8px;"></span>
+      </div>
+      <div class="relato-desc" id="relatoDesc">—</div>
+    </div>
+
+    <!-- DATASETS DEL CLIENTE -->
+    <div class="dataset-section" id="datasetSection" style="display:none;">
+      <div class="dataset-header">
+        <span class="dataset-title">📊 Archivos del cliente</span>
+        <a id="githubRepoLink" href="#" target="_blank" class="github-link">🔗 Ver repo GitHub</a>
+      </div>
+      <div class="dataset-files" id="datasetFiles"></div>
+      <div class="csv-preview" id="csvPreview"></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BLOQUE IA -->
+    <div class="ai-section">
+      <div class="ai-header">
+        <span class="ai-icon">🤖</span>
+        <span class="ai-title">Análisis automático con IA</span>
+      </div>
+      <div class="ai-desc">
+        La IA leerá el dataset del cliente junto con su relato y generará un análisis técnico completo y una propuesta de solución. Podés agregar contexto adicional antes de generar.
+      </div>
+      <textarea
+        class="ai-context"
+        id="aiContext"
+        placeholder="Contexto adicional para la IA (opcional): foco en detección de fraudes, industria vitivinícola, objetivo del cliente..."
+      ></textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-ai" id="btnGenerar" onclick="generarConIA()">
+          ✨ Generar análisis con IA
+        </button>
+        <button class="btn" id="btnLimpiarAI" onclick="limpiarAI()" style="display:none;font-size:11px;padding:8px 14px;">
+          ↺ Regenerar
+        </button>
+      </div>
+      <div class="ai-status" id="aiStatus"></div>
+    </div>
+
     <div id="statusBanner" class="status-banner"></div>
 
     <div id="existingAnalisis" style="display:none;" class="existing-analisis">
@@ -172,14 +248,14 @@ textarea:focus { outline: none; border-color: var(--gold); }
     </div>
 
     <div class="field-group">
-      <label>📊 Análisis del caso <small style="font-weight:300;text-transform:none;">(escribí en español)</small></label>
-      <textarea id="analisisInput" rows="7" placeholder="Describí tu análisis del problema del cliente. Cuál es la situación, qué detectaste, qué factores están en juego..."></textarea>
+      <label>📊 Análisis del caso <small style="font-weight:300;text-transform:none;">(podés editar antes de enviar)</small></label>
+      <textarea id="analisisInput" rows="7" placeholder="El análisis aparecerá aquí tras presionar 'Generar con IA', o podés escribirlo manualmente..."></textarea>
       <div class="textarea-hint">Este texto será traducido automáticamente al idioma del cliente antes de enviarse.</div>
     </div>
 
     <div class="field-group">
-      <label>💡 Propuesta de solución <small style="font-weight:300;text-transform:none;">(escribí en español)</small></label>
-      <textarea id="propuestaInput" rows="6" placeholder="Describí qué propuesta le hacés al cliente. Qué se haría en la segunda etapa, qué resultados puede esperar, cuál es el alcance..."></textarea>
+      <label>💡 Propuesta de solución <small style="font-weight:300;text-transform:none;">(podés editar antes de enviar)</small></label>
+      <textarea id="propuestaInput" rows="6" placeholder="La propuesta aparecerá aquí tras presionar 'Generar con IA', o podés escribirla manualmente..."></textarea>
     </div>
 
     <div class="modal-actions">
@@ -194,8 +270,13 @@ textarea:focus { outline: none; border-color: var(--gold); }
 <script>
 const LANG_FLAGS = { es: '🇦🇷', en: '🇬🇧', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
 const LANG_NAMES = { es: 'Español', en: 'English', fr: 'Français', de: 'Deutsch', it: 'Italiano' };
-let currentOrder = null;
+const GITHUB_ORG = 'Viny2030-Clientes';
 
+let currentOrder = null;
+let currentDataset = null; // contenido CSV cargado
+let selectedFileName = null;
+
+// ─── CARGAR ÓRDENES ───────────────────────────────────────
 async function loadOrders() {
   try {
     const res = await fetch('/api/orders');
@@ -210,34 +291,34 @@ async function loadOrders() {
 
     body.innerHTML = orders.slice().reverse().map(o => {
       const tieneAnalisis = o.analisis || o.status === 'analizado';
-      const btnClass = tieneAnalisis ? 'btn-expediente btn-analisis-ok' : 'btn-expediente';
-      const btnLabel = tieneAnalisis ? '✅ Ver análisis' : '📝 Escribir análisis';
+      let btnClass = 'btn-expediente';
+      let btnLabel = '📂 Ver expediente';
+      if (tieneAnalisis) { btnClass += ' analisis-ok'; btnLabel = '✅ Ver análisis'; }
+      else if (o.status !== 'pending') { btnClass += ' has-relato'; btnLabel = '📊 Analizar'; }
 
       return `
-      <tr>
-        <td><span class="code">${o.id}</span></td>
-        <td>${o.name}</td>
-        <td style="color:var(--muted);font-size:12px;">${o.email}</td>
-        <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
-        <td><span class="lang-flag" title="${LANG_NAMES[o.lang] || o.lang}">${LANG_FLAGS[o.lang] || o.lang}</span></td>
-        <td>
-          <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
-            <option value="pending"   ${o.status==='pending'   ?'selected':''}>⏳ Pendiente</option>
-            <option value="analizado" ${o.status==='analizado' ?'selected':''}>📊 Analizado</option>
-            <option value="aceptado"  ${o.status==='aceptado'  ?'selected':''}>🤝 Aceptado</option>
-            <option value="paid"      ${o.status==='paid'      ?'selected':''}>✅ Confirmado</option>
-            <option value="cancelled" ${o.status==='cancelled' ?'selected':''}>❌ Cancelado</option>
-          </select>
-        </td>
-        <td style="color:var(--muted);font-size:12px;">
-          ${new Date(o.createdAt).toLocaleString('es-AR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
-        </td>
-        <td>
-          <button class="${btnClass}" onclick="openExpediente(${JSON.stringify(o).replace(/"/g,'&quot;')})">
-            ${btnLabel}
-          </button>
-        </td>
-      </tr>`;
+        <tr>
+          <td><span class="code">${o.id}</span></td>
+          <td>${o.name}</td>
+          <td style="color:var(--muted);font-size:12px;">${o.email}</td>
+          <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
+          <td><span title="${LANG_NAMES[o.lang] || o.lang}">${LANG_FLAGS[o.lang] || o.lang}</span></td>
+          <td>
+            <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
+              <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pendiente</option>
+              <option value="analizado" ${o.status==='analizado'?'selected':''}>📊 Analizado</option>
+              <option value="aceptado" ${o.status==='aceptado'?'selected':''}>🤝 Aceptado</option>
+              <option value="paid" ${o.status==='paid'?'selected':''}>✅ Confirmado</option>
+              <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelado</option>
+            </select>
+          </td>
+          <td style="color:var(--muted);font-size:12px;">
+            ${new Date(o.createdAt).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+          </td>
+          <td>
+            <button class="${btnClass}" onclick='openExpediente(${JSON.stringify(o).replace(/'/g,"\\'")})'>${btnLabel}</button>
+          </td>
+        </tr>`;
     }).join('');
 
     updateStats(orders);
@@ -249,7 +330,7 @@ async function loadOrders() {
 function updateStats(orders) {
   document.getElementById('totalOrders').textContent = orders.length;
   document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
-  document.getElementById('analizadoOrders').textContent = orders.filter(o => o.status === 'analizado' || o.status === 'aceptado').length;
+  document.getElementById('analizadoOrders').textContent = orders.filter(o => ['analizado','aceptado'].includes(o.status)).length;
   document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
   const total = orders.reduce((s, o) => s + Number(o.amount), 0);
   document.getElementById('totalAmount').textContent = total ? '$' + total.toLocaleString('es-AR') : '$0';
@@ -257,61 +338,49 @@ function updateStats(orders) {
 
 async function updateStatus(code, status) {
   await fetch(`/api/orders/${code}/status`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status })
+    method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status })
   });
   loadOrders();
 }
 
-function openExpediente(order) {
+// ─── ABRIR EXPEDIENTE ────────────────────────────────────
+async function openExpediente(order) {
   currentOrder = order;
+  currentDataset = null;
+  selectedFileName = null;
 
   document.getElementById('modalTitle').textContent = `Expediente ${order.id}`;
   document.getElementById('modalSubtitle').textContent = `${order.name} · ${order.email} · ${LANG_NAMES[order.lang] || order.lang}`;
-
   document.getElementById('clientInfo').innerHTML = `
-    <div class="info-item">
-      <label>Código</label>
-      <span class="highlight">${order.id}</span>
-    </div>
-    <div class="info-item">
-      <label>Cliente</label>
-      <span>${order.name}</span>
-    </div>
-    <div class="info-item">
-      <label>Email</label>
-      <span>${order.email}</span>
-    </div>
-    <div class="info-item">
-      <label>Monto</label>
-      <span>USD ${order.amount}</span>
-    </div>
-    <div class="info-item">
-      <label>Producto</label>
-      <span>${order.product || 'Diagnóstico Algorítmico'}</span>
-    </div>
-    <div class="info-item">
-      <label>Idioma</label>
-      <span>${LANG_FLAGS[order.lang] || ''} ${LANG_NAMES[order.lang] || order.lang}</span>
-    </div>
+    <div class="info-item"><label>Código</label><span class="highlight">${order.id}</span></div>
+    <div class="info-item"><label>Cliente</label><span>${order.name}</span></div>
+    <div class="info-item"><label>Email</label><span>${order.email}</span></div>
+    <div class="info-item"><label>Monto</label><span>USD ${order.amount}</span></div>
+    <div class="info-item"><label>Producto</label><span>${order.product || 'Diagnóstico Algorítmico'}</span></div>
+    <div class="info-item"><label>Idioma</label><span>${LANG_FLAGS[order.lang]||''} ${LANG_NAMES[order.lang]||order.lang}</span></div>
   `;
 
-  // Mostrar análisis existente si hay
-  const existingDiv = document.getElementById('existingAnalisis');
-  const existingText = document.getElementById('existingText');
-  if (order.analisis && order.analisis.es) {
-    existingDiv.style.display = 'block';
-    existingText.textContent = order.analisis.es;
+  // Limpiar estado IA
+  document.getElementById('aiStatus').textContent = '';
+  document.getElementById('aiStatus').className = 'ai-status';
+  document.getElementById('btnLimpiarAI').style.display = 'none';
+  document.getElementById('btnGenerar').disabled = false;
+  document.getElementById('btnGenerar').textContent = '✨ Generar análisis con IA';
+
+  // Análisis existente
+  const existDiv = document.getElementById('existingAnalisis');
+  if (order.analisis?.es) {
+    existDiv.style.display = 'block';
+    document.getElementById('existingText').textContent = order.analisis.es;
     document.getElementById('analisisInput').value = order.analisis.es;
     document.getElementById('propuestaInput').value = order.propuesta?.es || '';
   } else {
-    existingDiv.style.display = 'none';
+    existDiv.style.display = 'none';
     document.getElementById('analisisInput').value = '';
     document.getElementById('propuestaInput').value = '';
   }
 
-  // Mostrar nota de traducción si no es español
+  // Nota de traducción
   const translNote = document.getElementById('translationNote');
   if (order.lang && order.lang !== 'es') {
     translNote.style.display = 'inline-flex';
@@ -322,44 +391,233 @@ function openExpediente(order) {
 
   // Limpiar banner
   const banner = document.getElementById('statusBanner');
-  banner.className = 'status-banner';
-  banner.textContent = '';
+  banner.className = 'status-banner'; banner.textContent = '';
+
+  // Cargar datos del repo GitHub
+  await cargarDatosGitHub(order.id);
 
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
-function closeModal(event) {
-  if (event.target === document.getElementById('modalOverlay')) closeModalDirect();
+// ─── CARGAR DATOS DESDE GITHUB ──────────────────────────
+async function cargarDatosGitHub(orderCode) {
+  const repoName = orderCode.toLowerCase();
+  const repoUrl = `https://github.com/${GITHUB_ORG}/${repoName}`;
+  document.getElementById('githubRepoLink').href = repoUrl;
+
+  // Cargar analisis.md para obtener relato + archivos
+  try {
+    const apiUrl = `https://api.github.com/repos/${GITHUB_ORG}/${repoName}/contents/analisis.md`;
+    const res = await fetch(apiUrl);
+    if (res.ok) {
+      const data = await res.json();
+      const content = atob(data.content.replace(/\n/g, ''));
+      // Extraer descripción del problema
+      const descMatch = content.match(/## Descripción del problema\s*([\s\S]*?)(?=##|$)/);
+      const archivosMatch = content.match(/## Archivos adjuntos\s*([\s\S]*?)(?=##|$)/);
+      const urgenciaMatch = content.match(/\| \*\*Urgencia\*\* \| ([^\|]+) \|/);
+
+      if (descMatch) {
+        const desc = descMatch[1].trim();
+        const section = document.getElementById('relatoSection');
+        document.getElementById('relatoDesc').textContent = desc || '(sin descripción)';
+        section.style.display = desc ? 'block' : 'none';
+      }
+      if (urgenciaMatch) {
+        const urg = urgenciaMatch[1].trim();
+        const badge = document.getElementById('urgenciaBadge');
+        const cls = urg === 'Alta' ? 'alta' : urg === 'Baja' ? 'baja' : 'normal';
+        badge.innerHTML = `<span class="urgencia-badge urgencia-${cls}">${urg}</span>`;
+      }
+    }
+  } catch(e) {}
+
+  // Cargar lista de archivos en /relato
+  try {
+    const apiUrl = `https://api.github.com/repos/${GITHUB_ORG}/${repoName}/contents/relato`;
+    const res = await fetch(apiUrl);
+    if (res.ok) {
+      const files = await res.json();
+      const dataFiles = files.filter(f =>
+        f.name.match(/\.(csv|xlsx|xls|parquet|json|txt)$/i)
+      );
+      if (dataFiles.length > 0) {
+        const section = document.getElementById('datasetSection');
+        section.style.display = 'block';
+        const filesDiv = document.getElementById('datasetFiles');
+        filesDiv.innerHTML = dataFiles.map(f => {
+          const ext = f.name.split('.').pop().toUpperCase();
+          const icon = ext === 'CSV' ? '📊' : ext.includes('XLS') ? '📗' : ext === 'PARQUET' ? '🗄️' : '📄';
+          return `<div class="file-chip" onclick="seleccionarArchivo('${f.name}', '${f.download_url}', this)">
+            ${icon} ${f.name} <span style="color:var(--muted);font-size:10px;">${(f.size/1024).toFixed(0)}KB</span>
+          </div>`;
+        }).join('');
+
+        // Auto-seleccionar el primero
+        if (dataFiles.length > 0) {
+          await cargarContenidoArchivo(dataFiles[0].name, dataFiles[0].download_url);
+          document.querySelector('.file-chip')?.classList.add('selected');
+        }
+      }
+    }
+  } catch(e) {}
 }
 
-function closeModalDirect() {
-  document.getElementById('modalOverlay').classList.remove('active');
-  document.body.style.overflow = '';
-  currentOrder = null;
+async function seleccionarArchivo(nombre, url, chipEl) {
+  document.querySelectorAll('.file-chip').forEach(c => c.classList.remove('selected'));
+  chipEl.classList.add('selected', 'loading-chip');
+  await cargarContenidoArchivo(nombre, url);
+  chipEl.classList.remove('loading-chip');
 }
 
+async function cargarContenidoArchivo(nombre, url) {
+  selectedFileName = nombre;
+  const preview = document.getElementById('csvPreview');
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    currentDataset = text;
+    // Mostrar preview (primeras 30 líneas)
+    const lines = text.split('\n').slice(0, 30);
+    preview.textContent = lines.join('\n') + (text.split('\n').length > 30 ? '\n... (truncado)' : '');
+    preview.classList.add('visible');
+  } catch(e) {
+    currentDataset = null;
+    preview.classList.remove('visible');
+  }
+}
+
+// ─── GENERAR ANÁLISIS CON IA ─────────────────────────────
+async function generarConIA() {
+  const btn = document.getElementById('btnGenerar');
+  const statusEl = document.getElementById('aiStatus');
+  const analisisTA = document.getElementById('analisisInput');
+  const propuestaTA = document.getElementById('propuestaInput');
+  const aiContext = document.getElementById('aiContext').value.trim();
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Analizando...';
+  statusEl.className = 'ai-status thinking';
+  statusEl.textContent = '🔍 Leyendo datos y generando análisis...';
+
+  // Obtener relato del cliente
+  const relatoDesc = document.getElementById('relatoDesc').textContent;
+
+  // Preparar contexto del dataset
+  let datasetInfo = '';
+  if (currentDataset) {
+    const lines = currentDataset.split('\n').slice(0, 80).join('\n');
+    datasetInfo = `\n\nDATASET DEL CLIENTE (archivo: ${selectedFileName}):\n\`\`\`\n${lines}\n\`\`\``;
+  }
+
+  const prompt = `Sos un experto en análisis de datos y consultoría algorítmica trabajando para Viny 2030.
+
+CLIENTE: ${currentOrder.name}
+ORDEN: ${currentOrder.id}
+PRODUCTO: ${currentOrder.product || 'Diagnóstico Algorítmico'}
+RELATO DEL CLIENTE: ${relatoDesc}
+${aiContext ? `\nCONTEXTO ADICIONAL: ${aiContext}` : ''}
+${datasetInfo}
+
+Basándote en el relato y el dataset del cliente, generá:
+
+1. Un ANÁLISIS técnico detallado del problema (3-5 párrafos). Incluí:
+   - Qué detectás en los datos
+   - Patrones, anomalías o puntos críticos identificados
+   - Evaluación de la situación actual
+   - Factores de riesgo o de oportunidad
+
+2. Una PROPUESTA de solución concreta (2-3 párrafos). Incluí:
+   - Qué se haría en la segunda etapa (USD 40)
+   - Metodología y herramientas a usar
+   - Resultados esperados y alcance
+
+Respondé SOLO en formato JSON:
+{
+  "analisis": "...",
+  "propuesta": "..."
+}
+Sin texto adicional, sin markdown, solo el JSON.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content?.[0]?.text || '';
+
+    let parsed;
+    try {
+      parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    } catch(e) {
+      // Si no parsea como JSON, intentar extraer con regex
+      const aMatch = raw.match(/"analisis"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"propuesta"|"$)/);
+      const pMatch = raw.match(/"propuesta"\s*:\s*"([\s\S]*?)"\s*}/);
+      parsed = {
+        analisis: aMatch ? aMatch[1].replace(/\\n/g,'\n') : raw,
+        propuesta: pMatch ? pMatch[1].replace(/\\n/g,'\n') : ''
+      };
+    }
+
+    // Efecto de typing
+    await typeText(analisisTA, parsed.analisis || '');
+    await typeText(propuestaTA, parsed.propuesta || '');
+
+    statusEl.className = 'ai-status done';
+    statusEl.textContent = '✅ Análisis generado. Revisá y editá si querés antes de enviar.';
+    btn.textContent = '✅ Generado';
+    document.getElementById('btnLimpiarAI').style.display = 'inline-block';
+
+  } catch(err) {
+    statusEl.className = 'ai-status err';
+    statusEl.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false;
+    btn.textContent = '✨ Generar análisis con IA';
+  }
+}
+
+// Efecto de typing progresivo
+async function typeText(textarea, text) {
+  textarea.value = '';
+  const chunkSize = 8;
+  for (let i = 0; i < text.length; i += chunkSize) {
+    textarea.value += text.slice(i, i + chunkSize);
+    textarea.scrollTop = textarea.scrollHeight;
+    await new Promise(r => setTimeout(r, 12));
+  }
+}
+
+function limpiarAI() {
+  document.getElementById('analisisInput').value = '';
+  document.getElementById('propuestaInput').value = '';
+  document.getElementById('aiStatus').textContent = '';
+  document.getElementById('aiStatus').className = 'ai-status';
+  document.getElementById('btnGenerar').disabled = false;
+  document.getElementById('btnGenerar').textContent = '✨ Generar análisis con IA';
+  document.getElementById('btnLimpiarAI').style.display = 'none';
+}
+
+// ─── ENVIAR ANÁLISIS AL CLIENTE ──────────────────────────
 async function enviarAnalisis() {
   if (!currentOrder) return;
-
   const analisis = document.getElementById('analisisInput').value.trim();
   const propuesta = document.getElementById('propuestaInput').value.trim();
   const banner = document.getElementById('statusBanner');
   const btn = document.getElementById('btnEnviar');
 
-  if (!analisis) {
-    banner.className = 'status-banner error';
-    banner.textContent = '⚠️ El campo de análisis no puede estar vacío.';
-    return;
-  }
-  if (!propuesta) {
-    banner.className = 'status-banner error';
-    banner.textContent = '⚠️ El campo de propuesta no puede estar vacío.';
-    return;
-  }
+  if (!analisis) { banner.className = 'status-banner error'; banner.textContent = '⚠️ El campo análisis no puede estar vacío.'; return; }
+  if (!propuesta) { banner.className = 'status-banner error'; banner.textContent = '⚠️ El campo propuesta no puede estar vacío.'; return; }
 
   btn.disabled = true;
-  btn.textContent = '⏳ Traduciendo y enviando...';
+  btn.textContent = '⏳ Enviando...';
   banner.className = 'status-banner loading';
   banner.textContent = currentOrder.lang !== 'es'
     ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang] || currentOrder.lang} y enviando email...`
@@ -367,27 +625,19 @@ async function enviarAnalisis() {
 
   try {
     const res = await fetch(`/api/orders/${currentOrder.id}/analisis`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ analisis, propuesta })
     });
-
     const data = await res.json();
-
     if (data.success) {
       banner.className = 'status-banner success';
-      banner.textContent = `✅ Análisis enviado correctamente a ${currentOrder.email}${data.translated ? ' (traducido automáticamente)' : ''}.`;
+      banner.textContent = `✅ Análisis enviado correctamente a ${currentOrder.email}.`;
       btn.textContent = '✅ Enviado';
-
-      // Actualizar tabla
-      setTimeout(() => {
-        loadOrders();
-        closeModalDirect();
-      }, 2000);
+      setTimeout(() => { loadOrders(); closeModalDirect(); }, 2000);
     } else {
       throw new Error(data.error || 'Error desconocido');
     }
-  } catch (err) {
+  } catch(err) {
     banner.className = 'status-banner error';
     banner.textContent = `❌ Error: ${err.message}`;
     btn.disabled = false;
@@ -395,11 +645,16 @@ async function enviarAnalisis() {
   }
 }
 
-// Cerrar modal con ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModalDirect();
-});
+function closeModal(event) {
+  if (event.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  currentOrder = null;
+}
 
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
 loadOrders();
 </script>
 </body>
