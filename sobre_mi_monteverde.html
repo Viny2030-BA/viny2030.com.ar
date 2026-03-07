@@ -6,186 +6,187 @@
 <title>Dr. Vicente Humberto Monteverde</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0d1b2a;
-    --gold: #b8963e;
-    --gold-light: #d4af6a;
-    --cream: #f7f3ed;
-    --slate: #3a4a5c;
-    --muted: #8a9ab0;
-    --white: #ffffff;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--navy); color: var(--cream); font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(184,150,62,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 10% 80%, rgba(58,74,92,0.4) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+:root { --navy:#0d1b2a; --gold:#b8963e; --gold-light:#d4af6a; --cream:#f7f3ed; --slate:#3a4a5c; --muted:#8a9ab0; --white:#ffffff; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 20%,rgba(184,150,62,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 10% 80%,rgba(58,74,92,0.4) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
-  /* LANGUAGE SWITCHER */
-  .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(13,27,42,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(184,150,62,0.2); display: flex; justify-content: center; gap: 4px; padding: 10px 20px; }
-  .lang-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; cursor: pointer; border-radius: 2px; transition: all 0.25s; }
-  .lang-btn:hover { color: var(--gold-light); border-color: rgba(184,150,62,0.3); }
-  .lang-btn.active { color: var(--gold); border-color: var(--gold); background: rgba(184,150,62,0.08); }
+/* LANG BAR */
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,27,42,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(184,150,62,0.2);display:flex;justify-content:center;gap:4px;padding:10px 20px;}
+.lang-btn{background:transparent;border:1px solid transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;cursor:pointer;border-radius:2px;transition:all .25s;}
+.lang-btn:hover{color:var(--gold-light);border-color:rgba(184,150,62,0.3);}
+.lang-btn.active{color:var(--gold);border-color:var(--gold);background:rgba(184,150,62,0.08);}
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 100px 40px 60px; position: relative; z-index: 1; }
+.container{max-width:1100px;margin:0 auto;padding:60px 40px;position:relative;z-index:1;}
 
-  .header-rule { display: flex; align-items: center; gap: 18px; margin-bottom: 56px; opacity: 0; animation: fadeUp 0.8s ease forwards; }
-  .header-rule span { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
-  .rule { flex: 1; height: 1px; background: linear-gradient(to right, var(--gold), transparent); }
+/* HERO */
+.hero-section{min-height:92vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:80px;border-bottom:1px solid rgba(184,150,62,0.15);}
+.hero-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(184,150,62,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(184,150,62,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(184,150,62,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-content{text-align:center;position:relative;z-index:2;max-width:860px;padding:0 40px;}
+.hero-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:16px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--gold);opacity:0.5;}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,2vw,18px);font-weight:300;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.hero-tagline-wrap{height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:32px;position:relative;}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,58px);font-weight:300;color:var(--white);line-height:1.15;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;position:absolute;text-align:center;max-width:800px;padding:0 20px;}
+.hero-tagline.active{opacity:1;transform:translateY(0);}
+.hero-tagline em{font-style:italic;color:var(--gold-light);}
+.hero-dots{display:flex;gap:8px;justify-content:center;margin-bottom:48px;}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:rgba(184,150,62,0.25);transition:all .4s;cursor:pointer;}
+.hero-dot.active{background:var(--gold);width:24px;border-radius:3px;}
+.hero-subtitle{font-size:16px;color:rgba(247,243,237,0.6);font-weight:300;line-height:1.8;max-width:560px;margin:0 auto 48px;}
+.hero-cta{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;padding:18px 40px;text-decoration:none;transition:all .3s;}
+.hero-cta:hover{background:var(--gold-light);}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:10px;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite;}
+.hero-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);}
+.hero-stats-strip{display:flex;gap:48px;justify-content:center;margin-top:60px;padding-top:40px;border-top:1px solid rgba(184,150,62,0.15);}
+.hero-stat{text-align:center;}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold-light);line-height:1;}
+.hero-stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
-  .hero { display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: start; margin-bottom: 80px; opacity: 0; animation: fadeUp 0.9s 0.15s ease forwards; }
-  .photo-frame { position: relative; width: 260px; height: 280px; }
-  .photo-frame::before { content: ''; position: absolute; inset: -8px -8px 8px 8px; border: 1px solid var(--gold); opacity: 0.4; border-radius: 2px; }
-  .photo-frame::after { content: ''; position: absolute; bottom: -16px; left: -16px; width: 70px; height: 70px; border-left: 2px solid var(--gold); border-bottom: 2px solid var(--gold); opacity: 0.6; }
-  .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(15%) contrast(1.05); border-radius: 2px; }
-  .hero-text { padding-top: 8px; }
-  .prefix { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 400; margin-bottom: 10px; }
-  .name { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 52px); font-weight: 300; line-height: 1.1; color: var(--white); margin-bottom: 6px; }
-  .name em { font-style: italic; color: var(--gold-light); }
-  .title-tag { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; margin-bottom: 28px; }
-  .divider-gold { width: 48px; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light)); margin-bottom: 28px; }
-  .bio-text { font-size: 15.5px; line-height: 1.85; color: rgba(247,243,237,0.82); font-weight: 300; max-width: 560px; }
-  .bio-text strong { color: var(--cream); font-weight: 500; }
+/* ABOUT */
+.header-rule{display:flex;align-items:center;gap:18px;margin-bottom:56px;opacity:0;animation:fadeUp .8s ease forwards;}
+.header-rule span{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.rule{flex:1;height:1px;background:linear-gradient(to right,var(--gold),transparent);}
+.hero{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start;margin-bottom:80px;opacity:0;animation:fadeUp .9s .15s ease forwards;}
+.photo-frame{position:relative;width:260px;height:280px;}
+.photo-frame::before{content:'';position:absolute;inset:-8px -8px 8px 8px;border:1px solid var(--gold);opacity:0.4;border-radius:2px;}
+.photo-frame::after{content:'';position:absolute;bottom:-16px;left:-16px;width:70px;height:70px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);opacity:0.6;}
+.photo-frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:grayscale(15%) contrast(1.05);border-radius:2px;}
+.hero-text{padding-top:8px;}
+.prefix{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:10px;}
+.name{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:6px;}
+.name em{font-style:italic;color:var(--gold-light);}
+.title-tag{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400;margin-bottom:28px;}
+.divider-gold{width:48px;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light));margin-bottom:28px;}
+.bio-text{font-size:15.5px;line-height:1.85;color:rgba(247,243,237,0.82);font-weight:300;max-width:560px;}
+.bio-text strong{color:var(--cream);font-weight:500;}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.2);margin-bottom:72px;opacity:0;animation:fadeUp .9s .3s ease forwards;}
+.metric-item{background:rgba(13,27,42,0.8);padding:28px 24px;text-align:center;transition:background .3s;}
+.metric-item:hover{background:rgba(184,150,62,0.06);}
+.metric-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:6px;}
+.metric-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:400;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:72px;opacity:0;animation:fadeUp .9s .45s ease forwards;}
+.section-label{font-size:10px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(184,150,62,0.25);}
+.competency-item{margin-bottom:20px;padding-left:16px;border-left:1px solid rgba(184,150,62,0.25);transition:border-color .3s;}
+.competency-item:hover{border-left-color:var(--gold);}
+.comp-title{font-size:13.5px;font-weight:500;color:var(--cream);margin-bottom:4px;}
+.comp-desc{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300;}
+.achievement-item{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;}
+.ach-icon{width:32px;height:32px;border:1px solid rgba(184,150,62,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;color:var(--gold-light);margin-top:2px;}
+.ach-text{font-size:13.5px;color:rgba(247,243,237,0.78);line-height:1.6;font-weight:300;}
+.ach-text strong{color:var(--cream);font-weight:500;}
+.bottom-badge{display:flex;align-items:center;justify-content:center;gap:20px;padding:24px;border:1px solid rgba(184,150,62,0.2);opacity:0;animation:fadeUp .9s .6s ease forwards;flex-wrap:wrap;}
+.badge-sep{width:4px;height:4px;background:var(--gold);border-radius:50%;opacity:0.5;}
+.badge-text{font-size:12px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+.badge-text span{color:var(--gold-light);}
 
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(184,150,62,0.15); border: 1px solid rgba(184,150,62,0.2); margin-bottom: 72px; opacity: 0; animation: fadeUp 0.9s 0.3s ease forwards; }
-  .metric-item { background: rgba(13,27,42,0.8); padding: 28px 24px; text-align: center; transition: background 0.3s; }
-  .metric-item:hover { background: rgba(184,150,62,0.06); }
-  .metric-num { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 6px; }
-  .metric-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+/* SERVICES */
+.services-section{margin-top:80px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
+.service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(184,150,62,0.2);padding:32px 28px;position:relative;transition:all .3s;}
+.service-card:hover{background:rgba(184,150,62,0.05);border-color:rgba(184,150,62,0.5);transform:translateY(-4px);}
+.service-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(184,150,62,0.2);line-height:1;margin-bottom:16px;}
+.service-name{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:8px;}
+.service-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:24px;}
+.service-price-box{border-top:1px solid rgba(184,150,62,0.2);padding-top:20px;}
+.service-total{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold-light);margin-bottom:12px;}
+.service-payment{display:flex;gap:8px;flex-wrap:wrap;}
+.pay-pill{font-size:11px;padding:4px 10px;border-radius:2px;font-weight:500;letter-spacing:1px;}
+.pay-pill.anticipo{background:rgba(184,150,62,0.15);color:var(--gold);border:1px solid rgba(184,150,62,0.3);}
+.pay-pill.saldo{background:rgba(58,74,92,0.4);color:var(--muted);border:1px solid rgba(58,74,92,0.6);}
+.pack-card{border:1px solid var(--gold);background:rgba(184,150,62,0.04);padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden;}
+.pack-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light),transparent);}
+.pack-badge{position:absolute;top:20px;right:20px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:2px;padding:4px 10px;text-transform:uppercase;}
+.pack-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.pack-includes{font-size:13px;color:var(--muted);line-height:1.8;font-weight:300;}
+.pack-includes span{color:var(--gold-light);margin-right:6px;}
+.pack-right{text-align:right;}
+.pack-price{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:4px;}
+.pack-saving{font-size:12px;color:#6dbf7e;letter-spacing:1px;margin-bottom:20px;}
+.pack-payments{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.pack-pay-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+.pack-pay-label{color:var(--muted);}
+.pack-pay-amount{color:var(--cream);font-weight:500;}
+.flow-section{margin-top:48px;padding:32px;border:1px solid rgba(184,150,62,0.15);background:rgba(255,255,255,0.02);}
+.flow-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+.flow-paths{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.flow-path-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:500;}
+.flow-steps{display:flex;align-items:center;flex-wrap:wrap;gap:0;}
+.flow-step{display:flex;align-items:center;}
+.flow-box{background:rgba(184,150,62,0.08);border:1px solid rgba(184,150,62,0.25);padding:8px 14px;font-size:12px;color:var(--cream);}
+.flow-box.pay{border-color:var(--gold);color:var(--gold-light);background:rgba(184,150,62,0.12);}
+.flow-box.saving{border-color:#6dbf7e;color:#6dbf7e;background:rgba(109,191,126,0.08);}
+.flow-arrow{color:rgba(184,150,62,0.5);padding:0 8px;font-size:14px;}
+.flow-note{font-size:11px;color:var(--muted);margin-top:12px;font-style:italic;}
+.payment-note{margin-top:24px;display:flex;align-items:center;gap:12px;padding:16px 20px;border:1px solid rgba(58,74,92,0.5);background:rgba(58,74,92,0.15);}
+.payment-note-icon{color:var(--gold);font-size:18px;}
+.payment-note-text{font-size:13px;color:var(--muted);line-height:1.6;}
+.payment-note-text strong{color:var(--cream);}
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 72px; opacity: 0; animation: fadeUp 0.9s 0.45s ease forwards; }
-  .section-label { font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(184,150,62,0.25); }
-  .competency-item { margin-bottom: 20px; padding-left: 16px; border-left: 1px solid rgba(184,150,62,0.25); transition: border-color 0.3s; }
-  .competency-item:hover { border-left-color: var(--gold); }
-  .comp-title { font-size: 13.5px; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
-  .comp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
-  .achievement-item { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
-  .ach-icon { width: 32px; height: 32px; border: 1px solid rgba(184,150,62,0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; color: var(--gold-light); margin-top: 2px; }
-  .ach-text { font-size: 13.5px; color: rgba(247,243,237,0.78); line-height: 1.6; font-weight: 300; }
-  .ach-text strong { color: var(--cream); font-weight: 500; }
+/* CONTACT */
+.contact-section{margin-top:80px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:40px;}
+.contact-left{display:flex;flex-direction:column;gap:16px;}
+.contact-card{display:flex;align-items:center;gap:20px;padding:20px 24px;border:1px solid rgba(184,150,62,0.2);background:rgba(255,255,255,0.02);transition:all .3s;text-decoration:none;color:inherit;}
+.contact-card:hover{border-color:var(--gold);background:rgba(184,150,62,0.06);transform:translateX(4px);}
+.contact-icon{width:44px;height:44px;border:1px solid rgba(184,150,62,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--gold-light);}
+.contact-info{flex:1;}
+.contact-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.contact-value{font-size:14px;color:var(--cream);font-weight:400;}
+.contact-value.highlight{color:var(--gold-light);}
+.contact-right{display:flex;flex-direction:column;justify-content:center;padding:40px;border:1px solid rgba(184,150,62,0.3);background:rgba(184,150,62,0.03);position:relative;}
+.contact-right::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);}
+.contact-cta-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.contact-cta-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);line-height:1.3;margin-bottom:16px;}
+.contact-cta-text{font-size:13.5px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:28px;}
+.contact-cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--navy);font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:all .3s;}
+.contact-cta-btn:hover{background:var(--gold-light);}
+.social-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.social-card{display:flex;align-items:center;gap:16px;padding:18px 20px;border:1px solid rgba(184,150,62,0.15);background:rgba(255,255,255,0.02);text-decoration:none;color:inherit;transition:all .3s;}
+.social-card:hover{border-color:rgba(184,150,62,0.5);background:rgba(184,150,62,0.05);}
+.social-icon{font-size:22px;width:36px;text-align:center;}
+.social-name{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.social-handle{font-size:13px;color:var(--cream);font-weight:400;}
 
-  .bottom-badge { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 24px; border: 1px solid rgba(184,150,62,0.2); opacity: 0; animation: fadeUp 0.9s 0.6s ease forwards; flex-wrap: wrap; }
-  .badge-sep { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; opacity: 0.5; }
-  .badge-text { font-size: 12px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
-  .badge-text span { color: var(--gold-light); }
+/* LICENSE */
+.license-section{margin-top:80px;margin-bottom:40px;}
+.license-box{border:1px solid rgba(184,150,62,0.25);background:rgba(255,255,255,0.02);padding:40px;position:relative;overflow:hidden;}
+.license-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light),transparent);}
+.license-symbol{font-family:'Cormorant Garamond',serif;font-size:140px;font-weight:300;color:rgba(184,150,62,0.06);line-height:1;position:absolute;top:0;right:40px;pointer-events:none;}
+.license-type{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.license-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--white);margin-bottom:16px;}
+.license-text{font-size:13.5px;color:var(--muted);line-height:1.8;font-weight:300;max-width:680px;margin-bottom:28px;}
+.license-text strong{color:var(--cream);}
+.license-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+.license-pill{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(184,150,62,0.3);color:var(--gold-light);background:rgba(184,150,62,0.06);}
+.license-pill.red{border-color:rgba(220,80,80,0.4);color:#e07070;background:rgba(220,80,80,0.06);}
+.license-github{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border:1px solid rgba(184,150,62,0.3);color:var(--gold-light);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:500;}
+.license-github:hover{background:rgba(184,150,62,0.08);border-color:var(--gold);}
+.license-year{font-size:12px;color:var(--muted);margin-top:20px;}
 
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── SERVICES SECTION ── */
-  .services-section { margin-top: 80px; }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
-  .service-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(184,150,62,0.2); padding: 32px 28px; position: relative; transition: all 0.3s; cursor: default; }
-  .service-card:hover { background: rgba(184,150,62,0.05); border-color: rgba(184,150,62,0.5); transform: translateY(-4px); }
-  .service-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: rgba(184,150,62,0.2); line-height: 1; margin-bottom: 16px; }
-  .service-name { font-size: 15px; font-weight: 600; color: var(--cream); margin-bottom: 8px; letter-spacing: 0.5px; }
-  .service-desc { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 24px; }
-  .service-price-box { border-top: 1px solid rgba(184,150,62,0.2); padding-top: 20px; }
-  .service-total { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--gold-light); margin-bottom: 12px; }
-  .service-payment { display: flex; gap: 8px; }
-  .pay-pill { font-size: 11px; padding: 4px 10px; border-radius: 2px; font-weight: 500; letter-spacing: 1px; }
-  .pay-pill.anticipo { background: rgba(184,150,62,0.15); color: var(--gold); border: 1px solid rgba(184,150,62,0.3); }
-  .pay-pill.saldo { background: rgba(58,74,92,0.4); color: var(--muted); border: 1px solid rgba(58,74,92,0.6); }
-
-  /* Pack completo */
-  .pack-card { border: 1px solid var(--gold); background: rgba(184,150,62,0.04); padding: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; position: relative; overflow: hidden; }
-  .pack-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light), transparent); }
-  .pack-badge { position: absolute; top: 20px; right: 20px; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; letter-spacing: 2px; padding: 4px 10px; text-transform: uppercase; }
-  .pack-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--white); margin-bottom: 8px; }
-  .pack-includes { font-size: 13px; color: var(--muted); line-height: 1.8; font-weight: 300; }
-  .pack-includes span { color: var(--gold-light); margin-right: 6px; }
-  .pack-right { text-align: right; }
-  .pack-price { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 4px; }
-  .pack-saving { font-size: 12px; color: #6dbf7e; letter-spacing: 1px; margin-bottom: 20px; }
-  .pack-payments { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-  .pack-pay-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
-  .pack-pay-label { color: var(--muted); }
-  .pack-pay-amount { color: var(--cream); font-weight: 500; }
-
-  /* Flow diagram */
-  .flow-section { margin-top: 48px; padding: 32px; border: 1px solid rgba(184,150,62,0.15); background: rgba(255,255,255,0.02); }
-  .flow-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
-  .flow-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  .flow-path-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; font-weight: 500; }
-  .flow-steps { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
-  .flow-step { display: flex; align-items: center; }
-  .flow-box { background: rgba(184,150,62,0.08); border: 1px solid rgba(184,150,62,0.25); padding: 8px 14px; font-size: 12px; color: var(--cream); white-space: nowrap; }
-  .flow-box.pay { border-color: var(--gold); color: var(--gold-light); background: rgba(184,150,62,0.12); }
-  .flow-box.saving { border-color: #6dbf7e; color: #6dbf7e; background: rgba(109,191,126,0.08); }
-  .flow-arrow { color: rgba(184,150,62,0.5); padding: 0 8px; font-size: 14px; }
-  .flow-note { font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic; }
-
-  /* Payment method note */
-  .payment-note { margin-top: 24px; display: flex; align-items: center; gap: 12px; padding: 16px 20px; border: 1px solid rgba(58,74,92,0.5); background: rgba(58,74,92,0.15); }
-  .payment-note-icon { color: var(--gold); font-size: 18px; }
-  .payment-note-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
-  .payment-note-text strong { color: var(--cream); }
-
-  @media (max-width: 768px) {
-    .services-grid { grid-template-columns: 1fr; }
-    .pack-card { grid-template-columns: 1fr; }
-    .pack-right { text-align: left; }
-    .pack-payments { align-items: flex-start; }
-    .flow-paths { grid-template-columns: 1fr; }
-  }
-
-
-  /* ── CONTACT SECTION ── */
-  .contact-section { margin-top: 80px; }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 40px; }
-  .contact-left { display: flex; flex-direction: column; gap: 16px; }
-  .contact-card { display: flex; align-items: center; gap: 20px; padding: 20px 24px; border: 1px solid rgba(184,150,62,0.2); background: rgba(255,255,255,0.02); transition: all 0.3s; text-decoration: none; color: inherit; }
-  .contact-card:hover { border-color: var(--gold); background: rgba(184,150,62,0.06); transform: translateX(4px); }
-  .contact-icon { width: 44px; height: 44px; border: 1px solid rgba(184,150,62,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; color: var(--gold-light); }
-  .contact-info { flex: 1; }
-  .contact-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-  .contact-value { font-size: 14px; color: var(--cream); font-weight: 400; }
-  .contact-value.highlight { color: var(--gold-light); }
-
-  .contact-right { display: flex; flex-direction: column; justify-content: center; padding: 40px; border: 1px solid rgba(184,150,62,0.3); background: rgba(184,150,62,0.03); position: relative; }
-  .contact-right::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), transparent); }
-  .contact-cta-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-  .contact-cta-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--white); line-height: 1.3; margin-bottom: 16px; }
-  .contact-cta-text { font-size: 13.5px; color: var(--muted); line-height: 1.8; font-weight: 300; margin-bottom: 28px; }
-  .contact-cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 14px 28px; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
-  .contact-cta-btn:hover { background: var(--gold-light); }
-
-  .social-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .social-card { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border: 1px solid rgba(184,150,62,0.15); background: rgba(255,255,255,0.02); text-decoration: none; color: inherit; transition: all 0.3s; }
-  .social-card:hover { border-color: rgba(184,150,62,0.5); background: rgba(184,150,62,0.05); }
-  .social-icon { font-size: 22px; width: 36px; text-align: center; }
-  .social-name { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-  .social-handle { font-size: 13px; color: var(--cream); font-weight: 400; }
-
-  @media (max-width: 768px) {
-    .contact-grid { grid-template-columns: 1fr; }
-    .social-strip { grid-template-columns: 1fr 1fr; }
-  }
-
-
-  /* ── LICENSE SECTION ── */
-  .license-section { margin-top: 80px; }
-  .license-box { border: 1px solid rgba(184,150,62,0.25); background: rgba(255,255,255,0.02); padding: 40px; position: relative; overflow: hidden; }
-  .license-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light), transparent); }
-  .license-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: start; }
-  .license-symbol { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300; color: rgba(184,150,62,0.12); line-height: 1; position: absolute; top: 20px; right: 40px; pointer-events: none; }
-  .license-type { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
-  .license-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--white); margin-bottom: 16px; }
-  .license-text { font-size: 13.5px; color: var(--muted); line-height: 1.8; font-weight: 300; max-width: 680px; margin-bottom: 28px; }
-  .license-text strong { color: var(--cream); }
-  .license-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-  .license-pill { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(184,150,62,0.3); color: var(--gold-light); background: rgba(184,150,62,0.06); }
-  .license-pill.red { border-color: rgba(220,80,80,0.4); color: #e07070; background: rgba(220,80,80,0.06); }
-  .license-github { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border: 1px solid rgba(184,150,62,0.3); color: var(--gold-light); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; font-weight: 500; }
-  .license-github:hover { background: rgba(184,150,62,0.08); border-color: var(--gold); }
-  .license-year { font-size: 12px; color: var(--muted); margin-top: 20px; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
-    .photo-frame { width: 200px; height: 220px; margin: 0 auto; }
-    .metrics { grid-template-columns: repeat(2, 1fr); }
-    .two-col { grid-template-columns: 1fr; }
-    .container { padding: 80px 24px 40px; }
-  }
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;}
+  .photo-frame{width:200px;height:220px;margin:0 auto;}
+  .metrics{grid-template-columns:repeat(2,1fr);}
+  .two-col{grid-template-columns:1fr;}
+  .container{padding:80px 24px 40px;}
+  .services-grid{grid-template-columns:1fr;}
+  .pack-card{grid-template-columns:1fr;}
+  .pack-right{text-align:left;}
+  .pack-payments{align-items:flex-start;}
+  .flow-paths{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .social-strip{grid-template-columns:1fr 1fr;}
+  .hero-stats-strip{gap:24px;flex-wrap:wrap;}
+  .hero-section{min-height:80vh;}
+  .hero-tagline-wrap{height:160px;}
+  .bottom-badge{flex-wrap:wrap;}
+}
 </style>
 </head>
 <body>
@@ -200,332 +201,279 @@
 </div>
 
 <div class="container">
-  <div class="header-rule">
-    <span data-t="header_left"></span>
-    <div class="rule"></div>
-    <span data-t="header_right"></span>
-  </div>
 
-  <div class="hero">
-    <div class="photo-wrapper">
-      <div class="photo-frame">
-        <img id="profilePhoto" src="" alt="Dr. Vicente Humberto Monteverde" />
-      </div>
+<!-- HERO -->
+<div class="hero-section">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-t="hero_eyebrow"></div>
+    <div class="hero-name">Dr. Vicente Humberto Monteverde</div>
+    <div class="hero-tagline-wrap">
+      <div class="hero-tagline active" id="tag0"></div>
+      <div class="hero-tagline" id="tag1"></div>
+      <div class="hero-tagline" id="tag2"></div>
+      <div class="hero-tagline" id="tag3"></div>
     </div>
-    <div class="hero-text">
-      <p class="prefix" data-t="prefix"></p>
-      <h1 class="name">Vicente Humberto<br><em>Monteverde</em></h1>
-      <p class="title-tag" data-t="title_tag"></p>
-      <div class="divider-gold"></div>
-      <p class="bio-text" data-t="bio"></p>
+    <div class="hero-dots">
+      <div class="hero-dot active" onclick="goTag(0)"></div>
+      <div class="hero-dot" onclick="goTag(1)"></div>
+      <div class="hero-dot" onclick="goTag(2)"></div>
+      <div class="hero-dot" onclick="goTag(3)"></div>
     </div>
-  </div>
-
-  <div class="metrics">
-    <div class="metric-item"><div class="metric-num">19</div><div class="metric-label" data-t="m1"></div></div>
-    <div class="metric-item"><div class="metric-num">26</div><div class="metric-label" data-t="m2"></div></div>
-    <div class="metric-item"><div class="metric-num">6</div><div class="metric-label" data-t="m3"></div></div>
-    <div class="metric-item"><div class="metric-num">III</div><div class="metric-label" data-t="m4"></div></div>
-  </div>
-
-  <div class="two-col">
-    <div>
-      <div class="section-label" data-t="skills_title"></div>
-      <div class="competency-item"><div class="comp-title" data-t="s1_title"></div><div class="comp-desc" data-t="s1_desc"></div></div>
-      <div class="competency-item"><div class="comp-title" data-t="s2_title"></div><div class="comp-desc" data-t="s2_desc"></div></div>
-      <div class="competency-item"><div class="comp-title" data-t="s3_title"></div><div class="comp-desc" data-t="s3_desc"></div></div>
-      <div class="competency-item"><div class="comp-title" data-t="s4_title"></div><div class="comp-desc" data-t="s4_desc"></div></div>
-    </div>
-    <div>
-      <div class="section-label" data-t="ach_title"></div>
-      <div class="achievement-item"><div class="ach-icon">&#10022;</div><div class="ach-text" data-t="a1"></div></div>
-      <div class="achievement-item"><div class="ach-icon">&#127942;</div><div class="ach-text" data-t="a2"></div></div>
-      <div class="achievement-item"><div class="ach-icon">&#9672;</div><div class="ach-text" data-t="a3"></div></div>
-      <div class="achievement-item"><div class="ach-icon">&#9671;</div><div class="ach-text" data-t="a4"></div></div>
+    <div class="hero-subtitle" data-t="hero_subtitle"></div>
+    <a class="hero-cta" href="https://wa.me/541144055395" target="_blank">
+      💬 <span data-t="hero_cta"></span>
+    </a>
+    <div class="hero-stats-strip">
+      <div class="hero-stat"><div class="hero-stat-num">19</div><div class="hero-stat-label" data-t="hero_s1"></div></div>
+      <div class="hero-stat"><div class="hero-stat-num">26</div><div class="hero-stat-label" data-t="hero_s2"></div></div>
+      <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label" data-t="hero_s3"></div></div>
+      <div class="hero-stat"><div class="hero-stat-num">III</div><div class="hero-stat-label" data-t="hero_s4"></div></div>
     </div>
   </div>
-
-  <div class="bottom-badge">
-    <div class="badge-text" data-t="b1"></div>
-    <div class="badge-sep"></div>
-    <div class="badge-text" data-t="b2"></div>
-    <div class="badge-sep"></div>
-    <div class="badge-text"><span data-t="b3"></span></div>
-    <div class="badge-sep"></div>
-    <div class="badge-text" data-t="b4"></div>
-  </div>
-
-  <!-- ══════════════ SERVICES SECTION ══════════════ -->
-  <div class="services-section">
-    <div class="header-rule" style="margin-bottom:40px;">
-      <span data-t="srv_header_left"></span>
-      <div class="rule"></div>
-      <span data-t="srv_header_right"></span>
-    </div>
-
-    <!-- 3 service cards -->
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-num">01</div>
-        <div class="service-name" data-t="srv1_name"></div>
-        <div class="service-desc" data-t="srv1_desc"></div>
-        <div class="service-price-box">
-          <div class="service-total">USD 150</div>
-          <div class="service-payment">
-            <span class="pay-pill anticipo" data-t="pill_anticipo"></span>
-            <span class="pay-pill saldo" data-t="pill_saldo_105"></span>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <div class="service-name" data-t="srv2_name"></div>
-        <div class="service-desc" data-t="srv2_desc"></div>
-        <div class="service-price-box">
-          <div class="service-total">USD 250</div>
-          <div class="service-payment">
-            <span class="pay-pill anticipo" data-t="pill_anticipo2"></span>
-            <span class="pay-pill saldo" data-t="pill_saldo_175"></span>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">03</div>
-        <div class="service-name" data-t="srv3_name"></div>
-        <div class="service-desc" data-t="srv3_desc"></div>
-        <div class="service-price-box">
-          <div class="service-total">USD 200</div>
-          <div class="service-payment">
-            <span class="pay-pill anticipo" data-t="pill_anticipo3"></span>
-            <span class="pay-pill saldo" data-t="pill_saldo_140"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pack completo -->
-    <div class="pack-card">
-      <div class="pack-badge" data-t="pack_badge"></div>
-      <div>
-        <div class="pack-title" data-t="pack_title"></div>
-        <div class="pack-includes">
-          <div><span>✦</span><span data-t="srv1_name"></span></div>
-          <div><span>✦</span><span data-t="srv2_name"></span></div>
-          <div><span>✦</span><span data-t="srv3_name"></span></div>
-        </div>
-      </div>
-      <div class="pack-right">
-        <div class="pack-price">USD 500</div>
-        <div class="pack-saving" data-t="pack_saving"></div>
-        <div class="pack-payments">
-          <div class="pack-pay-row">
-            <span class="pack-pay-label" data-t="pack_anticipo_label"></span>
-            <span class="pack-pay-amount">USD 150</span>
-          </div>
-          <div class="pack-pay-row">
-            <span class="pack-pay-label" data-t="pack_saldo_label"></span>
-            <span class="pack-pay-amount">USD 350</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Flow diagram -->
-    <div class="flow-section">
-      <div class="flow-title" data-t="flow_title"></div>
-      <div class="flow-paths">
-        <div>
-          <div class="flow-path-label" data-t="flow_a_label"></div>
-          <div class="flow-steps">
-            <div class="flow-step"><div class="flow-box pay">S1: $45 + $105</div><div class="flow-arrow">→</div></div>
-            <div class="flow-step"><div class="flow-box pay">S2: $75 + $175</div><div class="flow-arrow">→</div></div>
-            <div class="flow-step"><div class="flow-box pay">S3: $60 + $140</div></div>
-          </div>
-          <div class="flow-note" data-t="flow_a_note"></div>
-        </div>
-        <div>
-          <div class="flow-path-label" data-t="flow_b_label"></div>
-          <div class="flow-steps">
-            <div class="flow-step"><div class="flow-box pay">$150 <span data-t="flow_anticipo_word"></span></div><div class="flow-arrow">→</div></div>
-            <div class="flow-step"><div class="flow-box">S1 + S2 + S3</div><div class="flow-arrow">→</div></div>
-            <div class="flow-step"><div class="flow-box pay">$350 <span data-t="flow_saldo_word"></span></div><div class="flow-arrow">→</div></div>
-            <div class="flow-step"><div class="flow-box saving" data-t="flow_saving_box"></div></div>
-          </div>
-          <div class="flow-note" data-t="flow_b_note"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Payment method -->
-    <div class="payment-note">
-      <div class="payment-note-icon">🏦</div>
-      <div class="payment-note-text" data-t="payment_note"></div>
-    </div>
-  </div>
-
-
-  <!-- ══════════════ CONTACT SECTION ══════════════ -->
-  <div class="contact-section">
-    <div class="header-rule" style="margin-bottom:40px;">
-      <span data-t="contact_header_left"></span>
-      <div class="rule"></div>
-      <span data-t="contact_header_right"></span>
-    </div>
-
-    <div class="contact-grid">
-      <div class="contact-left">
-        <!-- WhatsApp -->
-        <a class="contact-card" href="https://wa.me/541144055395" target="_blank">
-          <div class="contact-icon">💬</div>
-          <div class="contact-info">
-            <div class="contact-label">WhatsApp</div>
-            <div class="contact-value highlight">+54 11 4405-5395</div>
-          </div>
-        </a>
-        <!-- Email 1 -->
-        <a class="contact-card" href="mailto:admin@viny2030.com.ar" target="_blank">
-          <div class="contact-icon">✉</div>
-          <div class="contact-info">
-            <div class="contact-label" data-t="contact_email_label"></div>
-            <div class="contact-value">admin@viny2030.com.ar</div>
-          </div>
-        </a>
-        <!-- Email 2 -->
-        <a class="contact-card" href="mailto:viny01958@gmail.com" target="_blank">
-          <div class="contact-icon">✉</div>
-          <div class="contact-info">
-            <div class="contact-label" data-t="contact_email_label"></div>
-            <div class="contact-value">viny01958@gmail.com</div>
-          </div>
-        </a>
-        <!-- Email 3 -->
-        <a class="contact-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
-          <div class="contact-icon">✉</div>
-          <div class="contact-info">
-            <div class="contact-label" data-t="contact_email_label"></div>
-            <div class="contact-value">10.algorithms.new@gmail.com</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="contact-right">
-        <div class="contact-cta-label" data-t="cta_label"></div>
-        <div class="contact-cta-title" data-t="cta_title"></div>
-        <div class="contact-cta-text" data-t="cta_text"></div>
-        <a class="contact-cta-btn" href="https://wa.me/541144055395" target="_blank">
-          💬 <span data-t="cta_btn"></span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Social networks -->
-    <div class="social-strip">
-      <a class="social-card" href="https://www.linkedin.com/in/vicentemonteverde/" target="_blank">
-        <div class="social-icon">💼</div>
-        <div>
-          <div class="social-name">LinkedIn</div>
-          <div class="social-handle">Vicente Monteverde</div>
-        </div>
-      </a>
-      <a class="social-card" href="https://www.youtube.com/@10.algorithms_new" target="_blank">
-        <div class="social-icon">▶️</div>
-        <div>
-          <div class="social-name">YouTube</div>
-          <div class="social-handle">@10.algorithms_new</div>
-        </div>
-      </a>
-      <a class="social-card" href="https://www.instagram.com/10.algorithms_new/" target="_blank">
-        <div class="social-icon">📸</div>
-        <div>
-          <div class="social-name">Instagram</div>
-          <div class="social-handle">@10.algorithms_new</div>
-        </div>
-      </a>
-      <a class="social-card" href="https://www.facebook.com/profile.php?id=61584696754392" target="_blank">
-        <div class="social-icon">📘</div>
-        <div>
-          <div class="social-name">Facebook</div>
-          <div class="social-handle">Algoritmos contra el fraude y la corrupción</div>
-        </div>
-      </a>
-      <a class="social-card" href="https://x.com/AlgorithmsNew" target="_blank">
-        <div class="social-icon">𝕏</div>
-        <div>
-          <div class="social-name">X / Twitter</div>
-          <div class="social-handle">@AlgorithmsNew</div>
-        </div>
-      </a>
-      <a class="social-card" href="https://wa.me/541144055395" target="_blank">
-        <div class="social-icon">💬</div>
-        <div>
-          <div class="social-name">WhatsApp</div>
-          <div class="social-handle">+54 11 4405-5395</div>
-        </div>
-      </a>
-      <a class="social-card" href="mailto:admin@viny2030.com.ar" target="_blank">
-        <div class="social-icon">✉</div>
-        <div>
-          <div class="social-name">Email</div>
-          <div class="social-handle">admin@viny2030.com.ar</div>
-        </div>
-      </a>
-      <a class="social-card" href="mailto:viny01958@gmail.com" target="_blank">
-        <div class="social-icon">✉</div>
-        <div>
-          <div class="social-name">Email</div>
-          <div class="social-handle">viny01958@gmail.com</div>
-        </div>
-      </a>
-      <a class="social-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
-        <div class="social-icon">✉</div>
-        <div>
-          <div class="social-name">Email</div>
-          <div class="social-handle">10.algorithms.new@gmail.com</div>
-        </div>
-      </a>
-    </div>
-  </div>
-
-
-  <!-- ══════════════ LICENSE SECTION ══════════════ -->
-  <div class="license-section">
-    <div class="header-rule" style="margin-bottom:40px;">
-      <span data-t="lic_header_left"></span>
-      <div class="rule"></div>
-      <span data-t="lic_header_right"></span>
-    </div>
-
-    <div class="license-box">
-      <div class="license-symbol">©</div>
-      <div class="license-type" data-t="lic_type"></div>
-      <div class="license-title" data-t="lic_title"></div>
-      <div class="license-text" data-t="lic_text"></div>
-      <div class="license-pills">
-        <span class="license-pill" data-t="lic_pill1"></span>
-        <span class="license-pill" data-t="lic_pill2"></span>
-        <span class="license-pill" data-t="lic_pill3"></span>
-        <span class="license-pill red" data-t="lic_pill4"></span>
-        <span class="license-pill red" data-t="lic_pill5"></span>
-      </div>
-      <a class="license-github" href="https://github.com/Viny2030-BA/viny2030.com.ar" target="_blank">
-        ⌥ <span data-t="lic_github_btn"></span>
-      </a>
-      <div class="license-year">© 2024–2026 Dr. Vicente Humberto Monteverde — <span data-t="lic_rights"></span></div>
-    </div>
-  </div>
-
+  <div class="hero-scroll"><div class="hero-scroll-line"></div></div>
 </div>
+
+<!-- ABOUT -->
+<div class="header-rule"><span data-t="header_left"></span><div class="rule"></div><span data-t="header_right"></span></div>
+<div class="hero">
+  <div class="photo-wrapper"><div class="photo-frame"><img id="profilePhoto" src="" alt="Dr. Vicente Humberto Monteverde"/></div></div>
+  <div class="hero-text">
+    <p class="prefix" data-t="prefix"></p>
+    <h1 class="name">Vicente Humberto<br><em>Monteverde</em></h1>
+    <p class="title-tag" data-t="title_tag"></p>
+    <div class="divider-gold"></div>
+    <p class="bio-text" data-t="bio"></p>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="metric-item"><div class="metric-num">19</div><div class="metric-label" data-t="m1"></div></div>
+  <div class="metric-item"><div class="metric-num">26</div><div class="metric-label" data-t="m2"></div></div>
+  <div class="metric-item"><div class="metric-num">6</div><div class="metric-label" data-t="m3"></div></div>
+  <div class="metric-item"><div class="metric-num">III</div><div class="metric-label" data-t="m4"></div></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="section-label" data-t="skills_title"></div>
+    <div class="competency-item"><div class="comp-title" data-t="s1_title"></div><div class="comp-desc" data-t="s1_desc"></div></div>
+    <div class="competency-item"><div class="comp-title" data-t="s2_title"></div><div class="comp-desc" data-t="s2_desc"></div></div>
+    <div class="competency-item"><div class="comp-title" data-t="s3_title"></div><div class="comp-desc" data-t="s3_desc"></div></div>
+    <div class="competency-item"><div class="comp-title" data-t="s4_title"></div><div class="comp-desc" data-t="s4_desc"></div></div>
+  </div>
+  <div>
+    <div class="section-label" data-t="ach_title"></div>
+    <div class="achievement-item"><div class="ach-icon">&#10022;</div><div class="ach-text" data-t="a1"></div></div>
+    <div class="achievement-item"><div class="ach-icon">&#127942;</div><div class="ach-text" data-t="a2"></div></div>
+    <div class="achievement-item"><div class="ach-icon">&#9672;</div><div class="ach-text" data-t="a3"></div></div>
+    <div class="achievement-item"><div class="ach-icon">&#9671;</div><div class="ach-text" data-t="a4"></div></div>
+  </div>
+</div>
+
+<div class="bottom-badge">
+  <div class="badge-text" data-t="b1"></div><div class="badge-sep"></div>
+  <div class="badge-text" data-t="b2"></div><div class="badge-sep"></div>
+  <div class="badge-text"><span data-t="b3"></span></div><div class="badge-sep"></div>
+  <div class="badge-text" data-t="b4"></div>
+</div>
+
+<!-- SERVICES -->
+<div class="services-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="srv_header_left"></span><div class="rule"></div><span data-t="srv_header_right"></span></div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-name" data-t="srv1_name"></div>
+      <div class="service-desc" data-t="srv1_desc"></div>
+      <div class="service-price-box">
+        <div class="service-total">USD 150</div>
+        <div class="service-payment">
+          <span class="pay-pill anticipo" data-t="pill_anticipo"></span>
+          <span class="pay-pill saldo" data-t="pill_saldo_105"></span>
+        </div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-name" data-t="srv2_name"></div>
+      <div class="service-desc" data-t="srv2_desc"></div>
+      <div class="service-price-box">
+        <div class="service-total">USD 250</div>
+        <div class="service-payment">
+          <span class="pay-pill anticipo" data-t="pill_anticipo2"></span>
+          <span class="pay-pill saldo" data-t="pill_saldo_175"></span>
+        </div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-name" data-t="srv3_name"></div>
+      <div class="service-desc" data-t="srv3_desc"></div>
+      <div class="service-price-box">
+        <div class="service-total">USD 200</div>
+        <div class="service-payment">
+          <span class="pay-pill anticipo" data-t="pill_anticipo3"></span>
+          <span class="pay-pill saldo" data-t="pill_saldo_140"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pack-card">
+    <div class="pack-badge" data-t="pack_badge"></div>
+    <div>
+      <div class="pack-title" data-t="pack_title"></div>
+      <div class="pack-includes">
+        <div><span>✦</span><span data-t="srv1_name"></span></div>
+        <div><span>✦</span><span data-t="srv2_name"></span></div>
+        <div><span>✦</span><span data-t="srv3_name"></span></div>
+      </div>
+    </div>
+    <div class="pack-right">
+      <div class="pack-price">USD 500</div>
+      <div class="pack-saving" data-t="pack_saving"></div>
+      <div class="pack-payments">
+        <div class="pack-pay-row"><span class="pack-pay-label" data-t="pack_anticipo_label"></span><span class="pack-pay-amount">USD 150</span></div>
+        <div class="pack-pay-row"><span class="pack-pay-label" data-t="pack_saldo_label"></span><span class="pack-pay-amount">USD 350</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-section">
+    <div class="flow-title" data-t="flow_title"></div>
+    <div class="flow-paths">
+      <div>
+        <div class="flow-path-label" data-t="flow_a_label"></div>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-box pay">S1: $45 + $105</div><div class="flow-arrow">→</div></div>
+          <div class="flow-step"><div class="flow-box pay">S2: $75 + $175</div><div class="flow-arrow">→</div></div>
+          <div class="flow-step"><div class="flow-box pay">S3: $60 + $140</div></div>
+        </div>
+        <div class="flow-note" data-t="flow_a_note"></div>
+      </div>
+      <div>
+        <div class="flow-path-label" data-t="flow_b_label"></div>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-box pay">$150 <span data-t="flow_anticipo_word"></span></div><div class="flow-arrow">→</div></div>
+          <div class="flow-step"><div class="flow-box">S1+S2+S3</div><div class="flow-arrow">→</div></div>
+          <div class="flow-step"><div class="flow-box pay">$350 <span data-t="flow_saldo_word"></span></div><div class="flow-arrow">→</div></div>
+          <div class="flow-step"><div class="flow-box saving" data-t="flow_saving_box"></div></div>
+        </div>
+        <div class="flow-note" data-t="flow_b_note"></div>
+      </div>
+    </div>
+  </div>
+  <div class="payment-note">
+    <div class="payment-note-icon">🏦</div>
+    <div class="payment-note-text" data-t="payment_note"></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="contact_header_left"></span><div class="rule"></div><span data-t="contact_header_right"></span></div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <a class="contact-card" href="https://wa.me/541144055395" target="_blank">
+        <div class="contact-icon">💬</div>
+        <div class="contact-info"><div class="contact-label">WhatsApp</div><div class="contact-value highlight">+54 11 4405-5395</div></div>
+      </a>
+      <a class="contact-card" href="mailto:admin@viny2030.com.ar" target="_blank">
+        <div class="contact-icon">✉</div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">admin@viny2030.com.ar</div></div>
+      </a>
+      <a class="contact-card" href="mailto:viny01958@gmail.com" target="_blank">
+        <div class="contact-icon">✉</div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">viny01958@gmail.com</div></div>
+      </a>
+      <a class="contact-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
+        <div class="contact-icon">✉</div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">10.algorithms.new@gmail.com</div></div>
+      </a>
+    </div>
+    <div class="contact-right">
+      <div class="contact-cta-label" data-t="cta_label"></div>
+      <div class="contact-cta-title" data-t="cta_title"></div>
+      <div class="contact-cta-text" data-t="cta_text"></div>
+      <a class="contact-cta-btn" href="https://wa.me/541144055395" target="_blank">💬 <span data-t="cta_btn"></span></a>
+    </div>
+  </div>
+  <div class="social-strip">
+    <a class="social-card" href="https://www.linkedin.com/in/vicentemonteverde/" target="_blank"><div class="social-icon">💼</div><div><div class="social-name">LinkedIn</div><div class="social-handle">Vicente Monteverde</div></div></a>
+    <a class="social-card" href="https://www.youtube.com/@10.algorithms_new" target="_blank"><div class="social-icon">▶️</div><div><div class="social-name">YouTube</div><div class="social-handle">@10.algorithms_new</div></div></a>
+    <a class="social-card" href="https://www.instagram.com/10.algorithms_new/" target="_blank"><div class="social-icon">📸</div><div><div class="social-name">Instagram</div><div class="social-handle">@10.algorithms_new</div></div></a>
+    <a class="social-card" href="https://www.facebook.com/profile.php?id=61584696754392" target="_blank"><div class="social-icon">📘</div><div><div class="social-name">Facebook</div><div class="social-handle">Algoritmos contra el fraude</div></div></a>
+    <a class="social-card" href="https://x.com/AlgorithmsNew" target="_blank"><div class="social-icon">𝕏</div><div><div class="social-name">X / Twitter</div><div class="social-handle">@AlgorithmsNew</div></div></a>
+    <a class="social-card" href="https://wa.me/541144055395" target="_blank"><div class="social-icon">💬</div><div><div class="social-name">WhatsApp</div><div class="social-handle">+54 11 4405-5395</div></div></a>
+    <a class="social-card" href="mailto:admin@viny2030.com.ar" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle">admin@viny2030.com.ar</div></div></a>
+    <a class="social-card" href="mailto:viny01958@gmail.com" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle">viny01958@gmail.com</div></div></a>
+  </div>
+</div>
+
+<!-- LICENSE -->
+<div class="license-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="lic_header_left"></span><div class="rule"></div><span data-t="lic_header_right"></span></div>
+  <div class="license-box">
+    <div class="license-symbol">©</div>
+    <div class="license-type" data-t="lic_type"></div>
+    <div class="license-title" data-t="lic_title"></div>
+    <div class="license-text" data-t="lic_text"></div>
+    <div class="license-pills">
+      <span class="license-pill" data-t="lic_pill1"></span>
+      <span class="license-pill" data-t="lic_pill2"></span>
+      <span class="license-pill" data-t="lic_pill3"></span>
+      <span class="license-pill red" data-t="lic_pill4"></span>
+      <span class="license-pill red" data-t="lic_pill5"></span>
+    </div>
+    <a class="license-github" href="https://github.com/Viny2030-BA/viny2030.com.ar" target="_blank">⌥ <span data-t="lic_github_btn"></span></a>
+    <div class="license-year">© 2024–2026 Dr. Vicente Humberto Monteverde — <span data-t="lic_rights"></span></div>
+  </div>
+</div>
+
+</div><!-- /container -->
 
 <script>
 const PHOTO = "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";
 document.getElementById("profilePhoto").src = "data:image/jpeg;base64," + PHOTO;
 
+// Taglines per language
+const TAGS = {
+  es: ["Sus datos ya tienen la respuesta. <em>Yo la encuentro.</em>","Transformo datos complejos en <em>decisiones estratégicas.</em>","Algoritmos contra el <em>fraude y la corrupción.</em>","Del dato al insight. <em>De la duda a la decisión.</em>"],
+  en: ["Your data already has the answer. <em>I find it.</em>","I transform complex data into <em>strategic decisions.</em>","Algorithms against <em>fraud and corruption.</em>","From data to insight. <em>From doubt to decision.</em>"],
+  fr: ["Vos données ont déjà la réponse. <em>Je la trouve.</em>","Je transforme des données complexes en <em>décisions stratégiques.</em>","Algorithmes contre <em>la fraude et la corruption.</em>","De la donnée à l'insight. <em>Du doute à la décision.</em>"],
+  de: ["Ihre Daten haben bereits die Antwort. <em>Ich finde sie.</em>","Ich verwandle komplexe Daten in <em>strategische Entscheidungen.</em>","Algorithmen gegen <em>Betrug und Korruption.</em>","Vom Datum zum Insight. <em>Vom Zweifel zur Entscheidung.</em>"],
+  it: ["I suoi dati hanno già la risposta. <em>La trovo io.</em>","Trasformo dati complessi in <em>decisioni strategiche.</em>","Algoritmi contro <em>la frode e la corruzione.</em>","Dal dato all'insight. <em>Dal dubbio alla decisione.</em>"],
+  pt: ["Seus dados já têm a resposta. <em>Eu a encontro.</em>","Transformo dados complexos em <em>decisões estratégicas.</em>","Algoritmos contra <em>a fraude e a corrupção.</em>","Do dado ao insight. <em>Da dúvida à decisão.</em>"]
+};
+
+let currentTag = 0;
+let currentLang = 'es';
+const tagEls = [document.getElementById('tag0'),document.getElementById('tag1'),document.getElementById('tag2'),document.getElementById('tag3')];
+const dotEls = document.querySelectorAll('.hero-dot');
+
+function updateTaglines(lang) {
+  TAGS[lang].forEach((t,i) => { if(tagEls[i]) tagEls[i].innerHTML = t; });
+}
+
+function goTag(idx) {
+  tagEls[currentTag].classList.remove('active');
+  dotEls[currentTag].classList.remove('active');
+  currentTag = idx;
+  tagEls[currentTag].classList.add('active');
+  dotEls[currentTag].classList.add('active');
+}
+
+setInterval(() => goTag((currentTag+1) % 4), 3200);
+updateTaglines('es');
+
 const T = {
   es: {
-    header_left: "Sobre Mí", header_right: "Perfil Profesional",
-    prefix: "Doctor en Ciencias Económicas",
-    title_tag: "Experto en Ciencia de Datos & Inteligencia Artificial",
-    bio: "Soy <strong>Doctor en Ciencias Económicas y Contador Público Nacional</strong>, con una trayectoria distinguida en investigación económica y consultoría estratégica. Actualmente especializado en el uso de tecnologías de vanguardia para el análisis de datos masivos.<br><br>Mi enfoque integra el <strong>rigor académico</strong> con herramientas computacionales modernas para transformar datos complejos en soluciones estratégicas con impacto real.",
+    hero_eyebrow:"Ciencia de Datos · IA · Transparencia Digital",
+    hero_subtitle:"Doctor en Ciencias Económicas especializado en análisis de datos masivos, modelos predictivos e inteligencia artificial aplicada a la toma de decisiones estratégicas.",
+    hero_cta:"Consulta gratuita", hero_s1:"Libros publicados", hero_s2:"Artículos internacionales", hero_s3:"Idiomas", hero_s4:"Premio ética",
+    header_left:"Sobre Mí", header_right:"Perfil Profesional",
+    prefix:"Doctor en Ciencias Económicas",
+    title_tag:"Experto en Ciencia de Datos & Inteligencia Artificial",
+    bio:"Soy <strong>Doctor en Ciencias Económicas y Contador Público Nacional</strong>, con una trayectoria distinguida en investigación económica y consultoría estratégica. Actualmente especializado en el uso de tecnologías de vanguardia para el análisis de datos masivos.<br><br>Mi enfoque integra el <strong>rigor académico</strong> con herramientas computacionales modernas para transformar datos complejos en soluciones estratégicas con impacto real.",
     m1:"Libros Publicados", m2:"Artículos Internacionales", m3:"Idiomas de Publicación", m4:"Premio Ética Empresarial",
     skills_title:"Competencias Técnicas", ach_title:"Logros Destacados",
     s1_title:"Análisis de Datos Avanzado", s1_desc:"Certificación Profesional Google — ciclo completo del dato, limpieza, análisis computacional y toma de decisiones basada en evidencia.",
@@ -537,59 +485,44 @@ const T = {
     a3:"<strong>Liderazgo de Investigación</strong> — Exdirector del Instituto de Investigaciones Económicas, Universidad de Morón.",
     a4:"<strong>Gestión de Proyectos</strong> — Certificado en fundamentos para la coordinación eficiente de equipos de datos.",
     b1:"Doctor en Ciencias Económicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
-    srv_header_left:"Servicios",
-    srv_header_right:"Cómo trabajamos",
-    srv1_name:"Diagnóstico de Datos",
-    srv1_desc:"Análisis del problema de negocios a partir de sus datos. Identificamos patrones, oportunidades y cuellos de botella para entender el estado real de su empresa.",
-    srv2_name:"Modelado Algorítmico",
-    srv2_desc:"Aplicación de algoritmos estadísticos y modelos de machine learning sobre sus datos para extraer insights accionables.",
-    srv3_name:"Informe Estratégico",
-    srv3_desc:"Conclusiones ejecutivas y predicciones del negocio con visualizaciones claras y recomendaciones concretas listas para implementar.",
-    pill_anticipo:"Anticipo USD 45",
-    pill_saldo_105:"Saldo USD 105",
-    pill_anticipo2:"Anticipo USD 75",
-    pill_saldo_175:"Saldo USD 175",
-    pill_anticipo3:"Anticipo USD 60",
-    pill_saldo_140:"Saldo USD 140",
-    pack_badge:"Mejor Valor",
-    pack_title:"Pack Completo",
+    srv_header_left:"Servicios", srv_header_right:"Cómo trabajamos",
+    srv1_name:"Diagnóstico de Datos", srv1_desc:"Análisis del problema de negocios a partir de sus datos. Identificamos patrones, oportunidades y cuellos de botella para entender el estado real de su empresa.",
+    srv2_name:"Modelado Algorítmico", srv2_desc:"Aplicación de algoritmos estadísticos y modelos de machine learning sobre sus datos para extraer insights accionables.",
+    srv3_name:"Informe Estratégico", srv3_desc:"Conclusiones ejecutivas y predicciones del negocio con visualizaciones claras y recomendaciones concretas listas para implementar.",
+    pill_anticipo:"Anticipo USD 45", pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Anticipo USD 75", pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Anticipo USD 60", pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Mejor Valor", pack_title:"Pack Completo",
     pack_saving:"✦ Ahorrá USD 100 vs. contratar por etapas",
-    pack_anticipo_label:"Anticipo:",
-    pack_saldo_label:"Saldo contra entrega:",
+    pack_anticipo_label:"Anticipo:", pack_saldo_label:"Saldo contra entrega:",
     flow_title:"Modalidad de pago — elegí tu camino",
     flow_a_label:"Camino A — Por etapas (total USD 600)",
     flow_b_label:"Camino B — Pack completo (total USD 500)",
     flow_a_note:"Cada etapa se activa con su propio anticipo. Podés detener o continuar en cualquier punto.",
     flow_b_note:"Un solo anticipo cubre los 3 servicios. Saldo al entregar el informe final.",
-    flow_anticipo_word:"anticipo",
-    flow_saldo_word:"saldo",
-    flow_saving_box:"¡Ahorrás USD 100!",
-    payment_note:"<strong>Modalidad de pago:</strong> Depósito bancario o transferencia. 30% de anticipo para iniciar cada servicio, saldo contra entrega del trabajo finalizado. No se aceptan tarjetas.",
-    contact_header_left:"Contacto",
-    contact_header_right:"Hablemos",
+    flow_anticipo_word:"anticipo", flow_saldo_word:"saldo", flow_saving_box:"¡Ahorrás USD 100!",
+    payment_note:"<strong>Modalidad de pago:</strong> Depósito bancario o transferencia. 30% de anticipo para iniciar cada servicio, saldo contra entrega. No se aceptan tarjetas.",
+    contact_header_left:"Contacto", contact_header_right:"Hablemos",
     contact_email_label:"Correo Electrónico",
     cta_label:"Consulta sin compromiso",
     cta_title:"¿Listo para transformar sus datos en decisiones?",
     cta_text:"Contácteme por WhatsApp para una consulta inicial gratuita. Analizamos juntos su problema y le indico qué servicio se adapta mejor a su situación.",
     cta_btn:"Iniciar conversación",
-    lic_header_left:"Licencia",
-    lic_header_right:"Propiedad Intelectual",
+    lic_header_left:"Licencia", lic_header_right:"Propiedad Intelectual",
     lic_type:"Todos los derechos reservados",
     lic_title:"Este proyecto es propiedad exclusiva del Dr. Vicente Humberto Monteverde",
     lic_text:"Todo el contenido de este sitio y del repositorio asociado — incluyendo código fuente, análisis, metodologías, textos, modelos y visualizaciones — es propiedad intelectual exclusiva de <strong>Dr. Vicente Humberto Monteverde</strong>. Queda estrictamente prohibida su reproducción, distribución, modificación o uso comercial sin autorización expresa y por escrito del autor.",
-    lic_pill1:"© Uso prohibido sin permiso",
-    lic_pill2:"© Código propietario",
-    lic_pill3:"© Contenido protegido",
-    lic_pill4:"✕ Sin redistribución",
-    lic_pill5:"✕ Sin uso comercial",
-    lic_github_btn:"Ver repositorio en GitHub",
-    lic_rights:"Todos los derechos reservados"
+    lic_pill1:"© Uso prohibido sin permiso", lic_pill2:"© Código propietario", lic_pill3:"© Contenido protegido", lic_pill4:"✕ Sin redistribución", lic_pill5:"✕ Sin uso comercial",
+    lic_github_btn:"Ver repositorio en GitHub", lic_rights:"Todos los derechos reservados"
   },
   en: {
-    header_left: "About Me", header_right: "Professional Profile",
-    prefix: "Doctor of Economic Sciences",
-    title_tag: "Expert in Data Science & Artificial Intelligence",
-    bio: "I hold a <strong>PhD in Economic Sciences and am a Certified Public Accountant</strong>, with a distinguished career in economic research and strategic consulting. Currently specializing in cutting-edge technologies for large-scale data analysis.<br><br>My approach integrates <strong>academic rigor</strong> with modern computational tools to transform complex data into strategic solutions with real-world impact.",
+    hero_eyebrow:"Data Science · AI · Digital Transparency",
+    hero_subtitle:"Doctor of Economic Sciences specialized in massive data analysis, predictive models and artificial intelligence applied to strategic decision-making.",
+    hero_cta:"Free consultation", hero_s1:"Published books", hero_s2:"International articles", hero_s3:"Languages", hero_s4:"Ethics award",
+    header_left:"About Me", header_right:"Professional Profile",
+    prefix:"Doctor of Economic Sciences",
+    title_tag:"Expert in Data Science & Artificial Intelligence",
+    bio:"I hold a <strong>PhD in Economic Sciences and am a Certified Public Accountant</strong>, with a distinguished career in economic research and strategic consulting. Currently specializing in cutting-edge technologies for large-scale data analysis.<br><br>My approach integrates <strong>academic rigor</strong> with modern computational tools to transform complex data into strategic solutions with real-world impact.",
     m1:"Published Books", m2:"International Articles", m3:"Publication Languages", m4:"Business Ethics Award",
     skills_title:"Technical Competencies", ach_title:"Key Achievements",
     s1_title:"Advanced Data Analysis", s1_desc:"Google Professional Certification — full data lifecycle, data cleaning, computational analysis and evidence-based decision making.",
@@ -601,59 +534,44 @@ const T = {
     a3:"<strong>Research Leadership</strong> — Former Director of the Institute of Economic Research, Universidad de Morón.",
     a4:"<strong>Project Management</strong> — Certified in project management fundamentals for efficient data team coordination.",
     b1:"PhD in Economic Sciences", b2:"Certified Public Accountant", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
-    srv_header_left:"Services",
-    srv_header_right:"How we work",
-    srv1_name:"Data Diagnosis",
-    srv1_desc:"Business problem analysis based on your data. We identify patterns, opportunities and bottlenecks to understand the real state of your company.",
-    srv2_name:"Algorithmic Modeling",
-    srv2_desc:"Application of statistical algorithms and machine learning models to extract actionable insights from your data.",
-    srv3_name:"Strategic Report",
-    srv3_desc:"Executive conclusions and business predictions with clear visualizations and concrete recommendations ready to implement.",
-    pill_anticipo:"Deposit USD 45",
-    pill_saldo_105:"Balance USD 105",
-    pill_anticipo2:"Deposit USD 75",
-    pill_saldo_175:"Balance USD 175",
-    pill_anticipo3:"Deposit USD 60",
-    pill_saldo_140:"Balance USD 140",
-    pack_badge:"Best Value",
-    pack_title:"Full Package",
+    srv_header_left:"Services", srv_header_right:"How we work",
+    srv1_name:"Data Diagnosis", srv1_desc:"Business problem analysis based on your data. We identify patterns, opportunities and bottlenecks to understand the real state of your company.",
+    srv2_name:"Algorithmic Modeling", srv2_desc:"Application of statistical algorithms and machine learning models to extract actionable insights from your data.",
+    srv3_name:"Strategic Report", srv3_desc:"Executive conclusions and business predictions with clear visualizations and concrete recommendations ready to implement.",
+    pill_anticipo:"Deposit USD 45", pill_saldo_105:"Balance USD 105",
+    pill_anticipo2:"Deposit USD 75", pill_saldo_175:"Balance USD 175",
+    pill_anticipo3:"Deposit USD 60", pill_saldo_140:"Balance USD 140",
+    pack_badge:"Best Value", pack_title:"Full Package",
     pack_saving:"✦ Save USD 100 vs. hiring by stages",
-    pack_anticipo_label:"Deposit:",
-    pack_saldo_label:"Balance on delivery:",
+    pack_anticipo_label:"Deposit:", pack_saldo_label:"Balance on delivery:",
     flow_title:"Payment method — choose your path",
     flow_a_label:"Path A — By stages (total USD 600)",
     flow_b_label:"Path B — Full package (total USD 500)",
     flow_a_note:"Each stage starts with its own deposit. You can stop or continue at any point.",
     flow_b_note:"One deposit covers all 3 services. Balance due upon delivery of the final report.",
-    flow_anticipo_word:"deposit",
-    flow_saldo_word:"balance",
-    flow_saving_box:"Save USD 100!",
+    flow_anticipo_word:"deposit", flow_saldo_word:"balance", flow_saving_box:"Save USD 100!",
     payment_note:"<strong>Payment method:</strong> Bank deposit or wire transfer. 30% deposit to start each service, balance on delivery. Cards not accepted.",
-    contact_header_left:"Contact",
-    contact_header_right:"Let's talk",
+    contact_header_left:"Contact", contact_header_right:"Let's talk",
     contact_email_label:"Email",
     cta_label:"No commitment consultation",
     cta_title:"Ready to transform your data into decisions?",
     cta_text:"Contact me via WhatsApp for a free initial consultation. We'll analyze your problem together and I'll recommend the service that best fits your situation.",
     cta_btn:"Start conversation",
-    lic_header_left:"License",
-    lic_header_right:"Intellectual Property",
+    lic_header_left:"License", lic_header_right:"Intellectual Property",
     lic_type:"All Rights Reserved",
     lic_title:"This project is the exclusive property of Dr. Vicente Humberto Monteverde",
     lic_text:"All content on this site and its associated repository — including source code, analyses, methodologies, texts, models and visualizations — is the exclusive intellectual property of <strong>Dr. Vicente Humberto Monteverde</strong>. Reproduction, distribution, modification or commercial use without express written authorization from the author is strictly prohibited.",
-    lic_pill1:"© No use without permission",
-    lic_pill2:"© Proprietary code",
-    lic_pill3:"© Protected content",
-    lic_pill4:"✕ No redistribution",
-    lic_pill5:"✕ No commercial use",
-    lic_github_btn:"View repository on GitHub",
-    lic_rights:"All rights reserved"
+    lic_pill1:"© No use without permission", lic_pill2:"© Proprietary code", lic_pill3:"© Protected content", lic_pill4:"✕ No redistribution", lic_pill5:"✕ No commercial use",
+    lic_github_btn:"View repository on GitHub", lic_rights:"All rights reserved"
   },
   fr: {
-    header_left: "À propos", header_right: "Profil Professionnel",
-    prefix: "Docteur en Sciences Économiques",
-    title_tag: "Expert en Science des Données & Intelligence Artificielle",
-    bio: "Je suis <strong>Docteur en Sciences Économiques et Expert-Comptable National</strong>, avec une carrière distinguée en recherche économique et conseil stratégique. Actuellement spécialisé dans l'utilisation de technologies de pointe pour l'analyse de données massives.<br><br>Mon approche intègre la <strong>rigueur académique</strong> avec des outils computationnels modernes pour transformer des données complexes en solutions stratégiques à impact réel.",
+    hero_eyebrow:"Science des Données · IA · Transparence Digitale",
+    hero_subtitle:"Docteur en Sciences Économiques spécialisé dans l'analyse de données massives, les modèles prédictifs et l'IA appliquée à la prise de décision stratégique.",
+    hero_cta:"Consultation gratuite", hero_s1:"Livres publiés", hero_s2:"Articles internationaux", hero_s3:"Langues", hero_s4:"Prix éthique",
+    header_left:"À propos", header_right:"Profil Professionnel",
+    prefix:"Docteur en Sciences Économiques",
+    title_tag:"Expert en Science des Données & Intelligence Artificielle",
+    bio:"Je suis <strong>Docteur en Sciences Économiques et Expert-Comptable National</strong>, avec une carrière distinguée en recherche économique et conseil stratégique. Actuellement spécialisé dans l'utilisation de technologies de pointe pour l'analyse de données massives.<br><br>Mon approche intègre la <strong>rigueur académique</strong> avec des outils computationnels modernes pour transformer des données complexes en solutions stratégiques à impact réel.",
     m1:"Livres Publiés", m2:"Articles Internationaux", m3:"Langues de Publication", m4:"Prix Éthique des Affaires",
     skills_title:"Compétences Techniques", ach_title:"Réalisations Clés",
     s1_title:"Analyse Avancée des Données", s1_desc:"Certification Professionnelle Google — cycle complet de la donnée, nettoyage, analyse computationnelle et prise de décision basée sur les preuves.",
@@ -665,123 +583,93 @@ const T = {
     a3:"<strong>Leadership en Recherche</strong> — Ancien Directeur de l'Institut de Recherche Économique, Universidad de Morón.",
     a4:"<strong>Gestion de Projets</strong> — Certifié en fondamentaux de gestion de projets pour la coordination efficace d'équipes de données.",
     b1:"Docteur en Sciences Économiques", b2:"Expert-Comptable National", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
-    srv_header_left:"Services",
-    srv_header_right:"Notre approche",
-    srv1_name:"Diagnostic des Données",
-    srv1_desc:"Analyse du problème métier à partir de vos données. Nous identifions les schémas, opportunités et goulots d'étranglement pour comprendre l'état réel de votre entreprise.",
-    srv2_name:"Modélisation Algorithmique",
-    srv2_desc:"Application d'algorithmes statistiques et de modèles de machine learning pour extraire des insights actionnables de vos données.",
-    srv3_name:"Rapport Stratégique",
-    srv3_desc:"Conclusions exécutives et prédictions métier avec des visualisations claires et des recommandations concrètes prêtes à implémenter.",
-    pill_anticipo:"Acompte USD 45",
-    pill_saldo_105:"Solde USD 105",
-    pill_anticipo2:"Acompte USD 75",
-    pill_saldo_175:"Solde USD 175",
-    pill_anticipo3:"Acompte USD 60",
-    pill_saldo_140:"Solde USD 140",
-    pack_badge:"Meilleure Valeur",
-    pack_title:"Pack Complet",
+    srv_header_left:"Services", srv_header_right:"Notre approche",
+    srv1_name:"Diagnostic des Données", srv1_desc:"Analyse du problème métier à partir de vos données. Nous identifions les schémas, opportunités et goulots d'étranglement.",
+    srv2_name:"Modélisation Algorithmique", srv2_desc:"Application d'algorithmes statistiques et de modèles de machine learning pour extraire des insights actionnables.",
+    srv3_name:"Rapport Stratégique", srv3_desc:"Conclusions exécutives et prédictions métier avec des visualisations claires et des recommandations concrètes.",
+    pill_anticipo:"Acompte USD 45", pill_saldo_105:"Solde USD 105",
+    pill_anticipo2:"Acompte USD 75", pill_saldo_175:"Solde USD 175",
+    pill_anticipo3:"Acompte USD 60", pill_saldo_140:"Solde USD 140",
+    pack_badge:"Meilleure Valeur", pack_title:"Pack Complet",
     pack_saving:"✦ Économisez USD 100 vs. par étapes",
-    pack_anticipo_label:"Acompte:",
-    pack_saldo_label:"Solde à la livraison:",
+    pack_anticipo_label:"Acompte:", pack_saldo_label:"Solde à la livraison:",
     flow_title:"Modalité de paiement — choisissez votre parcours",
     flow_a_label:"Chemin A — Par étapes (total USD 600)",
     flow_b_label:"Chemin B — Pack complet (total USD 500)",
     flow_a_note:"Chaque étape démarre avec son propre acompte. Vous pouvez arrêter ou continuer à tout moment.",
     flow_b_note:"Un seul acompte couvre les 3 services. Solde à la livraison du rapport final.",
-    flow_anticipo_word:"acompte",
-    flow_saldo_word:"solde",
-    flow_saving_box:"Économie USD 100!",
+    flow_anticipo_word:"acompte", flow_saldo_word:"solde", flow_saving_box:"Économie USD 100!",
     payment_note:"<strong>Mode de paiement:</strong> Virement bancaire. 30% d'acompte pour démarrer chaque service, solde à la livraison. Cartes non acceptées.",
-    contact_header_left:"Contact",
-    contact_header_right:"Parlons-en",
+    contact_header_left:"Contact", contact_header_right:"Parlons-en",
     contact_email_label:"Adresse e-mail",
     cta_label:"Consultation sans engagement",
     cta_title:"Prêt à transformer vos données en décisions?",
-    cta_text:"Contactez-moi via WhatsApp pour une consultation initiale gratuite. Nous analyserons votre problème ensemble et je vous recommanderai le service le mieux adapté.",
+    cta_text:"Contactez-moi via WhatsApp pour une consultation initiale gratuite. Nous analyserons votre problème ensemble.",
     cta_btn:"Démarrer la conversation",
-    lic_header_left:"Licence",
-    lic_header_right:"Propriété Intellectuelle",
+    lic_header_left:"Licence", lic_header_right:"Propriété Intellectuelle",
     lic_type:"Tous droits réservés",
     lic_title:"Ce projet est la propriété exclusive du Dr. Vicente Humberto Monteverde",
-    lic_text:"Tout le contenu de ce site et du dépôt associé — y compris le code source, les analyses, méthodologies, textes, modèles et visualisations — est la propriété intellectuelle exclusive du <strong>Dr. Vicente Humberto Monteverde</strong>. Toute reproduction, distribution, modification ou utilisation commerciale sans autorisation écrite expresse de l'auteur est strictement interdite.",
-    lic_pill1:"© Utilisation interdite sans permission",
-    lic_pill2:"© Code propriétaire",
-    lic_pill3:"© Contenu protégé",
-    lic_pill4:"✕ Sans redistribution",
-    lic_pill5:"✕ Sans usage commercial",
-    lic_github_btn:"Voir le dépôt sur GitHub",
-    lic_rights:"Tous droits réservés"
+    lic_text:"Tout le contenu de ce site et du dépôt associé est la propriété intellectuelle exclusive du <strong>Dr. Vicente Humberto Monteverde</strong>. Toute reproduction, distribution, modification ou utilisation commerciale sans autorisation écrite est strictement interdite.",
+    lic_pill1:"© Utilisation interdite sans permission", lic_pill2:"© Code propriétaire", lic_pill3:"© Contenu protégé", lic_pill4:"✕ Sans redistribution", lic_pill5:"✕ Sans usage commercial",
+    lic_github_btn:"Voir le dépôt sur GitHub", lic_rights:"Tous droits réservés"
   },
   de: {
-    header_left: "Über mich", header_right: "Berufsprofil",
-    prefix: "Doktor der Wirtschaftswissenschaften",
-    title_tag: "Experte für Data Science & Künstliche Intelligenz",
-    bio: "Ich bin <strong>Doktor der Wirtschaftswissenschaften und staatlich geprüfter Buchhalter</strong> mit einer herausragenden Laufbahn in der Wirtschaftsforschung und strategischen Beratung. Derzeit spezialisiert auf den Einsatz modernster Technologien zur Analyse großer Datensätze.<br><br>Mein Ansatz verbindet <strong>akademische Strenge</strong> mit modernen computergestützten Werkzeugen, um komplexe Daten in strategische Lösungen mit realem Impact umzuwandeln.",
+    hero_eyebrow:"Data Science · KI · Digitale Transparenz",
+    hero_subtitle:"Doktor der Wirtschaftswissenschaften, spezialisiert auf Massendatenanalyse, Vorhersagemodelle und KI für strategische Entscheidungsfindung.",
+    hero_cta:"Kostenlose Beratung", hero_s1:"Veröffentlichte Bücher", hero_s2:"Internationale Artikel", hero_s3:"Sprachen", hero_s4:"Ethik-Preis",
+    header_left:"Über mich", header_right:"Berufsprofil",
+    prefix:"Doktor der Wirtschaftswissenschaften",
+    title_tag:"Experte für Data Science & Künstliche Intelligenz",
+    bio:"Ich bin <strong>Doktor der Wirtschaftswissenschaften und staatlich geprüfter Buchhalter</strong> mit einer herausragenden Laufbahn in der Wirtschaftsforschung und strategischen Beratung. Derzeit spezialisiert auf modernste Technologien zur Analyse großer Datensätze.<br><br>Mein Ansatz verbindet <strong>akademische Strenge</strong> mit modernen Werkzeugen, um komplexe Daten in strategische Lösungen umzuwandeln.",
     m1:"Veröffentlichte Bücher", m2:"Internationale Artikel", m3:"Publikationssprachen", m4:"Wirtschaftsethik-Preis",
     skills_title:"Technische Kompetenzen", ach_title:"Wichtigste Leistungen",
-    s1_title:"Fortgeschrittene Datenanalyse", s1_desc:"Google-Berufszertifizierung — vollständiger Datenlebenszyklus, Datenbereinigung, computergestützte Analyse und evidenzbasierte Entscheidungsfindung.",
+    s1_title:"Fortgeschrittene Datenanalyse", s1_desc:"Google-Berufszertifizierung — vollständiger Datenlebenszyklus, Datenbereinigung und evidenzbasierte Entscheidungsfindung.",
     s2_title:"Künstliche Intelligenz", s2_desc:"Spezialist für LLM-Implementierung, KI-Grundlagen und Werkzeuge zum Gemeinwohl.",
     s3_title:"Analytische Programmierung", s3_desc:"Entwicklung von Vorhersagemodellen und Algorithmen mit Python und R.",
-    s4_title:"Business Analytics", s4_desc:"Postgraduiertendiplom in Unternehmensanalytik angewandt auf strategisches Management.",
+    s4_title:"Business Analytics", s4_desc:"Postgraduiertendiplom in Unternehmensanalytik.",
     a1:"<strong>Wissenschaftliche Produktion</strong> — Autor von 19 Büchern und 26 international veröffentlichten Artikeln auf Spanisch, Englisch, Italienisch, Französisch, Portugiesisch und Deutsch.",
     a2:"<strong>3. Preis für Wirtschaftsethik</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Forschungsleitung</strong> — Ehemaliger Direktor des Instituts für Wirtschaftsforschung, Universidad de Morón.",
-    a4:"<strong>Projektmanagement</strong> — Zertifiziert in Projektmanagement-Grundlagen für die effiziente Koordination von Datenteams.",
+    a4:"<strong>Projektmanagement</strong> — Zertifiziert in Projektmanagement-Grundlagen.",
     b1:"Dr. der Wirtschaftswissenschaften", b2:"Staatl. gepr. Buchhalter", b3:"Data Science & KI Experte", b4:"Universidad de Morón",
-    srv_header_left:"Leistungen",
-    srv_header_right:"Unsere Arbeitsweise",
-    srv1_name:"Datendiagnose",
-    srv1_desc:"Analyse des Geschäftsproblems anhand Ihrer Daten. Wir identifizieren Muster, Chancen und Engpässe, um den tatsächlichen Zustand Ihres Unternehmens zu verstehen.",
-    srv2_name:"Algorithmische Modellierung",
-    srv2_desc:"Anwendung statistischer Algorithmen und maschineller Lernmodelle zur Extraktion umsetzbarer Erkenntnisse aus Ihren Daten.",
-    srv3_name:"Strategischer Bericht",
-    srv3_desc:"Schlussfolgerungen und Geschäftsprognosen mit klaren Visualisierungen und konkreten Empfehlungen zur sofortigen Umsetzung.",
-    pill_anticipo:"Anzahlung USD 45",
-    pill_saldo_105:"Rest USD 105",
-    pill_anticipo2:"Anzahlung USD 75",
-    pill_saldo_175:"Rest USD 175",
-    pill_anticipo3:"Anzahlung USD 60",
-    pill_saldo_140:"Rest USD 140",
-    pack_badge:"Bestes Angebot",
-    pack_title:"Komplett-Paket",
+    srv_header_left:"Leistungen", srv_header_right:"Unsere Arbeitsweise",
+    srv1_name:"Datendiagnose", srv1_desc:"Analyse des Geschäftsproblems anhand Ihrer Daten. Wir identifizieren Muster, Chancen und Engpässe.",
+    srv2_name:"Algorithmische Modellierung", srv2_desc:"Anwendung statistischer Algorithmen und maschineller Lernmodelle zur Extraktion umsetzbarer Erkenntnisse.",
+    srv3_name:"Strategischer Bericht", srv3_desc:"Schlussfolgerungen und Geschäftsprognosen mit klaren Visualisierungen und konkreten Empfehlungen.",
+    pill_anticipo:"Anzahlung USD 45", pill_saldo_105:"Rest USD 105",
+    pill_anticipo2:"Anzahlung USD 75", pill_saldo_175:"Rest USD 175",
+    pill_anticipo3:"Anzahlung USD 60", pill_saldo_140:"Rest USD 140",
+    pack_badge:"Bestes Angebot", pack_title:"Komplett-Paket",
     pack_saving:"✦ Sparen Sie USD 100 gegenüber Einzelbuchung",
-    pack_anticipo_label:"Anzahlung:",
-    pack_saldo_label:"Restbetrag bei Lieferung:",
+    pack_anticipo_label:"Anzahlung:", pack_saldo_label:"Restbetrag bei Lieferung:",
     flow_title:"Zahlungsmodalität — wählen Sie Ihren Weg",
     flow_a_label:"Weg A — Stufenweise (gesamt USD 600)",
     flow_b_label:"Weg B — Komplett-Paket (gesamt USD 500)",
     flow_a_note:"Jede Stufe startet mit eigener Anzahlung. Sie können jederzeit stoppen oder fortfahren.",
-    flow_b_note:"Eine Anzahlung deckt alle 3 Leistungen ab. Restbetrag bei Abgabe des Abschlussberichts.",
-    flow_anticipo_word:"Anzahlung",
-    flow_saldo_word:"Restbetrag",
-    flow_saving_box:"Sie sparen USD 100!",
-    payment_note:"<strong>Zahlungsweise:</strong> Banküberweisung. 30% Anzahlung zum Start jeder Leistung, Restbetrag bei Lieferung. Keine Kartenzahlung.",
-    contact_header_left:"Kontakt",
-    contact_header_right:"Sprechen wir",
+    flow_b_note:"Eine Anzahlung deckt alle 3 Leistungen. Restbetrag bei Abgabe des Abschlussberichts.",
+    flow_anticipo_word:"Anzahlung", flow_saldo_word:"Restbetrag", flow_saving_box:"Sie sparen USD 100!",
+    payment_note:"<strong>Zahlungsweise:</strong> Banküberweisung. 30% Anzahlung zum Start, Restbetrag bei Lieferung. Keine Kartenzahlung.",
+    contact_header_left:"Kontakt", contact_header_right:"Sprechen wir",
     contact_email_label:"E-Mail-Adresse",
     cta_label:"Unverbindliche Beratung",
     cta_title:"Bereit, Ihre Daten in Entscheidungen umzuwandeln?",
-    cta_text:"Kontaktieren Sie mich über WhatsApp für eine kostenlose Erstberatung. Wir analysieren Ihr Problem gemeinsam und ich empfehle den passenden Service.",
+    cta_text:"Kontaktieren Sie mich über WhatsApp für eine kostenlose Erstberatung. Wir analysieren Ihr Problem gemeinsam.",
     cta_btn:"Gespräch starten",
-    lic_header_left:"Lizenz",
-    lic_header_right:"Geistiges Eigentum",
+    lic_header_left:"Lizenz", lic_header_right:"Geistiges Eigentum",
     lic_type:"Alle Rechte vorbehalten",
     lic_title:"Dieses Projekt ist das ausschließliche Eigentum von Dr. Vicente Humberto Monteverde",
-    lic_text:"Alle Inhalte dieser Website und des zugehörigen Repositorys — einschließlich Quellcode, Analysen, Methoden, Texte, Modelle und Visualisierungen — sind das ausschließliche geistige Eigentum von <strong>Dr. Vicente Humberto Monteverde</strong>. Jede Vervielfältigung, Verbreitung, Änderung oder kommerzielle Nutzung ohne ausdrückliche schriftliche Genehmigung des Autors ist streng verboten.",
-    lic_pill1:"© Nutzung ohne Erlaubnis verboten",
-    lic_pill2:"© Proprietärer Code",
-    lic_pill3:"© Geschützter Inhalt",
-    lic_pill4:"✕ Keine Weitergabe",
-    lic_pill5:"✕ Keine kommerzielle Nutzung",
-    lic_github_btn:"Repository auf GitHub ansehen",
-    lic_rights:"Alle Rechte vorbehalten"
+    lic_text:"Alle Inhalte dieser Website und des zugehörigen Repositorys sind das ausschließliche geistige Eigentum von <strong>Dr. Vicente Humberto Monteverde</strong>. Jede Vervielfältigung ohne ausdrückliche schriftliche Genehmigung ist streng verboten.",
+    lic_pill1:"© Nutzung ohne Erlaubnis verboten", lic_pill2:"© Proprietärer Code", lic_pill3:"© Geschützter Inhalt", lic_pill4:"✕ Keine Weitergabe", lic_pill5:"✕ Keine kommerzielle Nutzung",
+    lic_github_btn:"Repository auf GitHub ansehen", lic_rights:"Alle Rechte vorbehalten"
   },
   it: {
-    header_left: "Chi sono", header_right: "Profilo Professionale",
-    prefix: "Dottore in Scienze Economiche",
-    title_tag: "Esperto in Data Science & Intelligenza Artificiale",
-    bio: "Sono <strong>Dottore in Scienze Economiche e Commercialista Nazionale</strong>, con una carriera distinta nella ricerca economica e nella consulenza strategica. Attualmente specializzato nell'utilizzo di tecnologie all'avanguardia per l'analisi di dati su larga scala.<br><br>Il mio approccio integra il <strong>rigore accademico</strong> con moderni strumenti computazionali per trasformare dati complessi in soluzioni strategiche con impatto reale.",
+    hero_eyebrow:"Data Science · IA · Trasparenza Digitale",
+    hero_subtitle:"Dottore in Scienze Economiche specializzato in analisi di dati massivi, modelli predittivi e intelligenza artificiale applicata alle decisioni strategiche.",
+    hero_cta:"Consulenza gratuita", hero_s1:"Libri pubblicati", hero_s2:"Articoli internazionali", hero_s3:"Lingue", hero_s4:"Premio etica",
+    header_left:"Chi sono", header_right:"Profilo Professionale",
+    prefix:"Dottore in Scienze Economiche",
+    title_tag:"Esperto in Data Science & Intelligenza Artificiale",
+    bio:"Sono <strong>Dottore in Scienze Economiche e Commercialista Nazionale</strong>, con una carriera distinta nella ricerca economica e nella consulenza strategica. Attualmente specializzato nell'utilizzo di tecnologie all'avanguardia per l'analisi di dati su larga scala.<br><br>Il mio approccio integra il <strong>rigore accademico</strong> con moderni strumenti computazionali per trasformare dati complessi in soluzioni strategiche.",
     m1:"Libri Pubblicati", m2:"Articoli Internazionali", m3:"Lingue di Pubblicazione", m4:"Premio Etica Aziendale",
     skills_title:"Competenze Tecniche", ach_title:"Risultati Principali",
     s1_title:"Analisi Avanzata dei Dati", s1_desc:"Certificazione Professionale Google — ciclo completo del dato, pulizia, analisi computazionale e processo decisionale basato su prove.",
@@ -791,61 +679,46 @@ const T = {
     a1:"<strong>Produzione Scientifica</strong> — Autore di 19 libri e 26 articoli pubblicati internazionalmente in spagnolo, inglese, italiano, francese, portoghese e tedesco.",
     a2:"<strong>3° Premio in Etica Aziendale</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Leadership nella Ricerca</strong> — Ex Direttore dell'Istituto di Ricerca Economica, Universidad de Morón.",
-    a4:"<strong>Gestione dei Progetti</strong> — Certificato nei fondamenti di project management per il coordinamento efficiente di team di dati.",
+    a4:"<strong>Gestione dei Progetti</strong> — Certificato nei fondamenti di project management.",
     b1:"Dott. in Scienze Economiche", b2:"Commercialista Nazionale", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
-    srv_header_left:"Servizi",
-    srv_header_right:"Come lavoriamo",
-    srv1_name:"Diagnosi dei Dati",
-    srv1_desc:"Analisi del problema aziendale a partire dai vostri dati. Identifichiamo schemi, opportunità e colli di bottiglia per comprendere lo stato reale della vostra azienda.",
-    srv2_name:"Modellazione Algoritmica",
-    srv2_desc:"Applicazione di algoritmi statistici e modelli di machine learning per estrarre insight actionabili dai vostri dati.",
-    srv3_name:"Rapporto Strategico",
-    srv3_desc:"Conclusioni esecutive e previsioni aziendali con visualizzazioni chiare e raccomandazioni concrete pronte per l'implementazione.",
-    pill_anticipo:"Acconto USD 45",
-    pill_saldo_105:"Saldo USD 105",
-    pill_anticipo2:"Acconto USD 75",
-    pill_saldo_175:"Saldo USD 175",
-    pill_anticipo3:"Acconto USD 60",
-    pill_saldo_140:"Saldo USD 140",
-    pack_badge:"Miglior Valore",
-    pack_title:"Pacchetto Completo",
+    srv_header_left:"Servizi", srv_header_right:"Come lavoriamo",
+    srv1_name:"Diagnosi dei Dati", srv1_desc:"Analisi del problema aziendale a partire dai vostri dati. Identifichiamo schemi, opportunità e colli di bottiglia.",
+    srv2_name:"Modellazione Algoritmica", srv2_desc:"Applicazione di algoritmi statistici e modelli di machine learning per estrarre insight actionabili.",
+    srv3_name:"Rapporto Strategico", srv3_desc:"Conclusioni esecutive e previsioni aziendali con visualizzazioni chiare e raccomandazioni concrete.",
+    pill_anticipo:"Acconto USD 45", pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Acconto USD 75", pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Acconto USD 60", pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Miglior Valore", pack_title:"Pacchetto Completo",
     pack_saving:"✦ Risparmia USD 100 rispetto alle singole fasi",
-    pack_anticipo_label:"Acconto:",
-    pack_saldo_label:"Saldo alla consegna:",
+    pack_anticipo_label:"Acconto:", pack_saldo_label:"Saldo alla consegna:",
     flow_title:"Modalità di pagamento — scegli il tuo percorso",
     flow_a_label:"Percorso A — Per fasi (totale USD 600)",
     flow_b_label:"Percorso B — Pacchetto completo (totale USD 500)",
     flow_a_note:"Ogni fase inizia con il proprio acconto. Puoi fermarti o continuare in qualsiasi momento.",
     flow_b_note:"Un solo acconto copre tutti e 3 i servizi. Saldo alla consegna del rapporto finale.",
-    flow_anticipo_word:"acconto",
-    flow_saldo_word:"saldo",
-    flow_saving_box:"Risparmi USD 100!",
+    flow_anticipo_word:"acconto", flow_saldo_word:"saldo", flow_saving_box:"Risparmi USD 100!",
     payment_note:"<strong>Modalità di pagamento:</strong> Bonifico bancario. 30% di acconto per avviare ogni servizio, saldo alla consegna. Carte non accettate.",
-    contact_header_left:"Contatti",
-    contact_header_right:"Parliamone",
+    contact_header_left:"Contatti", contact_header_right:"Parliamone",
     contact_email_label:"Indirizzo e-mail",
     cta_label:"Consulenza senza impegno",
     cta_title:"Pronto a trasformare i suoi dati in decisioni?",
-    cta_text:"Contattami via WhatsApp per una consulenza iniziale gratuita. Analizzeremo insieme il suo problema e suggerirò il servizio più adatto alla sua situazione.",
+    cta_text:"Contattami via WhatsApp per una consulenza iniziale gratuita. Analizzeremo insieme il suo problema.",
     cta_btn:"Inizia la conversazione",
-    lic_header_left:"Licenza",
-    lic_header_right:"Proprietà Intellettuale",
+    lic_header_left:"Licenza", lic_header_right:"Proprietà Intellettuale",
     lic_type:"Tutti i diritti riservati",
     lic_title:"Questo progetto è di proprietà esclusiva del Dr. Vicente Humberto Monteverde",
-    lic_text:"Tutti i contenuti di questo sito e del repository associato — inclusi codice sorgente, analisi, metodologie, testi, modelli e visualizzazioni — sono proprietà intellettuale esclusiva del <strong>Dr. Vicente Humberto Monteverde</strong>. È severamente vietata qualsiasi riproduzione, distribuzione, modifica o uso commerciale senza esplicita autorizzazione scritta dell'autore.",
-    lic_pill1:"© Uso vietato senza permesso",
-    lic_pill2:"© Codice proprietario",
-    lic_pill3:"© Contenuto protetto",
-    lic_pill4:"✕ Nessuna ridistribuzione",
-    lic_pill5:"✕ Nessun uso commerciale",
-    lic_github_btn:"Visualizza repository su GitHub",
-    lic_rights:"Tutti i diritti riservati"
+    lic_text:"Tutti i contenuti di questo sito e del repository associato sono proprietà intellettuale esclusiva del <strong>Dr. Vicente Humberto Monteverde</strong>. È severamente vietata qualsiasi riproduzione senza esplicita autorizzazione scritta.",
+    lic_pill1:"© Uso vietato senza permesso", lic_pill2:"© Codice proprietario", lic_pill3:"© Contenuto protetto", lic_pill4:"✕ Nessuna ridistribuzione", lic_pill5:"✕ Nessun uso commerciale",
+    lic_github_btn:"Visualizza repository su GitHub", lic_rights:"Tutti i diritti riservati"
   },
   pt: {
-    header_left: "Sobre mim", header_right: "Perfil Profissional",
-    prefix: "Doutor em Ciências Econômicas",
-    title_tag: "Especialista em Ciência de Dados & Inteligência Artificial",
-    bio: "Sou <strong>Doutor em Ciências Econômicas e Contador Público Nacional</strong>, com uma trajetória distinta em pesquisa econômica e consultoria estratégica. Atualmente especializado no uso de tecnologias de ponta para análise de dados em larga escala.<br><br>Minha abordagem integra o <strong>rigor acadêmico</strong> com ferramentas computacionais modernas para transformar dados complexos em soluções estratégicas com impacto real.",
+    hero_eyebrow:"Ciência de Dados · IA · Transparência Digital",
+    hero_subtitle:"Doutor em Ciências Econômicas especializado em análise de dados massivos, modelos preditivos e inteligência artificial aplicada à tomada de decisões estratégicas.",
+    hero_cta:"Consulta gratuita", hero_s1:"Livros publicados", hero_s2:"Artigos internacionais", hero_s3:"Idiomas", hero_s4:"Prêmio ética",
+    header_left:"Sobre mim", header_right:"Perfil Profissional",
+    prefix:"Doutor em Ciências Econômicas",
+    title_tag:"Especialista em Ciência de Dados & Inteligência Artificial",
+    bio:"Sou <strong>Doutor em Ciências Econômicas e Contador Público Nacional</strong>, com uma trajetória distinta em pesquisa econômica e consultoria estratégica. Atualmente especializado no uso de tecnologias de ponta para análise de dados em larga escala.<br><br>Minha abordagem integra o <strong>rigor acadêmico</strong> com ferramentas computacionais modernas para transformar dados complexos em soluções estratégicas com impacto real.",
     m1:"Livros Publicados", m2:"Artigos Internacionais", m3:"Idiomas de Publicação", m4:"Prêmio Ética Empresarial",
     skills_title:"Competências Técnicas", ach_title:"Conquistas Principais",
     s1_title:"Análise Avançada de Dados", s1_desc:"Certificação Profissional Google — ciclo completo do dado, limpeza, análise computacional e tomada de decisões baseada em evidências.",
@@ -855,67 +728,53 @@ const T = {
     a1:"<strong>Produção Científica</strong> — Autor de 19 livros e 26 artigos publicados internacionalmente em espanhol, inglês, italiano, francês, português e alemão.",
     a2:"<strong>3º Prêmio em Ética Empresarial</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Liderança em Pesquisa</strong> — Ex-Diretor do Instituto de Pesquisas Econômicas, Universidad de Morón.",
-    a4:"<strong>Gestão de Projetos</strong> — Certificado em fundamentos de gestão de projetos para coordenação eficiente de equipes de dados.",
+    a4:"<strong>Gestão de Projetos</strong> — Certificado em fundamentos de gestão de projetos.",
     b1:"Doutor em Ciências Econômicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
-    srv_header_left:"Serviços",
-    srv_header_right:"Como trabalhamos",
-    srv1_name:"Diagnóstico de Dados",
-    srv1_desc:"Análise do problema de negócios a partir dos seus dados. Identificamos padrões, oportunidades e gargalos para entender o estado real da sua empresa.",
-    srv2_name:"Modelagem Algorítmica",
-    srv2_desc:"Aplicação de algoritmos estatísticos e modelos de machine learning para extrair insights acionáveis dos seus dados.",
-    srv3_name:"Relatório Estratégico",
-    srv3_desc:"Conclusões executivas e previsões de negócios com visualizações claras e recomendações concretas prontas para implementar.",
-    pill_anticipo:"Adiantamento USD 45",
-    pill_saldo_105:"Saldo USD 105",
-    pill_anticipo2:"Adiantamento USD 75",
-    pill_saldo_175:"Saldo USD 175",
-    pill_anticipo3:"Adiantamento USD 60",
-    pill_saldo_140:"Saldo USD 140",
-    pack_badge:"Melhor Valor",
-    pack_title:"Pacote Completo",
+    srv_header_left:"Serviços", srv_header_right:"Como trabalhamos",
+    srv1_name:"Diagnóstico de Dados", srv1_desc:"Análise do problema de negócios a partir dos seus dados. Identificamos padrões, oportunidades e gargalos.",
+    srv2_name:"Modelagem Algorítmica", srv2_desc:"Aplicação de algoritmos estatísticos e modelos de machine learning para extrair insights acionáveis.",
+    srv3_name:"Relatório Estratégico", srv3_desc:"Conclusões executivas e previsões de negócios com visualizações claras e recomendações concretas.",
+    pill_anticipo:"Adiantamento USD 45", pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Adiantamento USD 75", pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Adiantamento USD 60", pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Melhor Valor", pack_title:"Pacote Completo",
     pack_saving:"✦ Economize USD 100 vs. contratar por etapas",
-    pack_anticipo_label:"Adiantamento:",
-    pack_saldo_label:"Saldo na entrega:",
+    pack_anticipo_label:"Adiantamento:", pack_saldo_label:"Saldo na entrega:",
     flow_title:"Modalidade de pagamento — escolha seu caminho",
     flow_a_label:"Caminho A — Por etapas (total USD 600)",
     flow_b_label:"Caminho B — Pacote completo (total USD 500)",
     flow_a_note:"Cada etapa começa com seu próprio adiantamento. Você pode parar ou continuar a qualquer momento.",
     flow_b_note:"Um adiantamento cobre os 3 serviços. Saldo na entrega do relatório final.",
-    flow_anticipo_word:"adiantamento",
-    flow_saldo_word:"saldo",
-    flow_saving_box:"Economize USD 100!",
+    flow_anticipo_word:"adiantamento", flow_saldo_word:"saldo", flow_saving_box:"Economize USD 100!",
     payment_note:"<strong>Modalidade de pagamento:</strong> Depósito ou transferência bancária. 30% de adiantamento para iniciar cada serviço, saldo na entrega. Cartões não aceitos.",
-    contact_header_left:"Contato",
-    contact_header_right:"Vamos conversar",
+    contact_header_left:"Contato", contact_header_right:"Vamos conversar",
     contact_email_label:"Endereço de e-mail",
     cta_label:"Consulta sem compromisso",
     cta_title:"Pronto para transformar seus dados em decisões?",
-    cta_text:"Entre em contato pelo WhatsApp para uma consulta inicial gratuita. Analisamos juntos o seu problema e indico o serviço mais adequado à sua situação.",
+    cta_text:"Entre em contato pelo WhatsApp para uma consulta inicial gratuita. Analisamos juntos o seu problema.",
     cta_btn:"Iniciar conversa",
-    lic_header_left:"Licença",
-    lic_header_right:"Propriedade Intelectual",
+    lic_header_left:"Licença", lic_header_right:"Propriedade Intelectual",
     lic_type:"Todos os direitos reservados",
     lic_title:"Este projeto é propriedade exclusiva do Dr. Vicente Humberto Monteverde",
-    lic_text:"Todo o conteúdo deste site e do repositório associado — incluindo código-fonte, análises, metodologias, textos, modelos e visualizações — é propriedade intelectual exclusiva do <strong>Dr. Vicente Humberto Monteverde</strong>. É estritamente proibida sua reprodução, distribuição, modificação ou uso comercial sem autorização expressa e por escrito do autor.",
-    lic_pill1:"© Uso proibido sem permissão",
-    lic_pill2:"© Código proprietário",
-    lic_pill3:"© Conteúdo protegido",
-    lic_pill4:"✕ Sem redistribuição",
-    lic_pill5:"✕ Sem uso comercial",
-    lic_github_btn:"Ver repositório no GitHub",
-    lic_rights:"Todos os direitos reservados"
+    lic_text:"Todo o conteúdo deste site e do repositório associado é propriedade intelectual exclusiva do <strong>Dr. Vicente Humberto Monteverde</strong>. É estritamente proibida sua reprodução sem autorização expressa e por escrito do autor.",
+    lic_pill1:"© Uso proibido sem permissão", lic_pill2:"© Código proprietário", lic_pill3:"© Conteúdo protegido", lic_pill4:"✕ Sem redistribuição", lic_pill5:"✕ Sem uso comercial",
+    lic_github_btn:"Ver repositório no GitHub", lic_rights:"Todos os direitos reservados"
   }
 };
 
 function setLang(lang) {
   const d = T[lang];
+  if (!d) return;
   document.querySelectorAll("[data-t]").forEach(el => {
     const key = el.getAttribute("data-t");
     if (d[key] !== undefined) el.innerHTML = d[key];
   });
   document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.querySelector(".lang-btn[data-lang=\"" + lang + "\"]"); if (activeBtn) activeBtn.classList.add("active");
+  const activeBtn = document.querySelector('.lang-btn[data-lang="' + lang + '"]');
+  if (activeBtn) activeBtn.classList.add("active");
   document.documentElement.lang = lang;
+  currentLang = lang;
+  updateTaglines(lang);
 }
 
 setLang("es");
