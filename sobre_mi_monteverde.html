@@ -68,6 +68,97 @@
   .badge-text { font-size: 12px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
   .badge-text span { color: var(--gold-light); }
 
+
+  /* ── SERVICES SECTION ── */
+  .services-section { margin-top: 80px; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+  .service-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(184,150,62,0.2); padding: 32px 28px; position: relative; transition: all 0.3s; cursor: default; }
+  .service-card:hover { background: rgba(184,150,62,0.05); border-color: rgba(184,150,62,0.5); transform: translateY(-4px); }
+  .service-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: rgba(184,150,62,0.2); line-height: 1; margin-bottom: 16px; }
+  .service-name { font-size: 15px; font-weight: 600; color: var(--cream); margin-bottom: 8px; letter-spacing: 0.5px; }
+  .service-desc { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 24px; }
+  .service-price-box { border-top: 1px solid rgba(184,150,62,0.2); padding-top: 20px; }
+  .service-total { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--gold-light); margin-bottom: 12px; }
+  .service-payment { display: flex; gap: 8px; }
+  .pay-pill { font-size: 11px; padding: 4px 10px; border-radius: 2px; font-weight: 500; letter-spacing: 1px; }
+  .pay-pill.anticipo { background: rgba(184,150,62,0.15); color: var(--gold); border: 1px solid rgba(184,150,62,0.3); }
+  .pay-pill.saldo { background: rgba(58,74,92,0.4); color: var(--muted); border: 1px solid rgba(58,74,92,0.6); }
+
+  /* Pack completo */
+  .pack-card { border: 1px solid var(--gold); background: rgba(184,150,62,0.04); padding: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; position: relative; overflow: hidden; }
+  .pack-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light), transparent); }
+  .pack-badge { position: absolute; top: 20px; right: 20px; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; letter-spacing: 2px; padding: 4px 10px; text-transform: uppercase; }
+  .pack-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--white); margin-bottom: 8px; }
+  .pack-includes { font-size: 13px; color: var(--muted); line-height: 1.8; font-weight: 300; }
+  .pack-includes span { color: var(--gold-light); margin-right: 6px; }
+  .pack-right { text-align: right; }
+  .pack-price { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 4px; }
+  .pack-saving { font-size: 12px; color: #6dbf7e; letter-spacing: 1px; margin-bottom: 20px; }
+  .pack-payments { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .pack-pay-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .pack-pay-label { color: var(--muted); }
+  .pack-pay-amount { color: var(--cream); font-weight: 500; }
+
+  /* Flow diagram */
+  .flow-section { margin-top: 48px; padding: 32px; border: 1px solid rgba(184,150,62,0.15); background: rgba(255,255,255,0.02); }
+  .flow-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+  .flow-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .flow-path-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; font-weight: 500; }
+  .flow-steps { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
+  .flow-step { display: flex; align-items: center; }
+  .flow-box { background: rgba(184,150,62,0.08); border: 1px solid rgba(184,150,62,0.25); padding: 8px 14px; font-size: 12px; color: var(--cream); white-space: nowrap; }
+  .flow-box.pay { border-color: var(--gold); color: var(--gold-light); background: rgba(184,150,62,0.12); }
+  .flow-box.saving { border-color: #6dbf7e; color: #6dbf7e; background: rgba(109,191,126,0.08); }
+  .flow-arrow { color: rgba(184,150,62,0.5); padding: 0 8px; font-size: 14px; }
+  .flow-note { font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic; }
+
+  /* Payment method note */
+  .payment-note { margin-top: 24px; display: flex; align-items: center; gap: 12px; padding: 16px 20px; border: 1px solid rgba(58,74,92,0.5); background: rgba(58,74,92,0.15); }
+  .payment-note-icon { color: var(--gold); font-size: 18px; }
+  .payment-note-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .payment-note-text strong { color: var(--cream); }
+
+  @media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .pack-card { grid-template-columns: 1fr; }
+    .pack-right { text-align: left; }
+    .pack-payments { align-items: flex-start; }
+    .flow-paths { grid-template-columns: 1fr; }
+  }
+
+
+  /* ── CONTACT SECTION ── */
+  .contact-section { margin-top: 80px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 40px; }
+  .contact-left { display: flex; flex-direction: column; gap: 16px; }
+  .contact-card { display: flex; align-items: center; gap: 20px; padding: 20px 24px; border: 1px solid rgba(184,150,62,0.2); background: rgba(255,255,255,0.02); transition: all 0.3s; text-decoration: none; color: inherit; }
+  .contact-card:hover { border-color: var(--gold); background: rgba(184,150,62,0.06); transform: translateX(4px); }
+  .contact-icon { width: 44px; height: 44px; border: 1px solid rgba(184,150,62,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; color: var(--gold-light); }
+  .contact-info { flex: 1; }
+  .contact-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .contact-value { font-size: 14px; color: var(--cream); font-weight: 400; }
+  .contact-value.highlight { color: var(--gold-light); }
+
+  .contact-right { display: flex; flex-direction: column; justify-content: center; padding: 40px; border: 1px solid rgba(184,150,62,0.3); background: rgba(184,150,62,0.03); position: relative; }
+  .contact-right::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), transparent); }
+  .contact-cta-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .contact-cta-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--white); line-height: 1.3; margin-bottom: 16px; }
+  .contact-cta-text { font-size: 13.5px; color: var(--muted); line-height: 1.8; font-weight: 300; margin-bottom: 28px; }
+  .contact-cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 14px 28px; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
+  .contact-cta-btn:hover { background: var(--gold-light); }
+
+  .social-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .social-card { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border: 1px solid rgba(184,150,62,0.15); background: rgba(255,255,255,0.02); text-decoration: none; color: inherit; transition: all 0.3s; }
+  .social-card:hover { border-color: rgba(184,150,62,0.5); background: rgba(184,150,62,0.05); }
+  .social-icon { font-size: 22px; width: 36px; text-align: center; }
+  .social-name { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .social-handle { font-size: 13px; color: var(--cream); font-weight: 400; }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .social-strip { grid-template-columns: 1fr 1fr; }
+  }
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 768px) {
@@ -145,6 +236,238 @@
     <div class="badge-sep"></div>
     <div class="badge-text" data-t="b4"></div>
   </div>
+
+  <!-- ══════════════ SERVICES SECTION ══════════════ -->
+  <div class="services-section">
+    <div class="header-rule" style="margin-bottom:40px;">
+      <span data-t="srv_header_left"></span>
+      <div class="rule"></div>
+      <span data-t="srv_header_right"></span>
+    </div>
+
+    <!-- 3 service cards -->
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name" data-t="srv1_name"></div>
+        <div class="service-desc" data-t="srv1_desc"></div>
+        <div class="service-price-box">
+          <div class="service-total">USD 150</div>
+          <div class="service-payment">
+            <span class="pay-pill anticipo" data-t="pill_anticipo"></span>
+            <span class="pay-pill saldo" data-t="pill_saldo_105"></span>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name" data-t="srv2_name"></div>
+        <div class="service-desc" data-t="srv2_desc"></div>
+        <div class="service-price-box">
+          <div class="service-total">USD 250</div>
+          <div class="service-payment">
+            <span class="pay-pill anticipo" data-t="pill_anticipo2"></span>
+            <span class="pay-pill saldo" data-t="pill_saldo_175"></span>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name" data-t="srv3_name"></div>
+        <div class="service-desc" data-t="srv3_desc"></div>
+        <div class="service-price-box">
+          <div class="service-total">USD 200</div>
+          <div class="service-payment">
+            <span class="pay-pill anticipo" data-t="pill_anticipo3"></span>
+            <span class="pay-pill saldo" data-t="pill_saldo_140"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pack completo -->
+    <div class="pack-card">
+      <div class="pack-badge" data-t="pack_badge"></div>
+      <div>
+        <div class="pack-title" data-t="pack_title"></div>
+        <div class="pack-includes">
+          <div><span>✦</span><span data-t="srv1_name"></span></div>
+          <div><span>✦</span><span data-t="srv2_name"></span></div>
+          <div><span>✦</span><span data-t="srv3_name"></span></div>
+        </div>
+      </div>
+      <div class="pack-right">
+        <div class="pack-price">USD 500</div>
+        <div class="pack-saving" data-t="pack_saving"></div>
+        <div class="pack-payments">
+          <div class="pack-pay-row">
+            <span class="pack-pay-label" data-t="pack_anticipo_label"></span>
+            <span class="pack-pay-amount">USD 150</span>
+          </div>
+          <div class="pack-pay-row">
+            <span class="pack-pay-label" data-t="pack_saldo_label"></span>
+            <span class="pack-pay-amount">USD 350</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow diagram -->
+    <div class="flow-section">
+      <div class="flow-title" data-t="flow_title"></div>
+      <div class="flow-paths">
+        <div>
+          <div class="flow-path-label" data-t="flow_a_label"></div>
+          <div class="flow-steps">
+            <div class="flow-step"><div class="flow-box pay">S1: $45 + $105</div><div class="flow-arrow">→</div></div>
+            <div class="flow-step"><div class="flow-box pay">S2: $75 + $175</div><div class="flow-arrow">→</div></div>
+            <div class="flow-step"><div class="flow-box pay">S3: $60 + $140</div></div>
+          </div>
+          <div class="flow-note" data-t="flow_a_note"></div>
+        </div>
+        <div>
+          <div class="flow-path-label" data-t="flow_b_label"></div>
+          <div class="flow-steps">
+            <div class="flow-step"><div class="flow-box pay">$150 <span data-t="flow_anticipo_word"></span></div><div class="flow-arrow">→</div></div>
+            <div class="flow-step"><div class="flow-box">S1 + S2 + S3</div><div class="flow-arrow">→</div></div>
+            <div class="flow-step"><div class="flow-box pay">$350 <span data-t="flow_saldo_word"></span></div><div class="flow-arrow">→</div></div>
+            <div class="flow-step"><div class="flow-box saving" data-t="flow_saving_box"></div></div>
+          </div>
+          <div class="flow-note" data-t="flow_b_note"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment method -->
+    <div class="payment-note">
+      <div class="payment-note-icon">🏦</div>
+      <div class="payment-note-text" data-t="payment_note"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════ CONTACT SECTION ══════════════ -->
+  <div class="contact-section">
+    <div class="header-rule" style="margin-bottom:40px;">
+      <span data-t="contact_header_left"></span>
+      <div class="rule"></div>
+      <span data-t="contact_header_right"></span>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-left">
+        <!-- WhatsApp -->
+        <a class="contact-card" href="https://wa.me/541144055395" target="_blank">
+          <div class="contact-icon">💬</div>
+          <div class="contact-info">
+            <div class="contact-label">WhatsApp</div>
+            <div class="contact-value highlight">+54 11 4405-5395</div>
+          </div>
+        </a>
+        <!-- Email 1 -->
+        <a class="contact-card" href="mailto:admin@viny2030.com.ar" target="_blank">
+          <div class="contact-icon">✉</div>
+          <div class="contact-info">
+            <div class="contact-label" data-t="contact_email_label"></div>
+            <div class="contact-value">admin@viny2030.com.ar</div>
+          </div>
+        </a>
+        <!-- Email 2 -->
+        <a class="contact-card" href="mailto:viny01958@gmail.com" target="_blank">
+          <div class="contact-icon">✉</div>
+          <div class="contact-info">
+            <div class="contact-label" data-t="contact_email_label"></div>
+            <div class="contact-value">viny01958@gmail.com</div>
+          </div>
+        </a>
+        <!-- Email 3 -->
+        <a class="contact-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
+          <div class="contact-icon">✉</div>
+          <div class="contact-info">
+            <div class="contact-label" data-t="contact_email_label"></div>
+            <div class="contact-value">10.algorithms.new@gmail.com</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="contact-right">
+        <div class="contact-cta-label" data-t="cta_label"></div>
+        <div class="contact-cta-title" data-t="cta_title"></div>
+        <div class="contact-cta-text" data-t="cta_text"></div>
+        <a class="contact-cta-btn" href="https://wa.me/541144055395" target="_blank">
+          💬 <span data-t="cta_btn"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Social networks -->
+    <div class="social-strip">
+      <a class="social-card" href="https://www.linkedin.com/in/vicentemonteverde/" target="_blank">
+        <div class="social-icon">💼</div>
+        <div>
+          <div class="social-name">LinkedIn</div>
+          <div class="social-handle">Vicente Monteverde</div>
+        </div>
+      </a>
+      <a class="social-card" href="https://www.youtube.com/@10.algorithms_new" target="_blank">
+        <div class="social-icon">▶️</div>
+        <div>
+          <div class="social-name">YouTube</div>
+          <div class="social-handle">@10.algorithms_new</div>
+        </div>
+      </a>
+      <a class="social-card" href="https://www.instagram.com/10.algorithms_new/" target="_blank">
+        <div class="social-icon">📸</div>
+        <div>
+          <div class="social-name">Instagram</div>
+          <div class="social-handle">@10.algorithms_new</div>
+        </div>
+      </a>
+      <a class="social-card" href="https://www.facebook.com/profile.php?id=61584696754392" target="_blank">
+        <div class="social-icon">📘</div>
+        <div>
+          <div class="social-name">Facebook</div>
+          <div class="social-handle">Algoritmos contra el fraude y la corrupción</div>
+        </div>
+      </a>
+      <a class="social-card" href="https://x.com/AlgorithmsNew" target="_blank">
+        <div class="social-icon">𝕏</div>
+        <div>
+          <div class="social-name">X / Twitter</div>
+          <div class="social-handle">@AlgorithmsNew</div>
+        </div>
+      </a>
+      <a class="social-card" href="https://wa.me/541144055395" target="_blank">
+        <div class="social-icon">💬</div>
+        <div>
+          <div class="social-name">WhatsApp</div>
+          <div class="social-handle">+54 11 4405-5395</div>
+        </div>
+      </a>
+      <a class="social-card" href="mailto:admin@viny2030.com.ar" target="_blank">
+        <div class="social-icon">✉</div>
+        <div>
+          <div class="social-name">Email</div>
+          <div class="social-handle">admin@viny2030.com.ar</div>
+        </div>
+      </a>
+      <a class="social-card" href="mailto:viny01958@gmail.com" target="_blank">
+        <div class="social-icon">✉</div>
+        <div>
+          <div class="social-name">Email</div>
+          <div class="social-handle">viny01958@gmail.com</div>
+        </div>
+      </a>
+      <a class="social-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
+        <div class="social-icon">✉</div>
+        <div>
+          <div class="social-name">Email</div>
+          <div class="social-handle">10.algorithms.new@gmail.com</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -167,7 +490,42 @@ const T = {
     a2:"<strong>III Premio en Ética Empresarial</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Liderazgo de Investigación</strong> — Exdirector del Instituto de Investigaciones Económicas, Universidad de Morón.",
     a4:"<strong>Gestión de Proyectos</strong> — Certificado en fundamentos para la coordinación eficiente de equipos de datos.",
-    b1:"Doctor en Ciencias Económicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+    b1:"Doctor en Ciencias Económicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
+    srv_header_left:"Servicios",
+    srv_header_right:"Cómo trabajamos",
+    srv1_name:"Diagnóstico de Datos",
+    srv1_desc:"Análisis del problema de negocios a partir de sus datos. Identificamos patrones, oportunidades y cuellos de botella para entender el estado real de su empresa.",
+    srv2_name:"Modelado Algorítmico",
+    srv2_desc:"Aplicación de algoritmos estadísticos y modelos de machine learning sobre sus datos para extraer insights accionables.",
+    srv3_name:"Informe Estratégico",
+    srv3_desc:"Conclusiones ejecutivas y predicciones del negocio con visualizaciones claras y recomendaciones concretas listas para implementar.",
+    pill_anticipo:"Anticipo USD 45",
+    pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Anticipo USD 75",
+    pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Anticipo USD 60",
+    pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Mejor Valor",
+    pack_title:"Pack Completo",
+    pack_saving:"✦ Ahorrá USD 100 vs. contratar por etapas",
+    pack_anticipo_label:"Anticipo:",
+    pack_saldo_label:"Saldo contra entrega:",
+    flow_title:"Modalidad de pago — elegí tu camino",
+    flow_a_label:"Camino A — Por etapas (total USD 600)",
+    flow_b_label:"Camino B — Pack completo (total USD 500)",
+    flow_a_note:"Cada etapa se activa con su propio anticipo. Podés detener o continuar en cualquier punto.",
+    flow_b_note:"Un solo anticipo cubre los 3 servicios. Saldo al entregar el informe final.",
+    flow_anticipo_word:"anticipo",
+    flow_saldo_word:"saldo",
+    flow_saving_box:"¡Ahorrás USD 100!",
+    payment_note:"<strong>Modalidad de pago:</strong> Depósito bancario o transferencia. 30% de anticipo para iniciar cada servicio, saldo contra entrega del trabajo finalizado. No se aceptan tarjetas.",
+    contact_header_left:"Contacto",
+    contact_header_right:"Hablemos",
+    contact_email_label:"Correo Electrónico",
+    cta_label:"Consulta sin compromiso",
+    cta_title:"¿Listo para transformar sus datos en decisiones?",
+    cta_text:"Contácteme por WhatsApp para una consulta inicial gratuita. Analizamos juntos su problema y le indico qué servicio se adapta mejor a su situación.",
+    cta_btn:"Iniciar conversación"
   },
   en: {
     header_left: "About Me", header_right: "Professional Profile",
@@ -184,7 +542,42 @@ const T = {
     a2:"<strong>3rd Prize in Business Ethics</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Research Leadership</strong> — Former Director of the Institute of Economic Research, Universidad de Morón.",
     a4:"<strong>Project Management</strong> — Certified in project management fundamentals for efficient data team coordination.",
-    b1:"PhD in Economic Sciences", b2:"Certified Public Accountant", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+    b1:"PhD in Economic Sciences", b2:"Certified Public Accountant", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
+    srv_header_left:"Services",
+    srv_header_right:"How we work",
+    srv1_name:"Data Diagnosis",
+    srv1_desc:"Business problem analysis based on your data. We identify patterns, opportunities and bottlenecks to understand the real state of your company.",
+    srv2_name:"Algorithmic Modeling",
+    srv2_desc:"Application of statistical algorithms and machine learning models to extract actionable insights from your data.",
+    srv3_name:"Strategic Report",
+    srv3_desc:"Executive conclusions and business predictions with clear visualizations and concrete recommendations ready to implement.",
+    pill_anticipo:"Deposit USD 45",
+    pill_saldo_105:"Balance USD 105",
+    pill_anticipo2:"Deposit USD 75",
+    pill_saldo_175:"Balance USD 175",
+    pill_anticipo3:"Deposit USD 60",
+    pill_saldo_140:"Balance USD 140",
+    pack_badge:"Best Value",
+    pack_title:"Full Package",
+    pack_saving:"✦ Save USD 100 vs. hiring by stages",
+    pack_anticipo_label:"Deposit:",
+    pack_saldo_label:"Balance on delivery:",
+    flow_title:"Payment method — choose your path",
+    flow_a_label:"Path A — By stages (total USD 600)",
+    flow_b_label:"Path B — Full package (total USD 500)",
+    flow_a_note:"Each stage starts with its own deposit. You can stop or continue at any point.",
+    flow_b_note:"One deposit covers all 3 services. Balance due upon delivery of the final report.",
+    flow_anticipo_word:"deposit",
+    flow_saldo_word:"balance",
+    flow_saving_box:"Save USD 100!",
+    payment_note:"<strong>Payment method:</strong> Bank deposit or wire transfer. 30% deposit to start each service, balance on delivery. Cards not accepted.",
+    contact_header_left:"Contact",
+    contact_header_right:"Let's talk",
+    contact_email_label:"Email",
+    cta_label:"No commitment consultation",
+    cta_title:"Ready to transform your data into decisions?",
+    cta_text:"Contact me via WhatsApp for a free initial consultation. We'll analyze your problem together and I'll recommend the service that best fits your situation.",
+    cta_btn:"Start conversation"
   },
   fr: {
     header_left: "À propos", header_right: "Profil Professionnel",
@@ -201,7 +594,42 @@ const T = {
     a2:"<strong>3e Prix en Éthique des Affaires</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Leadership en Recherche</strong> — Ancien Directeur de l'Institut de Recherche Économique, Universidad de Morón.",
     a4:"<strong>Gestion de Projets</strong> — Certifié en fondamentaux de gestion de projets pour la coordination efficace d'équipes de données.",
-    b1:"Docteur en Sciences Économiques", b2:"Expert-Comptable National", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+    b1:"Docteur en Sciences Économiques", b2:"Expert-Comptable National", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
+    srv_header_left:"Services",
+    srv_header_right:"Notre approche",
+    srv1_name:"Diagnostic des Données",
+    srv1_desc:"Analyse du problème métier à partir de vos données. Nous identifions les schémas, opportunités et goulots d'étranglement pour comprendre l'état réel de votre entreprise.",
+    srv2_name:"Modélisation Algorithmique",
+    srv2_desc:"Application d'algorithmes statistiques et de modèles de machine learning pour extraire des insights actionnables de vos données.",
+    srv3_name:"Rapport Stratégique",
+    srv3_desc:"Conclusions exécutives et prédictions métier avec des visualisations claires et des recommandations concrètes prêtes à implémenter.",
+    pill_anticipo:"Acompte USD 45",
+    pill_saldo_105:"Solde USD 105",
+    pill_anticipo2:"Acompte USD 75",
+    pill_saldo_175:"Solde USD 175",
+    pill_anticipo3:"Acompte USD 60",
+    pill_saldo_140:"Solde USD 140",
+    pack_badge:"Meilleure Valeur",
+    pack_title:"Pack Complet",
+    pack_saving:"✦ Économisez USD 100 vs. par étapes",
+    pack_anticipo_label:"Acompte:",
+    pack_saldo_label:"Solde à la livraison:",
+    flow_title:"Modalité de paiement — choisissez votre parcours",
+    flow_a_label:"Chemin A — Par étapes (total USD 600)",
+    flow_b_label:"Chemin B — Pack complet (total USD 500)",
+    flow_a_note:"Chaque étape démarre avec son propre acompte. Vous pouvez arrêter ou continuer à tout moment.",
+    flow_b_note:"Un seul acompte couvre les 3 services. Solde à la livraison du rapport final.",
+    flow_anticipo_word:"acompte",
+    flow_saldo_word:"solde",
+    flow_saving_box:"Économie USD 100!",
+    payment_note:"<strong>Mode de paiement:</strong> Virement bancaire. 30% d'acompte pour démarrer chaque service, solde à la livraison. Cartes non acceptées.",
+    contact_header_left:"Contact",
+    contact_header_right:"Parlons-en",
+    contact_email_label:"Adresse e-mail",
+    cta_label:"Consultation sans engagement",
+    cta_title:"Prêt à transformer vos données en décisions?",
+    cta_text:"Contactez-moi via WhatsApp pour une consultation initiale gratuite. Nous analyserons votre problème ensemble et je vous recommanderai le service le mieux adapté.",
+    cta_btn:"Démarrer la conversation"
   },
   de: {
     header_left: "Über mich", header_right: "Berufsprofil",
@@ -218,7 +646,42 @@ const T = {
     a2:"<strong>3. Preis für Wirtschaftsethik</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Forschungsleitung</strong> — Ehemaliger Direktor des Instituts für Wirtschaftsforschung, Universidad de Morón.",
     a4:"<strong>Projektmanagement</strong> — Zertifiziert in Projektmanagement-Grundlagen für die effiziente Koordination von Datenteams.",
-    b1:"Dr. der Wirtschaftswissenschaften", b2:"Staatl. gepr. Buchhalter", b3:"Data Science & KI Experte", b4:"Universidad de Morón"
+    b1:"Dr. der Wirtschaftswissenschaften", b2:"Staatl. gepr. Buchhalter", b3:"Data Science & KI Experte", b4:"Universidad de Morón",
+    srv_header_left:"Leistungen",
+    srv_header_right:"Unsere Arbeitsweise",
+    srv1_name:"Datendiagnose",
+    srv1_desc:"Analyse des Geschäftsproblems anhand Ihrer Daten. Wir identifizieren Muster, Chancen und Engpässe, um den tatsächlichen Zustand Ihres Unternehmens zu verstehen.",
+    srv2_name:"Algorithmische Modellierung",
+    srv2_desc:"Anwendung statistischer Algorithmen und maschineller Lernmodelle zur Extraktion umsetzbarer Erkenntnisse aus Ihren Daten.",
+    srv3_name:"Strategischer Bericht",
+    srv3_desc:"Schlussfolgerungen und Geschäftsprognosen mit klaren Visualisierungen und konkreten Empfehlungen zur sofortigen Umsetzung.",
+    pill_anticipo:"Anzahlung USD 45",
+    pill_saldo_105:"Rest USD 105",
+    pill_anticipo2:"Anzahlung USD 75",
+    pill_saldo_175:"Rest USD 175",
+    pill_anticipo3:"Anzahlung USD 60",
+    pill_saldo_140:"Rest USD 140",
+    pack_badge:"Bestes Angebot",
+    pack_title:"Komplett-Paket",
+    pack_saving:"✦ Sparen Sie USD 100 gegenüber Einzelbuchung",
+    pack_anticipo_label:"Anzahlung:",
+    pack_saldo_label:"Restbetrag bei Lieferung:",
+    flow_title:"Zahlungsmodalität — wählen Sie Ihren Weg",
+    flow_a_label:"Weg A — Stufenweise (gesamt USD 600)",
+    flow_b_label:"Weg B — Komplett-Paket (gesamt USD 500)",
+    flow_a_note:"Jede Stufe startet mit eigener Anzahlung. Sie können jederzeit stoppen oder fortfahren.",
+    flow_b_note:"Eine Anzahlung deckt alle 3 Leistungen ab. Restbetrag bei Abgabe des Abschlussberichts.",
+    flow_anticipo_word:"Anzahlung",
+    flow_saldo_word:"Restbetrag",
+    flow_saving_box:"Sie sparen USD 100!",
+    payment_note:"<strong>Zahlungsweise:</strong> Banküberweisung. 30% Anzahlung zum Start jeder Leistung, Restbetrag bei Lieferung. Keine Kartenzahlung.",
+    contact_header_left:"Kontakt",
+    contact_header_right:"Sprechen wir",
+    contact_email_label:"E-Mail-Adresse",
+    cta_label:"Unverbindliche Beratung",
+    cta_title:"Bereit, Ihre Daten in Entscheidungen umzuwandeln?",
+    cta_text:"Kontaktieren Sie mich über WhatsApp für eine kostenlose Erstberatung. Wir analysieren Ihr Problem gemeinsam und ich empfehle den passenden Service.",
+    cta_btn:"Gespräch starten"
   },
   it: {
     header_left: "Chi sono", header_right: "Profilo Professionale",
@@ -235,7 +698,42 @@ const T = {
     a2:"<strong>3° Premio in Etica Aziendale</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Leadership nella Ricerca</strong> — Ex Direttore dell'Istituto di Ricerca Economica, Universidad de Morón.",
     a4:"<strong>Gestione dei Progetti</strong> — Certificato nei fondamenti di project management per il coordinamento efficiente di team di dati.",
-    b1:"Dott. in Scienze Economiche", b2:"Commercialista Nazionale", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+    b1:"Dott. in Scienze Economiche", b2:"Commercialista Nazionale", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
+    srv_header_left:"Servizi",
+    srv_header_right:"Come lavoriamo",
+    srv1_name:"Diagnosi dei Dati",
+    srv1_desc:"Analisi del problema aziendale a partire dai vostri dati. Identifichiamo schemi, opportunità e colli di bottiglia per comprendere lo stato reale della vostra azienda.",
+    srv2_name:"Modellazione Algoritmica",
+    srv2_desc:"Applicazione di algoritmi statistici e modelli di machine learning per estrarre insight actionabili dai vostri dati.",
+    srv3_name:"Rapporto Strategico",
+    srv3_desc:"Conclusioni esecutive e previsioni aziendali con visualizzazioni chiare e raccomandazioni concrete pronte per l'implementazione.",
+    pill_anticipo:"Acconto USD 45",
+    pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Acconto USD 75",
+    pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Acconto USD 60",
+    pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Miglior Valore",
+    pack_title:"Pacchetto Completo",
+    pack_saving:"✦ Risparmia USD 100 rispetto alle singole fasi",
+    pack_anticipo_label:"Acconto:",
+    pack_saldo_label:"Saldo alla consegna:",
+    flow_title:"Modalità di pagamento — scegli il tuo percorso",
+    flow_a_label:"Percorso A — Per fasi (totale USD 600)",
+    flow_b_label:"Percorso B — Pacchetto completo (totale USD 500)",
+    flow_a_note:"Ogni fase inizia con il proprio acconto. Puoi fermarti o continuare in qualsiasi momento.",
+    flow_b_note:"Un solo acconto copre tutti e 3 i servizi. Saldo alla consegna del rapporto finale.",
+    flow_anticipo_word:"acconto",
+    flow_saldo_word:"saldo",
+    flow_saving_box:"Risparmi USD 100!",
+    payment_note:"<strong>Modalità di pagamento:</strong> Bonifico bancario. 30% di acconto per avviare ogni servizio, saldo alla consegna. Carte non accettate.",
+    contact_header_left:"Contatti",
+    contact_header_right:"Parliamone",
+    contact_email_label:"Indirizzo e-mail",
+    cta_label:"Consulenza senza impegno",
+    cta_title:"Pronto a trasformare i suoi dati in decisioni?",
+    cta_text:"Contattami via WhatsApp per una consulenza iniziale gratuita. Analizzeremo insieme il suo problema e suggerirò il servizio più adatto alla sua situazione.",
+    cta_btn:"Inizia la conversazione"
   },
   pt: {
     header_left: "Sobre mim", header_right: "Perfil Profissional",
@@ -252,7 +750,42 @@ const T = {
     a2:"<strong>3º Prêmio em Ética Empresarial</strong> — Universidad de Comillas, 2020.",
     a3:"<strong>Liderança em Pesquisa</strong> — Ex-Diretor do Instituto de Pesquisas Econômicas, Universidad de Morón.",
     a4:"<strong>Gestão de Projetos</strong> — Certificado em fundamentos de gestão de projetos para coordenação eficiente de equipes de dados.",
-    b1:"Doutor em Ciências Econômicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+    b1:"Doutor em Ciências Econômicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón",
+    srv_header_left:"Serviços",
+    srv_header_right:"Como trabalhamos",
+    srv1_name:"Diagnóstico de Dados",
+    srv1_desc:"Análise do problema de negócios a partir dos seus dados. Identificamos padrões, oportunidades e gargalos para entender o estado real da sua empresa.",
+    srv2_name:"Modelagem Algorítmica",
+    srv2_desc:"Aplicação de algoritmos estatísticos e modelos de machine learning para extrair insights acionáveis dos seus dados.",
+    srv3_name:"Relatório Estratégico",
+    srv3_desc:"Conclusões executivas e previsões de negócios com visualizações claras e recomendações concretas prontas para implementar.",
+    pill_anticipo:"Adiantamento USD 45",
+    pill_saldo_105:"Saldo USD 105",
+    pill_anticipo2:"Adiantamento USD 75",
+    pill_saldo_175:"Saldo USD 175",
+    pill_anticipo3:"Adiantamento USD 60",
+    pill_saldo_140:"Saldo USD 140",
+    pack_badge:"Melhor Valor",
+    pack_title:"Pacote Completo",
+    pack_saving:"✦ Economize USD 100 vs. contratar por etapas",
+    pack_anticipo_label:"Adiantamento:",
+    pack_saldo_label:"Saldo na entrega:",
+    flow_title:"Modalidade de pagamento — escolha seu caminho",
+    flow_a_label:"Caminho A — Por etapas (total USD 600)",
+    flow_b_label:"Caminho B — Pacote completo (total USD 500)",
+    flow_a_note:"Cada etapa começa com seu próprio adiantamento. Você pode parar ou continuar a qualquer momento.",
+    flow_b_note:"Um adiantamento cobre os 3 serviços. Saldo na entrega do relatório final.",
+    flow_anticipo_word:"adiantamento",
+    flow_saldo_word:"saldo",
+    flow_saving_box:"Economize USD 100!",
+    payment_note:"<strong>Modalidade de pagamento:</strong> Depósito ou transferência bancária. 30% de adiantamento para iniciar cada serviço, saldo na entrega. Cartões não aceitos.",
+    contact_header_left:"Contato",
+    contact_header_right:"Vamos conversar",
+    contact_email_label:"Endereço de e-mail",
+    cta_label:"Consulta sem compromisso",
+    cta_title:"Pronto para transformar seus dados em decisões?",
+    cta_text:"Entre em contato pelo WhatsApp para uma consulta inicial gratuita. Analisamos juntos o seu problema e indico o serviço mais adequado à sua situação.",
+    cta_btn:"Iniciar conversa"
   }
 };
 
@@ -263,7 +796,7 @@ function setLang(lang) {
     if (d[key] !== undefined) el.innerHTML = d[key];
   });
   document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
-  document.querySelector().classList.add("active");
+  const activeBtn = document.querySelector(".lang-btn[data-lang=\"" + lang + "\"]"); if (activeBtn) activeBtn.classList.add("active");
   document.documentElement.lang = lang;
 }
 
