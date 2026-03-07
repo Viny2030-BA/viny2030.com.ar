@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Vicente Humberto Monteverde</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --gold: #b8963e;
+    --gold-light: #d4af6a;
+    --cream: #f7f3ed;
+    --slate: #3a4a5c;
+    --muted: #8a9ab0;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: var(--cream); font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(184,150,62,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 10% 80%, rgba(58,74,92,0.4) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+
+  /* LANGUAGE SWITCHER */
+  .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(13,27,42,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(184,150,62,0.2); display: flex; justify-content: center; gap: 4px; padding: 10px 20px; }
+  .lang-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; cursor: pointer; border-radius: 2px; transition: all 0.25s; }
+  .lang-btn:hover { color: var(--gold-light); border-color: rgba(184,150,62,0.3); }
+  .lang-btn.active { color: var(--gold); border-color: var(--gold); background: rgba(184,150,62,0.08); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 100px 40px 60px; position: relative; z-index: 1; }
+
+  .header-rule { display: flex; align-items: center; gap: 18px; margin-bottom: 56px; opacity: 0; animation: fadeUp 0.8s ease forwards; }
+  .header-rule span { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .rule { flex: 1; height: 1px; background: linear-gradient(to right, var(--gold), transparent); }
+
+  .hero { display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: start; margin-bottom: 80px; opacity: 0; animation: fadeUp 0.9s 0.15s ease forwards; }
+  .photo-frame { position: relative; width: 260px; height: 280px; }
+  .photo-frame::before { content: ''; position: absolute; inset: -8px -8px 8px 8px; border: 1px solid var(--gold); opacity: 0.4; border-radius: 2px; }
+  .photo-frame::after { content: ''; position: absolute; bottom: -16px; left: -16px; width: 70px; height: 70px; border-left: 2px solid var(--gold); border-bottom: 2px solid var(--gold); opacity: 0.6; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(15%) contrast(1.05); border-radius: 2px; }
+  .hero-text { padding-top: 8px; }
+  .prefix { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 400; margin-bottom: 10px; }
+  .name { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 52px); font-weight: 300; line-height: 1.1; color: var(--white); margin-bottom: 6px; }
+  .name em { font-style: italic; color: var(--gold-light); }
+  .title-tag { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; margin-bottom: 28px; }
+  .divider-gold { width: 48px; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light)); margin-bottom: 28px; }
+  .bio-text { font-size: 15.5px; line-height: 1.85; color: rgba(247,243,237,0.82); font-weight: 300; max-width: 560px; }
+  .bio-text strong { color: var(--cream); font-weight: 500; }
+
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(184,150,62,0.15); border: 1px solid rgba(184,150,62,0.2); margin-bottom: 72px; opacity: 0; animation: fadeUp 0.9s 0.3s ease forwards; }
+  .metric-item { background: rgba(13,27,42,0.8); padding: 28px 24px; text-align: center; transition: background 0.3s; }
+  .metric-item:hover { background: rgba(184,150,62,0.06); }
+  .metric-num { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 6px; }
+  .metric-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 72px; opacity: 0; animation: fadeUp 0.9s 0.45s ease forwards; }
+  .section-label { font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(184,150,62,0.25); }
+  .competency-item { margin-bottom: 20px; padding-left: 16px; border-left: 1px solid rgba(184,150,62,0.25); transition: border-color 0.3s; }
+  .competency-item:hover { border-left-color: var(--gold); }
+  .comp-title { font-size: 13.5px; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
+  .comp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+  .achievement-item { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+  .ach-icon { width: 32px; height: 32px; border: 1px solid rgba(184,150,62,0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; color: var(--gold-light); margin-top: 2px; }
+  .ach-text { font-size: 13.5px; color: rgba(247,243,237,0.78); line-height: 1.6; font-weight: 300; }
+  .ach-text strong { color: var(--cream); font-weight: 500; }
+
+  .bottom-badge { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 24px; border: 1px solid rgba(184,150,62,0.2); opacity: 0; animation: fadeUp 0.9s 0.6s ease forwards; flex-wrap: wrap; }
+  .badge-sep { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; opacity: 0.5; }
+  .badge-text { font-size: 12px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+  .badge-text span { color: var(--gold-light); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .photo-frame { width: 200px; height: 220px; margin: 0 auto; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .container { padding: 80px 24px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+  <button class="lang-btn" data-lang="de" onclick="setLang('de')">DE</button>
+  <button class="lang-btn" data-lang="it" onclick="setLang('it')">IT</button>
+  <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+</div>
+
+<div class="container">
+  <div class="header-rule">
+    <span data-t="header_left"></span>
+    <div class="rule"></div>
+    <span data-t="header_right"></span>
+  </div>
+
+  <div class="hero">
+    <div class="photo-wrapper">
+      <div class="photo-frame">
+        <img id="profilePhoto" src="" alt="Dr. Vicente Humberto Monteverde" />
+      </div>
+    </div>
+    <div class="hero-text">
+      <p class="prefix" data-t="prefix"></p>
+      <h1 class="name">Vicente Humberto<br><em>Monteverde</em></h1>
+      <p class="title-tag" data-t="title_tag"></p>
+      <div class="divider-gold"></div>
+      <p class="bio-text" data-t="bio"></p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric-item"><div class="metric-num">19</div><div class="metric-label" data-t="m1"></div></div>
+    <div class="metric-item"><div class="metric-num">26</div><div class="metric-label" data-t="m2"></div></div>
+    <div class="metric-item"><div class="metric-num">6</div><div class="metric-label" data-t="m3"></div></div>
+    <div class="metric-item"><div class="metric-num">III</div><div class="metric-label" data-t="m4"></div></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="section-label" data-t="skills_title"></div>
+      <div class="competency-item"><div class="comp-title" data-t="s1_title"></div><div class="comp-desc" data-t="s1_desc"></div></div>
+      <div class="competency-item"><div class="comp-title" data-t="s2_title"></div><div class="comp-desc" data-t="s2_desc"></div></div>
+      <div class="competency-item"><div class="comp-title" data-t="s3_title"></div><div class="comp-desc" data-t="s3_desc"></div></div>
+      <div class="competency-item"><div class="comp-title" data-t="s4_title"></div><div class="comp-desc" data-t="s4_desc"></div></div>
+    </div>
+    <div>
+      <div class="section-label" data-t="ach_title"></div>
+      <div class="achievement-item"><div class="ach-icon">&#10022;</div><div class="ach-text" data-t="a1"></div></div>
+      <div class="achievement-item"><div class="ach-icon">&#127942;</div><div class="ach-text" data-t="a2"></div></div>
+      <div class="achievement-item"><div class="ach-icon">&#9672;</div><div class="ach-text" data-t="a3"></div></div>
+      <div class="achievement-item"><div class="ach-icon">&#9671;</div><div class="ach-text" data-t="a4"></div></div>
+    </div>
+  </div>
+
+  <div class="bottom-badge">
+    <div class="badge-text" data-t="b1"></div>
+    <div class="badge-sep"></div>
+    <div class="badge-text" data-t="b2"></div>
+    <div class="badge-sep"></div>
+    <div class="badge-text"><span data-t="b3"></span></div>
+    <div class="badge-sep"></div>
+    <div class="badge-text" data-t="b4"></div>
+  </div>
+</div>
+
+<script>
+const PHOTO = "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";
+document.getElementById("profilePhoto").src = "data:image/jpeg;base64," + PHOTO;
+
+const T = {
+  es: {
+    header_left: "Sobre Mí", header_right: "Perfil Profesional",
+    prefix: "Doctor en Ciencias Económicas",
+    title_tag: "Experto en Ciencia de Datos & Inteligencia Artificial",
+    bio: "Soy <strong>Doctor en Ciencias Económicas y Contador Público Nacional</strong>, con una trayectoria distinguida en investigación económica y consultoría estratégica. Actualmente especializado en el uso de tecnologías de vanguardia para el análisis de datos masivos.<br><br>Mi enfoque integra el <strong>rigor académico</strong> con herramientas computacionales modernas para transformar datos complejos en soluciones estratégicas con impacto real.",
+    m1:"Libros Publicados", m2:"Artículos Internacionales", m3:"Idiomas de Publicación", m4:"Premio Ética Empresarial",
+    skills_title:"Competencias Técnicas", ach_title:"Logros Destacados",
+    s1_title:"Análisis de Datos Avanzado", s1_desc:"Certificación Profesional Google — ciclo completo del dato, limpieza, análisis computacional y toma de decisiones basada en evidencia.",
+    s2_title:"Inteligencia Artificial", s2_desc:"Especialista en implementación de LLMs, Fundamentos de IA y herramientas aplicadas al bien común.",
+    s3_title:"Programación Analítica", s3_desc:"Desarrollo de modelos predictivos y algoritmos con Python y R.",
+    s4_title:"Business Analytics", s4_desc:"Diplomado en analítica de negocios aplicada a la gestión estratégica.",
+    a1:"<strong>Producción Científica</strong> — Autor de 19 libros y 26 artículos publicados internacionalmente en español, inglés, italiano, francés, portugués y alemán.",
+    a2:"<strong>III Premio en Ética Empresarial</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Liderazgo de Investigación</strong> — Exdirector del Instituto de Investigaciones Económicas, Universidad de Morón.",
+    a4:"<strong>Gestión de Proyectos</strong> — Certificado en fundamentos para la coordinación eficiente de equipos de datos.",
+    b1:"Doctor en Ciencias Económicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+  },
+  en: {
+    header_left: "About Me", header_right: "Professional Profile",
+    prefix: "Doctor of Economic Sciences",
+    title_tag: "Expert in Data Science & Artificial Intelligence",
+    bio: "I hold a <strong>PhD in Economic Sciences and am a Certified Public Accountant</strong>, with a distinguished career in economic research and strategic consulting. Currently specializing in cutting-edge technologies for large-scale data analysis.<br><br>My approach integrates <strong>academic rigor</strong> with modern computational tools to transform complex data into strategic solutions with real-world impact.",
+    m1:"Published Books", m2:"International Articles", m3:"Publication Languages", m4:"Business Ethics Award",
+    skills_title:"Technical Competencies", ach_title:"Key Achievements",
+    s1_title:"Advanced Data Analysis", s1_desc:"Google Professional Certification — full data lifecycle, data cleaning, computational analysis and evidence-based decision making.",
+    s2_title:"Artificial Intelligence", s2_desc:"Specialist in LLM implementation, AI Fundamentals and tools applied for the common good.",
+    s3_title:"Analytical Programming", s3_desc:"Development of predictive models and algorithms using Python and R.",
+    s4_title:"Business Analytics", s4_desc:"Postgraduate diploma in business analytics applied to strategic management.",
+    a1:"<strong>Scientific Output</strong> — Author of 19 books and 26 internationally published articles in Spanish, English, Italian, French, Portuguese and German.",
+    a2:"<strong>3rd Prize in Business Ethics</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Research Leadership</strong> — Former Director of the Institute of Economic Research, Universidad de Morón.",
+    a4:"<strong>Project Management</strong> — Certified in project management fundamentals for efficient data team coordination.",
+    b1:"PhD in Economic Sciences", b2:"Certified Public Accountant", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+  },
+  fr: {
+    header_left: "À propos", header_right: "Profil Professionnel",
+    prefix: "Docteur en Sciences Économiques",
+    title_tag: "Expert en Science des Données & Intelligence Artificielle",
+    bio: "Je suis <strong>Docteur en Sciences Économiques et Expert-Comptable National</strong>, avec une carrière distinguée en recherche économique et conseil stratégique. Actuellement spécialisé dans l'utilisation de technologies de pointe pour l'analyse de données massives.<br><br>Mon approche intègre la <strong>rigueur académique</strong> avec des outils computationnels modernes pour transformer des données complexes en solutions stratégiques à impact réel.",
+    m1:"Livres Publiés", m2:"Articles Internationaux", m3:"Langues de Publication", m4:"Prix Éthique des Affaires",
+    skills_title:"Compétences Techniques", ach_title:"Réalisations Clés",
+    s1_title:"Analyse Avancée des Données", s1_desc:"Certification Professionnelle Google — cycle complet de la donnée, nettoyage, analyse computationnelle et prise de décision basée sur les preuves.",
+    s2_title:"Intelligence Artificielle", s2_desc:"Spécialiste en implémentation de LLMs, Fondamentaux de l'IA et outils appliqués au bien commun.",
+    s3_title:"Programmation Analytique", s3_desc:"Développement de modèles prédictifs et d'algorithmes avec Python et R.",
+    s4_title:"Analytique Métier", s4_desc:"Diplôme en analytique des affaires appliquée à la gestion stratégique.",
+    a1:"<strong>Production Scientifique</strong> — Auteur de 19 livres et 26 articles publiés internationalement en espagnol, anglais, italien, français, portugais et allemand.",
+    a2:"<strong>3e Prix en Éthique des Affaires</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Leadership en Recherche</strong> — Ancien Directeur de l'Institut de Recherche Économique, Universidad de Morón.",
+    a4:"<strong>Gestion de Projets</strong> — Certifié en fondamentaux de gestion de projets pour la coordination efficace d'équipes de données.",
+    b1:"Docteur en Sciences Économiques", b2:"Expert-Comptable National", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+  },
+  de: {
+    header_left: "Über mich", header_right: "Berufsprofil",
+    prefix: "Doktor der Wirtschaftswissenschaften",
+    title_tag: "Experte für Data Science & Künstliche Intelligenz",
+    bio: "Ich bin <strong>Doktor der Wirtschaftswissenschaften und staatlich geprüfter Buchhalter</strong> mit einer herausragenden Laufbahn in der Wirtschaftsforschung und strategischen Beratung. Derzeit spezialisiert auf den Einsatz modernster Technologien zur Analyse großer Datensätze.<br><br>Mein Ansatz verbindet <strong>akademische Strenge</strong> mit modernen computergestützten Werkzeugen, um komplexe Daten in strategische Lösungen mit realem Impact umzuwandeln.",
+    m1:"Veröffentlichte Bücher", m2:"Internationale Artikel", m3:"Publikationssprachen", m4:"Wirtschaftsethik-Preis",
+    skills_title:"Technische Kompetenzen", ach_title:"Wichtigste Leistungen",
+    s1_title:"Fortgeschrittene Datenanalyse", s1_desc:"Google-Berufszertifizierung — vollständiger Datenlebenszyklus, Datenbereinigung, computergestützte Analyse und evidenzbasierte Entscheidungsfindung.",
+    s2_title:"Künstliche Intelligenz", s2_desc:"Spezialist für LLM-Implementierung, KI-Grundlagen und Werkzeuge zum Gemeinwohl.",
+    s3_title:"Analytische Programmierung", s3_desc:"Entwicklung von Vorhersagemodellen und Algorithmen mit Python und R.",
+    s4_title:"Business Analytics", s4_desc:"Postgraduiertendiplom in Unternehmensanalytik angewandt auf strategisches Management.",
+    a1:"<strong>Wissenschaftliche Produktion</strong> — Autor von 19 Büchern und 26 international veröffentlichten Artikeln auf Spanisch, Englisch, Italienisch, Französisch, Portugiesisch und Deutsch.",
+    a2:"<strong>3. Preis für Wirtschaftsethik</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Forschungsleitung</strong> — Ehemaliger Direktor des Instituts für Wirtschaftsforschung, Universidad de Morón.",
+    a4:"<strong>Projektmanagement</strong> — Zertifiziert in Projektmanagement-Grundlagen für die effiziente Koordination von Datenteams.",
+    b1:"Dr. der Wirtschaftswissenschaften", b2:"Staatl. gepr. Buchhalter", b3:"Data Science & KI Experte", b4:"Universidad de Morón"
+  },
+  it: {
+    header_left: "Chi sono", header_right: "Profilo Professionale",
+    prefix: "Dottore in Scienze Economiche",
+    title_tag: "Esperto in Data Science & Intelligenza Artificiale",
+    bio: "Sono <strong>Dottore in Scienze Economiche e Commercialista Nazionale</strong>, con una carriera distinta nella ricerca economica e nella consulenza strategica. Attualmente specializzato nell'utilizzo di tecnologie all'avanguardia per l'analisi di dati su larga scala.<br><br>Il mio approccio integra il <strong>rigore accademico</strong> con moderni strumenti computazionali per trasformare dati complessi in soluzioni strategiche con impatto reale.",
+    m1:"Libri Pubblicati", m2:"Articoli Internazionali", m3:"Lingue di Pubblicazione", m4:"Premio Etica Aziendale",
+    skills_title:"Competenze Tecniche", ach_title:"Risultati Principali",
+    s1_title:"Analisi Avanzata dei Dati", s1_desc:"Certificazione Professionale Google — ciclo completo del dato, pulizia, analisi computazionale e processo decisionale basato su prove.",
+    s2_title:"Intelligenza Artificiale", s2_desc:"Specialista nell'implementazione di LLM, Fondamenti di IA e strumenti applicati al bene comune.",
+    s3_title:"Programmazione Analitica", s3_desc:"Sviluppo di modelli predittivi e algoritmi con Python e R.",
+    s4_title:"Business Analytics", s4_desc:"Diploma post-laurea in analitica aziendale applicata alla gestione strategica.",
+    a1:"<strong>Produzione Scientifica</strong> — Autore di 19 libri e 26 articoli pubblicati internazionalmente in spagnolo, inglese, italiano, francese, portoghese e tedesco.",
+    a2:"<strong>3° Premio in Etica Aziendale</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Leadership nella Ricerca</strong> — Ex Direttore dell'Istituto di Ricerca Economica, Universidad de Morón.",
+    a4:"<strong>Gestione dei Progetti</strong> — Certificato nei fondamenti di project management per il coordinamento efficiente di team di dati.",
+    b1:"Dott. in Scienze Economiche", b2:"Commercialista Nazionale", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+  },
+  pt: {
+    header_left: "Sobre mim", header_right: "Perfil Profissional",
+    prefix: "Doutor em Ciências Econômicas",
+    title_tag: "Especialista em Ciência de Dados & Inteligência Artificial",
+    bio: "Sou <strong>Doutor em Ciências Econômicas e Contador Público Nacional</strong>, com uma trajetória distinta em pesquisa econômica e consultoria estratégica. Atualmente especializado no uso de tecnologias de ponta para análise de dados em larga escala.<br><br>Minha abordagem integra o <strong>rigor acadêmico</strong> com ferramentas computacionais modernas para transformar dados complexos em soluções estratégicas com impacto real.",
+    m1:"Livros Publicados", m2:"Artigos Internacionais", m3:"Idiomas de Publicação", m4:"Prêmio Ética Empresarial",
+    skills_title:"Competências Técnicas", ach_title:"Conquistas Principais",
+    s1_title:"Análise Avançada de Dados", s1_desc:"Certificação Profissional Google — ciclo completo do dado, limpeza, análise computacional e tomada de decisões baseada em evidências.",
+    s2_title:"Inteligência Artificial", s2_desc:"Especialista em implementação de LLMs, Fundamentos de IA e ferramentas aplicadas ao bem comum.",
+    s3_title:"Programação Analítica", s3_desc:"Desenvolvimento de modelos preditivos e algoritmos com Python e R.",
+    s4_title:"Business Analytics", s4_desc:"Pós-graduação em análise de negócios aplicada à gestão estratégica.",
+    a1:"<strong>Produção Científica</strong> — Autor de 19 livros e 26 artigos publicados internacionalmente em espanhol, inglês, italiano, francês, português e alemão.",
+    a2:"<strong>3º Prêmio em Ética Empresarial</strong> — Universidad de Comillas, 2020.",
+    a3:"<strong>Liderança em Pesquisa</strong> — Ex-Diretor do Instituto de Pesquisas Econômicas, Universidad de Morón.",
+    a4:"<strong>Gestão de Projetos</strong> — Certificado em fundamentos de gestão de projetos para coordenação eficiente de equipes de dados.",
+    b1:"Doutor em Ciências Econômicas", b2:"Contador Público Nacional", b3:"Data Science & AI Expert", b4:"Universidad de Morón"
+  }
+};
+
+function setLang(lang) {
+  const d = T[lang];
+  document.querySelectorAll("[data-t]").forEach(el => {
+    const key = el.getAttribute("data-t");
+    if (d[key] !== undefined) el.innerHTML = d[key];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelector().classList.add("active");
+  document.documentElement.lang = lang;
+}
+
+setLang("es");
+</script>
+</body>
+</html>
