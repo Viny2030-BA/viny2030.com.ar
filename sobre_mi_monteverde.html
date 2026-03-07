@@ -159,6 +159,24 @@
     .social-strip { grid-template-columns: 1fr 1fr; }
   }
 
+
+  /* ── LICENSE SECTION ── */
+  .license-section { margin-top: 80px; }
+  .license-box { border: 1px solid rgba(184,150,62,0.25); background: rgba(255,255,255,0.02); padding: 40px; position: relative; overflow: hidden; }
+  .license-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light), transparent); }
+  .license-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: start; }
+  .license-symbol { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300; color: rgba(184,150,62,0.12); line-height: 1; position: absolute; top: 20px; right: 40px; pointer-events: none; }
+  .license-type { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .license-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--white); margin-bottom: 16px; }
+  .license-text { font-size: 13.5px; color: var(--muted); line-height: 1.8; font-weight: 300; max-width: 680px; margin-bottom: 28px; }
+  .license-text strong { color: var(--cream); }
+  .license-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .license-pill { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(184,150,62,0.3); color: var(--gold-light); background: rgba(184,150,62,0.06); }
+  .license-pill.red { border-color: rgba(220,80,80,0.4); color: #e07070; background: rgba(220,80,80,0.06); }
+  .license-github { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border: 1px solid rgba(184,150,62,0.3); color: var(--gold-light); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; font-weight: 500; }
+  .license-github:hover { background: rgba(184,150,62,0.08); border-color: var(--gold); }
+  .license-year { font-size: 12px; color: var(--muted); margin-top: 20px; }
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 768px) {
@@ -468,6 +486,34 @@
     </div>
   </div>
 
+
+  <!-- ══════════════ LICENSE SECTION ══════════════ -->
+  <div class="license-section">
+    <div class="header-rule" style="margin-bottom:40px;">
+      <span data-t="lic_header_left"></span>
+      <div class="rule"></div>
+      <span data-t="lic_header_right"></span>
+    </div>
+
+    <div class="license-box">
+      <div class="license-symbol">©</div>
+      <div class="license-type" data-t="lic_type"></div>
+      <div class="license-title" data-t="lic_title"></div>
+      <div class="license-text" data-t="lic_text"></div>
+      <div class="license-pills">
+        <span class="license-pill" data-t="lic_pill1"></span>
+        <span class="license-pill" data-t="lic_pill2"></span>
+        <span class="license-pill" data-t="lic_pill3"></span>
+        <span class="license-pill red" data-t="lic_pill4"></span>
+        <span class="license-pill red" data-t="lic_pill5"></span>
+      </div>
+      <a class="license-github" href="https://github.com/Viny2030-BA/viny2030.com.ar" target="_blank">
+        ⌥ <span data-t="lic_github_btn"></span>
+      </a>
+      <div class="license-year">© 2024–2026 Dr. Vicente Humberto Monteverde — <span data-t="lic_rights"></span></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -525,7 +571,19 @@ const T = {
     cta_label:"Consulta sin compromiso",
     cta_title:"¿Listo para transformar sus datos en decisiones?",
     cta_text:"Contácteme por WhatsApp para una consulta inicial gratuita. Analizamos juntos su problema y le indico qué servicio se adapta mejor a su situación.",
-    cta_btn:"Iniciar conversación"
+    cta_btn:"Iniciar conversación",
+    lic_header_left:"Licencia",
+    lic_header_right:"Propiedad Intelectual",
+    lic_type:"Todos los derechos reservados",
+    lic_title:"Este proyecto es propiedad exclusiva del Dr. Vicente Humberto Monteverde",
+    lic_text:"Todo el contenido de este sitio y del repositorio asociado — incluyendo código fuente, análisis, metodologías, textos, modelos y visualizaciones — es propiedad intelectual exclusiva de <strong>Dr. Vicente Humberto Monteverde</strong>. Queda estrictamente prohibida su reproducción, distribución, modificación o uso comercial sin autorización expresa y por escrito del autor.",
+    lic_pill1:"© Uso prohibido sin permiso",
+    lic_pill2:"© Código propietario",
+    lic_pill3:"© Contenido protegido",
+    lic_pill4:"✕ Sin redistribución",
+    lic_pill5:"✕ Sin uso comercial",
+    lic_github_btn:"Ver repositorio en GitHub",
+    lic_rights:"Todos los derechos reservados"
   },
   en: {
     header_left: "About Me", header_right: "Professional Profile",
@@ -577,7 +635,19 @@ const T = {
     cta_label:"No commitment consultation",
     cta_title:"Ready to transform your data into decisions?",
     cta_text:"Contact me via WhatsApp for a free initial consultation. We'll analyze your problem together and I'll recommend the service that best fits your situation.",
-    cta_btn:"Start conversation"
+    cta_btn:"Start conversation",
+    lic_header_left:"License",
+    lic_header_right:"Intellectual Property",
+    lic_type:"All Rights Reserved",
+    lic_title:"This project is the exclusive property of Dr. Vicente Humberto Monteverde",
+    lic_text:"All content on this site and its associated repository — including source code, analyses, methodologies, texts, models and visualizations — is the exclusive intellectual property of <strong>Dr. Vicente Humberto Monteverde</strong>. Reproduction, distribution, modification or commercial use without express written authorization from the author is strictly prohibited.",
+    lic_pill1:"© No use without permission",
+    lic_pill2:"© Proprietary code",
+    lic_pill3:"© Protected content",
+    lic_pill4:"✕ No redistribution",
+    lic_pill5:"✕ No commercial use",
+    lic_github_btn:"View repository on GitHub",
+    lic_rights:"All rights reserved"
   },
   fr: {
     header_left: "À propos", header_right: "Profil Professionnel",
@@ -629,7 +699,19 @@ const T = {
     cta_label:"Consultation sans engagement",
     cta_title:"Prêt à transformer vos données en décisions?",
     cta_text:"Contactez-moi via WhatsApp pour une consultation initiale gratuite. Nous analyserons votre problème ensemble et je vous recommanderai le service le mieux adapté.",
-    cta_btn:"Démarrer la conversation"
+    cta_btn:"Démarrer la conversation",
+    lic_header_left:"Licence",
+    lic_header_right:"Propriété Intellectuelle",
+    lic_type:"Tous droits réservés",
+    lic_title:"Ce projet est la propriété exclusive du Dr. Vicente Humberto Monteverde",
+    lic_text:"Tout le contenu de ce site et du dépôt associé — y compris le code source, les analyses, méthodologies, textes, modèles et visualisations — est la propriété intellectuelle exclusive du <strong>Dr. Vicente Humberto Monteverde</strong>. Toute reproduction, distribution, modification ou utilisation commerciale sans autorisation écrite expresse de l'auteur est strictement interdite.",
+    lic_pill1:"© Utilisation interdite sans permission",
+    lic_pill2:"© Code propriétaire",
+    lic_pill3:"© Contenu protégé",
+    lic_pill4:"✕ Sans redistribution",
+    lic_pill5:"✕ Sans usage commercial",
+    lic_github_btn:"Voir le dépôt sur GitHub",
+    lic_rights:"Tous droits réservés"
   },
   de: {
     header_left: "Über mich", header_right: "Berufsprofil",
@@ -681,7 +763,19 @@ const T = {
     cta_label:"Unverbindliche Beratung",
     cta_title:"Bereit, Ihre Daten in Entscheidungen umzuwandeln?",
     cta_text:"Kontaktieren Sie mich über WhatsApp für eine kostenlose Erstberatung. Wir analysieren Ihr Problem gemeinsam und ich empfehle den passenden Service.",
-    cta_btn:"Gespräch starten"
+    cta_btn:"Gespräch starten",
+    lic_header_left:"Lizenz",
+    lic_header_right:"Geistiges Eigentum",
+    lic_type:"Alle Rechte vorbehalten",
+    lic_title:"Dieses Projekt ist das ausschließliche Eigentum von Dr. Vicente Humberto Monteverde",
+    lic_text:"Alle Inhalte dieser Website und des zugehörigen Repositorys — einschließlich Quellcode, Analysen, Methoden, Texte, Modelle und Visualisierungen — sind das ausschließliche geistige Eigentum von <strong>Dr. Vicente Humberto Monteverde</strong>. Jede Vervielfältigung, Verbreitung, Änderung oder kommerzielle Nutzung ohne ausdrückliche schriftliche Genehmigung des Autors ist streng verboten.",
+    lic_pill1:"© Nutzung ohne Erlaubnis verboten",
+    lic_pill2:"© Proprietärer Code",
+    lic_pill3:"© Geschützter Inhalt",
+    lic_pill4:"✕ Keine Weitergabe",
+    lic_pill5:"✕ Keine kommerzielle Nutzung",
+    lic_github_btn:"Repository auf GitHub ansehen",
+    lic_rights:"Alle Rechte vorbehalten"
   },
   it: {
     header_left: "Chi sono", header_right: "Profilo Professionale",
@@ -733,7 +827,19 @@ const T = {
     cta_label:"Consulenza senza impegno",
     cta_title:"Pronto a trasformare i suoi dati in decisioni?",
     cta_text:"Contattami via WhatsApp per una consulenza iniziale gratuita. Analizzeremo insieme il suo problema e suggerirò il servizio più adatto alla sua situazione.",
-    cta_btn:"Inizia la conversazione"
+    cta_btn:"Inizia la conversazione",
+    lic_header_left:"Licenza",
+    lic_header_right:"Proprietà Intellettuale",
+    lic_type:"Tutti i diritti riservati",
+    lic_title:"Questo progetto è di proprietà esclusiva del Dr. Vicente Humberto Monteverde",
+    lic_text:"Tutti i contenuti di questo sito e del repository associato — inclusi codice sorgente, analisi, metodologie, testi, modelli e visualizzazioni — sono proprietà intellettuale esclusiva del <strong>Dr. Vicente Humberto Monteverde</strong>. È severamente vietata qualsiasi riproduzione, distribuzione, modifica o uso commerciale senza esplicita autorizzazione scritta dell'autore.",
+    lic_pill1:"© Uso vietato senza permesso",
+    lic_pill2:"© Codice proprietario",
+    lic_pill3:"© Contenuto protetto",
+    lic_pill4:"✕ Nessuna ridistribuzione",
+    lic_pill5:"✕ Nessun uso commerciale",
+    lic_github_btn:"Visualizza repository su GitHub",
+    lic_rights:"Tutti i diritti riservati"
   },
   pt: {
     header_left: "Sobre mim", header_right: "Perfil Profissional",
@@ -785,7 +891,19 @@ const T = {
     cta_label:"Consulta sem compromisso",
     cta_title:"Pronto para transformar seus dados em decisões?",
     cta_text:"Entre em contato pelo WhatsApp para uma consulta inicial gratuita. Analisamos juntos o seu problema e indico o serviço mais adequado à sua situação.",
-    cta_btn:"Iniciar conversa"
+    cta_btn:"Iniciar conversa",
+    lic_header_left:"Licença",
+    lic_header_right:"Propriedade Intelectual",
+    lic_type:"Todos os direitos reservados",
+    lic_title:"Este projeto é propriedade exclusiva do Dr. Vicente Humberto Monteverde",
+    lic_text:"Todo o conteúdo deste site e do repositório associado — incluindo código-fonte, análises, metodologias, textos, modelos e visualizações — é propriedade intelectual exclusiva do <strong>Dr. Vicente Humberto Monteverde</strong>. É estritamente proibida sua reprodução, distribuição, modificação ou uso comercial sem autorização expressa e por escrito do autor.",
+    lic_pill1:"© Uso proibido sem permissão",
+    lic_pill2:"© Código proprietário",
+    lic_pill3:"© Conteúdo protegido",
+    lic_pill4:"✕ Sem redistribuição",
+    lic_pill5:"✕ Sem uso comercial",
+    lic_github_btn:"Ver repositório no GitHub",
+    lic_rights:"Todos os direitos reservados"
   }
 };
 
