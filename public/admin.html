@@ -37,18 +37,10 @@
     td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     tr:hover td { background: var(--surface); }
     .code { font-family: monospace; color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 2px; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-    .badge.pending { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-    .badge.paid { background: rgba(107,201,107,0.1); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
-    .badge.analizado { background: rgba(100,150,255,0.1); color: #88aaff; border: 1px solid rgba(100,150,255,0.3); }
-    .badge.aceptado { background: rgba(255,200,50,0.1); color: #ffc832; border: 1px solid rgba(255,200,50,0.3); }
-    .badge.cancelled { background: rgba(220,50,50,0.1); color: #e06060; border: 1px solid rgba(220,50,50,0.3); }
     .btn-expediente { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
     .btn-expediente:hover { border-color: var(--gold); color: var(--gold); }
     .btn-expediente.has-relato { border-color: rgba(136,170,255,0.4); color: var(--blue); }
-    .btn-expediente.has-relato:hover { background: rgba(136,170,255,0.1); }
     .btn-expediente.analisis-ok { border-color: rgba(107,201,107,0.4); color: var(--green); }
-    .btn-expediente.analisis-ok:hover { background: rgba(107,201,107,0.1); }
     select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
     .empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
 
@@ -65,21 +57,25 @@
     .info-item span { font-size: 14px; color: var(--text); }
     .info-item span.highlight { color: var(--gold); font-weight: 600; }
 
-    /* DATASET SECTION */
+    /* RELATO */
+    .relato-desc { background: var(--surface2); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #bbb; line-height: 1.6; margin-bottom: 16px; white-space: pre-wrap; }
+    .urgencia-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+    .urgencia-normal { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .urgencia-alta { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.3); }
+    .urgencia-baja { background: rgba(107,201,107,0.15); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
+
+    /* DATASET */
     .dataset-section { margin-bottom: 24px; }
     .dataset-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
     .dataset-title { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .dataset-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .dataset-stat-pill { background: rgba(136,170,255,0.1); border: 1px solid rgba(136,170,255,0.3); color: var(--blue); padding: 4px 10px; border-radius: 12px; font-size: 11px; }
     .dataset-files { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
     .file-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
     .file-chip:hover { border-color: var(--blue); color: var(--blue); }
     .file-chip.selected { border-color: var(--blue); background: rgba(136,170,255,0.1); color: var(--blue); }
-    .file-chip.loading-chip { opacity: 0.6; cursor: default; }
     .csv-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; max-height: 220px; overflow: auto; font-size: 11px; font-family: monospace; color: #a0c0e0; line-height: 1.5; white-space: pre; display: none; }
     .csv-preview.visible { display: block; }
-
-    /* DATASET STATS */
-    .dataset-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-    .dataset-stat-pill { background: rgba(136,170,255,0.1); border: 1px solid rgba(136,170,255,0.3); color: var(--blue); padding: 4px 10px; border-radius: 12px; font-size: 11px; }
 
     /* AI SECTION */
     .ai-section { background: linear-gradient(135deg, rgba(26,31,78,0.6), rgba(13,58,92,0.6)); border: 1px solid rgba(74,106,170,0.4); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
@@ -87,11 +83,8 @@
     .ai-icon { font-size: 20px; }
     .ai-title { font-size: 13px; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; font-weight: 600; }
     .ai-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
-
-    /* WARNING cuando no hay dataset */
     .no-dataset-warn { background: rgba(233,69,96,0.08); border: 1px solid rgba(233,69,96,0.3); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #e94560; margin-bottom: 12px; display: none; }
     .no-dataset-warn.visible { display: block; }
-
     .ai-context { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(74,106,170,0.3); color: var(--text); border-radius: 8px; padding: 12px; font-family: 'Barlow', sans-serif; font-size: 13px; resize: vertical; min-height: 70px; margin-bottom: 12px; }
     .ai-context:focus { outline: none; border-color: var(--blue); }
     .ai-context::placeholder { color: #4a6a88; }
@@ -118,11 +111,6 @@
     .nav-links { text-align: center; margin-top: 40px; }
     .nav-links a { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; margin: 0 12px; transition: color 0.2s; }
     .nav-links a:hover { color: var(--gold); }
-    .relato-desc { background: var(--surface2); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #bbb; line-height: 1.6; margin-bottom: 16px; white-space: pre-wrap; }
-    .urgencia-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
-    .urgencia-normal { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-    .urgencia-alta { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.3); }
-    .urgencia-baja { background: rgba(107,201,107,0.15); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
     .github-link { font-size: 12px; color: var(--muted); text-decoration: none; }
     .github-link:hover { color: var(--blue); }
   </style>
@@ -149,14 +137,9 @@
   </div>
   <table>
     <thead>
-      <tr>
-        <th>Código</th><th>Cliente</th><th>Email</th><th>Monto</th>
-        <th>Lang</th><th>Estado</th><th>Fecha</th><th>Expediente</th>
-      </tr>
+      <tr><th>Código</th><th>Cliente</th><th>Email</th><th>Monto</th><th>Lang</th><th>Estado</th><th>Fecha</th><th>Expediente</th></tr>
     </thead>
-    <tbody id="ordersBody">
-      <tr><td colspan="8" class="empty">Cargando...</td></tr>
-    </tbody>
+    <tbody id="ordersBody"><tr><td colspan="8" class="empty">Cargando...</td></tr></tbody>
   </table>
 </div>
 
@@ -165,7 +148,7 @@
   <a href="/comprobante">Subir comprobante</a>
 </div>
 
-<!-- MODAL EXPEDIENTE -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect()">×</button>
@@ -173,7 +156,7 @@
     <div class="modal-subtitle" id="modalSubtitle">—</div>
     <div class="client-info" id="clientInfo"></div>
 
-    <!-- RELATO DEL CLIENTE -->
+    <!-- RELATO -->
     <div id="relatoSection" style="display:none; margin-bottom:24px;">
       <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">
         📋 Relato del cliente <span id="urgenciaBadge" style="margin-left:8px;"></span>
@@ -181,7 +164,7 @@
       <div class="relato-desc" id="relatoDesc">—</div>
     </div>
 
-    <!-- DATASETS DEL CLIENTE -->
+    <!-- DATASET -->
     <div class="dataset-section" id="datasetSection" style="display:none;">
       <div class="dataset-header">
         <span class="dataset-title">📊 Archivos del cliente</span>
@@ -200,25 +183,14 @@
         <span class="ai-icon">🤖</span>
         <span class="ai-title">Análisis automático con IA</span>
       </div>
-      <div class="ai-desc">
-        La IA leerá el dataset del cliente junto con su relato y generará un análisis técnico completo y una propuesta de solución. Podés agregar contexto adicional antes de generar.
-      </div>
-
-      <!-- WARNING si no hay dataset cargado -->
+      <div class="ai-desc">La IA leerá el dataset del cliente junto con su relato y generará un análisis técnico completo y una propuesta de solución.</div>
       <div class="no-dataset-warn" id="noDatasetWarn">
         ⚠️ No se detectó dataset del cliente. La IA analizará solo en base al relato. Para mejor análisis, asegurate de que el cliente haya subido archivos a su repo GitHub.
       </div>
-
-      <textarea class="ai-context" id="aiContext"
-        placeholder="Contexto adicional para la IA (opcional): foco en detección de fraudes, industria vitivinícola, objetivo del cliente..."
-      ></textarea>
+      <textarea class="ai-context" id="aiContext" placeholder="Contexto adicional (opcional): foco en detección de fraudes, industria vitivinícola, objetivo del cliente..."></textarea>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-        <button class="btn btn-ai" id="btnGenerar" onclick="generarConIA()">
-          ✨ Generar análisis con IA
-        </button>
-        <button class="btn" id="btnLimpiarAI" onclick="limpiarAI()" style="display:none;font-size:11px;padding:8px 14px;">
-          ↺ Regenerar
-        </button>
+        <button class="btn btn-ai" id="btnGenerar" onclick="generarConIA()">✨ Generar análisis con IA</button>
+        <button class="btn" id="btnLimpiarAI" onclick="limpiarAI()" style="display:none;font-size:11px;padding:8px 14px;">↺ Regenerar</button>
       </div>
       <div class="ai-status" id="aiStatus"></div>
     </div>
@@ -247,22 +219,20 @@
 
     <div class="modal-actions">
       <button class="btn" onclick="closeModalDirect()">Cerrar</button>
-      <button class="btn btn-gold" id="btnEnviar" onclick="enviarAnalisis()">
-        ✉️ Enviar análisis al cliente
-      </button>
+      <button class="btn btn-gold" id="btnEnviar" onclick="enviarAnalisis()">✉️ Enviar análisis al cliente</button>
     </div>
   </div>
 </div>
 
 <script>
-const LANG_FLAGS = { es: '🇦🇷', en: '🇬🇧', fr: '🇫🇷', de: '🇩🇪', it: '🇮🇹' };
-const LANG_NAMES = { es: 'Español', en: 'English', fr: 'Français', de: 'Deutsch', it: 'Italiano' };
+const LANG_FLAGS = { es:'🇦🇷', en:'🇬🇧', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹' };
+const LANG_NAMES = { es:'Español', en:'English', fr:'Français', de:'Deutsch', it:'Italiano' };
 const GITHUB_ORG = 'Viny2030-Clientes';
 
 let currentOrder = null;
-let currentDataset = null;   // contenido CSV/texto del archivo seleccionado
-let selectedFileName = null; // nombre del archivo
-let datasetMeta = null;      // { rows, cols, headers } para el prompt
+let currentDataset = null;
+let selectedFileName = null;
+let datasetMeta = null;
 
 // ─── CARGAR ÓRDENES ──────────────────────────────────────────────
 async function loadOrders() {
@@ -270,40 +240,33 @@ async function loadOrders() {
     const res = await fetch('/api/orders');
     const orders = await res.json();
     const body = document.getElementById('ordersBody');
-    if (!orders.length) {
-      body.innerHTML = '<tr><td colspan="8" class="empty">No hay órdenes aún</td></tr>';
-      updateStats([]);
-      return;
-    }
+    if (!orders.length) { body.innerHTML = '<tr><td colspan="8" class="empty">No hay órdenes aún</td></tr>'; updateStats([]); return; }
     body.innerHTML = orders.slice().reverse().map(o => {
       const tieneAnalisis = o.analisis || o.status === 'analizado';
       let btnClass = 'btn-expediente';
       let btnLabel = '📂 Ver expediente';
       if (tieneAnalisis) { btnClass += ' analisis-ok'; btnLabel = '✅ Ver análisis'; }
       else if (o.status !== 'pending') { btnClass += ' has-relato'; btnLabel = '📊 Analizar'; }
-      return `
-        <tr>
-          <td><span class="code">${o.id}</span></td>
-          <td>${o.name}</td>
-          <td style="color:var(--muted);font-size:12px;">${o.email}</td>
-          <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
-          <td><span title="${LANG_NAMES[o.lang] || o.lang}">${LANG_FLAGS[o.lang] || o.lang}</span></td>
-          <td>
-            <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
-              <option value="pending"   ${o.status==='pending'  ?'selected':''}>⏳ Pendiente</option>
-              <option value="analizado" ${o.status==='analizado'?'selected':''}>📊 Analizado</option>
-              <option value="aceptado"  ${o.status==='aceptado' ?'selected':''}>🤝 Aceptado</option>
-              <option value="paid"      ${o.status==='paid'     ?'selected':''}>✅ Confirmado</option>
-              <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelado</option>
-            </select>
-          </td>
-          <td style="color:var(--muted);font-size:12px;">
-            ${new Date(o.createdAt).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
-          </td>
-          <td>
-            <button class="${btnClass}" onclick='openExpediente(${JSON.stringify(o).replace(/'/g,"\\'")})'>${btnLabel}</button>
-          </td>
-        </tr>`;
+      return `<tr>
+        <td><span class="code">${o.id}</span></td>
+        <td>${o.name}</td>
+        <td style="color:var(--muted);font-size:12px;">${o.email}</td>
+        <td>$${Number(o.amount).toLocaleString('es-AR')}</td>
+        <td><span title="${LANG_NAMES[o.lang]||o.lang}">${LANG_FLAGS[o.lang]||o.lang}</span></td>
+        <td>
+          <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
+            <option value="pending"   ${o.status==='pending'  ?'selected':''}>⏳ Pendiente</option>
+            <option value="analizado" ${o.status==='analizado'?'selected':''}>📊 Analizado</option>
+            <option value="aceptado"  ${o.status==='aceptado' ?'selected':''}>🤝 Aceptado</option>
+            <option value="paid"      ${o.status==='paid'     ?'selected':''}>✅ Confirmado</option>
+            <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelado</option>
+          </select>
+        </td>
+        <td style="color:var(--muted);font-size:12px;">
+          ${o.createdAt ? new Date(o.createdAt).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—'}
+        </td>
+        <td><button class="${btnClass}" onclick='openExpediente(${JSON.stringify(o).replace(/'/g,"\\'")})'>${btnLabel}</button></td>
+      </tr>`;
     }).join('');
     updateStats(orders);
   } catch (err) {
@@ -313,23 +276,19 @@ async function loadOrders() {
 
 function updateStats(orders) {
   document.getElementById('totalOrders').textContent = orders.length;
-  document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
+  document.getElementById('pendingOrders').textContent = orders.filter(o => o.status==='pending').length;
   document.getElementById('analizadoOrders').textContent = orders.filter(o => ['analizado','aceptado'].includes(o.status)).length;
-  document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
-  const total = orders.reduce((s, o) => s + Number(o.amount), 0);
-  document.getElementById('totalAmount').textContent = total ? '$' + total.toLocaleString('es-AR') : '$0';
+  document.getElementById('paidOrders').textContent = orders.filter(o => o.status==='paid').length;
+  const total = orders.reduce((s,o) => s + Number(o.amount), 0);
+  document.getElementById('totalAmount').textContent = total ? '$'+total.toLocaleString('es-AR') : '$0';
 }
 
 async function updateStatus(code, status) {
-  await fetch(`/api/orders/${code}/status`, {
-    method: 'PATCH',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ status })
-  });
+  await fetch(`/api/orders/${code}/status`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ status }) });
   loadOrders();
 }
 
-// ─── ABRIR EXPEDIENTE ─────────────────────────────────────────────
+// ─── ABRIR EXPEDIENTE ────────────────────────────────────────────
 async function openExpediente(order) {
   currentOrder = order;
   currentDataset = null;
@@ -337,17 +296,16 @@ async function openExpediente(order) {
   datasetMeta = null;
 
   document.getElementById('modalTitle').textContent = `Expediente ${order.id}`;
-  document.getElementById('modalSubtitle').textContent = `${order.name} · ${order.email} · ${LANG_NAMES[order.lang] || order.lang}`;
+  document.getElementById('modalSubtitle').textContent = `${order.name} · ${order.email} · ${LANG_NAMES[order.lang]||order.lang}`;
   document.getElementById('clientInfo').innerHTML = `
     <div class="info-item"><label>Código</label><span class="highlight">${order.id}</span></div>
     <div class="info-item"><label>Cliente</label><span>${order.name}</span></div>
     <div class="info-item"><label>Email</label><span>${order.email}</span></div>
     <div class="info-item"><label>Monto</label><span>USD ${order.amount}</span></div>
-    <div class="info-item"><label>Producto</label><span>${order.product || 'Diagnóstico Algorítmico'}</span></div>
-    <div class="info-item"><label>Idioma</label><span>${LANG_FLAGS[order.lang]||''} ${LANG_NAMES[order.lang]||order.lang}</span></div>
-  `;
+    <div class="info-item"><label>Producto</label><span>${order.product||'Diagnóstico Algorítmico'}</span></div>
+    <div class="info-item"><label>Idioma</label><span>${LANG_FLAGS[order.lang]||''} ${LANG_NAMES[order.lang]||order.lang}</span></div>`;
 
-  // Limpiar estado IA
+  // Reset IA
   document.getElementById('aiStatus').textContent = '';
   document.getElementById('aiStatus').className = 'ai-status';
   document.getElementById('btnLimpiarAI').style.display = 'none';
@@ -355,6 +313,9 @@ async function openExpediente(order) {
   document.getElementById('btnGenerar').textContent = '✨ Generar análisis con IA';
   document.getElementById('noDatasetWarn').classList.remove('visible');
   document.getElementById('datasetStats').innerHTML = '';
+  document.getElementById('datasetSection').style.display = 'none';
+  document.getElementById('relatoSection').style.display = 'none';
+  document.getElementById('csvPreview').classList.remove('visible');
 
   // Análisis existente
   const existDiv = document.getElementById('existingAnalisis');
@@ -369,135 +330,114 @@ async function openExpediente(order) {
     document.getElementById('propuestaInput').value = '';
   }
 
-  // Nota de traducción
+  // Traducción
   const translNote = document.getElementById('translationNote');
   if (order.lang && order.lang !== 'es') {
     translNote.style.display = 'inline-flex';
-    document.getElementById('translationLang').textContent = LANG_NAMES[order.lang] || order.lang;
-  } else {
-    translNote.style.display = 'none';
-  }
+    document.getElementById('translationLang').textContent = LANG_NAMES[order.lang]||order.lang;
+  } else { translNote.style.display = 'none'; }
 
-  // Limpiar banner
+  // Banner
   const banner = document.getElementById('statusBanner');
-  banner.className = 'status-banner';
-  banner.textContent = '';
+  banner.className = 'status-banner'; banner.textContent = '';
 
-  // Cargar datos GitHub
-  await cargarDatosGitHub(order.id);
+  // Link GitHub
+  const org = GITHUB_ORG;
+  document.getElementById('githubRepoLink').href = `https://github.com/${org}/${order.id.toLowerCase()}`;
+
+  // Cargar datos via proxy backend (soporta repos privados)
+  await cargarDatosBackend(order.id);
 
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
-// ─── CARGAR DATOS DESDE GITHUB ────────────────────────────────────
-async function cargarDatosGitHub(orderCode) {
-  const repoName = orderCode.toLowerCase();
-  const repoUrl = `https://github.com/${GITHUB_ORG}/${repoName}`;
-  document.getElementById('githubRepoLink').href = repoUrl;
-
-  // Leer analisis.md para relato + urgencia
+// ─── CARGAR DATOS VIA PROXY BACKEND ──────────────────────────────
+// Usa el servidor como proxy para acceder repos privados con GITHUB_TOKEN
+async function cargarDatosBackend(orderCode) {
   try {
-    const apiUrl = `https://api.github.com/repos/${GITHUB_ORG}/${repoName}/contents/analisis.md`;
-    const res = await fetch(apiUrl);
-    if (res.ok) {
-      const data = await res.json();
-      const content = atob(data.content.replace(/\n/g, ''));
-      const descMatch    = content.match(/## Descripción del problema\s*([\s\S]*?)(?=##|$)/);
-      const urgenciaMatch = content.match(/\| \*\*Urgencia\*\* \| ([^\|]+) \|/);
+    const res = await fetch(`/api/orders/${orderCode}/github-files`);
+    if (!res.ok) {
+      document.getElementById('noDatasetWarn').classList.add('visible');
+      return;
+    }
+    const data = await res.json();
+
+    // Procesar analisis.md → relato y urgencia
+    if (data.analisisMd) {
+      const descMatch    = data.analisisMd.match(/## Descripción del problema\s*([\s\S]*?)(?=##|$)/);
+      const urgenciaMatch = data.analisisMd.match(/\| \*\*Urgencia\*\* \| ([^\|]+) \|/);
       if (descMatch) {
         const desc = descMatch[1].trim();
-        document.getElementById('relatoDesc').textContent = desc || '(sin descripción)';
-        document.getElementById('relatoSection').style.display = desc ? 'block' : 'none';
+        if (desc && desc !== '_Pendiente_') {
+          document.getElementById('relatoDesc').textContent = desc;
+          document.getElementById('relatoSection').style.display = 'block';
+        }
       }
       if (urgenciaMatch) {
         const urg = urgenciaMatch[1].trim();
-        const cls = urg === 'Alta' ? 'alta' : urg === 'Baja' ? 'baja' : 'normal';
+        const cls = urg==='Alta'?'alta':urg==='Baja'?'baja':'normal';
         document.getElementById('urgenciaBadge').innerHTML =
           `<span class="urgencia-badge urgencia-${cls}">${urg}</span>`;
       }
     }
-  } catch(e) {}
 
-  // Listar archivos en /relato
-  try {
-    const apiUrl = `https://api.github.com/repos/${GITHUB_ORG}/${repoName}/contents/relato`;
-    const res = await fetch(apiUrl);
-    if (res.ok) {
-      const files = await res.json();
-      const dataFiles = files.filter(f => f.name.match(/\.(csv|xlsx|xls|parquet|json|txt)$/i));
-      if (dataFiles.length > 0) {
-        document.getElementById('datasetSection').style.display = 'block';
-        const filesDiv = document.getElementById('datasetFiles');
-        filesDiv.innerHTML = dataFiles.map(f => {
-          const ext = f.name.split('.').pop().toUpperCase();
-          const icon = ext === 'CSV' ? '📊' : ext.includes('XLS') ? '📗' : ext === 'PARQUET' ? '🗄️' : '📄';
-          return `<div class="file-chip" onclick="seleccionarArchivo('${f.name}', '${f.download_url}', this)">
-            ${icon} ${f.name}
-            <span style="color:var(--muted);font-size:10px;">${(f.size/1024).toFixed(0)}KB</span>
-          </div>`;
-        }).join('');
-        // Auto-seleccionar el primero
-        if (dataFiles.length > 0) {
-          await cargarContenidoArchivo(dataFiles[0].name, dataFiles[0].download_url);
-          document.querySelector('.file-chip')?.classList.add('selected');
-        }
-      } else {
-        // No hay archivos: mostrar advertencia en sección IA
-        document.getElementById('noDatasetWarn').classList.add('visible');
-      }
+    // Procesar archivos
+    if (data.files && data.files.length > 0) {
+      document.getElementById('datasetSection').style.display = 'block';
+      const filesDiv = document.getElementById('datasetFiles');
+      filesDiv.innerHTML = data.files.map(f => {
+        const ext = f.name.split('.').pop().toUpperCase();
+        const icon = ext==='CSV'?'📊':ext.includes('XLS')?'📗':ext==='PARQUET'?'🗄️':'📄';
+        return `<div class="file-chip" onclick="seleccionarArchivo('${f.name}','${f.path}',this)">
+          ${icon} ${f.name}
+          <span style="color:var(--muted);font-size:10px;">${(f.size/1024).toFixed(0)}KB</span>
+        </div>`;
+      }).join('');
+      // Auto-seleccionar primer archivo
+      await cargarContenidoArchivo(data.files[0].name, data.files[0].path, orderCode);
+      document.querySelector('.file-chip')?.classList.add('selected');
     } else {
       document.getElementById('noDatasetWarn').classList.add('visible');
     }
   } catch(e) {
+    console.error('Error cargando datos GitHub:', e);
     document.getElementById('noDatasetWarn').classList.add('visible');
   }
 }
 
-async function seleccionarArchivo(nombre, url, chipEl) {
+async function seleccionarArchivo(nombre, path, chipEl) {
   document.querySelectorAll('.file-chip').forEach(c => c.classList.remove('selected'));
-  chipEl.classList.add('selected', 'loading-chip');
-  await cargarContenidoArchivo(nombre, url);
-  chipEl.classList.remove('loading-chip');
+  chipEl.classList.add('selected');
+  await cargarContenidoArchivo(nombre, path, currentOrder.id);
 }
 
-async function cargarContenidoArchivo(nombre, url) {
+async function cargarContenidoArchivo(nombre, path, orderCode) {
   selectedFileName = nombre;
   const preview = document.getElementById('csvPreview');
   const statsDiv = document.getElementById('datasetStats');
   try {
-    const res = await fetch(url);
-    const text = await res.text();
+    const res = await fetch(`/api/orders/${orderCode}/github-file?path=${encodeURIComponent(path)}`);
+    if (!res.ok) throw new Error('No se pudo cargar el archivo');
+    const data = await res.json();
+    const text = data.content;
     currentDataset = text;
 
-    // Calcular metadatos del dataset
+    // Calcular metadatos
     const lines = text.split('\n').filter(l => l.trim());
-    const headers = lines[0] ? lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '')) : [];
-    const rowCount = lines.length - 1; // sin el header
+    const headers = lines[0] ? lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,'')) : [];
+    const rowCount = lines.length - 1;
+    datasetMeta = { filename: nombre, headers, totalRows: rowCount, totalCols: headers.length };
 
-    datasetMeta = {
-      filename: nombre,
-      headers: headers,
-      totalRows: rowCount,
-      totalCols: headers.length,
-      sampleRows: lines.slice(0, 6).join('\n')  // header + 5 filas de muestra
-    };
-
-    // Mostrar pills de stats
     statsDiv.innerHTML = `
       <span class="dataset-stat-pill">📄 ${nombre}</span>
       <span class="dataset-stat-pill">🔢 ${rowCount} filas</span>
-      <span class="dataset-stat-pill">📋 ${headers.length} columnas</span>
-    `;
+      <span class="dataset-stat-pill">📋 ${headers.length} columnas</span>`;
 
-    // Preview (primeras 30 líneas)
     const previewLines = text.split('\n').slice(0, 30);
     preview.textContent = previewLines.join('\n') + (text.split('\n').length > 30 ? '\n... (truncado)' : '');
     preview.classList.add('visible');
-
-    // Ocultar warning si estaba visible
     document.getElementById('noDatasetWarn').classList.remove('visible');
-
   } catch(e) {
     currentDataset = null;
     datasetMeta = null;
@@ -511,27 +451,20 @@ async function cargarContenidoArchivo(nombre, url) {
 async function generarConIA() {
   const btn = document.getElementById('btnGenerar');
   const statusEl = document.getElementById('aiStatus');
-  const analisisTA = document.getElementById('analisisInput');
-  const propuestaTA = document.getElementById('propuestaInput');
   const aiContext = document.getElementById('aiContext').value.trim();
 
   btn.disabled = true;
   btn.textContent = '⏳ Analizando...';
   statusEl.className = 'ai-status thinking';
 
-  // Obtener relato del cliente
   const relatoDesc = document.getElementById('relatoDesc').textContent;
 
-  // ── ARMAR SECCIÓN DATASET PARA EL PROMPT ──
+  // Construir sección dataset para el prompt
   let datasetSection = '';
-
   if (datasetMeta && currentDataset) {
-    // Tomar hasta 100 filas para el análisis
     const allLines = currentDataset.split('\n').filter(l => l.trim());
-    const sampleLines = allLines.slice(0, 101); // header + 100 filas
-    const sampleText = sampleLines.join('\n');
+    const sampleLines = allLines.slice(0, 101);
     const hasMore = allLines.length > 101;
-
     datasetSection = `
 
 ══════════════════════════════════════════
@@ -542,28 +475,26 @@ Total filas: ${datasetMeta.totalRows}
 Total columnas: ${datasetMeta.totalCols}
 Columnas: ${datasetMeta.headers.join(', ')}
 
-Muestra de datos (${Math.min(100, datasetMeta.totalRows)} filas${hasMore ? ' de ' + datasetMeta.totalRows + ' totales' : ''}):
+Muestra de datos (${Math.min(100, datasetMeta.totalRows)} filas${hasMore?' de '+datasetMeta.totalRows+' totales':''}):
 \`\`\`csv
-${sampleText}
+${sampleLines.join('\n')}
 \`\`\`
 ══════════════════════════════════════════
 INSTRUCCIÓN IMPORTANTE: Usá los datos reales del dataset de arriba para el análisis.
 Mencioná columnas específicas, valores, patrones y anomalías que observes en esos datos.
 NO hagas análisis genérico — referenciá los datos concretos del cliente.
 ══════════════════════════════════════════`;
-
     statusEl.textContent = `🔍 Analizando dataset "${datasetMeta.filename}" (${datasetMeta.totalRows} filas, ${datasetMeta.totalCols} columnas)...`;
   } else {
     datasetSection = '\n\n[Sin dataset disponible — análisis basado solo en el relato del cliente]';
     statusEl.textContent = '🔍 Analizando caso (sin dataset)...';
   }
 
-  // ── PROMPT COMPLETO ──
   const prompt = `Sos un experto en análisis de datos y consultoría algorítmica trabajando para Viny 2030.
 
 CLIENTE: ${currentOrder.name}
 ORDEN: ${currentOrder.id}
-PRODUCTO: ${currentOrder.product || 'Diagnóstico Algorítmico'}
+PRODUCTO: ${currentOrder.product||'Diagnóstico Algorítmico'}
 
 RELATO DEL CLIENTE:
 ${relatoDesc}
@@ -576,25 +507,21 @@ Generá un análisis técnico profesional basado en el relato Y en los datos rea
 1. ANÁLISIS TÉCNICO (3-5 párrafos):
    - Qué estructura tienen los datos (columnas, tipos, volumen)
    - Patrones, tendencias o anomalías detectadas en los valores reales
-   - Evaluación de la calidad de los datos (valores faltantes, duplicados, outliers)
+   - Evaluación de la calidad de los datos
    - Vinculación con el problema que plantea el cliente
-   - Factores de riesgo u oportunidades que ves en los datos
+   - Factores de riesgo u oportunidades
 
 2. PROPUESTA DE SOLUCIÓN (2-3 párrafos):
-   - Qué se haría en la segunda etapa (USD 40), mencionando las columnas/variables específicas del dataset
+   - Qué se haría en la segunda etapa (USD 40), mencionando columnas/variables específicas
    - Metodología y herramientas concretas para este caso
-   - Resultados esperados, métricas de éxito y entregables
+   - Resultados esperados y entregables
 
-IMPORTANTE: Si tenés datos reales, mencioná columnas, rangos de valores o ejemplos concretos del dataset en tu análisis. Hacé que el cliente sienta que realmente analizaste SUS datos.
+IMPORTANTE: Si tenés datos reales, mencioná columnas, rangos de valores o ejemplos concretos. Hacé que el cliente sienta que analizaste SUS datos.
 
 Respondé SOLO en formato JSON sin ningún texto adicional:
-{
-  "analisis": "texto del análisis aquí",
-  "propuesta": "texto de la propuesta aquí"
-}`;
+{"analisis": "texto aquí", "propuesta": "texto aquí"}`;
 
   try {
-    // ── FIX CRÍTICO: enviar solo { prompt } al proxy ──
     const res = await fetch('/api/orders/analisis-ia', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -607,16 +534,13 @@ Respondé SOLO en formato JSON sin ningún texto adicional:
     }
 
     const data = await res.json();
-
-    // Extraer texto de la respuesta de Anthropic
     const raw = data.content?.[0]?.text || '';
     if (!raw) throw new Error('La IA no devolvió contenido. Verificá la API key.');
 
     let parsed;
     try {
-      parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+      parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
     } catch(e) {
-      // Fallback: intentar extraer con regex si el JSON viene malformado
       const aMatch = raw.match(/"analisis"\s*:\s*"([\s\S]*?)(?:",\s*"propuesta"|"$)/);
       const pMatch = raw.match(/"propuesta"\s*:\s*"([\s\S]*?)"\s*\}?\s*$/);
       parsed = {
@@ -627,9 +551,8 @@ Respondé SOLO en formato JSON sin ningún texto adicional:
 
     if (!parsed.analisis) throw new Error('No se pudo parsear la respuesta de la IA.');
 
-    // Efecto de typing progresivo
-    await typeText(analisisTA, parsed.analisis || '');
-    await typeText(propuestaTA, parsed.propuesta || '');
+    await typeText(document.getElementById('analisisInput'), parsed.analisis || '');
+    await typeText(document.getElementById('propuestaInput'), parsed.propuesta || '');
 
     statusEl.className = 'ai-status done';
     const datasetInfo = datasetMeta
@@ -638,7 +561,6 @@ Respondé SOLO en formato JSON sin ningún texto adicional:
     statusEl.textContent = `✅ Análisis generado${datasetInfo}. Revisá y editá antes de enviar.`;
     btn.textContent = '✅ Generado';
     document.getElementById('btnLimpiarAI').style.display = 'inline-block';
-
   } catch(err) {
     statusEl.className = 'ai-status err';
     statusEl.textContent = `❌ Error: ${err.message}`;
@@ -647,7 +569,6 @@ Respondé SOLO en formato JSON sin ningún texto adicional:
   }
 }
 
-// Efecto de typing progresivo
 async function typeText(textarea, text) {
   textarea.value = '';
   const chunkSize = 8;
@@ -668,36 +589,26 @@ function limpiarAI() {
   document.getElementById('btnLimpiarAI').style.display = 'none';
 }
 
-// ─── ENVIAR ANÁLISIS AL CLIENTE ────────────────────────────────────
+// ─── ENVIAR ANÁLISIS ──────────────────────────────────────────────
 async function enviarAnalisis() {
   if (!currentOrder) return;
-  const analisis = document.getElementById('analisisInput').value.trim();
+  const analisis  = document.getElementById('analisisInput').value.trim();
   const propuesta = document.getElementById('propuestaInput').value.trim();
   const banner = document.getElementById('statusBanner');
   const btn = document.getElementById('btnEnviar');
 
-  if (!analisis) {
-    banner.className = 'status-banner error';
-    banner.textContent = '⚠️ El campo análisis no puede estar vacío.';
-    return;
-  }
-  if (!propuesta) {
-    banner.className = 'status-banner error';
-    banner.textContent = '⚠️ El campo propuesta no puede estar vacío.';
-    return;
-  }
+  if (!analisis)  { banner.className='status-banner error'; banner.textContent='⚠️ El campo análisis no puede estar vacío.'; return; }
+  if (!propuesta) { banner.className='status-banner error'; banner.textContent='⚠️ El campo propuesta no puede estar vacío.'; return; }
 
-  btn.disabled = true;
-  btn.textContent = '⏳ Enviando...';
+  btn.disabled = true; btn.textContent = '⏳ Enviando...';
   banner.className = 'status-banner loading';
   banner.textContent = currentOrder.lang !== 'es'
-    ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang] || currentOrder.lang} y enviando email...`
+    ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang]||currentOrder.lang} y enviando email...`
     : '📧 Enviando email al cliente...';
 
   try {
     const res = await fetch(`/api/orders/${currentOrder.id}/analisis`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ analisis, propuesta })
     });
     const data = await res.json();
@@ -706,26 +617,21 @@ async function enviarAnalisis() {
       banner.textContent = `✅ Análisis enviado correctamente a ${currentOrder.email}.`;
       btn.textContent = '✅ Enviado';
       setTimeout(() => { loadOrders(); closeModalDirect(); }, 2000);
-    } else {
-      throw new Error(data.error || 'Error desconocido');
-    }
+    } else { throw new Error(data.error || 'Error desconocido'); }
   } catch(err) {
     banner.className = 'status-banner error';
     banner.textContent = `❌ Error: ${err.message}`;
-    btn.disabled = false;
-    btn.textContent = '✉️ Enviar análisis al cliente';
+    btn.disabled = false; btn.textContent = '✉️ Enviar análisis al cliente';
   }
 }
 
-function closeModal(event) {
-  if (event.target === document.getElementById('modalOverlay')) closeModalDirect();
-}
+function closeModal(e) { if (e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
 function closeModalDirect() {
   document.getElementById('modalOverlay').classList.remove('active');
   document.body.style.overflow = '';
   currentOrder = null;
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModalDirect(); });
 
 loadOrders();
 </script>
