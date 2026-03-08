@@ -97,6 +97,7 @@ class TestPaginas:
 class TestOrders:
 
     def test_crear_orden_ok(self, base):
+        time.sleep(1)
         email_unico = f"test-{uuid.uuid4().hex[:8]}@viny2030.com.ar"
         payload = {
             "name": "Juan Perez",
@@ -159,6 +160,7 @@ class TestOrders:
         assert "status" in r.json()
 
     def test_crear_orden_idioma_ingles(self, base):
+        time.sleep(1)
         email_unico = f"test-{uuid.uuid4().hex[:8]}@viny2030.com.ar"
         payload = {
             "name": "John Smith",
