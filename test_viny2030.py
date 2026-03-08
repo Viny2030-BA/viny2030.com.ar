@@ -11,6 +11,7 @@ import io
 import uuid
 import pytest
 import requests
+import time
 
 BASE_URL = os.getenv("BASE_URL", "http://localhost:3000")
 
@@ -37,6 +38,7 @@ def orden_creada(base):
         "lang": "es",
         "product": "Diagnostico Algoritmico"
     }
+    time.sleep(1)
     r = requests.post(f"{base}/api/orders", json=payload)
     assert r.status_code == 200, f"No se pudo crear orden: {r.text}"
     data = r.json()
