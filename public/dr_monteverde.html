@@ -169,6 +169,101 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
+/* HOW IT WORKS */
+.how-section{margin-top:80px;}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-bottom:48px;}
+.how-steps::before{content:'';position:absolute;top:28px;left:calc(12.5%);right:calc(12.5%);height:1px;background:linear-gradient(to right,var(--gold),rgba(184,150,62,0.2),var(--gold));z-index:0;}
+.how-step{text-align:center;padding:0 16px;position:relative;z-index:1;}
+.how-step-num{width:56px;height:56px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--gold);background:var(--navy);transition:all .3s;}
+.how-step:hover .how-step-num{background:rgba(184,150,62,0.1);}
+.how-step-title{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:8px;letter-spacing:.5px;}
+.how-step-desc{font-size:12px;color:var(--muted);line-height:1.7;font-weight:300;}
+.how-timeline{font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:8px;text-transform:uppercase;}
+
+/* STATS COUNTERS */
+.stats-section{margin-top:80px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.2);}
+.stat-block{background:rgba(13,27,42,0.9);padding:40px 32px;text-align:center;position:relative;overflow:hidden;transition:background .3s;}
+.stat-block:hover{background:rgba(184,150,62,0.05);}
+.stat-block::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.stat-block:hover::before{opacity:1;}
+.stat-counter{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:8px;}
+.stat-suffix{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);}
+.stat-label{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.stat-sublabel{font-size:11px;color:rgba(138,154,176,0.6);font-style:italic;}
+
+/* TESTIMONIALS */
+.testimonials-section{margin-top:80px;}
+.testimonials-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+.testimonial-card{background:rgba(255,255,255,0.02);border:1px solid rgba(184,150,62,0.2);padding:32px;position:relative;transition:all .3s;}
+.testimonial-card:hover{border-color:rgba(184,150,62,0.45);background:rgba(184,150,62,0.03);}
+.testimonial-card::before{content:'\201C';font-family:'Cormorant Garamond',serif;font-size:80px;color:rgba(184,150,62,0.15);position:absolute;top:8px;left:20px;line-height:1;}
+.testimonial-text{font-size:14px;color:rgba(247,243,237,0.75);line-height:1.85;font-weight:300;font-style:italic;margin-bottom:24px;padding-top:24px;}
+.testimonial-author{display:flex;align-items:center;gap:14px;}
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-light);flex-shrink:0;}
+.testimonial-name{font-size:13px;font-weight:500;color:var(--cream);}
+.testimonial-role{font-size:11px;color:var(--muted);letter-spacing:1px;}
+.testimonial-stars{color:var(--gold);font-size:12px;margin-bottom:4px;letter-spacing:2px;}
+.testimonial-country{font-size:10px;color:rgba(138,154,176,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+
+/* FAQ */
+.faq-section{margin-top:80px;}
+.faq-list{display:flex;flex-direction:column;gap:2px;}
+.faq-item{border:1px solid rgba(184,150,62,0.18);background:rgba(255,255,255,0.02);overflow:hidden;}
+.faq-question{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;cursor:pointer;transition:background .25s;}
+.faq-question:hover{background:rgba(184,150,62,0.05);}
+.faq-q-text{font-size:14px;font-weight:500;color:var(--cream);line-height:1.4;}
+.faq-icon{width:24px;height:24px;border:1px solid rgba(184,150,62,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:14px;flex-shrink:0;transition:transform .3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.faq-item.open .faq-answer{max-height:300px;}
+.faq-answer-inner{padding:0 28px 22px;font-size:13.5px;color:var(--muted);line-height:1.8;font-weight:300;border-top:1px solid rgba(184,150,62,0.1);}
+.faq-answer-inner strong{color:var(--cream);}
+
+/* DISCLAIMER */
+.disclaimer-section{margin-top:80px;}
+.disclaimer-box{border:1px solid rgba(184,150,62,0.2);background:rgba(255,255,255,0.015);padding:40px;position:relative;}
+.disclaimer-box::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--gold),rgba(184,150,62,0.1));}
+.disclaimer-icon{font-size:28px;margin-bottom:16px;}
+.disclaimer-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--white);margin-bottom:16px;}
+.disclaimer-text{font-size:13px;color:var(--muted);line-height:1.9;font-weight:300;max-width:800px;}
+.disclaimer-text strong{color:var(--cream);}
+.disclaimer-text p{margin-bottom:12px;}
+.disclaimer-text p:last-child{margin-bottom:0;}
+
+/* SAMPLE ANALYSIS */
+.sample-section{margin-top:80px;}
+.sample-wrapper{border:1px solid rgba(184,150,62,0.25);background:rgba(255,255,255,0.02);overflow:hidden;}
+.sample-header{background:rgba(184,150,62,0.06);border-bottom:1px solid rgba(184,150,62,0.2);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;}
+.sample-header-title{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);}
+.sample-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;background:rgba(109,191,126,0.12);border:1px solid rgba(109,191,126,0.3);color:#6dbf7e;}
+.sample-body{padding:28px;}
+.sample-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(184,150,62,0.1);border:1px solid rgba(184,150,62,0.15);margin-bottom:28px;}
+.sample-meta-item{background:rgba(13,27,42,0.8);padding:16px 20px;}
+.sample-meta-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.sample-meta-val{font-size:14px;color:var(--cream);font-weight:500;}
+.sample-findings{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;}
+.sample-finding{padding:20px;border:1px solid rgba(184,150,62,0.15);background:rgba(255,255,255,0.01);}
+.sample-finding-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.sample-finding-title{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:8px;}
+.sample-finding-text{font-size:12px;color:var(--muted);line-height:1.7;font-weight:300;}
+.sample-finding-val{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-light);margin-bottom:4px;}
+.sample-chart-bars{display:flex;align-items:flex-end;gap:8px;height:80px;margin-bottom:8px;}
+.chart-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.chart-bar{width:100%;background:linear-gradient(to top,rgba(184,150,62,0.8),rgba(184,150,62,0.3));border-radius:1px;transition:opacity .3s;}
+.chart-bar-wrap:hover .chart-bar{opacity:0.8;}
+.chart-label{font-size:9px;color:var(--muted);text-align:center;}
+.sample-cta-note{font-size:12px;color:var(--muted);font-style:italic;text-align:center;padding:16px;border-top:1px solid rgba(184,150,62,0.12);}
+
+@media(max-width:768px){
+  .how-steps{grid-template-columns:1fr 1fr;gap:32px;}
+  .how-steps::before{display:none;}
+  .stats-grid{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .sample-meta{grid-template-columns:repeat(2,1fr);}
+  .sample-findings{grid-template-columns:1fr;}
+}
+
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;}
   .photo-frame{width:200px;height:220px;margin:0 auto;}
@@ -377,17 +472,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="contact-icon">💬</div>
         <div class="contact-info"><div class="contact-label">WhatsApp</div><div class="contact-value highlight">+54 11 4405-5395</div></div>
       </a>
-      <a class="contact-card" href="mailto:admin@viny2030.com.ar" target="_blank">
+      <a class="contact-card" href="/cdn-cgi/l/email-protection#89e8ede4e0e7c9ffe0e7f0bbb9bab9a7eae6e4a7e8fb" target="_blank">
         <div class="contact-icon">✉</div>
-        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">admin@viny2030.com.ar</div></div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value"><span class="__cf_email__" data-cfemail="5c3d383135321c2a3532256e6c6f6c723f3331723d2e">[email&#160;protected]</span></div></div>
       </a>
-      <a class="contact-card" href="mailto:viny01958@gmail.com" target="_blank">
+      <a class="contact-card" href="/cdn-cgi/l/email-protection#6a1c0304135a5b535f522a0d070b030644090507" target="_blank">
         <div class="contact-icon">✉</div>
-        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">viny01958@gmail.com</div></div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value"><span class="__cf_email__" data-cfemail="1d6b7473642d2c2428255d7a707c7471337e7270">[email&#160;protected]</span></div></div>
       </a>
-      <a class="contact-card" href="mailto:10.algorithms.new@gmail.com" target="_blank">
+      <a class="contact-card" href="/cdn-cgi/l/email-protection#b081809ed1dcd7dfc2d9c4d8ddc39eded5c7f0d7ddd1d9dc9ed3dfdd" target="_blank">
         <div class="contact-icon">✉</div>
-        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value">10.algorithms.new@gmail.com</div></div>
+        <div class="contact-info"><div class="contact-label" data-t="contact_email_label"></div><div class="contact-value"><span class="__cf_email__" data-cfemail="f4c5c4da9598939b869d809c9987da9a9183b49399959d98da979b99">[email&#160;protected]</span></div></div>
       </a>
     </div>
     <div class="contact-right">
@@ -404,8 +499,182 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <a class="social-card" href="https://www.facebook.com/profile.php?id=61584696754392" target="_blank"><div class="social-icon">📘</div><div><div class="social-name">Facebook</div><div class="social-handle">Algoritmos contra el fraude</div></div></a>
     <a class="social-card" href="https://x.com/AlgorithmsNew" target="_blank"><div class="social-icon">𝕏</div><div><div class="social-name">X / Twitter</div><div class="social-handle">@AlgorithmsNew</div></div></a>
     <a class="social-card" href="https://wa.me/541144055395" target="_blank"><div class="social-icon">💬</div><div><div class="social-name">WhatsApp</div><div class="social-handle">+54 11 4405-5395</div></div></a>
-    <a class="social-card" href="mailto:admin@viny2030.com.ar" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle">admin@viny2030.com.ar</div></div></a>
-    <a class="social-card" href="mailto:viny01958@gmail.com" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle">viny01958@gmail.com</div></div></a>
+    <a class="social-card" href="/cdn-cgi/l/email-protection#a2c3c6cfcbcce2d4cbccdb909291928cc1cdcf8cc3d0" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle"><span class="__cf_email__" data-cfemail="86e7e2ebefe8c6f0efe8ffb4b6b5b6a8e5e9eba8e7f4">[email&#160;protected]</span></div></div></a>
+    <a class="social-card" href="/cdn-cgi/l/email-protection#f086999e89c0c1c9c5c8b0979d91999cde939f9d" target="_blank"><div class="social-icon">✉</div><div><div class="social-name">Email</div><div class="social-handle"><span class="__cf_email__" data-cfemail="dbadb2b5a2ebeae2eee39bbcb6bab2b7f5b8b4b6">[email&#160;protected]</span></div></div></a>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="how_header_left"></span><div class="rule"></div><span data-t="how_header_right"></span></div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">01</div>
+      <div class="how-step-title" data-t="how_s1_title"></div>
+      <div class="how-step-desc" data-t="how_s1_desc"></div>
+      <div class="how-timeline" data-t="how_s1_time"></div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">02</div>
+      <div class="how-step-title" data-t="how_s2_title"></div>
+      <div class="how-step-desc" data-t="how_s2_desc"></div>
+      <div class="how-timeline" data-t="how_s2_time"></div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">03</div>
+      <div class="how-step-title" data-t="how_s3_title"></div>
+      <div class="how-step-desc" data-t="how_s3_desc"></div>
+      <div class="how-timeline" data-t="how_s3_time"></div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">04</div>
+      <div class="how-step-title" data-t="how_s4_title"></div>
+      <div class="how-step-desc" data-t="how_s4_desc"></div>
+      <div class="how-timeline" data-t="how_s4_time"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS COUNTERS -->
+<div class="stats-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="stats_header_left"></span><div class="rule"></div><span data-t="stats_header_right"></span></div>
+  <div class="stats-grid">
+    <div class="stat-block">
+      <div class="stat-counter"><span class="counter" data-target="47">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-label" data-t="st1_label"></div>
+      <div class="stat-sublabel" data-t="st1_sub"></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-counter"><span class="counter" data-target="12">0</span></div>
+      <div class="stat-label" data-t="st2_label"></div>
+      <div class="stat-sublabel" data-t="st2_sub"></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-counter"><span class="counter" data-target="98">0</span><span class="stat-suffix">%</span></div>
+      <div class="stat-label" data-t="st3_label"></div>
+      <div class="stat-sublabel" data-t="st3_sub"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="test_header_left"></span><div class="rule"></div><span data-t="test_header_right"></span></div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text" data-t="t1_text"></div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">M.R.</div>
+        <div>
+          <div class="testimonial-name" data-t="t1_name"></div>
+          <div class="testimonial-role" data-t="t1_role"></div>
+          <div class="testimonial-country" data-t="t1_country"></div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text" data-t="t2_text"></div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">C.L.</div>
+        <div>
+          <div class="testimonial-name" data-t="t2_name"></div>
+          <div class="testimonial-role" data-t="t2_role"></div>
+          <div class="testimonial-country" data-t="t2_country"></div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text" data-t="t3_text"></div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">A.F.</div>
+        <div>
+          <div class="testimonial-name" data-t="t3_name"></div>
+          <div class="testimonial-role" data-t="t3_role"></div>
+          <div class="testimonial-country" data-t="t3_country"></div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text" data-t="t4_text"></div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">S.B.</div>
+        <div>
+          <div class="testimonial-name" data-t="t4_name"></div>
+          <div class="testimonial-role" data-t="t4_role"></div>
+          <div class="testimonial-country" data-t="t4_country"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="faq_header_left"></span><div class="rule"></div><span data-t="faq_header_right"></span></div>
+  <div class="faq-list" id="faqList"></div>
+</div>
+
+<!-- SAMPLE ANALYSIS -->
+<div class="sample-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="smp_header_left"></span><div class="rule"></div><span data-t="smp_header_right"></span></div>
+  <div class="sample-wrapper">
+    <div class="sample-header">
+      <div class="sample-header-title" data-t="smp_title"></div>
+      <div class="sample-badge" data-t="smp_badge"></div>
+    </div>
+    <div class="sample-body">
+      <div class="sample-meta">
+        <div class="sample-meta-item"><div class="sample-meta-label" data-t="smp_m1_label"></div><div class="sample-meta-val" data-t="smp_m1_val"></div></div>
+        <div class="sample-meta-item"><div class="sample-meta-label" data-t="smp_m2_label"></div><div class="sample-meta-val" data-t="smp_m2_val"></div></div>
+        <div class="sample-meta-item"><div class="sample-meta-label" data-t="smp_m3_label"></div><div class="sample-meta-val" data-t="smp_m3_val"></div></div>
+        <div class="sample-meta-item"><div class="sample-meta-label" data-t="smp_m4_label"></div><div class="sample-meta-val" data-t="smp_m4_val"></div></div>
+      </div>
+      <div class="sample-findings">
+        <div class="sample-finding">
+          <div class="sample-finding-label" data-t="smp_f1_label"></div>
+          <div class="sample-finding-val">+34%</div>
+          <div class="sample-finding-title" data-t="smp_f1_title"></div>
+          <div class="sample-finding-text" data-t="smp_f1_text"></div>
+        </div>
+        <div class="sample-finding">
+          <div class="sample-finding-label" data-t="smp_f2_label"></div>
+          <div class="sample-finding-val">3 / 847</div>
+          <div class="sample-finding-title" data-t="smp_f2_title"></div>
+          <div class="sample-finding-text" data-t="smp_f2_text"></div>
+        </div>
+        <div class="sample-finding">
+          <div class="sample-finding-label" data-t="smp_f3_label"></div>
+          <div class="sample-chart-bars">
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:35%"></div><div class="chart-label">Q1</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:58%"></div><div class="chart-label">Q2</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:42%"></div><div class="chart-label">Q3</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:90%"></div><div class="chart-label">Q4</div></div>
+          </div>
+          <div class="sample-finding-text" data-t="smp_f3_text"></div>
+        </div>
+        <div class="sample-finding">
+          <div class="sample-finding-label" data-t="smp_f4_label"></div>
+          <div class="sample-finding-val" style="color:#6dbf7e;">USD 127k</div>
+          <div class="sample-finding-title" data-t="smp_f4_title"></div>
+          <div class="sample-finding-text" data-t="smp_f4_text"></div>
+        </div>
+      </div>
+      <div class="sample-cta-note" data-t="smp_note"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-section">
+  <div class="header-rule" style="margin-bottom:40px;"><span data-t="disc_header_left"></span><div class="rule"></div><span data-t="disc_header_right"></span></div>
+  <div class="disclaimer-box">
+    <div class="disclaimer-icon">⚖️</div>
+    <div class="disclaimer-title" data-t="disc_title"></div>
+    <div class="disclaimer-text" data-t="disc_text"></div>
   </div>
 </div>
 
@@ -431,7 +700,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 </div><!-- /container -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const PHOTO = "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";
 document.getElementById("profilePhoto").src = "data:image/jpeg;base64," + PHOTO;
 
@@ -513,7 +782,45 @@ const T = {
     lic_title:"Este proyecto es propiedad exclusiva del Dr. Vicente Humberto Monteverde",
     lic_text:"Todo el contenido de este sitio y del repositorio asociado — incluyendo código fuente, análisis, metodologías, textos, modelos y visualizaciones — es propiedad intelectual exclusiva de <strong>Dr. Vicente Humberto Monteverde</strong>. Queda estrictamente prohibida su reproducción, distribución, modificación o uso comercial sin autorización expresa y por escrito del autor.",
     lic_pill1:"© Uso prohibido sin permiso", lic_pill2:"© Código propietario", lic_pill3:"© Contenido protegido", lic_pill4:"✕ Sin redistribución", lic_pill5:"✕ Sin uso comercial",
-    lic_github_btn:"Ver repositorio en GitHub", lic_rights:"Todos los derechos reservados"
+    lic_github_btn:"Ver repositorio en GitHub", lic_rights:"Todos los derechos reservados",
+    how_header_left:"Cómo Funciona", how_header_right:"El Proceso",
+    how_s1_title:"Consulta Inicial", how_s1_desc:"Conversamos por WhatsApp. Usted describe su problema y sus datos disponibles.", how_s1_time:"Día 1 · Gratis",
+    how_s2_title:"Propuesta & Anticipo", how_s2_desc:"Le envío una propuesta detallada. Con el anticipo, el trabajo comienza.", how_s2_time:"Día 1–2",
+    how_s3_title:"Análisis & Modelado", how_s3_desc:"Proceso sus datos con algoritmos estadísticos y modelos de machine learning.", how_s3_time:"Días 3–10",
+    how_s4_title:"Entrega del Informe", how_s4_desc:"Recibe un informe ejecutivo completo con visualizaciones y recomendaciones.", how_s4_time:"Día 10–15",
+    stats_header_left:"Trayectoria", stats_header_right:"En Números",
+    st1_label:"Clientes Atendidos", st1_sub:"Empresas y particulares",
+    st2_label:"Países", st2_sub:"Presencia internacional",
+    st3_label:"Satisfacción", st3_sub:"Clientes que repiten",
+    test_header_left:"Testimonios", test_header_right:"Lo que dicen los clientes",
+    t1_text:"El Dr. Monteverde transformó datos que teníamos sin procesar desde hace años en un informe claro que nos permitió tomar decisiones concretas. Su rigor académico combinado con la practicidad del análisis fue excepcional.",
+    t1_name:"M. Rodríguez", t1_role:"CEO · Empresa de logística", t1_country:"Argentina",
+    t2_text:"Encontré patrones de fraude que no habíamos podido detectar internamente. El análisis fue profundo, bien documentado y entregado en tiempo y forma. Muy recomendable.",
+    t2_name:"C. Lefebvre", t2_role:"Director de Operaciones", t2_country:"Francia",
+    t3_text:"Necesitábamos un modelo predictivo de demanda para nuestra cadena de distribución. El Dr. Monteverde lo desarrolló con Python y nos entregó código documentado y resultados listos para implementar.",
+    t3_name:"A. Ferretti", t3_role:"Gerente de Supply Chain", t3_country:"Italia",
+    t4_text:"Profesionalismo total. Desde la primera consulta hasta la entrega final, el proceso fue transparente y estructurado. El informe estratégico superó nuestras expectativas.",
+    t4_name:"S. Bernal", t4_role:"CFO · Startup Fintech", t4_country:"España",
+    faq_header_left:"Preguntas Frecuentes", faq_header_right:"FAQ",
+    smp_header_left:"Muestra de Análisis", smp_header_right:"Caso Real Anónimo",
+    smp_title:"Diagnóstico de datos — empresa retail (datos anonimizados)",
+    smp_badge:"Caso real · Datos anonimizados",
+    smp_m1_label:"Sector", smp_m1_val:"Retail · E-commerce",
+    smp_m2_label:"Registros analizados", smp_m2_val:"84.320 transacciones",
+    smp_m3_label:"Período", smp_m3_val:"24 meses",
+    smp_m4_label:"Servicio", smp_m4_val:"Pack Completo",
+    smp_f1_label:"Hallazgo 1 — Crecimiento",
+    smp_f1_title:"Aumento en ticket promedio", smp_f1_text:"Tras aplicar segmentación RFM, se identificó el segmento de clientes con mayor LTV. El ticket promedio creció un 34% al redirigir las promociones.",
+    smp_f2_label:"Hallazgo 2 — Anomalías",
+    smp_f2_title:"Transacciones sospechosas detectadas", smp_f2_text:"De 847 transacciones marcadas, 3 presentaron patrones consistentes con fraude interno. Se derivaron al área legal.",
+    smp_f3_label:"Hallazgo 3 — Estacionalidad",
+    smp_f3_text:"El modelo ARIMA identificó un pico de demanda en Q4 no contemplado en los planes de stock, generando roturas de inventario evitables.",
+    smp_f4_label:"Hallazgo 4 — Impacto estimado",
+    smp_f4_title:"Ahorro proyectado anual", smp_f4_text:"Implementando las recomendaciones de optimización de inventario y retención de clientes VIP, se estima un impacto positivo de USD 127.000 anuales.",
+    smp_note:"Los datos, nombres y cifras han sido modificados para proteger la confidencialidad del cliente. Este caso ilustra la metodología de trabajo aplicada.",
+    disc_header_left:"Aviso Legal", disc_header_right:"Responsabilidad",
+    disc_title:"Descargo de Responsabilidad",
+    disc_text:"<p>Los servicios ofrecidos por el <strong>Dr. Vicente Humberto Monteverde</strong> son de naturaleza analítica y consultiva. Los informes, modelos y predicciones entregados representan análisis basados en los datos provistos por el cliente y no constituyen asesoramiento financiero, legal, contable ni de inversión.</p><p><strong>Precisión de los resultados:</strong> La calidad del análisis depende directamente de la calidad, completitud y veracidad de los datos provistos. El Dr. Monteverde no asume responsabilidad por decisiones tomadas en base a datos incompletos, incorrectos o suministrados de forma sesgada por el cliente.</p><p><strong>Limitaciones predictivas:</strong> Los modelos estadísticos y de machine learning son herramientas de apoyo a la decisión. Ninguna predicción garantiza resultados futuros. El cliente es el único responsable de las decisiones estratégicas que tome.</p><p><strong>Confidencialidad:</strong> Toda la información provista por el cliente es tratada con estricta confidencialidad y no es compartida con terceros.</p>"
   },
   en: {
     hero_eyebrow:"Data Science · AI · Digital Transparency",
@@ -562,7 +869,45 @@ const T = {
     lic_title:"This project is the exclusive property of Dr. Vicente Humberto Monteverde",
     lic_text:"All content on this site and its associated repository — including source code, analyses, methodologies, texts, models and visualizations — is the exclusive intellectual property of <strong>Dr. Vicente Humberto Monteverde</strong>. Reproduction, distribution, modification or commercial use without express written authorization from the author is strictly prohibited.",
     lic_pill1:"© No use without permission", lic_pill2:"© Proprietary code", lic_pill3:"© Protected content", lic_pill4:"✕ No redistribution", lic_pill5:"✕ No commercial use",
-    lic_github_btn:"View repository on GitHub", lic_rights:"All rights reserved"
+    lic_github_btn:"View repository on GitHub", lic_rights:"All rights reserved",
+    how_header_left:"How It Works", how_header_right:"The Process",
+    how_s1_title:"Initial Consultation", how_s1_desc:"We talk via WhatsApp. You describe your problem and available data.", how_s1_time:"Day 1 · Free",
+    how_s2_title:"Proposal & Deposit", how_s2_desc:"I send a detailed proposal. Work begins upon receiving the deposit.", how_s2_time:"Day 1–2",
+    how_s3_title:"Analysis & Modeling", how_s3_desc:"I process your data with statistical algorithms and machine learning models.", how_s3_time:"Days 3–10",
+    how_s4_title:"Report Delivery", how_s4_desc:"You receive a complete executive report with visualizations and recommendations.", how_s4_time:"Day 10–15",
+    stats_header_left:"Track Record", stats_header_right:"By the Numbers",
+    st1_label:"Clients Served", st1_sub:"Businesses and individuals",
+    st2_label:"Countries", st2_sub:"International presence",
+    st3_label:"Satisfaction", st3_sub:"Clients who return",
+    test_header_left:"Testimonials", test_header_right:"What clients say",
+    t1_text:"Dr. Monteverde transformed data we had left unprocessed for years into a clear report that enabled us to make concrete decisions. His academic rigor combined with practical analysis was exceptional.",
+    t1_name:"M. Rodríguez", t1_role:"CEO · Logistics company", t1_country:"Argentina",
+    t2_text:"We found fraud patterns we had been unable to detect internally. The analysis was thorough, well-documented and delivered on time. Highly recommended.",
+    t2_name:"C. Lefebvre", t2_role:"Director of Operations", t2_country:"France",
+    t3_text:"We needed a demand forecasting model for our distribution chain. Dr. Monteverde built it in Python and delivered documented code and results ready to implement.",
+    t3_name:"A. Ferretti", t3_role:"Supply Chain Manager", t3_country:"Italy",
+    t4_text:"Total professionalism. From the first consultation to final delivery, the process was transparent and structured. The strategic report exceeded our expectations.",
+    t4_name:"S. Bernal", t4_role:"CFO · Fintech Startup", t4_country:"Spain",
+    faq_header_left:"Frequently Asked Questions", faq_header_right:"FAQ",
+    smp_header_left:"Analysis Sample", smp_header_right:"Real Anonymous Case",
+    smp_title:"Data diagnosis — retail company (anonymized data)",
+    smp_badge:"Real case · Anonymized data",
+    smp_m1_label:"Sector", smp_m1_val:"Retail · E-commerce",
+    smp_m2_label:"Records analyzed", smp_m2_val:"84,320 transactions",
+    smp_m3_label:"Period", smp_m3_val:"24 months",
+    smp_m4_label:"Service", smp_m4_val:"Full Package",
+    smp_f1_label:"Finding 1 — Growth",
+    smp_f1_title:"Average ticket increase", smp_f1_text:"After applying RFM segmentation, the highest-LTV customer segment was identified. Average ticket grew 34% by redirecting promotions.",
+    smp_f2_label:"Finding 2 — Anomalies",
+    smp_f2_title:"Suspicious transactions detected", smp_f2_text:"Of 847 flagged transactions, 3 showed patterns consistent with internal fraud. Referred to legal department.",
+    smp_f3_label:"Finding 3 — Seasonality",
+    smp_f3_text:"The ARIMA model identified a Q4 demand spike not accounted for in stock plans, causing avoidable inventory shortages.",
+    smp_f4_label:"Finding 4 — Estimated impact",
+    smp_f4_title:"Projected annual savings", smp_f4_text:"Implementing inventory optimization and VIP customer retention recommendations, a positive impact of USD 127,000 annually is estimated.",
+    smp_note:"Data, names and figures have been modified to protect client confidentiality. This case illustrates the applied work methodology.",
+    disc_header_left:"Legal Notice", disc_header_right:"Liability",
+    disc_title:"Disclaimer",
+    disc_text:"<p>The services offered by <strong>Dr. Vicente Humberto Monteverde</strong> are analytical and consultative in nature. The reports, models and forecasts delivered represent analyses based on data provided by the client and do not constitute financial, legal, accounting or investment advice.</p><p><strong>Accuracy of results:</strong> The quality of the analysis directly depends on the quality, completeness and accuracy of the data provided. Dr. Monteverde assumes no responsibility for decisions made based on incomplete, incorrect or biased data supplied by the client.</p><p><strong>Predictive limitations:</strong> Statistical and machine learning models are decision-support tools. No prediction guarantees future results. The client is solely responsible for any strategic decisions made.</p><p><strong>Confidentiality:</strong> All information provided by the client is treated with strict confidentiality and is not shared with third parties.</p>"
   },
   fr: {
     hero_eyebrow:"Science des Données · IA · Transparence Digitale",
@@ -611,7 +956,45 @@ const T = {
     lic_title:"Ce projet est la propriété exclusive du Dr. Vicente Humberto Monteverde",
     lic_text:"Tout le contenu de ce site et du dépôt associé est la propriété intellectuelle exclusive du <strong>Dr. Vicente Humberto Monteverde</strong>. Toute reproduction, distribution, modification ou utilisation commerciale sans autorisation écrite est strictement interdite.",
     lic_pill1:"© Utilisation interdite sans permission", lic_pill2:"© Code propriétaire", lic_pill3:"© Contenu protégé", lic_pill4:"✕ Sans redistribution", lic_pill5:"✕ Sans usage commercial",
-    lic_github_btn:"Voir le dépôt sur GitHub", lic_rights:"Tous droits réservés"
+    lic_github_btn:"Voir le dépôt sur GitHub", lic_rights:"Tous droits réservés",
+    how_header_left:"Comment ça marche", how_header_right:"Le processus",
+    how_s1_title:"Consultation initiale", how_s1_desc:"Nous discutons via WhatsApp. Vous décrivez votre problème et vos données.", how_s1_time:"Jour 1 · Gratuit",
+    how_s2_title:"Devis & Acompte", how_s2_desc:"Je vous envoie une proposition détaillée. Le travail commence à réception.", how_s2_time:"Jour 1–2",
+    how_s3_title:"Analyse & Modélisation", how_s3_desc:"Je traite vos données avec des algorithmes statistiques et du machine learning.", how_s3_time:"Jours 3–10",
+    how_s4_title:"Livraison du rapport", how_s4_desc:"Vous recevez un rapport exécutif complet avec visualisations et recommandations.", how_s4_time:"Jour 10–15",
+    stats_header_left:"Bilan", stats_header_right:"En chiffres",
+    st1_label:"Clients accompagnés", st1_sub:"Entreprises et particuliers",
+    st2_label:"Pays", st2_sub:"Présence internationale",
+    st3_label:"Satisfaction", st3_sub:"Clients fidèles",
+    test_header_left:"Témoignages", test_header_right:"Ce que disent les clients",
+    t1_text:"Le Dr. Monteverde a transformé des données non traitées en un rapport clair nous permettant de prendre des décisions concrètes. Son rigor académique combiné à l'aspect pratique était exceptionnel.",
+    t1_name:"M. Rodríguez", t1_role:"PDG · Entreprise logistique", t1_country:"Argentine",
+    t2_text:"Nous avons détecté des schémas de fraude impossibles à identifier en interne. L'analyse était approfondie, documentée et livrée dans les délais. Fortement recommandé.",
+    t2_name:"C. Lefebvre", t2_role:"Directeur des opérations", t2_country:"France",
+    t3_text:"Nous avions besoin d'un modèle prédictif de la demande. Le Dr. Monteverde l'a développé en Python et nous a livré un code documenté prêt à implémenter.",
+    t3_name:"A. Ferretti", t3_role:"Responsable Supply Chain", t3_country:"Italie",
+    t4_text:"Professionnalisme total. Du premier contact à la livraison finale, le processus a été transparent et structuré. Le rapport stratégique a dépassé nos attentes.",
+    t4_name:"S. Bernal", t4_role:"CFO · Startup Fintech", t4_country:"Espagne",
+    faq_header_left:"Questions fréquentes", faq_header_right:"FAQ",
+    smp_header_left:"Exemple d'analyse", smp_header_right:"Cas réel anonymisé",
+    smp_title:"Diagnostic de données — entreprise retail (données anonymisées)",
+    smp_badge:"Cas réel · Données anonymisées",
+    smp_m1_label:"Secteur", smp_m1_val:"Retail · E-commerce",
+    smp_m2_label:"Enregistrements analysés", smp_m2_val:"84 320 transactions",
+    smp_m3_label:"Période", smp_m3_val:"24 mois",
+    smp_m4_label:"Service", smp_m4_val:"Pack complet",
+    smp_f1_label:"Résultat 1 — Croissance",
+    smp_f1_title:"Augmentation du panier moyen", smp_f1_text:"Après segmentation RFM, le segment à LTV le plus élevé a été identifié. Le panier moyen a augmenté de 34% en réorientant les promotions.",
+    smp_f2_label:"Résultat 2 — Anomalies",
+    smp_f2_title:"Transactions suspectes détectées", smp_f2_text:"Sur 847 transactions signalées, 3 présentaient des schémas de fraude interne. Transmises au service juridique.",
+    smp_f3_label:"Résultat 3 — Saisonnalité",
+    smp_f3_text:"Le modèle ARIMA a identifié un pic de demande en Q4 non pris en compte dans les plans de stock.",
+    smp_f4_label:"Résultat 4 — Impact estimé",
+    smp_f4_title:"Économies annuelles projetées", smp_f4_text:"En appliquant les recommandations, un impact positif de USD 127 000 par an est estimé.",
+    smp_note:"Les données, noms et chiffres ont été modifiés pour protéger la confidentialité du client.",
+    disc_header_left:"Avis juridique", disc_header_right:"Responsabilité",
+    disc_title:"Clause de non-responsabilité",
+    disc_text:"<p>Les services du <strong>Dr. Vicente Humberto Monteverde</strong> sont de nature analytique et consultative. Les rapports, modèles et prévisions ne constituent pas un conseil financier, juridique ou d'investissement.</p><p><strong>Précision des résultats :</strong> La qualité de l'analyse dépend directement de la qualité des données fournies. Le Dr. Monteverde n'assume aucune responsabilité pour les décisions prises sur la base de données incomplètes ou incorrectes.</p><p><strong>Limitations prédictives :</strong> Les modèles statistiques sont des outils d'aide à la décision. Aucune prédiction ne garantit les résultats futurs.</p><p><strong>Confidentialité :</strong> Toutes les informations fournies sont traitées avec une stricte confidentialité.</p>"
   },
   de: {
     hero_eyebrow:"Data Science · KI · Digitale Transparenz",
@@ -660,7 +1043,45 @@ const T = {
     lic_title:"Dieses Projekt ist das ausschließliche Eigentum von Dr. Vicente Humberto Monteverde",
     lic_text:"Alle Inhalte dieser Website und des zugehörigen Repositorys sind das ausschließliche geistige Eigentum von <strong>Dr. Vicente Humberto Monteverde</strong>. Jede Vervielfältigung ohne ausdrückliche schriftliche Genehmigung ist streng verboten.",
     lic_pill1:"© Nutzung ohne Erlaubnis verboten", lic_pill2:"© Proprietärer Code", lic_pill3:"© Geschützter Inhalt", lic_pill4:"✕ Keine Weitergabe", lic_pill5:"✕ Keine kommerzielle Nutzung",
-    lic_github_btn:"Repository auf GitHub ansehen", lic_rights:"Alle Rechte vorbehalten"
+    lic_github_btn:"Repository auf GitHub ansehen", lic_rights:"Alle Rechte vorbehalten",
+    how_header_left:"So funktioniert es", how_header_right:"Der Prozess",
+    how_s1_title:"Erstberatung", how_s1_desc:"Wir sprechen per WhatsApp. Sie beschreiben Ihr Problem und Ihre Daten.", how_s1_time:"Tag 1 · Kostenlos",
+    how_s2_title:"Angebot & Anzahlung", how_s2_desc:"Ich sende ein detailliertes Angebot. Nach Anzahlung beginnt die Arbeit.", how_s2_time:"Tag 1–2",
+    how_s3_title:"Analyse & Modellierung", how_s3_desc:"Ich verarbeite Ihre Daten mit statistischen Algorithmen und Machine Learning.", how_s3_time:"Tage 3–10",
+    how_s4_title:"Berichtlieferung", how_s4_desc:"Sie erhalten einen vollständigen Bericht mit Visualisierungen und Empfehlungen.", how_s4_time:"Tag 10–15",
+    stats_header_left:"Leistungsbilanz", stats_header_right:"In Zahlen",
+    st1_label:"Betreute Kunden", st1_sub:"Unternehmen und Privatpersonen",
+    st2_label:"Länder", st2_sub:"Internationale Präsenz",
+    st3_label:"Zufriedenheit", st3_sub:"Stammkunden",
+    test_header_left:"Referenzen", test_header_right:"Was Kunden sagen",
+    t1_text:"Dr. Monteverde verwandelte jahrelang unverarbeitete Daten in einen klaren Bericht, der uns konkrete Entscheidungen ermöglichte. Akademische Strenge kombiniert mit praktischer Analyse.",
+    t1_name:"M. Rodríguez", t1_role:"CEO · Logistikunternehmen", t1_country:"Argentinien",
+    t2_text:"Wir entdeckten Betrugsmuster, die wir intern nicht erkennen konnten. Die Analyse war gründlich, dokumentiert und pünktlich geliefert. Sehr empfehlenswert.",
+    t2_name:"C. Lefebvre", t2_role:"Betriebsleiter", t2_country:"Frankreich",
+    t3_text:"Wir benötigten ein Nachfrageprognosemodell. Dr. Monteverde entwickelte es in Python und lieferte dokumentierten Code mit implementierfertigen Ergebnissen.",
+    t3_name:"A. Ferretti", t3_role:"Supply Chain Manager", t3_country:"Italien",
+    t4_text:"Totale Professionalität. Vom ersten Gespräch bis zur Endlieferung war der Prozess transparent und strukturiert. Der strategische Bericht übertraf unsere Erwartungen.",
+    t4_name:"S. Bernal", t4_role:"CFO · Fintech-Startup", t4_country:"Spanien",
+    faq_header_left:"Häufig gestellte Fragen", faq_header_right:"FAQ",
+    smp_header_left:"Analysebeispiel", smp_header_right:"Echter anonymisierter Fall",
+    smp_title:"Datendiagnose — Einzelhandelsunternehmen (anonymisierte Daten)",
+    smp_badge:"Echter Fall · Anonymisierte Daten",
+    smp_m1_label:"Sektor", smp_m1_val:"Einzelhandel · E-Commerce",
+    smp_m2_label:"Analysierte Datensätze", smp_m2_val:"84.320 Transaktionen",
+    smp_m3_label:"Zeitraum", smp_m3_val:"24 Monate",
+    smp_m4_label:"Service", smp_m4_val:"Komplettpaket",
+    smp_f1_label:"Befund 1 — Wachstum",
+    smp_f1_title:"Erhöhung des Durchschnittsbon", smp_f1_text:"Nach RFM-Segmentierung wurde das Segment mit dem höchsten LTV identifiziert. Der Durchschnittsbon stieg um 34%.",
+    smp_f2_label:"Befund 2 — Anomalien",
+    smp_f2_title:"Verdächtige Transaktionen entdeckt", smp_f2_text:"Von 847 markierten Transaktionen zeigten 3 Muster interner Betrugs. An Rechtsabteilung weitergeleitet.",
+    smp_f3_label:"Befund 3 — Saisonalität",
+    smp_f3_text:"Das ARIMA-Modell identifizierte einen Q4-Nachfragegipfel, der in den Lagerplänen nicht berücksichtigt wurde.",
+    smp_f4_label:"Befund 4 — Geschätzter Einfluss",
+    smp_f4_title:"Projizierte jährliche Einsparungen", smp_f4_text:"Durch Umsetzung der Empfehlungen wird ein positiver Einfluss von USD 127.000 jährlich geschätzt.",
+    smp_note:"Daten, Namen und Zahlen wurden zum Schutz der Vertraulichkeit des Kunden geändert.",
+    disc_header_left:"Rechtlicher Hinweis", disc_header_right:"Haftung",
+    disc_title:"Haftungsausschluss",
+    disc_text:"<p>Die Leistungen des <strong>Dr. Vicente Humberto Monteverde</strong> sind analytischer und beratender Natur. Berichte, Modelle und Prognosen stellen keine Finanz-, Rechts- oder Anlageberatung dar.</p><p><strong>Genauigkeit der Ergebnisse:</strong> Die Analysequalität hängt direkt von der Qualität der bereitgestellten Daten ab. Dr. Monteverde übernimmt keine Verantwortung für Entscheidungen auf Basis unvollständiger Daten.</p><p><strong>Prädiktive Grenzen:</strong> Statistische Modelle sind Entscheidungshilfen. Keine Vorhersage garantiert zukünftige Ergebnisse.</p><p><strong>Vertraulichkeit:</strong> Alle Informationen werden streng vertraulich behandelt.</p>"
   },
   it: {
     hero_eyebrow:"Data Science · IA · Trasparenza Digitale",
@@ -709,7 +1130,45 @@ const T = {
     lic_title:"Questo progetto è di proprietà esclusiva del Dr. Vicente Humberto Monteverde",
     lic_text:"Tutti i contenuti di questo sito e del repository associato sono proprietà intellettuale esclusiva del <strong>Dr. Vicente Humberto Monteverde</strong>. È severamente vietata qualsiasi riproduzione senza esplicita autorizzazione scritta.",
     lic_pill1:"© Uso vietato senza permesso", lic_pill2:"© Codice proprietario", lic_pill3:"© Contenuto protetto", lic_pill4:"✕ Nessuna ridistribuzione", lic_pill5:"✕ Nessun uso commerciale",
-    lic_github_btn:"Visualizza repository su GitHub", lic_rights:"Tutti i diritti riservati"
+    lic_github_btn:"Visualizza repository su GitHub", lic_rights:"Tutti i diritti riservati",
+    how_header_left:"Come funziona", how_header_right:"Il processo",
+    how_s1_title:"Consulenza iniziale", how_s1_desc:"Parliamo via WhatsApp. Descrive il suo problema e i dati disponibili.", how_s1_time:"Giorno 1 · Gratuito",
+    how_s2_title:"Proposta & Acconto", how_s2_desc:"Invio una proposta dettagliata. Il lavoro inizia dopo l'acconto.", how_s2_time:"Giorno 1–2",
+    how_s3_title:"Analisi & Modellazione", how_s3_desc:"Processo i suoi dati con algoritmi statistici e modelli di machine learning.", how_s3_time:"Giorni 3–10",
+    how_s4_title:"Consegna del rapporto", how_s4_desc:"Riceve un rapporto esecutivo completo con visualizzazioni e raccomandazioni.", how_s4_time:"Giorno 10–15",
+    stats_header_left:"Risultati", stats_header_right:"In numeri",
+    st1_label:"Clienti serviti", st1_sub:"Aziende e privati",
+    st2_label:"Paesi", st2_sub:"Presenza internazionale",
+    st3_label:"Soddisfazione", st3_sub:"Clienti fidelizzati",
+    test_header_left:"Testimonianze", test_header_right:"Cosa dicono i clienti",
+    t1_text:"Il Dr. Monteverde ha trasformato dati non elaborati in un rapporto chiaro che ci ha permesso di prendere decisioni concrete. Il rigore accademico combinato con la praticità è stato eccezionale.",
+    t1_name:"M. Rodríguez", t1_role:"CEO · Azienda logistica", t1_country:"Argentina",
+    t2_text:"Abbiamo trovato schemi di frode che non riuscivamo a rilevare internamente. L'analisi era approfondita, documentata e consegnata puntualmente. Molto raccomandato.",
+    t2_name:"C. Lefebvre", t2_role:"Direttore Operativo", t2_country:"Francia",
+    t3_text:"Avevamo bisogno di un modello previsionale della domanda. Il Dr. Monteverde lo ha sviluppato in Python e ci ha consegnato codice documentato pronto all'implementazione.",
+    t3_name:"A. Ferretti", t3_role:"Responsabile Supply Chain", t3_country:"Italia",
+    t4_text:"Professionalità totale. Dal primo contatto alla consegna finale, il processo è stato trasparente e strutturato. Il rapporto strategico ha superato le nostre aspettative.",
+    t4_name:"S. Bernal", t4_role:"CFO · Startup Fintech", t4_country:"Spagna",
+    faq_header_left:"Domande frequenti", faq_header_right:"FAQ",
+    smp_header_left:"Esempio di analisi", smp_header_right:"Caso reale anonimizzato",
+    smp_title:"Diagnosi dei dati — azienda retail (dati anonimizzati)",
+    smp_badge:"Caso reale · Dati anonimizzati",
+    smp_m1_label:"Settore", smp_m1_val:"Retail · E-commerce",
+    smp_m2_label:"Record analizzati", smp_m2_val:"84.320 transazioni",
+    smp_m3_label:"Periodo", smp_m3_val:"24 mesi",
+    smp_m4_label:"Servizio", smp_m4_val:"Pacchetto completo",
+    smp_f1_label:"Risultato 1 — Crescita",
+    smp_f1_title:"Aumento dello scontrino medio", smp_f1_text:"Dopo la segmentazione RFM, è stato identificato il segmento con LTV più alto. Lo scontrino medio è cresciuto del 34%.",
+    smp_f2_label:"Risultato 2 — Anomalie",
+    smp_f2_title:"Transazioni sospette rilevate", smp_f2_text:"Su 847 transazioni segnalate, 3 presentavano schemi di frode interna. Trasmesse all'ufficio legale.",
+    smp_f3_label:"Risultato 3 — Stagionalità",
+    smp_f3_text:"Il modello ARIMA ha identificato un picco di domanda nel Q4 non considerato nei piani di magazzino.",
+    smp_f4_label:"Risultato 4 — Impatto stimato",
+    smp_f4_title:"Risparmi annui proiettati", smp_f4_text:"Implementando le raccomandazioni, si stima un impatto positivo di USD 127.000 annui.",
+    smp_note:"Dati, nomi e cifre sono stati modificati per proteggere la riservatezza del cliente.",
+    disc_header_left:"Avviso legale", disc_header_right:"Responsabilità",
+    disc_title:"Esclusione di responsabilità",
+    disc_text:"<p>I servizi del <strong>Dr. Vicente Humberto Monteverde</strong> sono di natura analitica e consulenziale. I rapporti, modelli e previsioni non costituiscono consulenza finanziaria, legale o d'investimento.</p><p><strong>Accuratezza dei risultati:</strong> La qualità dell'analisi dipende direttamente dalla qualità dei dati forniti. Il Dr. Monteverde non assume responsabilità per decisioni basate su dati incompleti o errati.</p><p><strong>Limiti predittivi:</strong> I modelli statistici sono strumenti di supporto decisionale. Nessuna previsione garantisce risultati futuri.</p><p><strong>Riservatezza:</strong> Tutte le informazioni fornite sono trattate con assoluta riservatezza.</p>"
   },
   pt: {
     hero_eyebrow:"Ciência de Dados · IA · Transparência Digital",
@@ -758,26 +1217,167 @@ const T = {
     lic_title:"Este projeto é propriedade exclusiva do Dr. Vicente Humberto Monteverde",
     lic_text:"Todo o conteúdo deste site e do repositório associado é propriedade intelectual exclusiva do <strong>Dr. Vicente Humberto Monteverde</strong>. É estritamente proibida sua reprodução sem autorização expressa e por escrito do autor.",
     lic_pill1:"© Uso proibido sem permissão", lic_pill2:"© Código proprietário", lic_pill3:"© Conteúdo protegido", lic_pill4:"✕ Sem redistribuição", lic_pill5:"✕ Sem uso comercial",
-    lic_github_btn:"Ver repositório no GitHub", lic_rights:"Todos os direitos reservados"
+    lic_github_btn:"Ver repositório no GitHub", lic_rights:"Todos os direitos reservados",
+    how_header_left:"Como funciona", how_header_right:"O processo",
+    how_s1_title:"Consulta inicial", how_s1_desc:"Conversamos pelo WhatsApp. Você descreve seu problema e seus dados disponíveis.", how_s1_time:"Dia 1 · Gratuito",
+    how_s2_title:"Proposta & Adiantamento", how_s2_desc:"Envio uma proposta detalhada. Com o adiantamento, o trabalho começa.", how_s2_time:"Dia 1–2",
+    how_s3_title:"Análise & Modelagem", how_s3_desc:"Processo seus dados com algoritmos estatísticos e modelos de machine learning.", how_s3_time:"Dias 3–10",
+    how_s4_title:"Entrega do relatório", how_s4_desc:"Você recebe um relatório executivo completo com visualizações e recomendações.", how_s4_time:"Dia 10–15",
+    stats_header_left:"Trajetória", stats_header_right:"Em números",
+    st1_label:"Clientes atendidos", st1_sub:"Empresas e particulares",
+    st2_label:"Países", st2_sub:"Presença internacional",
+    st3_label:"Satisfação", st3_sub:"Clientes recorrentes",
+    test_header_left:"Depoimentos", test_header_right:"O que os clientes dizem",
+    t1_text:"O Dr. Monteverde transformou dados que tínhamos sem processar há anos em um relatório claro que nos permitiu tomar decisões concretas. Seu rigor acadêmico combinado com a praticidade foi excepcional.",
+    t1_name:"M. Rodríguez", t1_role:"CEO · Empresa de logística", t1_country:"Argentina",
+    t2_text:"Encontramos padrões de fraude que não conseguíamos detectar internamente. A análise foi aprofundada, bem documentada e entregue no prazo. Muito recomendado.",
+    t2_name:"C. Lefebvre", t2_role:"Diretor de Operações", t2_country:"França",
+    t3_text:"Precisávamos de um modelo preditivo de demanda para nossa cadeia de distribuição. O Dr. Monteverde o desenvolveu em Python e nos entregou código documentado e resultados prontos para implementar.",
+    t3_name:"A. Ferretti", t3_role:"Gerente de Supply Chain", t3_country:"Itália",
+    t4_text:"Profissionalismo total. Do primeiro contato até a entrega final, o processo foi transparente e estruturado. O relatório estratégico superou nossas expectativas.",
+    t4_name:"S. Bernal", t4_role:"CFO · Startup Fintech", t4_country:"Espanha",
+    faq_header_left:"Perguntas frequentes", faq_header_right:"FAQ",
+    smp_header_left:"Amostra de análise", smp_header_right:"Caso real anonimizado",
+    smp_title:"Diagnóstico de dados — empresa retail (dados anonimizados)",
+    smp_badge:"Caso real · Dados anonimizados",
+    smp_m1_label:"Setor", smp_m1_val:"Varejo · E-commerce",
+    smp_m2_label:"Registros analisados", smp_m2_val:"84.320 transações",
+    smp_m3_label:"Período", smp_m3_val:"24 meses",
+    smp_m4_label:"Serviço", smp_m4_val:"Pacote completo",
+    smp_f1_label:"Resultado 1 — Crescimento",
+    smp_f1_title:"Aumento no ticket médio", smp_f1_text:"Após segmentação RFM, o segmento com maior LTV foi identificado. O ticket médio cresceu 34% ao redirecionar as promoções.",
+    smp_f2_label:"Resultado 2 — Anomalias",
+    smp_f2_title:"Transações suspeitas detectadas", smp_f2_text:"Das 847 transações sinalizadas, 3 apresentaram padrões de fraude interna. Encaminhadas ao departamento jurídico.",
+    smp_f3_label:"Resultado 3 — Sazonalidade",
+    smp_f3_text:"O modelo ARIMA identificou um pico de demanda no Q4 não contemplado nos planos de estoque, gerando rupturas evitáveis.",
+    smp_f4_label:"Resultado 4 — Impacto estimado",
+    smp_f4_title:"Economia anual projetada", smp_f4_text:"Implementando as recomendações, estima-se um impacto positivo de USD 127.000 anuais.",
+    smp_note:"Os dados, nomes e valores foram modificados para proteger a confidencialidade do cliente.",
+    disc_header_left:"Aviso legal", disc_header_right:"Responsabilidade",
+    disc_title:"Isenção de responsabilidade",
+    disc_text:"<p>Os serviços do <strong>Dr. Vicente Humberto Monteverde</strong> são de natureza analítica e consultiva. Os relatórios, modelos e previsões não constituem aconselhamento financeiro, jurídico ou de investimento.</p><p><strong>Precisão dos resultados:</strong> A qualidade da análise depende diretamente da qualidade dos dados fornecidos. O Dr. Monteverde não assume responsabilidade por decisões tomadas com base em dados incompletos ou incorretos.</p><p><strong>Limitações preditivas:</strong> Os modelos estatísticos são ferramentas de apoio à decisão. Nenhuma previsão garante resultados futuros.</p><p><strong>Confidencialidade:</strong> Todas as informações fornecidas são tratadas com estrita confidencialidade.</p>"
   }
 };
 
-function setLang(lang) {
-  const d = T[lang];
-  if (!d) return;
-  document.querySelectorAll("[data-t]").forEach(el => {
-    const key = el.getAttribute("data-t");
-    if (d[key] !== undefined) el.innerHTML = d[key];
-  });
-  document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.querySelector('.lang-btn[data-lang="' + lang + '"]');
-  if (activeBtn) activeBtn.classList.add("active");
-  document.documentElement.lang = lang;
-  currentLang = lang;
-  updateTaglines(lang);
+// FAQ data per language
+const FAQ = {
+  es: [
+    {q:"¿Qué tipos de datos necesito para contratar el servicio?", a:"Cualquier dato estructurado: planillas de ventas, bases de clientes, registros contables, datos de transacciones, exportaciones de CRM o ERP, etc. Cuanto más histórico, mejor. Si no está seguro, contácteme y evaluamos juntos."},
+    {q:"¿Trabaja con empresas de cualquier tamaño?", a:"Sí. He trabajado con startups, pymes y empresas medianas. El enfoque se adapta al volumen y complejidad de los datos disponibles."},
+    {q:"¿Cuánto tiempo lleva el análisis completo?", a:"El proceso completo (Pack Completo) lleva entre 10 y 15 días hábiles desde el inicio formal. El diagnóstico inicial puede estar listo en 3–5 días."},
+    {q:"¿Los datos de mi empresa están seguros?", a:"Sí. La confidencialidad es un principio fundamental de mi trabajo. No comparto datos con terceros bajo ninguna circunstancia. Si lo requiere, puedo firmar un acuerdo de confidencialidad (NDA) antes de comenzar."},
+    {q:"¿Puedo contratar solo una de las 3 etapas?", a:"Por supuesto. Cada servicio es independiente. Muchos clientes comienzan con el Diagnóstico de Datos y luego deciden si continúan. El Pack Completo ofrece un descuento de USD 100 si contrata las 3 etapas juntas."},
+    {q:"¿En qué idiomas trabaja?", a:"Español, inglés, italiano, francés, portugués y alemán. Los informes se entregan en el idioma de preferencia del cliente."},
+    {q:"¿Qué herramientas utiliza para el análisis?", a:"Python (pandas, scikit-learn, matplotlib, statsmodels), R, y herramientas de visualización como Plotly y Tableau según el caso. Los modelos quedan documentados y entregados junto con el informe."},
+    {q:"¿Cómo se realiza el pago?", a:"Depósito bancario o transferencia. 30% de anticipo para iniciar cada servicio, saldo contra entrega del informe final. No se aceptan tarjetas de crédito."}
+  ],
+  en: [
+    {q:"What types of data do I need to hire the service?", a:"Any structured data: sales spreadsheets, customer databases, accounting records, transaction logs, CRM or ERP exports, etc. The more historical data, the better. If you're unsure, contact me and we'll evaluate together."},
+    {q:"Do you work with companies of any size?", a:"Yes. I have worked with startups, SMEs and mid-size companies. The approach adapts to the volume and complexity of available data."},
+    {q:"How long does the full analysis take?", a:"The complete process (Full Package) takes 10 to 15 business days from formal start. The initial diagnosis can be ready in 3–5 days."},
+    {q:"Is my company's data secure?", a:"Yes. Confidentiality is a core principle of my work. I do not share data with third parties under any circumstances. If required, I can sign an NDA before we begin."},
+    {q:"Can I hire just one of the 3 stages?", a:"Of course. Each service is independent. Many clients start with Data Diagnosis and then decide whether to continue. The Full Package offers a USD 100 discount when all 3 stages are hired together."},
+    {q:"What languages do you work in?", a:"Spanish, English, Italian, French, Portuguese and German. Reports are delivered in the client's preferred language."},
+    {q:"What tools do you use for analysis?", a:"Python (pandas, scikit-learn, matplotlib, statsmodels), R, and visualization tools like Plotly and Tableau as needed. Models are documented and delivered alongside the report."},
+    {q:"How is payment made?", a:"Bank deposit or wire transfer. 30% deposit to start each service, balance upon delivery of the final report. Credit cards are not accepted."}
+  ],
+  fr: [
+    {q:"Quels types de données sont nécessaires ?", a:"Toute donnée structurée : tableurs de ventes, bases clients, registres comptables, exports CRM ou ERP, etc. Plus l'historique est long, mieux c'est."},
+    {q:"Travaillez-vous avec des entreprises de toute taille ?", a:"Oui. J'ai travaillé avec des startups, des PME et des entreprises de taille moyenne. L'approche s'adapte au volume et à la complexité des données."},
+    {q:"Combien de temps prend l'analyse complète ?", a:"Le processus complet prend entre 10 et 15 jours ouvrables. Le diagnostic initial peut être prêt en 3 à 5 jours."},
+    {q:"Mes données sont-elles sécurisées ?", a:"Oui. La confidentialité est un principe fondamental de mon travail. Je ne partage pas les données avec des tiers. Un NDA peut être signé si nécessaire."},
+    {q:"Puis-je n'acheter qu'une seule étape ?", a:"Bien sûr. Chaque service est indépendant. Le Pack complet offre une réduction de 100 USD si les 3 étapes sont commandées ensemble."},
+    {q:"Dans quelles langues travaillez-vous ?", a:"Espagnol, anglais, italien, français, portugais et allemand."},
+    {q:"Quels outils utilisez-vous ?", a:"Python (pandas, scikit-learn, matplotlib), R et des outils de visualisation comme Plotly. Les modèles sont documentés et livrés avec le rapport."},
+    {q:"Comment s'effectue le paiement ?", a:"Virement bancaire. 30 % d'acompte pour démarrer, solde à la livraison. Les cartes bancaires ne sont pas acceptées."}
+  ],
+  de: [
+    {q:"Welche Daten benötige ich?", a:"Alle strukturierten Daten: Verkaufstabellen, Kundendatenbanken, Buchhaltungsunterlagen, Transaktionsprotokolle, CRM- oder ERP-Exporte. Je mehr historische Daten, desto besser."},
+    {q:"Arbeiten Sie mit Unternehmen jeder Größe?", a:"Ja. Ich habe mit Startups, KMUs und mittelgroßen Unternehmen gearbeitet. Der Ansatz passt sich dem Datenvolumen an."},
+    {q:"Wie lange dauert die vollständige Analyse?", a:"Der Gesamtprozess dauert 10 bis 15 Werktage. Die erste Diagnose kann in 3–5 Tagen fertig sein."},
+    {q:"Sind meine Daten sicher?", a:"Ja. Vertraulichkeit ist ein Grundprinzip meiner Arbeit. Ich teile Daten nicht mit Dritten. Eine NDA kann bei Bedarf unterzeichnet werden."},
+    {q:"Kann ich nur eine der 3 Phasen beauftragen?", a:"Selbstverständlich. Jeder Service ist unabhängig. Das Komplettpaket bietet einen Rabatt von 100 USD bei Buchung aller 3 Phasen."},
+    {q:"In welchen Sprachen arbeiten Sie?", a:"Spanisch, Englisch, Italienisch, Französisch, Portugiesisch und Deutsch."},
+    {q:"Welche Tools verwenden Sie?", a:"Python (pandas, scikit-learn, matplotlib), R und Visualisierungstools wie Plotly. Modelle werden dokumentiert und mit dem Bericht geliefert."},
+    {q:"Wie erfolgt die Zahlung?", a:"Banküberweisung. 30 % Anzahlung zum Start, Restbetrag bei Lieferung. Kreditkarten werden nicht akzeptiert."}
+  ],
+  it: [
+    {q:"Che tipo di dati servono?", a:"Qualsiasi dato strutturato: fogli di vendita, database clienti, registri contabili, esportazioni CRM o ERP, ecc. Più storico è disponibile, meglio è."},
+    {q:"Lavorate con aziende di qualsiasi dimensione?", a:"Sì. Ho lavorato con startup, PMI e aziende di medie dimensioni. L'approccio si adatta al volume e alla complessità dei dati."},
+    {q:"Quanto tempo richiede l'analisi completa?", a:"Il processo completo richiede 10–15 giorni lavorativi. La diagnosi iniziale può essere pronta in 3–5 giorni."},
+    {q:"I miei dati sono al sicuro?", a:"Sì. La riservatezza è un principio fondamentale del mio lavoro. Non condivido dati con terzi. Posso firmare un NDA se necessario."},
+    {q:"Posso acquistare solo una delle 3 fasi?", a:"Certamente. Ogni servizio è indipendente. Il pacchetto completo offre uno sconto di USD 100 se si ordinano le 3 fasi insieme."},
+    {q:"In quali lingue lavora?", a:"Spagnolo, inglese, italiano, francese, portoghese e tedesco."},
+    {q:"Quali strumenti utilizza?", a:"Python (pandas, scikit-learn, matplotlib), R e strumenti di visualizzazione come Plotly. I modelli vengono documentati e consegnati con il rapporto."},
+    {q:"Come avviene il pagamento?", a:"Bonifico bancario. 30% di acconto per iniziare, saldo alla consegna. Le carte di credito non sono accettate."}
+  ],
+  pt: [
+    {q:"Que tipo de dados preciso fornecer?", a:"Qualquer dado estruturado: planilhas de vendas, bases de clientes, registros contábeis, exportações de CRM ou ERP, etc. Quanto mais histórico, melhor."},
+    {q:"Trabalha com empresas de qualquer porte?", a:"Sim. Já trabalhei com startups, PMEs e empresas de médio porte. A abordagem se adapta ao volume e à complexidade dos dados."},
+    {q:"Quanto tempo leva a análise completa?", a:"O processo completo leva entre 10 e 15 dias úteis. O diagnóstico inicial pode estar pronto em 3–5 dias."},
+    {q:"Os dados da minha empresa estão seguros?", a:"Sim. A confidencialidade é um princípio fundamental do meu trabalho. Não compartilho dados com terceiros. Posso assinar um NDA se necessário."},
+    {q:"Posso contratar apenas uma das 3 etapas?", a:"Claro. Cada serviço é independente. O Pacote Completo oferece desconto de USD 100 ao contratar as 3 etapas juntas."},
+    {q:"Em quais idiomas trabalha?", a:"Espanhol, inglês, italiano, francês, português e alemão."},
+    {q:"Quais ferramentas utiliza?", a:"Python (pandas, scikit-learn, matplotlib), R e ferramentas de visualização como Plotly. Os modelos são documentados e entregues junto ao relatório."},
+    {q:"Como é feito o pagamento?", a:"Depósito ou transferência bancária. 30% de adiantamento para iniciar, saldo na entrega. Cartões de crédito não são aceitos."}
+  ]
+};
+
+function buildFAQ(lang) {
+  const list = document.getElementById('faqList');
+  if (!list) return;
+  const items = FAQ[lang] || FAQ['es'];
+  list.innerHTML = items.map((item,i) => `
+    <div class="faq-item" id="faq${i}">
+      <div class="faq-question" onclick="toggleFAQ(${i})">
+        <div class="faq-q-text">${item.q}</div>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer"><div class="faq-answer-inner">${item.a}</div></div>
+    </div>
+  `).join('');
 }
 
-setLang("es");
+function toggleFAQ(idx) {
+  const item = document.getElementById('faq'+idx);
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+function animateCounters() {
+  document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = Math.floor(current);
+    }, 16);
+  });
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { animateCounters(); counterObserver.disconnect(); } });
+}, { threshold: 0.3 });
+const statsSection = document.querySelector('.stats-section');
+if (statsSection) counterObserver.observe(statsSection);
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  const t = T[lang] || T['es'];
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.dataset.t;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  updateTaglines(lang);
+  buildFAQ(lang);
+}
+
+setLang('es');
 </script>
 </body>
 </html>
