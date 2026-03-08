@@ -4,16 +4,18 @@ Requiere: pip install pytest requests
 
 Uso:
   BASE_URL=https://www.viny2030.com.ar pytest test_viny2030.py -v
-
-Por defecto apunta a localhost:3000
 """
 
 import os
 import io
+import uuid
 import pytest
 import requests
 
 BASE_URL = os.getenv("BASE_URL", "http://localhost:3000")
+
+# Email único por cada ejecución para evitar duplicate key en la DB
+TEST_EMAIL = f"test-{uuid.uuid4().hex[:8]}@viny2030.com.ar"
 
 
 # ══════════════════════════════════════════════════════════
@@ -30,7 +32,7 @@ def orden_creada(base):
     """Crea una orden real y devuelve su código para tests posteriores."""
     payload = {
         "name": "Test Pytest",
-        "email": "test@viny2030.com.ar",
+        "email": TEST_EMAIL,
         "amount": 10,
         "lang": "es",
         "product": "Diagnostico Algoritmico"
@@ -51,7 +53,7 @@ class TestPaginas:
 
     def test_index(self, base):
         r = requests.get(f"{base}/")
-        assert r.status_code == 200, f"GET / falló: {r.status_code}"
+        assert r.status_code == 200
 
     def test_comprobante(self, base):
         r = requests.get(f"{base}/comprobante")
@@ -74,12 +76,10 @@ class TestPaginas:
         assert r.status_code == 200
 
     def test_dr_monteverde_guion_medio_redirige(self, base):
-        """Con guión medio debe redirigir 301 a guión bajo."""
         r = requests.get(f"{base}/dr-monteverde.html", allow_redirects=False)
         assert r.status_code == 301
 
     def test_dr_monteverde_guion_medio_resuelve(self, base):
-        """Siguiendo el redirect, la página carga correctamente."""
         r = requests.get(f"{base}/dr-monteverde.html")
         assert r.status_code == 200
 
@@ -95,15 +95,16 @@ class TestPaginas:
 class TestOrders:
 
     def test_crear_orden_ok(self, base):
+        email_unico = f"test-{uuid.uuid4().hex[:8]}@viny2030.com.ar"
         payload = {
             "name": "Juan Perez",
-            "email": "juan@test.com",
+            "email": email_unico,
             "amount": 10,
             "lang": "es",
             "product": "Diagnostico Algoritmico"
         }
         r = requests.post(f"{base}/api/orders", json=payload)
-        assert r.status_code == 200
+        assert r.status_code == 200, f"Error: {r.text}"
         data = r.json()
         assert data["success"] is True
         assert "orderCode" in data
@@ -153,13 +154,13 @@ class TestOrders:
     def test_ver_analisis_sin_datos(self, base, orden_creada):
         r = requests.get(f"{base}/api/orders/{orden_creada}/analisis")
         assert r.status_code == 200
-        data = r.json()
-        assert "status" in data
+        assert "status" in r.json()
 
     def test_crear_orden_idioma_ingles(self, base):
+        email_unico = f"test-{uuid.uuid4().hex[:8]}@viny2030.com.ar"
         payload = {
             "name": "John Smith",
-            "email": "john@test.com",
+            "email": email_unico,
             "amount": 10,
             "lang": "en",
             "product": "Diagnostico Algoritmico"
@@ -176,14 +177,11 @@ class TestOrders:
 class TestUpload:
 
     def test_upload_sin_archivo(self, base):
-        """Sin archivo debe devolver 400."""
-        data = {"orderCode": "VNY-TEST-0001"}
-        r = requests.post(f"{base}/api/upload", data=data)
+        r = requests.post(f"{base}/api/upload", data={"orderCode": "VNY-TEST-0001"})
         assert r.status_code == 400
         assert r.json()["success"] is False
 
     def test_upload_sin_order_code(self, base):
-        """Sin orderCode debe devolver 400."""
         fake_file = io.BytesIO(b"fake image content")
         r = requests.post(
             f"{base}/api/upload",
@@ -194,7 +192,6 @@ class TestUpload:
         assert r.json()["success"] is False
 
     def test_upload_formato_no_permitido(self, base):
-        """Archivo .exe debe ser rechazado."""
         fake_file = io.BytesIO(b"MZ fake exe")
         r = requests.post(
             f"{base}/api/upload",
@@ -204,20 +201,18 @@ class TestUpload:
         assert r.status_code in [400, 500]
 
     def test_upload_comprobante_jpg(self, base, orden_creada):
-        """JPG válido debe ser aceptado (puede fallar si email/GitHub no configurado)."""
-        fake_img = io.BytesIO(b"\xff\xd8\xff\xe0" + b"\x00" * 100)  # header JPEG mínimo
+        fake_img = io.BytesIO(b"\xff\xd8\xff\xe0" + b"\x00" * 100)
         r = requests.post(
             f"{base}/api/upload",
             data={
                 "orderCode": orden_creada,
                 "nombre": "Test Pytest",
-                "email": "test@viny2030.com.ar",
+                "email": TEST_EMAIL,
                 "monto": "10",
                 "producto": "Diagnostico"
             },
             files={"comprobante": ("comprobante.jpg", fake_img, "image/jpeg")}
         )
-        # Acepta 200 (éxito) o 500 (fallo de email/GitHub en ambiente de test)
         assert r.status_code in [200, 500]
         if r.status_code == 200:
             assert r.json()["success"] is True
@@ -235,13 +230,12 @@ class TestRelato:
         assert r.json()["success"] is False
 
     def test_relato_sin_archivos(self, base, orden_creada):
-        """Relato sin archivos adjuntos — solo texto."""
         r = requests.post(
             f"{base}/api/upload/relato",
             data={
                 "orderCode": orden_creada,
                 "nombre": "Test",
-                "email": "test@viny2030.com.ar",
+                "email": TEST_EMAIL,
                 "descripcion": "Descripción de prueba",
                 "fechaProblema": "2026-01-01",
                 "urgencia": "Normal"
