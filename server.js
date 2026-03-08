@@ -25,6 +25,12 @@ app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'adm
 app.get('/relato', (req, res) => res.sendFile(path.join(__dirname, 'public', 'relato.html')));
 app.get('/aceptar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'aceptar.html')));
 
+// Dr. Monteverde — guión bajo y guión medio apuntan al mismo archivo
+app.get('/dr_monteverde', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dr_monteverde.html')));
+app.get('/dr_monteverde.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dr_monteverde.html')));
+app.get('/dr-monteverde', (req, res) => res.redirect(301, '/dr_monteverde.html'));
+app.get('/dr-monteverde.html', (req, res) => res.redirect(301, '/dr_monteverde.html'));
+
 // Iniciar servidor siempre — la migración corre en paralelo sin bloquear
 app.listen(PORT, () => {
   console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
