@@ -1,50 +1,54 @@
 // utils/migrate.js
-// Crea la tabla 'orders' en PostgreSQL si no existe.
-// Se ejecuta automáticamente al iniciar el servidor.
-const pool = require('./db');
+// Ejecutar con: node utils/migrate.js
+// Agrega columnas de segunda etapa a la tabla orders
 
-async function migrate() {
+const { Pool } = require('pg');
+require('dotenv').config();
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+const migrations = [
+  // ── Segunda etapa ────────────────────────────────────────────────────────
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS comprobante2_url    TEXT`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS comprobante2_at     TIMESTAMPTZ`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS informe2_es         TEXT`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS informe2_trad       TEXT`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS informe2_sent_at    TIMESTAMPTZ`,
+
+  // ── GitHub repo del cliente ───────────────────────────────────────────────
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS repo_name          TEXT`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS repo_url           TEXT`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS repo_created_at    TIMESTAMPTZ`,
+
+  // ── Estados nuevos en el enum (si usás enum) ─────────────────────────────
+  // Si status es VARCHAR ya soporta los nuevos valores sin migración extra.
+  // Si es un ENUM de Postgres, descomentá estas líneas:
+  // `ALTER TYPE order_status ADD VALUE IF NOT EXISTS 'pago2_recibido'`,
+  // `ALTER TYPE order_status ADD VALUE IF NOT EXISTS 'informe2_enviado'`,
+
+  // ── Índice para buscar por código rápido ─────────────────────────────────
+  `CREATE INDEX IF NOT EXISTS idx_orders_code ON orders(code)`,
+  `CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)`,
+];
+
+async function run() {
+  const client = await pool.connect();
   try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS orders (
-        id                TEXT PRIMARY KEY,
-        name              TEXT NOT NULL,
-        email             TEXT NOT NULL,
-        amount            NUMERIC DEFAULT 10,
-        lang              TEXT DEFAULT 'es',
-        product           TEXT DEFAULT 'Diagnostico Algoritmico',
-        status            TEXT DEFAULT 'pending',
-        upload_url        TEXT,
-        analisis_es       TEXT,
-        analisis_trad     TEXT,
-        propuesta_es      TEXT,
-        propuesta_trad    TEXT,
-        analisis_at       TIMESTAMPTZ,
-        aceptado_at       TIMESTAMPTZ,
-        created_at        TIMESTAMPTZ DEFAULT NOW(),
-
-        -- Segunda etapa (agregado v2)
-        comprobante2_at   TIMESTAMPTZ,
-        informe2_es       TEXT,
-        informe2_trad     TEXT
-      );
-    `);
-
-    // Agregar columnas si la tabla ya existe (migraciones seguras)
-    const alterCols = [
-      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS comprobante2_at TIMESTAMPTZ`,
-      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS informe2_es TEXT`,
-      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS informe2_trad TEXT`,
-    ];
-    for (const sql of alterCols) {
-      await pool.query(sql);
+    console.log('🔄 Corriendo migraciones...\n');
+    for (const sql of migrations) {
+      try {
+        await client.query(sql);
+        console.log(`  ✅ ${sql.slice(0, 70)}...`);
+      } catch (err) {
+        console.error(`  ❌ Error: ${err.message}`);
+        console.error(`     SQL: ${sql}`);
+      }
     }
-
-    console.log('✅ PostgreSQL: tabla orders lista (v2 — segunda etapa)');
-  } catch (err) {
-    console.error('❌ Error en migración:', err.message);
-    // No cortamos el servidor si falla
+    console.log('\n✅ Migraciones completadas.');
+  } finally {
+    client.release();
+    await pool.end();
   }
 }
 
-module.exports = migrate;
+run().catch(console.error);;
