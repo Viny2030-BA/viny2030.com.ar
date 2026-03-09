@@ -1,39 +1,22 @@
-// v2 - PostgreSQL
+// server.js
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const migrate = require('./utils/migrate');
+const app     = express();
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-// Rutas API
-app.use('/api/orders', require('./routes/orders'));
-app.use('/api/upload', require('./routes/upload'));
-app.use('/api/comprobante', require('./routes/upload')); // alias
+// ── Rutas ─────────────────────────────────────────────────────────────────
+const ordersRouter = require('./routes/orders');
+const uploadRouter = require('./routes/upload');
 
-// Páginas
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-app.get('/comprobante', (req, res) => res.sendFile(path.join(__dirname, 'public', 'comprobante.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
-app.get('/relato', (req, res) => res.sendFile(path.join(__dirname, 'public', 'relato.html')));
-app.get('/aceptar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'aceptar.html')));
+app.use('/api/orders', ordersRouter);
+app.use('/api/upload', uploadRouter);
 
-// Dr. Monteverde — guión bajo y guión medio apuntan al mismo archivo
-app.get('/dr_monteverde', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dr_monteverde.html')));
-app.get('/dr_monteverde.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dr_monteverde.html')));
-app.get('/dr-monteverde', (req, res) => res.redirect(301, '/dr_monteverde.html'));
-app.get('/dr-monteverde.html', (req, res) => res.redirect(301, '/dr_monteverde.html'));
+// ── Health check ──────────────────────────────────────────────────────────
+app.get('/health', (_, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
-// Iniciar servidor siempre — la migración corre en paralelo sin bloquear
-app.listen(PORT, () => {
-  console.log(`✅ Viny2030 corriendo en http://localhost:${PORT}`);
-  // Intentar crear tabla, pero no bloquear si falla (ej: DATABASE_URL no configurada aún)
-  migrate().catch(err => console.warn('⚠️ Migración pendiente:', err.message));
-});
+// ── Start ─────────────────────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Backend corriendo en puerto ${PORT}`));
