@@ -43,7 +43,6 @@
     .btn-expediente.analisis-ok { border-color: rgba(107,201,107,0.4); color: var(--green); }
     select.status-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
     .empty { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
-
     /* MODAL */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
     .modal-overlay.active { display: flex; }
@@ -56,15 +55,11 @@
     .info-item label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 4px; }
     .info-item span { font-size: 14px; color: var(--text); }
     .info-item span.highlight { color: var(--gold); font-weight: 600; }
-
-    /* RELATO */
     .relato-desc { background: var(--surface2); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #bbb; line-height: 1.6; margin-bottom: 16px; white-space: pre-wrap; }
     .urgencia-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
     .urgencia-normal { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
     .urgencia-alta { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.3); }
     .urgencia-baja { background: rgba(107,201,107,0.15); color: var(--green); border: 1px solid rgba(107,201,107,0.3); }
-
-    /* DATASET */
     .dataset-section { margin-bottom: 24px; }
     .dataset-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
     .dataset-title { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
@@ -76,8 +71,6 @@
     .file-chip.selected { border-color: var(--blue); background: rgba(136,170,255,0.1); color: var(--blue); }
     .csv-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; max-height: 220px; overflow: auto; font-size: 11px; font-family: monospace; color: #a0c0e0; line-height: 1.5; white-space: pre; display: none; }
     .csv-preview.visible { display: block; }
-
-    /* AI SECTION */
     .ai-section { background: linear-gradient(135deg, rgba(26,31,78,0.6), rgba(13,58,92,0.6)); border: 1px solid rgba(74,106,170,0.4); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
     .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
     .ai-icon { font-size: 20px; }
@@ -92,7 +85,6 @@
     .ai-status.thinking { color: var(--blue); }
     .ai-status.done { color: var(--green); }
     .ai-status.err { color: var(--red); }
-
     .field-group { margin-bottom: 20px; }
     .field-group label { display: block; font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
     textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; transition: border-color 0.2s; }
@@ -177,7 +169,7 @@
 
     <hr class="divider">
 
-    <!-- BLOQUE IA -->
+    <!-- BLOQUE IA — PRIMER INFORME -->
     <div class="ai-section">
       <div class="ai-header">
         <span class="ai-icon">🤖</span>
@@ -185,7 +177,7 @@
       </div>
       <div class="ai-desc">La IA leerá el dataset del cliente junto con su relato y generará un análisis técnico completo y una propuesta de solución.</div>
       <div class="no-dataset-warn" id="noDatasetWarn">
-        ⚠️ No se detectó dataset del cliente. La IA analizará solo en base al relato. Para mejor análisis, asegurate de que el cliente haya subido archivos a su repo GitHub.
+        ⚠️ No se detectó dataset del cliente. La IA analizará solo en base al relato.
       </div>
       <textarea class="ai-context" id="aiContext" placeholder="Contexto adicional (opcional): foco en detección de fraudes, industria vitivinícola, objetivo del cliente..."></textarea>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
@@ -217,10 +209,67 @@
       <textarea id="propuestaInput" rows="6" placeholder="La propuesta aparecerá aquí tras presionar 'Generar con IA', o podés escribirla manualmente..."></textarea>
     </div>
 
+    <!-- ACCIONES PRIMER INFORME -->
     <div class="modal-actions">
       <button class="btn" onclick="closeModalDirect()">Cerrar</button>
       <button class="btn btn-gold" id="btnEnviar" onclick="enviarAnalisis()">✉️ Enviar análisis al cliente</button>
     </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SEGUNDA ETAPA — visible solo cuando corresponde por estado
+         ═══════════════════════════════════════════════════════════ -->
+    <hr class="divider" id="dividerEtapa2" style="display:none;">
+
+    <div id="segundaEtapaSection" style="display:none;">
+
+      <div style="font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;">
+        📦 Segunda Etapa — USD 40
+      </div>
+
+      <!-- Estado del 2do pago -->
+      <div id="pago2Status" style="background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--muted);">
+        ⏳ Esperando segundo comprobante del cliente
+      </div>
+
+      <!-- Si ya se envió el informe 2 -->
+      <div id="existingInforme2" style="display:none;" class="existing-analisis">
+        <h4 style="color:var(--blue);">✅ Segundo informe ya enviado</h4>
+        <div class="existing-text" id="existingInforme2Text"></div>
+      </div>
+
+      <!-- Bloque IA para 2do informe -->
+      <div class="ai-section">
+        <div class="ai-header">
+          <span class="ai-icon">🤖</span>
+          <span class="ai-title" style="color:var(--blue);">Segundo informe con IA</span>
+        </div>
+        <div class="ai-desc">Generá el segundo informe técnico (implementación y resultados). La IA retomará el contexto del primer análisis.</div>
+        <textarea class="ai-context" id="aiContext2" placeholder="Contexto adicional para el segundo informe (opcional)..."></textarea>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button class="btn btn-ai" id="btnGenerar2" onclick="generarInforme2ConIA()">✨ Generar 2do informe con IA</button>
+          <button class="btn" id="btnLimpiarAI2" onclick="limpiarAI2()" style="display:none;font-size:11px;padding:8px 14px;">↺ Regenerar</button>
+        </div>
+        <div class="ai-status" id="aiStatus2"></div>
+      </div>
+
+      <div id="statusBanner2" class="status-banner"></div>
+
+      <div class="field-group" style="margin-top:20px;">
+        <label>📊 Informe técnico — Segunda Etapa <small style="font-weight:300;text-transform:none;">(podés editar)</small></label>
+        <textarea id="informe2Input" rows="7" placeholder="El segundo informe aparecerá aquí..."></textarea>
+      </div>
+      <div class="field-group">
+        <label>⚙️ Plan de implementación <small style="font-weight:300;text-transform:none;">(podés editar)</small></label>
+        <textarea id="implementacion2Input" rows="6" placeholder="El plan de implementación aparecerá aquí..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-gold" id="btnEnviarInforme2" onclick="enviarInforme2()">📤 Enviar 2do informe al cliente</button>
+      </div>
+
+    </div>
+    <!-- FIN SEGUNDA ETAPA -->
+
   </div>
 </div>
 
@@ -228,13 +277,12 @@
 const LANG_FLAGS = { es:'🇦🇷', en:'🇬🇧', fr:'🇫🇷', de:'🇩🇪', it:'🇮🇹' };
 const LANG_NAMES = { es:'Español', en:'English', fr:'Français', de:'Deutsch', it:'Italiano' };
 const GITHUB_ORG = 'Viny2030-Clientes';
-
 let currentOrder = null;
 let currentDataset = null;
 let selectedFileName = null;
 let datasetMeta = null;
 
-// ─── CARGAR ÓRDENES ──────────────────────────────────────────────
+// ─── CARGAR ÓRDENES ──────────────────────────────────────────────────────────
 async function loadOrders() {
   try {
     const res = await fetch('/api/orders');
@@ -255,11 +303,13 @@ async function loadOrders() {
         <td><span title="${LANG_NAMES[o.lang]||o.lang}">${LANG_FLAGS[o.lang]||o.lang}</span></td>
         <td>
           <select class="status-sel" onchange="updateStatus('${o.id}', this.value)">
-            <option value="pending"   ${o.status==='pending'  ?'selected':''}>⏳ Pendiente</option>
-            <option value="analizado" ${o.status==='analizado'?'selected':''}>📊 Analizado</option>
-            <option value="aceptado"  ${o.status==='aceptado' ?'selected':''}>🤝 Aceptado</option>
-            <option value="paid"      ${o.status==='paid'     ?'selected':''}>✅ Confirmado</option>
-            <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelado</option>
+            <option value="pending"          ${o.status==='pending'          ?'selected':''}>⏳ Pendiente</option>
+            <option value="analizado"        ${o.status==='analizado'        ?'selected':''}>📊 Analizado</option>
+            <option value="aceptado"         ${o.status==='aceptado'         ?'selected':''}>🤝 Aceptado</option>
+            <option value="pago2_recibido"   ${o.status==='pago2_recibido'   ?'selected':''}>💰 Pago 2 recibido</option>
+            <option value="informe2_enviado" ${o.status==='informe2_enviado' ?'selected':''}>📦 Informe 2 enviado</option>
+            <option value="paid"             ${o.status==='paid'             ?'selected':''}>✅ Confirmado</option>
+            <option value="cancelled"        ${o.status==='cancelled'        ?'selected':''}>❌ Cancelado</option>
           </select>
         </td>
         <td style="color:var(--muted);font-size:12px;">
@@ -288,7 +338,7 @@ async function updateStatus(code, status) {
   loadOrders();
 }
 
-// ─── ABRIR EXPEDIENTE ────────────────────────────────────────────
+// ─── ABRIR EXPEDIENTE ─────────────────────────────────────────────────────────
 async function openExpediente(order) {
   currentOrder = order;
   currentDataset = null;
@@ -305,7 +355,7 @@ async function openExpediente(order) {
     <div class="info-item"><label>Producto</label><span>${order.product||'Diagnóstico Algorítmico'}</span></div>
     <div class="info-item"><label>Idioma</label><span>${LANG_FLAGS[order.lang]||''} ${LANG_NAMES[order.lang]||order.lang}</span></div>`;
 
-  // Reset IA
+  // Reset IA 1er informe
   document.getElementById('aiStatus').textContent = '';
   document.getElementById('aiStatus').className = 'ai-status';
   document.getElementById('btnLimpiarAI').style.display = 'none';
@@ -335,37 +385,30 @@ async function openExpediente(order) {
   if (order.lang && order.lang !== 'es') {
     translNote.style.display = 'inline-flex';
     document.getElementById('translationLang').textContent = LANG_NAMES[order.lang]||order.lang;
-  } else { translNote.style.display = 'none'; }
+  } else {
+    translNote.style.display = 'none';
+  }
 
-  // Banner
-  const banner = document.getElementById('statusBanner');
-  banner.className = 'status-banner'; banner.textContent = '';
+  document.getElementById('statusBanner').className = 'status-banner';
+  document.getElementById('githubRepoLink').href = `https://github.com/${GITHUB_ORG}/${order.id.toLowerCase()}`;
 
-  // Link GitHub
-  const org = GITHUB_ORG;
-  document.getElementById('githubRepoLink').href = `https://github.com/${org}/${order.id.toLowerCase()}`;
-
-  // Cargar datos via proxy backend (soporta repos privados)
   await cargarDatosBackend(order.id);
+
+  // ── MODIFICACIÓN: mostrar sección segunda etapa si corresponde
+  mostrarSegundaEtapa(order);
 
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
-// ─── CARGAR DATOS VIA PROXY BACKEND ──────────────────────────────
-// Usa el servidor como proxy para acceder repos privados con GITHUB_TOKEN
+// ─── CARGAR DATOS VIA PROXY BACKEND ──────────────────────────────────────────
 async function cargarDatosBackend(orderCode) {
   try {
     const res = await fetch(`/api/orders/${orderCode}/github-files`);
-    if (!res.ok) {
-      document.getElementById('noDatasetWarn').classList.add('visible');
-      return;
-    }
+    if (!res.ok) { document.getElementById('noDatasetWarn').classList.add('visible'); return; }
     const data = await res.json();
-
-    // Procesar analisis.md → relato y urgencia
     if (data.analisisMd) {
-      const descMatch    = data.analisisMd.match(/## Descripción del problema\s*([\s\S]*?)(?=##|$)/);
+      const descMatch = data.analisisMd.match(/## Descripción del problema\s*([\s\S]*?)(?=##|$)/);
       const urgenciaMatch = data.analisisMd.match(/\| \*\*Urgencia\*\* \| ([^\|]+) \|/);
       if (descMatch) {
         const desc = descMatch[1].trim();
@@ -377,24 +420,17 @@ async function cargarDatosBackend(orderCode) {
       if (urgenciaMatch) {
         const urg = urgenciaMatch[1].trim();
         const cls = urg==='Alta'?'alta':urg==='Baja'?'baja':'normal';
-        document.getElementById('urgenciaBadge').innerHTML =
-          `<span class="urgencia-badge urgencia-${cls}">${urg}</span>`;
+        document.getElementById('urgenciaBadge').innerHTML = `<span class="urgencia-badge urgencia-${cls}">${urg}</span>`;
       }
     }
-
-    // Procesar archivos
     if (data.files && data.files.length > 0) {
       document.getElementById('datasetSection').style.display = 'block';
       const filesDiv = document.getElementById('datasetFiles');
       filesDiv.innerHTML = data.files.map(f => {
         const ext = f.name.split('.').pop().toUpperCase();
         const icon = ext==='CSV'?'📊':ext.includes('XLS')?'📗':ext==='PARQUET'?'🗄️':'📄';
-        return `<div class="file-chip" onclick="seleccionarArchivo('${f.name}','${f.path}',this)">
-          ${icon} ${f.name}
-          <span style="color:var(--muted);font-size:10px;">${(f.size/1024).toFixed(0)}KB</span>
-        </div>`;
+        return `<div class="file-chip" onclick="seleccionarArchivo('${f.name}','${f.path}',this)">${icon} ${f.name} <span style="color:var(--muted);font-size:10px;">${(f.size/1024).toFixed(0)}KB</span></div>`;
       }).join('');
-      // Auto-seleccionar primer archivo
       await cargarContenidoArchivo(data.files[0].name, data.files[0].path, orderCode);
       document.querySelector('.file-chip')?.classList.add('selected');
     } else {
@@ -422,150 +458,64 @@ async function cargarContenidoArchivo(nombre, path, orderCode) {
     const data = await res.json();
     const text = data.content;
     currentDataset = text;
-
-    // Calcular metadatos
     const lines = text.split('\n').filter(l => l.trim());
     const headers = lines[0] ? lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,'')) : [];
     const rowCount = lines.length - 1;
     datasetMeta = { filename: nombre, headers, totalRows: rowCount, totalCols: headers.length };
-
-    statsDiv.innerHTML = `
-      <span class="dataset-stat-pill">📄 ${nombre}</span>
-      <span class="dataset-stat-pill">🔢 ${rowCount} filas</span>
-      <span class="dataset-stat-pill">📋 ${headers.length} columnas</span>`;
-
-    const previewLines = text.split('\n').slice(0, 30);
-    preview.textContent = previewLines.join('\n') + (text.split('\n').length > 30 ? '\n... (truncado)' : '');
+    statsDiv.innerHTML = `<span class="dataset-stat-pill">📄 ${nombre}</span><span class="dataset-stat-pill">🔢 ${rowCount} filas</span><span class="dataset-stat-pill">📋 ${headers.length} columnas</span>`;
+    preview.textContent = text.split('\n').slice(0, 30).join('\n') + (text.split('\n').length > 30 ? '\n... (truncado)' : '');
     preview.classList.add('visible');
     document.getElementById('noDatasetWarn').classList.remove('visible');
   } catch(e) {
-    currentDataset = null;
-    datasetMeta = null;
-    preview.classList.remove('visible');
-    statsDiv.innerHTML = '';
+    currentDataset = null; datasetMeta = null;
+    preview.classList.remove('visible'); statsDiv.innerHTML = '';
     document.getElementById('noDatasetWarn').classList.add('visible');
   }
 }
 
-// ─── GENERAR ANÁLISIS CON IA ──────────────────────────────────────
+// ─── GENERAR ANÁLISIS CON IA (1er informe) ────────────────────────────────────
 async function generarConIA() {
   const btn = document.getElementById('btnGenerar');
   const statusEl = document.getElementById('aiStatus');
   const aiContext = document.getElementById('aiContext').value.trim();
-
-  btn.disabled = true;
-  btn.textContent = '⏳ Analizando...';
+  btn.disabled = true; btn.textContent = '⏳ Analizando...';
   statusEl.className = 'ai-status thinking';
-
   const relatoDesc = document.getElementById('relatoDesc').textContent;
-
-  // Construir sección dataset para el prompt
   let datasetSection = '';
   if (datasetMeta && currentDataset) {
     const allLines = currentDataset.split('\n').filter(l => l.trim());
     const sampleLines = allLines.slice(0, 101);
     const hasMore = allLines.length > 101;
-    datasetSection = `
-
-══════════════════════════════════════════
-DATASET DEL CLIENTE — DATOS REALES
-══════════════════════════════════════════
-Archivo: ${datasetMeta.filename}
-Total filas: ${datasetMeta.totalRows}
-Total columnas: ${datasetMeta.totalCols}
-Columnas: ${datasetMeta.headers.join(', ')}
-
-Muestra de datos (${Math.min(100, datasetMeta.totalRows)} filas${hasMore?' de '+datasetMeta.totalRows+' totales':''}):
-\`\`\`csv
-${sampleLines.join('\n')}
-\`\`\`
-══════════════════════════════════════════
-INSTRUCCIÓN IMPORTANTE: Usá los datos reales del dataset de arriba para el análisis.
-Mencioná columnas específicas, valores, patrones y anomalías que observes en esos datos.
-NO hagas análisis genérico — referenciá los datos concretos del cliente.
-══════════════════════════════════════════`;
+    datasetSection = `\n══════════════════════════════════════════\nDATASET DEL CLIENTE — DATOS REALES\n══════════════════════════════════════════\nArchivo: ${datasetMeta.filename}\nTotal filas: ${datasetMeta.totalRows}\nTotal columnas: ${datasetMeta.totalCols}\nColumnas: ${datasetMeta.headers.join(', ')}\nMuestra de datos (${Math.min(100, datasetMeta.totalRows)} filas${hasMore?' de '+datasetMeta.totalRows+' totales':''}):\n\`\`\`csv\n${sampleLines.join('\n')}\n\`\`\`\n══════════════════════════════════════════\nINSTRUCCIÓN IMPORTANTE: Usá los datos reales del dataset de arriba para el análisis.\n══════════════════════════════════════════`;
     statusEl.textContent = `🔍 Analizando dataset "${datasetMeta.filename}" (${datasetMeta.totalRows} filas, ${datasetMeta.totalCols} columnas)...`;
   } else {
     datasetSection = '\n\n[Sin dataset disponible — análisis basado solo en el relato del cliente]';
     statusEl.textContent = '🔍 Analizando caso (sin dataset)...';
   }
-
-  const prompt = `Sos un experto en análisis de datos y consultoría algorítmica trabajando para Viny 2030.
-
-CLIENTE: ${currentOrder.name}
-ORDEN: ${currentOrder.id}
-PRODUCTO: ${currentOrder.product||'Diagnóstico Algorítmico'}
-
-RELATO DEL CLIENTE:
-${relatoDesc}
-${aiContext ? `\nCONTEXTO ADICIONAL DEL OPERADOR:\n${aiContext}` : ''}
-${datasetSection}
-
-TAREA:
-Generá un análisis técnico profesional basado en el relato Y en los datos reales del dataset.
-
-1. ANÁLISIS TÉCNICO (3-5 párrafos):
-   - Qué estructura tienen los datos (columnas, tipos, volumen)
-   - Patrones, tendencias o anomalías detectadas en los valores reales
-   - Evaluación de la calidad de los datos
-   - Vinculación con el problema que plantea el cliente
-   - Factores de riesgo u oportunidades
-
-2. PROPUESTA DE SOLUCIÓN (2-3 párrafos):
-   - Qué se haría en la segunda etapa (USD 40), mencionando columnas/variables específicas
-   - Metodología y herramientas concretas para este caso
-   - Resultados esperados y entregables
-
-IMPORTANTE: Si tenés datos reales, mencioná columnas, rangos de valores o ejemplos concretos. Hacé que el cliente sienta que analizaste SUS datos.
-
-Respondé SOLO en formato JSON sin ningún texto adicional:
-{"analisis": "texto aquí", "propuesta": "texto aquí"}`;
-
+  const prompt = `Sos un experto en análisis de datos y consultoría algorítmica trabajando para Viny 2030.\n\nCLIENTE: ${currentOrder.name}\nORDEN: ${currentOrder.id}\nPRODUCTO: ${currentOrder.product||'Diagnóstico Algorítmico'}\nRELATO DEL CLIENTE: ${relatoDesc}\n${aiContext ? `\nCONTEXTO ADICIONAL DEL OPERADOR:\n${aiContext}` : ''}\n${datasetSection}\nTAREA: Generá un análisis técnico profesional basado en el relato Y en los datos reales del dataset.\n\n1. ANÁLISIS TÉCNICO (3-5 párrafos)\n2. PROPUESTA DE SOLUCIÓN (2-3 párrafos)\n\nRespondé SOLO en formato JSON sin ningún texto adicional:\n{"analisis": "texto aquí", "propuesta": "texto aquí"}`;
   try {
-    const res = await fetch('/api/orders/analisis-ia', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.error || `HTTP ${res.status}`);
-    }
-
+    const res = await fetch('/api/orders/analisis-ia', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ prompt }) });
+    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
     const data = await res.json();
     const raw = data.content?.[0]?.text || '';
     if (!raw) throw new Error('La IA no devolvió contenido. Verificá la API key.');
-
     let parsed;
-    try {
-      parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    } catch(e) {
-      const aMatch = raw.match(/"analisis"\s*:\s*"([\s\S]*?)(?:",\s*"propuesta"|"$)/);
-      const pMatch = raw.match(/"propuesta"\s*:\s*"([\s\S]*?)"\s*\}?\s*$/);
-      parsed = {
-        analisis: aMatch ? aMatch[1].replace(/\\n/g,'\n').replace(/\\"/g,'"') : raw,
-        propuesta: pMatch ? pMatch[1].replace(/\\n/g,'\n').replace(/\\"/g,'"') : ''
-      };
+    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
+    catch(e) {
+      const aM = raw.match(/"analisis"\s*:\s*"([\s\S]*?)(?:",\s*"propuesta"|"$)/);
+      const pM = raw.match(/"propuesta"\s*:\s*"([\s\S]*?)"\s*\}?\s*$/);
+      parsed = { analisis: aM ? aM[1].replace(/\\n/g,'\n').replace(/\\"/g,'"') : raw, propuesta: pM ? pM[1].replace(/\\n/g,'\n').replace(/\\"/g,'"') : '' };
     }
-
     if (!parsed.analisis) throw new Error('No se pudo parsear la respuesta de la IA.');
-
-    await typeText(document.getElementById('analisisInput'), parsed.analisis || '');
-    await typeText(document.getElementById('propuestaInput'), parsed.propuesta || '');
-
+    await typeText(document.getElementById('analisisInput'), parsed.analisis||'');
+    await typeText(document.getElementById('propuestaInput'), parsed.propuesta||'');
     statusEl.className = 'ai-status done';
-    const datasetInfo = datasetMeta
-      ? ` — Dataset analizado: "${datasetMeta.filename}" (${datasetMeta.totalRows} filas)`
-      : ' — Análisis basado en relato (sin dataset)';
-    statusEl.textContent = `✅ Análisis generado${datasetInfo}. Revisá y editá antes de enviar.`;
+    statusEl.textContent = `✅ Análisis generado${datasetMeta ? ` — Dataset: "${datasetMeta.filename}"` : ' — sin dataset'}. Revisá y editá antes de enviar.`;
     btn.textContent = '✅ Generado';
     document.getElementById('btnLimpiarAI').style.display = 'inline-block';
   } catch(err) {
-    statusEl.className = 'ai-status err';
-    statusEl.textContent = `❌ Error: ${err.message}`;
-    btn.disabled = false;
-    btn.textContent = '✨ Generar análisis con IA';
+    statusEl.className = 'ai-status err'; statusEl.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false; btn.textContent = '✨ Generar análisis con IA';
   }
 }
 
@@ -589,28 +539,20 @@ function limpiarAI() {
   document.getElementById('btnLimpiarAI').style.display = 'none';
 }
 
-// ─── ENVIAR ANÁLISIS ──────────────────────────────────────────────
+// ─── ENVIAR PRIMER ANÁLISIS ───────────────────────────────────────────────────
 async function enviarAnalisis() {
   if (!currentOrder) return;
-  const analisis  = document.getElementById('analisisInput').value.trim();
+  const analisis = document.getElementById('analisisInput').value.trim();
   const propuesta = document.getElementById('propuestaInput').value.trim();
   const banner = document.getElementById('statusBanner');
   const btn = document.getElementById('btnEnviar');
-
-  if (!analisis)  { banner.className='status-banner error'; banner.textContent='⚠️ El campo análisis no puede estar vacío.'; return; }
+  if (!analisis) { banner.className='status-banner error'; banner.textContent='⚠️ El campo análisis no puede estar vacío.'; return; }
   if (!propuesta) { banner.className='status-banner error'; banner.textContent='⚠️ El campo propuesta no puede estar vacío.'; return; }
-
   btn.disabled = true; btn.textContent = '⏳ Enviando...';
   banner.className = 'status-banner loading';
-  banner.textContent = currentOrder.lang !== 'es'
-    ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang]||currentOrder.lang} y enviando email...`
-    : '📧 Enviando email al cliente...';
-
+  banner.textContent = currentOrder.lang !== 'es' ? `🌐 Traduciendo al ${LANG_NAMES[currentOrder.lang]||currentOrder.lang} y enviando email...` : '📧 Enviando email al cliente...';
   try {
-    const res = await fetch(`/api/orders/${currentOrder.id}/analisis`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ analisis, propuesta })
-    });
+    const res = await fetch(`/api/orders/${currentOrder.id}/analisis`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ analisis, propuesta }) });
     const data = await res.json();
     if (data.success) {
       banner.className = 'status-banner success';
@@ -619,18 +561,133 @@ async function enviarAnalisis() {
       setTimeout(() => { loadOrders(); closeModalDirect(); }, 2000);
     } else { throw new Error(data.error || 'Error desconocido'); }
   } catch(err) {
-    banner.className = 'status-banner error';
-    banner.textContent = `❌ Error: ${err.message}`;
+    banner.className = 'status-banner error'; banner.textContent = `❌ Error: ${err.message}`;
     btn.disabled = false; btn.textContent = '✉️ Enviar análisis al cliente';
   }
 }
 
-function closeModal(e) { if (e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
-function closeModalDirect() {
-  document.getElementById('modalOverlay').classList.remove('active');
-  document.body.style.overflow = '';
-  currentOrder = null;
+// ═══════════════════════════════════════════════════════════════════════════════
+// SEGUNDA ETAPA
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function mostrarSegundaEtapa(order) {
+  const estados2da = ['aceptado', 'pago2_recibido', 'informe2_enviado'];
+  const seccion  = document.getElementById('segundaEtapaSection');
+  const divider  = document.getElementById('dividerEtapa2');
+
+  if (!estados2da.includes(order.status)) {
+    seccion.style.display = 'none';
+    divider.style.display = 'none';
+    return;
+  }
+
+  seccion.style.display = 'block';
+  divider.style.display = 'block';
+
+  // Estado pago2
+  const pago2El = document.getElementById('pago2Status');
+  if (order.status === 'pago2_recibido' || order.status === 'informe2_enviado') {
+    pago2El.style.cssText = 'background:rgba(107,201,107,0.08);border-left:3px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--green);';
+    pago2El.textContent = '✅ Segundo pago recibido' + (order.comprobante2_at ? ' — ' + new Date(order.comprobante2_at).toLocaleString('es-AR') : '');
+  } else {
+    pago2El.style.cssText = 'background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--muted);';
+    pago2El.textContent = '⏳ Esperando segundo comprobante del cliente';
+  }
+
+  // Si ya se envió el 2do informe
+  const existDiv = document.getElementById('existingInforme2');
+  if (order.informe2_es || order.status === 'informe2_enviado') {
+    existDiv.style.display = 'block';
+    document.getElementById('existingInforme2Text').textContent = order.informe2_es || '(Informe enviado)';
+    document.getElementById('informe2Input').value = order.informe2_es || '';
+  } else {
+    existDiv.style.display = 'none';
+    document.getElementById('informe2Input').value = '';
+    document.getElementById('implementacion2Input').value = '';
+  }
+
+  // Reset IA 2da etapa
+  document.getElementById('aiStatus2').textContent = '';
+  document.getElementById('aiStatus2').className = 'ai-status';
+  document.getElementById('btnLimpiarAI2').style.display = 'none';
+  document.getElementById('btnGenerar2').disabled = false;
+  document.getElementById('btnGenerar2').textContent = '✨ Generar 2do informe con IA';
+  document.getElementById('statusBanner2').className = 'status-banner';
 }
+
+async function generarInforme2ConIA() {
+  const btn      = document.getElementById('btnGenerar2');
+  const statusEl = document.getElementById('aiStatus2');
+  const ctx      = document.getElementById('aiContext2').value.trim();
+  btn.disabled = true; btn.textContent = '⏳ Analizando...';
+  statusEl.className = 'ai-status thinking';
+  statusEl.textContent = '🔍 Generando segundo informe...';
+
+  const primerAnalisis  = currentOrder?.analisis?.es || document.getElementById('analisisInput')?.value || '';
+  const primeraPropuesta = currentOrder?.propuesta?.es || document.getElementById('propuestaInput')?.value || '';
+
+  const prompt = `Sos un experto en análisis de datos y consultoría algorítmica de Viny 2030.\n\nCLIENTE: ${currentOrder.name}\nORDEN: ${currentOrder.id}\nPRODUCTO: ${currentOrder.product || 'Segunda Etapa — Implementación'}\n\nPRIMER ANÁLISIS (ya aceptado por el cliente):\n${primerAnalisis}\n\nPRIMERA PROPUESTA (ya aceptada):\n${primeraPropuesta}\n\n${ctx ? `CONTEXTO ADICIONAL:\n${ctx}\n\n` : ''}TAREA: El cliente ya pagó la segunda etapa (USD 40). Generá el segundo informe:\n\n1. INFORME TÉCNICO DETALLADO (3-4 párrafos): desarrollo del análisis, hallazgos, metodología, métricas.\n2. PLAN DE IMPLEMENTACIÓN (2-3 párrafos): pasos concretos, tecnologías, cronograma, entregables.\n\nIMPORTANTE: El cliente verá gráficos y outputs en una interfaz web — NO interactúa con el algoritmo.\nRespondé SOLO en formato JSON:\n{"analisis": "texto informe técnico", "propuesta": "texto plan implementación"}`;
+
+  try {
+    const res = await fetch('/api/orders/analisis-ia', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ prompt }) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const raw = data.content?.[0]?.text || '';
+    if (!raw) throw new Error('La IA no devolvió contenido.');
+    let parsed;
+    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
+    catch(e) { parsed = { analisis: raw, propuesta: '' }; }
+    await typeText(document.getElementById('informe2Input'), parsed.analisis||'');
+    await typeText(document.getElementById('implementacion2Input'), parsed.propuesta||'');
+    statusEl.className = 'ai-status done';
+    statusEl.textContent = '✅ Segundo informe generado. Revisá y editá antes de enviar.';
+    btn.textContent = '✅ Generado';
+    document.getElementById('btnLimpiarAI2').style.display = 'inline-block';
+  } catch(err) {
+    statusEl.className = 'ai-status err'; statusEl.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false; btn.textContent = '✨ Generar 2do informe con IA';
+  }
+}
+
+function limpiarAI2() {
+  document.getElementById('informe2Input').value = '';
+  document.getElementById('implementacion2Input').value = '';
+  document.getElementById('aiStatus2').textContent = '';
+  document.getElementById('aiStatus2').className = 'ai-status';
+  document.getElementById('btnGenerar2').disabled = false;
+  document.getElementById('btnGenerar2').textContent = '✨ Generar 2do informe con IA';
+  document.getElementById('btnLimpiarAI2').style.display = 'none';
+}
+
+async function enviarInforme2() {
+  if (!currentOrder) return;
+  const analisis  = document.getElementById('informe2Input').value.trim();
+  const propuesta = document.getElementById('implementacion2Input').value.trim();
+  const banner    = document.getElementById('statusBanner2');
+  const btn       = document.getElementById('btnEnviarInforme2');
+  if (!analisis)  { banner.className='status-banner error'; banner.textContent='⚠️ El informe no puede estar vacío.'; return; }
+  if (!propuesta) { banner.className='status-banner error'; banner.textContent='⚠️ El plan de implementación no puede estar vacío.'; return; }
+  btn.disabled = true; btn.textContent = '⏳ Enviando...';
+  banner.className = 'status-banner loading';
+  banner.textContent = '📧 Enviando segundo informe al cliente...';
+  try {
+    const res = await fetch(`/api/orders/${currentOrder.id}/informe2`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ analisis, propuesta }) });
+    const data = await res.json();
+    if (data.success) {
+      banner.className = 'status-banner success';
+      banner.textContent = `✅ Segundo informe enviado a ${currentOrder.email}.`;
+      btn.textContent = '✅ Enviado';
+      setTimeout(() => { loadOrders(); closeModalDirect(); }, 2000);
+    } else { throw new Error(data.error || 'Error desconocido'); }
+  } catch(err) {
+    banner.className = 'status-banner error'; banner.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false; btn.textContent = '📤 Enviar 2do informe al cliente';
+  }
+}
+
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+function closeModal(e) { if (e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = ''; currentOrder = null; }
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeModalDirect(); });
 
 loadOrders();
