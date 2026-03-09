@@ -1,0 +1,246 @@
+<!-- ═══════════════════════════════════════════════════════════════════
+     SEGUNDA ETAPA — visible solo cuando status === 'aceptado' o 'pago2_recibido'
+     AGREGAR en el modal, justo después de .modal-actions del primer informe
+     ═══════════════════════════════════════════════════════════════════ -->
+
+<!-- Separador visual -->
+<hr class="divider" id="dividerEtapa2" style="display:none;">
+
+<!-- Bloque segunda etapa -->
+<div id="segundaEtapaSection" style="display:none;">
+
+  <div style="font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;">
+    📦 Segunda Etapa — USD 40
+  </div>
+
+  <!-- Estado del 2do pago -->
+  <div id="pago2Status" style="background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--muted);">
+    ⏳ Esperando segundo comprobante del cliente
+  </div>
+
+  <!-- Si ya se envió el informe 2 -->
+  <div id="existingInforme2" style="display:none;" class="existing-analisis">
+    <h4 style="color:var(--blue);">✅ Segundo informe ya enviado</h4>
+    <div class="existing-text" id="existingInforme2Text"></div>
+  </div>
+
+  <!-- Bloque IA para 2do informe (misma lógica que el primero) -->
+  <div class="ai-section" id="aiSection2">
+    <div class="ai-header">
+      <span class="ai-icon">🤖</span>
+      <span class="ai-title" style="color:var(--blue);">Segundo informe con IA</span>
+    </div>
+    <div class="ai-desc">Generá el segundo informe técnico (implementación y resultados). La IA retomará el contexto del primer análisis.</div>
+    <textarea class="ai-context" id="aiContext2" placeholder="Contexto adicional para el segundo informe (opcional)..."></textarea>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-ai" id="btnGenerar2" onclick="generarInforme2ConIA()">✨ Generar 2do informe con IA</button>
+      <button class="btn" id="btnLimpiarAI2" onclick="limpiarAI2()" style="display:none;font-size:11px;padding:8px 14px;">↺ Regenerar</button>
+    </div>
+    <div class="ai-status" id="aiStatus2"></div>
+  </div>
+
+  <div id="statusBanner2" class="status-banner"></div>
+
+  <div class="field-group" style="margin-top:20px;">
+    <label>📊 Informe técnico — Segunda Etapa <small style="font-weight:300;text-transform:none;">(podés editar)</small></label>
+    <textarea id="informe2Input" rows="7" placeholder="El segundo informe aparecerá aquí..."></textarea>
+  </div>
+  <div class="field-group">
+    <label>⚙️ Plan de implementación <small style="font-weight:300;text-transform:none;">(podés editar)</small></label>
+    <textarea id="implementacion2Input" rows="6" placeholder="El plan de implementación aparecerá aquí..."></textarea>
+  </div>
+
+  <div class="modal-actions">
+    <button class="btn btn-gold" id="btnEnviarInforme2" onclick="enviarInforme2()">📤 Enviar 2do informe al cliente</button>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JS — agregar dentro del <script> existente en admin.html
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+// ─── MOSTRAR SECCIÓN SEGUNDA ETAPA ────────────────────────────────────────────
+// Llamar desde openExpediente() después de cargar el modal.
+// Reemplazá la línea "document.getElementById('modalOverlay').classList.add('active');"
+// por: mostrarSegundaEtapa(order); document.getElementById('modalOverlay').classList.add('active');
+
+function mostrarSegundaEtapa(order) {
+  const estados2da = ['aceptado', 'pago2_recibido', 'informe2_enviado'];
+  const seccion   = document.getElementById('segundaEtapaSection');
+  const divider   = document.getElementById('dividerEtapa2');
+
+  if (!estados2da.includes(order.status)) {
+    seccion.style.display  = 'none';
+    divider.style.display  = 'none';
+    return;
+  }
+
+  seccion.style.display = 'block';
+  divider.style.display = 'block';
+
+  // Estado pago2
+  const pago2El = document.getElementById('pago2Status');
+  if (order.status === 'pago2_recibido' || order.status === 'informe2_enviado') {
+    pago2El.style.background = 'rgba(107,201,107,0.08)';
+    pago2El.style.borderLeft = '3px solid var(--green)';
+    pago2El.style.color      = 'var(--green)';
+    pago2El.textContent      = '✅ Segundo pago recibido — ' + (order.comprobante2_at
+      ? new Date(order.comprobante2_at).toLocaleString('es-AR') : '');
+  } else {
+    pago2El.style.background = '';
+    pago2El.style.borderLeft = '';
+    pago2El.style.color      = 'var(--muted)';
+    pago2El.textContent      = '⏳ Esperando segundo comprobante del cliente';
+  }
+
+  // Si ya se envió el 2do informe
+  const existDiv = document.getElementById('existingInforme2');
+  if (order.informe2_es || order.status === 'informe2_enviado') {
+    existDiv.style.display = 'block';
+    document.getElementById('existingInforme2Text').textContent = order.informe2_es || '(Informe enviado)';
+    document.getElementById('informe2Input').value = order.informe2_es || '';
+  } else {
+    existDiv.style.display = 'none';
+    document.getElementById('informe2Input').value = '';
+    document.getElementById('implementacion2Input').value = '';
+  }
+
+  // Reset IA 2da
+  document.getElementById('aiStatus2').textContent = '';
+  document.getElementById('btnLimpiarAI2').style.display = 'none';
+  document.getElementById('btnGenerar2').disabled = false;
+  document.getElementById('btnGenerar2').textContent = '✨ Generar 2do informe con IA';
+  document.getElementById('statusBanner2').className = 'status-banner';
+}
+
+// ─── GENERAR 2DO INFORME CON IA ─────────────────────────────────────────────
+async function generarInforme2ConIA() {
+  const btn      = document.getElementById('btnGenerar2');
+  const statusEl = document.getElementById('aiStatus2');
+  const ctx      = document.getElementById('aiContext2').value.trim();
+
+  btn.disabled    = true;
+  btn.textContent = '⏳ Analizando...';
+  statusEl.className   = 'ai-status thinking';
+  statusEl.textContent = '🔍 Generando segundo informe...';
+
+  // Retomar contexto del primer análisis
+  const primerAnalisis = currentOrder?.analisis?.es || document.getElementById('analisisInput')?.value || '';
+  const primeraPropuesta = currentOrder?.propuesta?.es || document.getElementById('propuestaInput')?.value || '';
+
+  const prompt = `Sos un experto en análisis de datos y consultoría algorítmica de Viny 2030.
+
+CLIENTE: ${currentOrder.name}
+ORDEN: ${currentOrder.id}
+PRODUCTO: ${currentOrder.product || 'Segunda Etapa — Implementación'}
+
+PRIMER ANÁLISIS (ya enviado y aceptado por el cliente):
+${primerAnalisis}
+
+PRIMERA PROPUESTA (ya aceptada):
+${primeraPropuesta}
+
+${ctx ? `CONTEXTO ADICIONAL DEL OPERADOR:\n${ctx}` : ''}
+
+TAREA: El cliente ya aceptó y pagó la segunda etapa (USD 40). Generá el segundo informe que incluye:
+
+1. INFORME TÉCNICO DETALLADO (3-4 párrafos):
+   - Desarrollo en profundidad del análisis técnico
+   - Hallazgos específicos basados en los datos
+   - Metodología aplicada y resultados obtenidos
+   - Métricas, columnas clave y patrones identificados
+
+2. PLAN DE IMPLEMENTACIÓN (2-3 párrafos):
+   - Pasos concretos para implementar la solución
+   - Herramientas, tecnologías y stack recomendado
+   - Cronograma estimado y entregables finales
+   - Cómo el cliente interactuará con los resultados (web, gráficos, fechas)
+
+IMPORTANTE: El cliente verá gráficos y outputs en una interfaz web — NO interactúa con el algoritmo.
+Respondé SOLO en formato JSON sin texto adicional:
+{"analisis": "texto informe técnico", "propuesta": "texto plan implementación"}`;
+
+  try {
+    const res = await fetch('/api/orders/analisis-ia', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const raw  = data.content?.[0]?.text || '';
+    if (!raw) throw new Error('La IA no devolvió contenido.');
+
+    let parsed;
+    try {
+      parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    } catch(e) {
+      parsed = { analisis: raw, propuesta: '' };
+    }
+
+    await typeText(document.getElementById('informe2Input'), parsed.analisis || '');
+    await typeText(document.getElementById('implementacion2Input'), parsed.propuesta || '');
+
+    statusEl.className   = 'ai-status done';
+    statusEl.textContent = '✅ Segundo informe generado. Revisá y editá antes de enviar.';
+    btn.textContent = '✅ Generado';
+    document.getElementById('btnLimpiarAI2').style.display = 'inline-block';
+  } catch(err) {
+    statusEl.className   = 'ai-status err';
+    statusEl.textContent = `❌ Error: ${err.message}`;
+    btn.disabled    = false;
+    btn.textContent = '✨ Generar 2do informe con IA';
+  }
+}
+
+function limpiarAI2() {
+  document.getElementById('informe2Input').value = '';
+  document.getElementById('implementacion2Input').value = '';
+  document.getElementById('aiStatus2').textContent = '';
+  document.getElementById('aiStatus2').className = 'ai-status';
+  document.getElementById('btnGenerar2').disabled = false;
+  document.getElementById('btnGenerar2').textContent = '✨ Generar 2do informe con IA';
+  document.getElementById('btnLimpiarAI2').style.display = 'none';
+}
+
+// ─── ENVIAR 2DO INFORME ──────────────────────────────────────────────────────
+async function enviarInforme2() {
+  if (!currentOrder) return;
+  const analisis  = document.getElementById('informe2Input').value.trim();
+  const propuesta = document.getElementById('implementacion2Input').value.trim();
+  const banner    = document.getElementById('statusBanner2');
+  const btn       = document.getElementById('btnEnviarInforme2');
+
+  if (!analisis)  { banner.className='status-banner error'; banner.textContent='⚠️ El informe no puede estar vacío.'; return; }
+  if (!propuesta) { banner.className='status-banner error'; banner.textContent='⚠️ El plan de implementación no puede estar vacío.'; return; }
+
+  btn.disabled    = true;
+  btn.textContent = '⏳ Enviando...';
+  banner.className   = 'status-banner loading';
+  banner.textContent = '📧 Enviando segundo informe al cliente...';
+
+  try {
+    const res = await fetch(`/api/orders/${currentOrder.id}/informe2`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ analisis, propuesta })
+    });
+    const data = await res.json();
+    if (data.success) {
+      banner.className   = 'status-banner success';
+      banner.textContent = `✅ Segundo informe enviado a ${currentOrder.email}.`;
+      btn.textContent = '✅ Enviado';
+      setTimeout(() => { loadOrders(); closeModalDirect(); }, 2000);
+    } else {
+      throw new Error(data.error || 'Error desconocido');
+    }
+  } catch(err) {
+    banner.className   = 'status-banner error';
+    banner.textContent = `❌ Error: ${err.message}`;
+    btn.disabled    = false;
+    btn.textContent = '📤 Enviar 2do informe al cliente';
+  }
+}
+</script>
