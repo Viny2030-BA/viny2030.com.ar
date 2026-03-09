@@ -105,6 +105,35 @@
     .nav-links a:hover { color: var(--gold); }
     .github-link { font-size: 12px; color: var(--muted); text-decoration: none; }
     .github-link:hover { color: var(--blue); }
+
+    /* ── Repo GitHub card (segunda etapa) ─────────────────────────── */
+    .repo-card { display:flex; align-items:center; gap:12px; background:rgba(13,58,92,0.5);
+                 border:1px solid var(--border); border-radius:10px; padding:12px 16px;
+                 margin-bottom:20px; transition: border-color 0.2s; }
+    .repo-card.active { border-color: rgba(107,201,107,0.4); }
+    .repo-card-icon { font-size:1.3rem; flex-shrink:0; }
+    .repo-card-info { flex:1; display:flex; flex-direction:column; gap:3px; min-width:0; }
+    .repo-card-label { font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; }
+    .repo-card-url { font-size:12px; color:var(--blue); word-break:break-all; text-decoration:none; }
+    .repo-card-url:hover { text-decoration:underline; }
+    .repo-card-badge { font-size:10px; padding:3px 10px; border-radius:99px; font-weight:600;
+                       white-space:nowrap; flex-shrink:0; }
+    .repo-badge-pending { background:rgba(201,168,76,0.15); color:var(--gold); border:1px solid rgba(201,168,76,0.3); }
+    .repo-badge-active  { background:rgba(107,201,107,0.15); color:var(--green); border:1px solid rgba(107,201,107,0.3); }
+
+    /* ── Botón confirmar pago 2 ──────────────────────────────────── */
+    .btn-confirmar-pago2 { background: linear-gradient(135deg,#1a5c2a,#0d3a1f); border:1px solid rgba(107,201,107,0.4);
+                           color:var(--green); font-weight:600; padding:10px 20px; border-radius:8px;
+                           cursor:pointer; font-family:'Barlow',sans-serif; font-size:12px;
+                           letter-spacing:2px; text-transform:uppercase; transition:all 0.2s; }
+    .btn-confirmar-pago2:hover { background:linear-gradient(135deg,#2a7c3a,#1a5c2a); border-color:var(--green); }
+    .btn-confirmar-pago2:disabled { opacity:0.5; cursor:not-allowed; }
+
+    /* ── Upload algo ─────────────────────────────────────────────── */
+    .upload-algo-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .upload-algo-status { font-size:12px; color:var(--muted); margin-top:8px; min-height:18px; }
+    .upload-algo-status.ok  { color:var(--green); }
+    .upload-algo-status.err { color:var(--red); }
   </style>
 </head>
 <body>
@@ -229,6 +258,36 @@
       <!-- Estado del 2do pago -->
       <div id="pago2Status" style="background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--muted);">
         ⏳ Esperando segundo comprobante del cliente
+      </div>
+
+      <!-- ── Repo GitHub ──────────────────────────────────────────── -->
+      <div class="repo-card" id="repoGithubCard">
+        <span class="repo-card-icon">🐙</span>
+        <div class="repo-card-info">
+          <span class="repo-card-label">Repositorio GitHub del cliente</span>
+          <a class="repo-card-url" id="repoGithubUrl" href="#" target="_blank">—</a>
+        </div>
+        <span class="repo-card-badge repo-badge-pending" id="repoGithubBadge">Sin crear</span>
+      </div>
+
+      <!-- Confirmar pago 2 → crea repo -->
+      <div id="confirmarPago2Block" style="margin-bottom:20px;">
+        <button class="btn-confirmar-pago2" id="btnConfirmarPago2" onclick="confirmarPago2()">
+          ✅ Confirmar pago 2 y crear repo GitHub
+        </button>
+        <div id="confirmarPago2Status" style="font-size:12px;color:var(--muted);margin-top:8px;min-height:18px;"></div>
+      </div>
+
+      <!-- Upload app.py -->
+      <div id="uploadAlgoBlock" style="display:none; margin-bottom:20px;">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">
+          🚀 Push algoritmo (app.py) → Streamlit
+        </div>
+        <div class="upload-algo-row">
+          <input type="file" id="fileAppPy" accept=".py" style="font-size:12px;color:var(--text);">
+          <button class="btn btn-ai" onclick="pushAlgoritmo()">🚀 Push app.py al repo</button>
+        </div>
+        <div class="upload-algo-status" id="algoStatus"></div>
       </div>
 
       <!-- Si ya se envió el informe 2 -->
@@ -584,7 +643,39 @@ function mostrarSegundaEtapa(order) {
   seccion.style.display = 'block';
   divider.style.display = 'block';
 
-  // Estado pago2
+  // ── Repo GitHub card ────────────────────────────────────────────────────
+  const repoCard  = document.getElementById('repoGithubCard');
+  const repoUrl   = document.getElementById('repoGithubUrl');
+  const repoBadge = document.getElementById('repoGithubBadge');
+  const btnPago2  = document.getElementById('btnConfirmarPago2');
+  const algoBlock = document.getElementById('uploadAlgoBlock');
+
+  if (order.repo_url) {
+    repoUrl.textContent = order.repo_url;
+    repoUrl.href = order.repo_url;
+    repoBadge.textContent = '✅ Activo';
+    repoBadge.className = 'repo-card-badge repo-badge-active';
+    repoCard.classList.add('active');
+    btnPago2.disabled = true;
+    btnPago2.textContent = '✅ Repo creado';
+    algoBlock.style.display = 'block';
+  } else {
+    const defaultRepo = `https://github.com/${GITHUB_ORG}/${order.id.toLowerCase()}`;
+    repoUrl.textContent = defaultRepo;
+    repoUrl.href = defaultRepo;
+    repoBadge.textContent = 'Sin crear';
+    repoBadge.className = 'repo-card-badge repo-badge-pending';
+    repoCard.classList.remove('active');
+    btnPago2.disabled = order.status !== 'aceptado';
+    algoBlock.style.display = 'none';
+  }
+
+  // Reset estado botones
+  document.getElementById('confirmarPago2Status').textContent = '';
+  document.getElementById('algoStatus').textContent = '';
+  document.getElementById('algoStatus').className = 'upload-algo-status';
+
+  // Estado pago2 (el bloque original que ya tenías)
   const pago2El = document.getElementById('pago2Status');
   if (order.status === 'pago2_recibido' || order.status === 'informe2_enviado') {
     pago2El.style.cssText = 'background:rgba(107,201,107,0.08);border-left:3px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--green);';
@@ -682,6 +773,93 @@ async function enviarInforme2() {
   } catch(err) {
     banner.className = 'status-banner error'; banner.textContent = `❌ Error: ${err.message}`;
     btn.disabled = false; btn.textContent = '📤 Enviar 2do informe al cliente';
+  }
+}
+
+// ─── CONFIRMAR PAGO 2 → CREAR REPO GITHUB ────────────────────────────────────
+async function confirmarPago2() {
+  if (!currentOrder) return;
+  const btn = document.getElementById('btnConfirmarPago2');
+  const st  = document.getElementById('confirmarPago2Status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Creando repo...';
+  st.textContent = '🐙 Creando repositorio en GitHub...';
+  st.style.color = 'var(--muted)';
+
+  try {
+    const res  = await fetch(`/api/orders/${currentOrder.id}/pago2`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ confirmed: true }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+    // Actualizar card
+    const repoUrl   = document.getElementById('repoGithubUrl');
+    const repoBadge = document.getElementById('repoGithubBadge');
+    const repoCard  = document.getElementById('repoGithubCard');
+    repoUrl.textContent = data.repo_url;
+    repoUrl.href = data.repo_url;
+    repoBadge.textContent = '✅ Activo';
+    repoBadge.className = 'repo-card-badge repo-badge-active';
+    repoCard.classList.add('active');
+    btn.textContent = '✅ Repo creado: ' + data.repo_name;
+    st.textContent  = '✅ Repo creado y estructura inicializada.';
+    st.style.color  = 'var(--green)';
+    document.getElementById('uploadAlgoBlock').style.display = 'block';
+
+    // Actualizar estado local
+    currentOrder.repo_url  = data.repo_url;
+    currentOrder.repo_name = data.repo_name;
+    currentOrder.status    = 'pago2_recibido';
+
+    // Actualizar pago2Status
+    const pago2El = document.getElementById('pago2Status');
+    pago2El.style.cssText = 'background:rgba(107,201,107,0.08);border-left:3px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--green);';
+    pago2El.textContent = '✅ Segundo pago recibido';
+
+    loadOrders(); // refrescar tabla
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = '✅ Confirmar pago 2 y crear repo GitHub';
+    st.textContent = '❌ Error: ' + err.message;
+    st.style.color = 'var(--red)';
+  }
+}
+
+// ─── PUSH APP.PY AL REPO ──────────────────────────────────────────────────────
+async function pushAlgoritmo() {
+  if (!currentOrder) return;
+  const fileInput = document.getElementById('fileAppPy');
+  const st        = document.getElementById('algoStatus');
+  const file      = fileInput.files[0];
+
+  if (!file) {
+    st.textContent = '⚠️ Seleccioná el archivo app.py primero.';
+    st.className   = 'upload-algo-status err';
+    return;
+  }
+
+  st.textContent = '⏳ Pusheando al repo...';
+  st.className   = 'upload-algo-status';
+
+  try {
+    const content = await file.text();
+    const res     = await fetch(`/api/orders/${currentOrder.id}/upload-algo`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ content }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+    st.textContent = `✅ app.py pusheado. Commit: ${(data.commit||'').slice(0,7)} — El VPS levantará Streamlit automáticamente.`;
+    st.className   = 'upload-algo-status ok';
+    fileInput.value = '';
+  } catch (err) {
+    st.textContent = '❌ Error: ' + err.message;
+    st.className   = 'upload-algo-status err';
   }
 }
 
