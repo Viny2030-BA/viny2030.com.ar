@@ -134,6 +134,23 @@
     .upload-algo-status { font-size:12px; color:var(--muted); margin-top:8px; min-height:18px; }
     .upload-algo-status.ok  { color:var(--green); }
     .upload-algo-status.err { color:var(--red); }
+
+    /* ── Generar app.py con IA ───────────────────────────────────── */
+    .generar-app-section { background:linear-gradient(135deg,rgba(26,31,78,0.7),rgba(13,58,92,0.7)); border:1px solid rgba(74,106,170,0.5); border-radius:12px; padding:20px; margin-bottom:20px; }
+    .app-py-editor { width:100%; background:#0d1117; border:1px solid rgba(74,106,170,0.4); color:#a0d0ff; border-radius:8px; padding:14px; font-family:'Courier New',monospace; font-size:12px; line-height:1.6; resize:vertical; min-height:280px; transition:border-color 0.2s; }
+    .app-py-editor:focus { outline:none; border-color:var(--blue); }
+    .app-py-editor::placeholder { color:#3a5a78; }
+    .streamlit-url-input { width:100%; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:10px 14px; font-family:'Barlow',sans-serif; font-size:13px; margin-top:10px; transition:border-color 0.2s; }
+    .streamlit-url-input:focus { outline:none; border-color:var(--green); }
+    .streamlit-url-input::placeholder { color:#4a6a88; }
+    .btn-publicar { background:linear-gradient(135deg,#1a5c2a,#0d3a1f); border:1px solid rgba(107,201,107,0.4); color:var(--green); font-weight:600; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Barlow',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; transition:all 0.2s; }
+    .btn-publicar:hover { background:linear-gradient(135deg,#2a7c3a,#1a5c2a); border-color:var(--green); }
+    .btn-publicar:disabled { opacity:0.5; cursor:not-allowed; }
+    .generar-app-status { font-size:12px; color:var(--muted); margin-top:10px; min-height:20px; }
+    .generar-app-status.thinking { color:var(--blue); }
+    .generar-app-status.done { color:var(--green); }
+    .generar-app-status.err { color:var(--red); }
+    .app-py-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
   </style>
 </head>
 <body>
@@ -276,6 +293,44 @@
           ✅ Confirmar pago 2 y crear repo GitHub
         </button>
         <div id="confirmarPago2Status" style="font-size:12px;color:var(--muted);margin-top:8px;min-height:18px;"></div>
+      </div>
+
+      <!-- ── Generar app.py con IA ──────────────────────────────────── -->
+      <div id="generarAppBlock" style="display:none; margin-bottom:20px;">
+        <div class="generar-app-section">
+          <div class="ai-header">
+            <span class="ai-icon">🤖</span>
+            <span class="ai-title" style="color:var(--blue);">Generar app.py con IA</span>
+          </div>
+          <div class="ai-desc">La IA leerá los archivos del cliente en GitHub y generará un <strong style="color:#a0d0ff;">app.py de Streamlit</strong> personalizado, listo para deplegar.</div>
+
+          <textarea class="ai-context" id="aiContextApp" placeholder="Instrucciones extra (opcional): tipo de gráfico preferido, paleta de colores, KPIs prioritarios..." style="margin-bottom:12px;"></textarea>
+
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <button class="btn btn-ai" id="btnGenerarApp" onclick="generarAppConIA()">✨ Generar app.py con IA</button>
+            <button class="btn" id="btnLimpiarApp" onclick="limpiarApp()" style="display:none;font-size:11px;padding:8px 14px;">↺ Regenerar</button>
+          </div>
+          <div class="generar-app-status" id="generarAppStatus"></div>
+        </div>
+
+        <!-- Editor app.py -->
+        <div id="appPyEditorBlock" style="display:none; margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+            <label style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">📝 app.py generado — revisá y editá antes de publicar</label>
+            <span id="appPyLines" style="font-size:11px;color:var(--muted);"></span>
+          </div>
+          <textarea class="app-py-editor" id="appPyEditor" placeholder="El código app.py aparecerá aquí..."></textarea>
+
+          <div style="margin-top:14px;">
+            <label style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:6px;">🔗 URL de Streamlit (opcional — se enviará al cliente por email)</label>
+            <input type="text" class="streamlit-url-input" id="streamlitUrlInput" placeholder="https://tu-app.streamlit.app">
+          </div>
+
+          <div class="app-py-actions">
+            <button class="btn-publicar" id="btnPublicarApp" onclick="publicarApp()">🚀 Publicar app.py en GitHub</button>
+            <div id="publicarAppStatus" style="font-size:12px;color:var(--muted);min-height:18px;"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Upload app.py -->
@@ -659,6 +714,7 @@ function mostrarSegundaEtapa(order) {
     btnPago2.disabled = true;
     btnPago2.textContent = '✅ Repo creado';
     algoBlock.style.display = 'block';
+    document.getElementById('generarAppBlock').style.display = 'block';
   } else {
     const defaultRepo = `https://github.com/${GITHUB_ORG}/${order.id.toLowerCase()}`;
     repoUrl.textContent = defaultRepo;
@@ -668,6 +724,7 @@ function mostrarSegundaEtapa(order) {
     repoCard.classList.remove('active');
     btnPago2.disabled = order.status !== 'aceptado';
     algoBlock.style.display = 'none';
+    document.getElementById('generarAppBlock').style.display = 'none';
   }
 
   // Reset estado botones
@@ -808,6 +865,7 @@ async function confirmarPago2() {
     st.textContent  = '✅ Repo creado y estructura inicializada.';
     st.style.color  = 'var(--green)';
     document.getElementById('uploadAlgoBlock').style.display = 'block';
+    document.getElementById('generarAppBlock').style.display = 'block';
 
     // Actualizar estado local
     currentOrder.repo_url  = data.repo_url;
@@ -860,6 +918,93 @@ async function pushAlgoritmo() {
   } catch (err) {
     st.textContent = '❌ Error: ' + err.message;
     st.className   = 'upload-algo-status err';
+  }
+}
+
+// ─── GENERAR APP.PY CON IA ────────────────────────────────────────────────────
+async function generarAppConIA() {
+  if (!currentOrder) return;
+  const btn      = document.getElementById('btnGenerarApp');
+  const statusEl = document.getElementById('generarAppStatus');
+  const ctx      = document.getElementById('aiContextApp').value.trim();
+
+  btn.disabled = true; btn.textContent = '⏳ Generando...';
+  statusEl.className = 'generar-app-status thinking';
+  statusEl.textContent = '🔍 La IA está leyendo los archivos del cliente y generando el app.py...';
+
+  try {
+    const res = await fetch(`/api/orders/${currentOrder.id}/generar-app`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminComment: ctx })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+    const editor = document.getElementById('appPyEditor');
+    document.getElementById('appPyEditorBlock').style.display = 'block';
+    await typeText(editor, data.appPy || '');
+
+    const lines = (data.appPy || '').split('\n').length;
+    document.getElementById('appPyLines').textContent = `${lines} líneas`;
+
+    statusEl.className = 'generar-app-status done';
+    statusEl.textContent = `✅ app.py generado${data.archivoUsado && data.archivoUsado !== 'ninguno' ? ` — Archivo usado: "${data.archivoUsado}"` : ' (sin dataset)'}. Revisá el código antes de publicar.`;
+    btn.textContent = '✅ Generado';
+    document.getElementById('btnLimpiarApp').style.display = 'inline-block';
+  } catch (err) {
+    statusEl.className = 'generar-app-status err';
+    statusEl.textContent = `❌ Error: ${err.message}`;
+    btn.disabled = false; btn.textContent = '✨ Generar app.py con IA';
+  }
+}
+
+function limpiarApp() {
+  document.getElementById('appPyEditor').value = '';
+  document.getElementById('appPyEditorBlock').style.display = 'none';
+  document.getElementById('generarAppStatus').textContent = '';
+  document.getElementById('generarAppStatus').className = 'generar-app-status';
+  document.getElementById('btnGenerarApp').disabled = false;
+  document.getElementById('btnGenerarApp').textContent = '✨ Generar app.py con IA';
+  document.getElementById('btnLimpiarApp').style.display = 'none';
+  document.getElementById('publicarAppStatus').textContent = '';
+  document.getElementById('streamlitUrlInput').value = '';
+}
+
+async function publicarApp() {
+  if (!currentOrder) return;
+  const appPy       = document.getElementById('appPyEditor').value.trim();
+  const streamlitUrl = document.getElementById('streamlitUrlInput').value.trim();
+  const btn         = document.getElementById('btnPublicarApp');
+  const statusEl    = document.getElementById('publicarAppStatus');
+
+  if (!appPy) { statusEl.textContent = '⚠️ El editor está vacío. Generá primero el app.py.'; statusEl.style.color = 'var(--red)'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ Publicando...';
+  statusEl.style.color = 'var(--muted)';
+  statusEl.textContent = '🐙 Subiendo app.py al repo GitHub...';
+
+  try {
+    const res = await fetch(`/api/orders/${currentOrder.id}/publicar-app`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ appPy, streamlitUrl })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+    btn.textContent = '✅ Publicado';
+    statusEl.style.color = 'var(--green)';
+    statusEl.textContent = streamlitUrl
+      ? `✅ app.py publicado y URL enviada al cliente por email. Commit: ${(data.commit||'').slice(0,7)}`
+      : `✅ app.py publicado en GitHub. Commit: ${(data.commit||'').slice(0,7)} — Conectá el repo a Streamlit y cargá la URL.`;
+
+    currentOrder.app_py_published = true;
+    loadOrders();
+  } catch (err) {
+    btn.disabled = false; btn.textContent = '🚀 Publicar app.py en GitHub';
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = `❌ Error: ${err.message}`;
   }
 }
 
