@@ -61,8 +61,16 @@ class TestPaginas:
         r = requests.get(f"{base}/comprobante")
         assert r.status_code == 200
 
-    def test_admin(self, base):
+    def test_admin_requiere_auth(self, base):
+        """Sin credenciales debe devolver 401."""
         r = requests.get(f"{base}/admin")
+        assert r.status_code == 401
+
+    def test_admin_con_credenciales(self, base):
+        """Con credenciales correctas debe devolver 200."""
+        user = os.getenv("ADMIN_USER", "admin")
+        pwd  = os.getenv("ADMIN_PASSWORD", "admin")
+        r = requests.get(f"{base}/admin", auth=(user, pwd))
         assert r.status_code == 200
 
     def test_relato(self, base):
