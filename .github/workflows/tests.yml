@@ -25,4 +25,6 @@ jobs:
       - name: Correr tests contra producción
         env:
           BASE_URL: https://www.viny2030.com.ar
+          ADMIN_USER: ${{ secrets.ADMIN_USER }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: pytest test_viny2030.py -v
