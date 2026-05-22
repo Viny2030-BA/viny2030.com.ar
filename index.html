@@ -8,366 +8,129 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy-deep:   #0b1929;
-    --navy:        #0f2340;
-    --navy-mid:    #163158;
-    --navy-light:  #1e4080;
-    --navy-pale:   #2a5298;
-    --sky:         #3b82f6;
-    --gold:        #c9a84c;
-    --gold-light:  #e8c96a;
-    --gold-dim:    #a07830;
-    --white:       #f0eeea;
-    --white-dim:   #c8c4bc;
-    --white-faint: #8a8880;
-    --border:      rgba(255,255,255,0.1);
-    --border-gold: rgba(201,168,76,0.35);
-    --surface:     rgba(255,255,255,0.04);
-    --surface-2:   rgba(255,255,255,0.07);
-    --green:       #4ade80;
-    --green-dim:   rgba(74,222,128,0.15);
+    --navy-deep:#0b1929; --navy:#0f2340; --navy-mid:#163158;
+    --gold:#c9a84c; --gold-light:#e8c96a; --gold-dim:#a07830;
+    --white:#f0eeea; --white-dim:#c8c4bc; --white-faint:#8a8880;
+    --border:rgba(255,255,255,0.1); --border-gold:rgba(201,168,76,0.35);
+    --surface:rgba(255,255,255,0.04); --green:#4ade80;
   }
+  *{margin:0;padding:0;box-sizing:border-box} html{scroll-behavior:smooth}
+  body{background:var(--navy-deep);color:var(--white);font-family:'Source Serif 4',serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
+  /* TOPBAR */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;background:rgba(11,25,41,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:24px}
+  .topbar-logo{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.06em;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .logo-mark{width:26px;height:26px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold)}
+  .topbar-nav{display:flex;gap:24px;list-style:none;align-items:center;flex:1}
+  .topbar-nav a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;color:var(--white-faint);text-decoration:none;transition:color .2s}
+  .topbar-nav a:hover{color:var(--white)}
 
-  body {
-    background: var(--navy-deep);
-    color: var(--white);
-    font-family: 'Source Serif 4', serif;
-    font-size: 16px;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
+  /* LANG SELECTOR */
+  .lang-selector{display:flex;align-items:center;gap:2px;border:1px solid var(--border);padding:3px 5px;flex-shrink:0}
+  .lang-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;color:var(--white-faint);padding:3px 7px;border-radius:1px;transition:all .15s}
+  .lang-btn:hover{color:var(--white)}
+  .lang-btn.active{color:var(--navy-deep);background:var(--gold);font-weight:500}
 
-  /* ── TOPBAR ── */
-  .topbar {
-    position: fixed; top:0; left:0; right:0; z-index:200;
-    height: 56px;
-    background: rgba(11,25,41,0.96);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center;
-    padding: 0 40px;
-    justify-content: space-between;
-  }
-  .topbar-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px; font-weight:500;
-    letter-spacing: 0.06em;
-    color: var(--white); text-decoration:none;
-    display:flex; align-items:center; gap:10px;
-  }
-  .logo-mark {
-    width:28px; height:28px;
-    border: 1.5px solid var(--gold);
-    display:flex; align-items:center; justify-content:center;
-    font-size:13px; color:var(--gold);
-  }
-  .topbar-nav { display:flex; gap:32px; list-style:none; }
-  .topbar-nav a {
-    font-family:'DM Mono',monospace; font-size:11px;
-    letter-spacing:0.06em; color:var(--white-faint);
-    text-decoration:none; transition:color .2s;
-  }
-  .topbar-nav a:hover, .topbar-nav a.active { color:var(--white); }
-  .topbar-cta {
-    font-family:'DM Mono',monospace; font-size:11px;
-    letter-spacing:0.05em; color:var(--navy-deep);
-    background: var(--gold); border:none;
-    padding: 8px 20px; cursor:pointer;
-    text-decoration:none; transition:background .2s;
-  }
-  .topbar-cta:hover { background: var(--gold-light); }
+  .topbar-cta{font-family:'DM Mono',monospace;font-size:11px;color:var(--navy-deep);background:var(--gold);border:none;padding:7px 18px;cursor:pointer;text-decoration:none;transition:background .2s;flex-shrink:0;white-space:nowrap}
+  .topbar-cta:hover{background:var(--gold-light)}
 
-  /* ── HERO ── */
-  .hero {
-    padding-top: 56px;
-    min-height: 100vh;
-    display: flex; flex-direction:column; justify-content:center;
-    position: relative; overflow:hidden;
-  }
-  .hero-bg {
-    position:absolute; inset:0;
-    background:
-      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(30,64,128,0.5) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
-  }
-  .hero-lines {
-    position:absolute; inset:0; pointer-events:none;
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 100% 72px;
-  }
-  .hero-inner {
-    position:relative; z-index:2;
-    max-width:1140px; margin:0 auto;
-    padding: 100px 48px 80px;
-  }
-  .hero-eyebrow {
-    font-family:'DM Mono',monospace; font-size:11px;
-    letter-spacing:0.18em; text-transform:uppercase;
-    color: var(--gold); margin-bottom:24px;
-    display:flex; align-items:center; gap:14px;
-  }
-  .hero-eyebrow::before { content:''; width:40px; height:1px; background:var(--gold); }
+  /* HERO */
+  .hero{padding-top:56px;min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(30,64,128,0.5) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(201,168,76,0.08) 0%,transparent 60%)}
+  .hero-lines{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px);background-size:100% 72px}
+  .hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:100px 48px 80px}
+  .hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+  .hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold)}
+  h1.hero-title{font-family:'Playfair Display',serif;font-size:clamp(40px,5.5vw,72px);font-weight:700;line-height:1.08;color:var(--white);max-width:820px;margin-bottom:28px;letter-spacing:-0.01em}
+  h1.hero-title em{font-style:italic;color:var(--gold-light)}
+  .hero-lead{font-size:17px;font-weight:300;color:var(--white-dim);max-width:560px;margin-bottom:44px;line-height:1.75}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px}
+  .badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;padding:5px 13px;border:1px solid;border-radius:1px}
+  .b-gold{color:var(--gold);border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.07)}
+  .b-sky{color:#93c5fd;border-color:rgba(147,197,253,0.3);background:rgba(147,197,253,0.06)}
+  .b-green{color:var(--green);border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.06)}
+  .b-dim{color:var(--white-faint);border-color:var(--border);background:var(--surface)}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border-gold);max-width:580px}
+  .stat{padding:20px 24px;border-right:1px solid var(--border-gold)}
+  .stat:last-child{border-right:none}
+  .stat-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:4px}
+  .stat-l{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;color:var(--white-faint);line-height:1.4}
 
-  h1.hero-title {
-    font-family:'Playfair Display',serif;
-    font-size: clamp(40px, 5.5vw, 72px);
-    font-weight:700; line-height:1.08;
-    color: var(--white);
-    max-width: 820px; margin-bottom:28px;
-    letter-spacing:-0.01em;
-  }
-  h1.hero-title em { font-style:italic; color:var(--gold-light); }
+  /* SECTIONS */
+  .sec{padding:80px 0} .sec.alt{background:var(--navy)}
+  .sec-inner{max-width:1140px;margin:0 auto;padding:0 48px}
+  .sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--white-faint);display:flex;align-items:center;gap:14px;margin-bottom:36px}
+  .sec-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:240px}
 
-  .hero-lead {
-    font-size:17px; font-weight:300;
-    color: var(--white-dim);
-    max-width:560px; margin-bottom:44px;
-    line-height:1.75;
-  }
+  /* MONITORS */
+  .monitors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+  .mon-card{background:var(--navy-deep);padding:28px 28px 24px;text-decoration:none;color:inherit;display:block;transition:background .2s}
+  .mon-card:hover{background:var(--navy-mid)}
+  .mon-status{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:livepulse 2.2s infinite}
+  @keyframes livepulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+  .s-live{color:var(--green)} .s-xai{color:var(--gold)} .s-dev{color:var(--white-faint)}
+  .mon-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
+  .mon-desc{font-size:13px;color:var(--white-faint);line-height:1.55;margin-bottom:18px;font-weight:300}
+  .mon-arrow{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);transition:letter-spacing .2s}
+  .mon-card:hover .mon-arrow{letter-spacing:0.12em}
 
-  .hero-badges {
-    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:56px;
-  }
-  .badge {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.06em; padding:5px 13px;
-    border:1px solid; border-radius:1px;
-  }
-  .b-gold  { color:var(--gold);      border-color:rgba(201,168,76,0.4);  background:rgba(201,168,76,0.07); }
-  .b-sky   { color:#93c5fd;          border-color:rgba(147,197,253,0.3); background:rgba(147,197,253,0.06);}
-  .b-green { color:var(--green);     border-color:rgba(74,222,128,0.3);  background:rgba(74,222,128,0.06); }
-  .b-dim   { color:var(--white-faint);border-color:var(--border);         background:var(--surface); }
+  /* CLIENTS */
+  .clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .client-card{border:1px solid var(--border);padding:32px 28px;transition:border-color .2s}
+  .client-card:hover{border-color:var(--gold-dim)}
+  .client-card.feat{border-color:var(--border-gold);background:rgba(201,168,76,0.04)}
+  .client-icon{font-size:26px;margin-bottom:16px}
+  .client-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--white);margin-bottom:10px}
+  .client-desc{font-size:13px;color:var(--white-faint);line-height:1.65;font-weight:300;margin-bottom:24px}
+  .client-btn{font-family:'DM Mono',monospace;font-size:11px;color:var(--white-dim);border:1px solid var(--border);background:transparent;padding:8px 16px;text-decoration:none;display:inline-block;transition:all .2s}
+  .client-btn:hover{color:var(--gold);border-color:var(--border-gold)}
 
-  .hero-stats {
-    display:grid; grid-template-columns:repeat(4,1fr);
-    border:1px solid var(--border-gold); max-width:580px;
-  }
-  .stat {
-    padding:20px 24px;
-    border-right:1px solid var(--border-gold);
-  }
-  .stat:last-child { border-right:none; }
-  .stat-n {
-    font-family:'Playfair Display',serif;
-    font-size:32px; font-weight:700;
-    color:var(--gold-light); line-height:1; margin-bottom:4px;
-  }
-  .stat-l {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.06em; color:var(--white-faint); line-height:1.4;
-  }
+  /* BIZ TABLE */
+  .biz-table{width:100%;border-collapse:collapse;border:1px solid var(--border)}
+  .biz-table thead th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--white-faint);text-align:left;padding:14px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.03)}
+  .biz-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+  .biz-table tbody tr:last-child{border-bottom:none}
+  .biz-table tbody tr:hover{background:var(--surface)}
+  .biz-table td{padding:20px;font-size:13px;color:var(--white-faint);vertical-align:top;font-weight:300}
+  .td-mod{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--white)}
+  .td-tick{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--gold-light);white-space:nowrap}
 
-  /* ── DIVIDER ── */
-  .divider {
-    height:1px; background:var(--border);
-    max-width:1140px; margin:0 auto;
-  }
+  /* ROADMAP */
+  .roadmap{border:1px solid var(--border)}
+  .rm-item{display:grid;grid-template-columns:64px 1fr;border-bottom:1px solid var(--border);transition:background .15s}
+  .rm-item:last-child{border-bottom:none}
+  .rm-item:hover{background:var(--surface)}
+  .rm-num{display:flex;align-items:flex-start;justify-content:center;padding:28px 0;font-family:'DM Mono',monospace;font-size:11px;color:var(--white-faint);border-right:1px solid var(--border)}
+  .rm-body{padding:28px 36px}
+  .rm-phase{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .rm-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--white);margin-bottom:6px}
+  .rm-desc{font-size:13px;color:var(--white-faint);line-height:1.6;font-weight:300}
 
-  /* ── SECTION SHELL ── */
-  .sec { padding: 80px 0; }
-  .sec.alt { background: var(--navy); }
-  .sec-inner { max-width:1140px; margin:0 auto; padding:0 48px; }
+  /* AUTHOR */
+  .author-bar{padding:52px 0;border-top:1px solid var(--border);background:linear-gradient(135deg,var(--navy-mid) 0%,var(--navy-deep) 100%)}
+  .author-inner{max-width:1140px;margin:0 auto;padding:0 48px;display:flex;align-items:center;gap:36px}
+  .author-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--border-gold)}
+  .author-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--white);margin-bottom:6px}
+  .author-bio{font-size:13px;color:var(--white-faint);font-weight:300;line-height:1.6;max-width:580px}
+  .author-links{display:flex;gap:10px;flex-shrink:0;margin-left:auto}
+  .author-link{font-family:'DM Mono',monospace;font-size:11px;color:var(--white-faint);text-decoration:none;border:1px solid var(--border);padding:7px 16px;transition:all .2s}
+  .author-link:hover{color:var(--gold);border-color:var(--border-gold)}
 
-  .sec-label {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--white-faint);
-    display:flex; align-items:center; gap:14px;
-    margin-bottom:36px;
-  }
-  .sec-label::after {
-    content:''; flex:1; height:1px; background:var(--border); max-width:240px;
-  }
+  /* FOOTER */
+  footer{padding:24px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .ft{font-family:'DM Mono',monospace;font-size:11px;color:var(--white-faint)}
+  .ft-links{display:flex;gap:24px}
+  .ft-links a{font-family:'DM Mono',monospace;font-size:11px;color:var(--white-faint);text-decoration:none;transition:color .2s}
+  .ft-links a:hover{color:var(--white-dim)}
 
-  /* ── MONITORS GRID ── */
-  .monitors-grid {
-    display:grid; grid-template-columns:repeat(3,1fr);
-    gap:1px; background:var(--border);
-    border:1px solid var(--border);
-  }
-  .mon-card {
-    background:var(--navy-deep);
-    padding:28px 28px 24px;
-    text-decoration:none; color:inherit;
-    display:block; transition:background .2s;
-    position:relative;
-  }
-  .mon-card:hover { background:var(--navy-mid); }
-  .mon-card.span2 { grid-column:span 2; }
-
-  .mon-status {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.08em; display:flex; align-items:center; gap:8px;
-    margin-bottom:14px;
-  }
-  .live-dot {
-    width:7px; height:7px; border-radius:50%;
-    background:var(--green);
-    animation: livepulse 2.2s infinite;
-  }
-  @keyframes livepulse {
-    0%,100%{ box-shadow:0 0 0 0 rgba(74,222,128,.5); }
-    50%{ box-shadow:0 0 0 5px rgba(74,222,128,0); }
-  }
-  .s-live  { color:var(--green); }
-  .s-xai   { color:var(--gold); }
-  .s-dev   { color:var(--white-faint); }
-
-  .mon-name {
-    font-family:'Playfair Display',serif;
-    font-size:18px; font-weight:600;
-    color:var(--white); margin-bottom:8px;
-  }
-  .mon-desc {
-    font-size:13px; color:var(--white-faint);
-    line-height:1.55; margin-bottom:18px; font-weight:300;
-  }
-  .mon-arrow {
-    font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--gold); transition:letter-spacing .2s;
-  }
-  .mon-card:hover .mon-arrow { letter-spacing:0.12em; }
-
-  /* ── CLIENTS ── */
-  .clients-grid {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
-  }
-  .client-card {
-    border:1px solid var(--border);
-    padding:32px 28px;
-    transition:border-color .2s;
-  }
-  .client-card:hover { border-color:var(--gold-dim); }
-  .client-card.feat { border-color:var(--border-gold); background:rgba(201,168,76,0.04); }
-  .client-icon { font-size:26px; margin-bottom:16px; }
-  .client-name {
-    font-family:'Playfair Display',serif;
-    font-size:20px; font-weight:600; color:var(--white);
-    margin-bottom:10px;
-  }
-  .client-desc {
-    font-size:13px; color:var(--white-faint);
-    line-height:1.65; font-weight:300; margin-bottom:24px;
-  }
-  .client-btn {
-    font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--white-dim); border:1px solid var(--border);
-    background:transparent; padding:8px 16px;
-    text-decoration:none; display:inline-block;
-    transition:all .2s;
-  }
-  .client-btn:hover { color:var(--gold); border-color:var(--border-gold); }
-
-  /* ── BUSINESS TABLE ── */
-  .biz-table {
-    width:100%; border-collapse:collapse;
-    border:1px solid var(--border);
-  }
-  .biz-table thead th {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--white-faint); text-align:left;
-    padding:14px 20px; border-bottom:1px solid var(--border);
-    background:rgba(255,255,255,0.03);
-  }
-  .biz-table tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
-  .biz-table tbody tr:last-child { border-bottom:none; }
-  .biz-table tbody tr:hover { background:var(--surface); }
-  .biz-table td { padding:20px; font-size:13px; color:var(--white-faint); vertical-align:top; font-weight:300; }
-  .td-mod {
-    font-family:'DM Mono',monospace; font-size:12px;
-    font-weight:500; color:var(--white);
-  }
-  .td-tick {
-    font-family:'DM Mono',monospace; font-size:13px;
-    font-weight:500; color:var(--gold-light); white-space:nowrap;
-  }
-
-  /* ── ROADMAP ── */
-  .roadmap { border:1px solid var(--border); }
-  .rm-item {
-    display:grid; grid-template-columns:64px 1fr;
-    border-bottom:1px solid var(--border);
-    transition:background .15s;
-  }
-  .rm-item:last-child { border-bottom:none; }
-  .rm-item:hover { background:var(--surface); }
-  .rm-num {
-    display:flex; align-items:flex-start; justify-content:center;
-    padding:28px 0;
-    font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--white-faint); border-right:1px solid var(--border);
-  }
-  .rm-body { padding:28px 36px; }
-  .rm-phase {
-    font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--gold); margin-bottom:6px;
-  }
-  .rm-title {
-    font-family:'Playfair Display',serif; font-size:17px;
-    font-weight:600; color:var(--white); margin-bottom:6px;
-  }
-  .rm-desc { font-size:13px; color:var(--white-faint); line-height:1.6; font-weight:300; }
-
-  /* ── AUTHOR ── */
-  .author-bar {
-    padding:52px 0;
-    border-top:1px solid var(--border);
-    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
-  }
-  .author-inner {
-    max-width:1140px; margin:0 auto; padding:0 48px;
-    display:flex; align-items:center; gap:36px;
-  }
-  .author-photo {
-    width:72px; height:72px; border-radius:50%;
-    object-fit:cover; flex-shrink:0;
-    border:2px solid var(--border-gold);
-  }
-  .author-name {
-    font-family:'Playfair Display',serif; font-size:19px;
-    font-weight:600; color:var(--white); margin-bottom:6px;
-  }
-  .author-bio { font-size:13px; color:var(--white-faint); font-weight:300; line-height:1.6; max-width:580px; }
-  .author-links { display:flex; gap:10px; flex-shrink:0; margin-left:auto; }
-  .author-link {
-    font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--white-faint); text-decoration:none;
-    border:1px solid var(--border); padding:7px 16px;
-    transition:all .2s;
-  }
-  .author-link:hover { color:var(--gold); border-color:var(--border-gold); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding:24px 48px; border-top:1px solid var(--border);
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .ft { font-family:'DM Mono',monospace; font-size:11px; color:var(--white-faint); }
-  .ft-links { display:flex; gap:24px; }
-  .ft-links a {
-    font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--white-faint); text-decoration:none; transition:color .2s;
-  }
-  .ft-links a:hover { color:var(--white-dim); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(18px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  .a { animation:fadeUp .65s ease forwards; opacity:0; }
-  .d1{animation-delay:.1s} .d2{animation-delay:.22s}
-  .d3{animation-delay:.34s} .d4{animation-delay:.46s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .a{animation:fadeUp .65s ease forwards;opacity:0}
+  .d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}
 
   @media(max-width:900px){
     .topbar-nav{display:none}
     .monitors-grid{grid-template-columns:1fr}
-    .mon-card.span2{grid-column:span 1}
     .clients-grid{grid-template-columns:1fr}
     .hero-stats{grid-template-columns:repeat(2,1fr)}
     .author-inner{flex-direction:column;text-align:center}
@@ -384,13 +147,21 @@
     TRANSPARENCIA.AR
   </a>
   <ul class="topbar-nav">
-    <li><a href="#monitores">Monitores</a></li>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#negocio">Modelo</a></li>
-    <li><a href="contratos.html">Contratos</a></li>
-    <li><a href="https://mapatransparencia-production.up.railway.app/" target="_blank">→ Mapa en vivo</a></li>
+    <li><a href="#monitores" data-i18n="nav_monitors">Monitores</a></li>
+    <li><a href="#servicios" data-i18n="nav_services">Servicios</a></li>
+    <li><a href="#negocio" data-i18n="nav_model">Modelo</a></li>
+    <li><a href="contratos.html" data-i18n="nav_contracts">Contratos</a></li>
+    <li><a href="https://mapatransparencia-production.up.railway.app/" target="_blank">→ Mapa</a></li>
   </ul>
-  <a href="mailto:vhmonte@retina.ar" class="topbar-cta">Contactar</a>
+  <div class="lang-selector">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+  <a href="mailto:vhmonte@retina.ar" class="topbar-cta" data-i18n="nav_contact">Contactar</a>
 </nav>
 
 <!-- HERO -->
@@ -398,26 +169,27 @@
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow a d1">Servicios algorítmicos de transparencia institucional</div>
+    <div class="hero-eyebrow a d1" data-i18n="hero_eyebrow">Servicios algorítmicos de transparencia institucional</div>
     <h1 class="hero-title a d2">
-      Tecnología de auditoría<br>para el <em>Estado argentino</em>
+      <span data-i18n="hero_title1">Tecnología de auditoría</span><br>
+      <span data-i18n="hero_title2_pre">para el </span><em data-i18n="hero_title2_em">Estado transparente</em>
     </h1>
-    <p class="hero-lead a d3">
+    <p class="hero-lead a d3" data-i18n="hero_lead">
       Plataformas de monitoreo llave en mano para gobiernos y organizaciones.
       7 monitores activos cubriendo los 3 poderes del Estado, con base científica
-      publicada en <em>Journal of Financial Crime</em>.
+      publicada en Journal of Financial Crime.
     </p>
     <div class="hero-badges a d3">
-      <span class="badge b-green">7 monitores en producción</span>
-      <span class="badge b-gold">Base académica (Ph.D.)</span>
-      <span class="badge b-sky">XAI explicable</span>
-      <span class="badge b-dim">Datos oficiales · actualización diaria</span>
+      <span class="badge b-green" data-i18n="badge1">7 monitores en producción</span>
+      <span class="badge b-gold" data-i18n="badge2">Base académica (Ph.D.)</span>
+      <span class="badge b-sky" data-i18n="badge3">XAI explicable</span>
+      <span class="badge b-dim" data-i18n="badge4">Datos oficiales · actualización diaria</span>
     </div>
     <div class="hero-stats a d4">
-      <div class="stat"><div class="stat-n">7</div><div class="stat-l">Monitores<br>activos</div></div>
-      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Poderes del<br>Estado</div></div>
-      <div class="stat"><div class="stat-n">2.3k</div><div class="stat-l">Municipios<br>alcanzables</div></div>
-      <div class="stat"><div class="stat-n">XAI</div><div class="stat-l">Algoritmo<br>propio</div></div>
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l" data-i18n="stat1">Monitores<br>activos</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l" data-i18n="stat2">Poderes del<br>Estado</div></div>
+      <div class="stat"><div class="stat-n">2.3k</div><div class="stat-l" data-i18n="stat3">Municipios<br>alcanzables</div></div>
+      <div class="stat"><div class="stat-n">XAI</div><div class="stat-l" data-i18n="stat4">Algoritmo<br>propio</div></div>
     </div>
   </div>
 </section>
@@ -425,50 +197,43 @@
 <!-- MONITORS -->
 <section class="sec alt" id="monitores">
   <div class="sec-inner">
-    <div class="sec-label">Lo que ya tenés construido — activos diferenciadores</div>
+    <div class="sec-label" data-i18n="sec_monitors">Lo que ya tenés construido — activos diferenciadores</div>
     <div class="monitors-grid">
-
       <a href="https://jefaturagabinete-production.up.railway.app" target="_blank" class="mon-card">
-        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
-        <div class="mon-name">Monitor Ejecutivo</div>
-        <div class="mon-desc">JGM · SGP · Presidencia · Nómina · Contratos · Alertas en tiempo real</div>
-        <div class="mon-arrow">Abrir →</div>
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live" data-i18n="tag_live">EN VIVO</span></div>
+        <div class="mon-name" data-i18n="mon1_name">Monitor Ejecutivo</div>
+        <div class="mon-desc" data-i18n="mon1_desc">JGM · SGP · Presidencia · Nómina · Contratos · Alertas en tiempo real</div>
+        <div class="mon-arrow" data-i18n="open_arrow">Abrir →</div>
       </a>
-
       <a href="https://gobbocomprartgn-production.up.railway.app" target="_blank" class="mon-card">
-        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span>&nbsp;<span class="s-xai">· XAI</span></div>
-        <div class="mon-name">Monitor de Contratos v1 y v2</div>
-        <div class="mon-desc">COMPR.AR · TGN · BORA · Detección XAI de irregularidades</div>
-        <div class="mon-arrow">Abrir →</div>
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live" data-i18n="tag_live">EN VIVO</span>&nbsp;<span class="s-xai">· XAI</span></div>
+        <div class="mon-name" data-i18n="mon2_name">Monitor de Contratos v1 y v2</div>
+        <div class="mon-desc" data-i18n="mon2_desc">COMPR.AR · TGN · BORA · Detección XAI de irregularidades</div>
+        <div class="mon-arrow" data-i18n="open_arrow">Abrir →</div>
       </a>
-
       <a href="https://monitorlegistativo-production.up.railway.app" target="_blank" class="mon-card">
-        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
-        <div class="mon-name">Monitor Legislativo</div>
-        <div class="mon-desc">Diputados y Senadores · ICE · Asistencia · Costo per cápita</div>
-        <div class="mon-arrow">Abrir →</div>
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live" data-i18n="tag_live">EN VIVO</span></div>
+        <div class="mon-name" data-i18n="mon3_name">Monitor Legislativo</div>
+        <div class="mon-desc" data-i18n="mon3_desc">Diputados y Senadores · ICE · Asistencia · Costo per cápita</div>
+        <div class="mon-arrow" data-i18n="open_arrow">Abrir →</div>
       </a>
-
       <a href="https://justicia-production-6a54.up.railway.app" target="_blank" class="mon-card">
-        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
-        <div class="mon-name">Monitor Judicial</div>
-        <div class="mon-desc">CSJN · Magistratura · Cámaras · Juzgados federales · IRA</div>
-        <div class="mon-arrow">Abrir →</div>
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live" data-i18n="tag_live">EN VIVO</span></div>
+        <div class="mon-name" data-i18n="mon4_name">Monitor Judicial</div>
+        <div class="mon-desc" data-i18n="mon4_desc">CSJN · Magistratura · Cámaras · Juzgados federales · IRA</div>
+        <div class="mon-arrow" data-i18n="open_arrow">Abrir →</div>
       </a>
-
       <a href="https://monitor-production-f053.up.railway.app" target="_blank" class="mon-card">
-        <div class="mon-status"><span class="s-xai">ALGORITMO PROPIO</span></div>
-        <div class="mon-name">Índice IRI</div>
-        <div class="mon-desc">Score compuesto: R_Financiero · R_Contratación · R_Operativo · R_Datos</div>
-        <div class="mon-arrow">Abrir →</div>
+        <div class="mon-status"><span class="s-xai" data-i18n="tag_own">ALGORITMO PROPIO</span></div>
+        <div class="mon-name" data-i18n="mon5_name">Índice IRI</div>
+        <div class="mon-desc" data-i18n="mon5_desc">Score compuesto: R_Financiero · R_Contratación · R_Operativo · R_Datos</div>
+        <div class="mon-arrow" data-i18n="open_arrow">Abrir →</div>
       </a>
-
       <div class="mon-card" style="opacity:.4;cursor:default;">
-        <div class="mon-status"><span class="s-dev">EN DESARROLLO</span></div>
-        <div class="mon-name">Monitor Ajuste Presupuestario</div>
-        <div class="mon-desc">Ejecución vs aprobado · Ajuste por inflación · Modificaciones de partidas</div>
+        <div class="mon-status"><span class="s-dev" data-i18n="tag_dev">EN DESARROLLO</span></div>
+        <div class="mon-name" data-i18n="mon6_name">Monitor Ajuste Presupuestario</div>
+        <div class="mon-desc" data-i18n="mon6_desc">Ejecución vs aprobado · Ajuste por inflación · Modificaciones de partidas</div>
       </div>
-
     </div>
   </div>
 </section>
@@ -476,25 +241,25 @@
 <!-- CLIENTS -->
 <section class="sec" id="servicios">
   <div class="sec-inner">
-    <div class="sec-label">Segmentos de clientes</div>
+    <div class="sec-label" data-i18n="sec_clients">Segmentos de clientes</div>
     <div class="clients-grid">
       <div class="client-card feat">
         <div class="client-icon">🏘️</div>
-        <div class="client-name">Municipios</div>
-        <div class="client-desc">Monitor de contratos locales, nómina, ejecución presupuestaria, semáforo IRI adaptado. Mercado masivo — más de 2.300 municipios en Argentina.</div>
-        <a href="contratos.html#nacional" class="client-btn">Ver oferta →</a>
+        <div class="client-name" data-i18n="cl1_name">Municipios</div>
+        <div class="client-desc" data-i18n="cl1_desc">Monitor de contratos locales, nómina, ejecución presupuestaria, semáforo IRI adaptado. Mercado masivo — más de 2.300 municipios en Argentina.</div>
+        <a href="contratos.html#nacional" class="client-btn" data-i18n="see_offer">Ver oferta →</a>
       </div>
       <div class="client-card">
         <div class="client-icon">🏛️</div>
-        <div class="client-name">Provincias y Nación</div>
-        <div class="client-desc">Plataformas completas: legislativo, judicial, ejecutivo, IRI. Contratos de mayor escala y duración.</div>
-        <a href="contratos.html#nacional" class="client-btn">Ver oferta →</a>
+        <div class="client-name" data-i18n="cl2_name">Provincias y Nación</div>
+        <div class="client-desc" data-i18n="cl2_desc">Plataformas completas: legislativo, judicial, ejecutivo, IRI. Contratos de mayor escala y duración.</div>
+        <a href="contratos.html#nacional" class="client-btn" data-i18n="see_offer">Ver oferta →</a>
       </div>
       <div class="client-card">
         <div class="client-icon">🏢</div>
-        <div class="client-name">Empresas privadas</div>
-        <div class="client-desc">Due diligence de contrapartes, monitoreo de riesgo institucional, auditoría de proveedores del Estado.</div>
-        <a href="contratos.html#internacional" class="client-btn">Ver oferta →</a>
+        <div class="client-name" data-i18n="cl3_name">Empresas privadas</div>
+        <div class="client-desc" data-i18n="cl3_desc">Due diligence de contrapartes, monitoreo de riesgo institucional, auditoría de proveedores del Estado.</div>
+        <a href="contratos.html#internacional" class="client-btn" data-i18n="see_offer">Ver oferta →</a>
       </div>
     </div>
   </div>
@@ -503,37 +268,39 @@
 <!-- BUSINESS MODEL -->
 <section class="sec alt" id="negocio">
   <div class="sec-inner">
-    <div class="sec-label">Modelo de negocio combinado</div>
+    <div class="sec-label" data-i18n="sec_model">Modelo de negocio combinado</div>
     <table class="biz-table">
       <thead>
         <tr>
-          <th>Modalidad</th><th>Descripción</th>
-          <th>Cliente típico</th><th>Ticket estimado</th>
+          <th data-i18n="th_modality">Modalidad</th>
+          <th data-i18n="th_desc">Descripción</th>
+          <th data-i18n="th_client">Cliente típico</th>
+          <th data-i18n="th_ticket">Ticket estimado</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><div class="td-mod">Llave en mano</div></td>
-          <td>Implementación de plataforma propia. Setup + branding + datos locales.</td>
-          <td>Municipios, provincias</td>
+          <td><div class="td-mod" data-i18n="biz1_mod">Llave en mano</div></td>
+          <td data-i18n="biz1_desc">Implementación de plataforma propia. Setup + branding + datos locales.</td>
+          <td data-i18n="biz1_client">Municipios, provincias</td>
           <td class="td-tick">USD 5k–50k</td>
         </tr>
         <tr>
-          <td><div class="td-mod">SaaS mensual</div></td>
-          <td>Acceso a los monitores como servicio. Actualización continua incluida.</td>
-          <td>Organismos chicos, ONGs</td>
+          <td><div class="td-mod" data-i18n="biz2_mod">SaaS mensual</div></td>
+          <td data-i18n="biz2_desc">Acceso a los monitores como servicio. Actualización continua incluida.</td>
+          <td data-i18n="biz2_client">Organismos chicos, ONGs</td>
           <td class="td-tick">USD 250–500/mes</td>
         </tr>
         <tr>
-          <td><div class="td-mod">Consultoría + licencia</div></td>
-          <td>Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.</td>
-          <td>Provincias, empresas grandes</td>
+          <td><div class="td-mod" data-i18n="biz3_mod">Consultoría + licencia</div></td>
+          <td data-i18n="biz3_desc">Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.</td>
+          <td data-i18n="biz3_client">Provincias, empresas grandes</td>
           <td class="td-tick">USD 10k–30k</td>
         </tr>
         <tr>
-          <td><div class="td-mod">Informes a demanda</div></td>
-          <td>Análisis específico de riesgo de un organismo, empresa o contrato.</td>
-          <td>Empresas privadas medianas</td>
+          <td><div class="td-mod" data-i18n="biz4_mod">Informes a demanda</div></td>
+          <td data-i18n="biz4_desc">Análisis específico de riesgo de un organismo, empresa o contrato.</td>
+          <td data-i18n="biz4_client">Empresas privadas medianas</td>
           <td class="td-tick">USD 500–5k c/informe</td>
         </tr>
       </tbody>
@@ -544,38 +311,38 @@
 <!-- ROADMAP -->
 <section class="sec" id="ruta">
   <div class="sec-inner">
-    <div class="sec-label">Hoja de ruta</div>
+    <div class="sec-label" data-i18n="sec_roadmap">Hoja de ruta</div>
     <div class="roadmap">
       <div class="rm-item">
         <div class="rm-num">01</div>
         <div class="rm-body">
-          <div class="rm-phase">Fase actual</div>
-          <div class="rm-title">Completar la plataforma base</div>
-          <div class="rm-desc">Integrar el monitor de ajuste presupuestario. Pulir el Mapa de Transparencia como hub central. Documentar la API para clientes.</div>
+          <div class="rm-phase" data-i18n="rm1_phase">Fase actual</div>
+          <div class="rm-title" data-i18n="rm1_title">Completar la plataforma base</div>
+          <div class="rm-desc" data-i18n="rm1_desc">Integrar el monitor de ajuste presupuestario. Pulir el Mapa de Transparencia como hub central. Documentar la API para clientes.</div>
         </div>
       </div>
       <div class="rm-item">
         <div class="rm-num">02</div>
         <div class="rm-body">
-          <div class="rm-phase">Próximo paso</div>
-          <div class="rm-title">Lanzamiento comercial y propuesta institucional</div>
-          <div class="rm-desc">Sitio orientado a vender el servicio. Deck ejecutivo para municipios y provincias. Casos de uso concretos.</div>
+          <div class="rm-phase" data-i18n="rm2_phase">Próximo paso</div>
+          <div class="rm-title" data-i18n="rm2_title">Lanzamiento comercial y propuesta institucional</div>
+          <div class="rm-desc" data-i18n="rm2_desc">Sitio orientado a vender el servicio. Deck ejecutivo para municipios y provincias. Casos de uso concretos.</div>
         </div>
       </div>
       <div class="rm-item">
         <div class="rm-num">03</div>
         <div class="rm-body">
-          <div class="rm-phase">Validación</div>
-          <div class="rm-title">Primer cliente piloto</div>
-          <div class="rm-desc">Un municipio o provincia como caso testigo. Implementación a precio de costo a cambio de testimonio y visibilidad.</div>
+          <div class="rm-phase" data-i18n="rm3_phase">Validación</div>
+          <div class="rm-title" data-i18n="rm3_title">Primer cliente piloto</div>
+          <div class="rm-desc" data-i18n="rm3_desc">Un municipio o provincia como caso testigo. Implementación a precio de costo a cambio de testimonio y visibilidad.</div>
         </div>
       </div>
       <div class="rm-item">
         <div class="rm-num">04</div>
         <div class="rm-body">
-          <div class="rm-phase">Escala</div>
-          <div class="rm-title">Escalar a otros niveles y sector privado</div>
-          <div class="rm-desc">Abrir la oferta a más organismos y sumar el segmento empresas: due diligence, auditoría de cadena de valor.</div>
+          <div class="rm-phase" data-i18n="rm4_phase">Escala</div>
+          <div class="rm-title" data-i18n="rm4_title">Escalar a otros niveles y sector privado</div>
+          <div class="rm-desc" data-i18n="rm4_desc">Abrir la oferta a más organismos y sumar el segmento empresas: due diligence, auditoría de cadena de valor.</div>
         </div>
       </div>
     </div>
@@ -585,11 +352,10 @@
 <!-- AUTHOR -->
 <div class="author-bar">
   <div class="author-inner">
-    <img src="https://raw.githubusercontent.com/Viny2030/Mapa_Transparencia/main/foto.jpg"
-         alt="Ph.D. Vicente Humberto Monteverde" class="author-photo">
+    <img src="https://raw.githubusercontent.com/Viny2030/Mapa_Transparencia/main/foto.jpg" alt="Ph.D. Vicente Humberto Monteverde" class="author-photo">
     <div>
       <div class="author-name">Ph.D. Vicente Humberto Monteverde</div>
-      <div class="author-bio">Investigador en economía política y fenómenos de corrupción. Doctor en Ciencias Económicas. Publicaciones en <em>Journal of Financial Crime</em> (Emerald Publishing). Asesor en transparencia y auditoría algorítmica del gasto público.</div>
+      <div class="author-bio" data-i18n="author_bio">Investigador en economía política y fenómenos de corrupción. Doctor en Ciencias Económicas. Publicaciones en Journal of Financial Crime (Emerald Publishing). Asesor en transparencia y auditoría algorítmica del gasto público.</div>
     </div>
     <div class="author-links">
       <a href="mailto:vhmonte@retina.ar" class="author-link">✉ Email</a>
@@ -603,10 +369,254 @@
   <div class="ft-links">
     <a href="https://mapatransparencia-production.up.railway.app/docs" target="_blank">API Docs</a>
     <a href="https://mapatransparencia-production.up.railway.app/en" target="_blank">English</a>
-    <a href="contratos.html">Contratos</a>
-    <a href="mailto:vhmonte@retina.ar">Contacto</a>
+    <a href="contratos.html" data-i18n="nav_contracts">Contratos</a>
+    <a href="mailto:vhmonte@retina.ar" data-i18n="nav_contact">Contacto</a>
   </div>
 </footer>
 
+<script>
+const i18n = {
+  es: {
+    nav_monitors:"Monitores", nav_services:"Servicios", nav_model:"Modelo",
+    nav_contracts:"Contratos", nav_contact:"Contactar",
+    hero_eyebrow:"Servicios algorítmicos de transparencia institucional",
+    hero_title1:"Tecnología de auditoría", hero_title2_pre:"para el ",
+    hero_title2_em:"Estado transparente",
+    hero_lead:"Plataformas de monitoreo llave en mano para gobiernos y organizaciones. 7 monitores activos cubriendo los 3 poderes del Estado, con base científica publicada en Journal of Financial Crime.",
+    badge1:"7 monitores en producción", badge2:"Base académica (Ph.D.)",
+    badge3:"XAI explicable", badge4:"Datos oficiales · actualización diaria",
+    stat1:"Monitores<br>activos", stat2:"Poderes del<br>Estado",
+    stat3:"Municipios<br>alcanzables", stat4:"Algoritmo<br>propio",
+    sec_monitors:"Lo que ya tenés construido — activos diferenciadores",
+    tag_live:"EN VIVO", tag_own:"ALGORITMO PROPIO", tag_dev:"EN DESARROLLO",
+    open_arrow:"Abrir →",
+    mon1_name:"Monitor Ejecutivo", mon1_desc:"JGM · SGP · Presidencia · Nómina · Contratos · Alertas en tiempo real",
+    mon2_name:"Monitor de Contratos v1 y v2", mon2_desc:"COMPR.AR · TGN · BORA · Detección XAI de irregularidades",
+    mon3_name:"Monitor Legislativo", mon3_desc:"Diputados y Senadores · ICE · Asistencia · Costo per cápita",
+    mon4_name:"Monitor Judicial", mon4_desc:"CSJN · Magistratura · Cámaras · Juzgados federales · IRA",
+    mon5_name:"Índice IRI", mon5_desc:"Score compuesto: R_Financiero · R_Contratación · R_Operativo · R_Datos",
+    mon6_name:"Monitor Ajuste Presupuestario", mon6_desc:"Ejecución vs aprobado · Ajuste por inflación · Modificaciones de partidas",
+    sec_clients:"Segmentos de clientes",
+    cl1_name:"Municipios", cl1_desc:"Monitor de contratos locales, nómina, ejecución presupuestaria, semáforo IRI adaptado. Mercado masivo — más de 2.300 municipios en Argentina.",
+    cl2_name:"Provincias y Nación", cl2_desc:"Plataformas completas: legislativo, judicial, ejecutivo, IRI. Contratos de mayor escala y duración.",
+    cl3_name:"Empresas privadas", cl3_desc:"Due diligence de contrapartes, monitoreo de riesgo institucional, auditoría de proveedores del Estado.",
+    see_offer:"Ver oferta →",
+    sec_model:"Modelo de negocio combinado",
+    th_modality:"Modalidad", th_desc:"Descripción", th_client:"Cliente típico", th_ticket:"Ticket estimado",
+    biz1_mod:"Llave en mano", biz1_desc:"Implementación de plataforma propia. Setup + branding + datos locales.", biz1_client:"Municipios, provincias",
+    biz2_mod:"SaaS mensual", biz2_desc:"Acceso a los monitores como servicio. Actualización continua incluida.", biz2_client:"Organismos chicos, ONGs",
+    biz3_mod:"Consultoría + licencia", biz3_desc:"Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.", biz3_client:"Provincias, empresas grandes",
+    biz4_mod:"Informes a demanda", biz4_desc:"Análisis específico de riesgo de un organismo, empresa o contrato.", biz4_client:"Empresas privadas medianas",
+    sec_roadmap:"Hoja de ruta",
+    rm1_phase:"Fase actual", rm1_title:"Completar la plataforma base", rm1_desc:"Integrar el monitor de ajuste presupuestario. Pulir el Mapa de Transparencia como hub central. Documentar la API para clientes.",
+    rm2_phase:"Próximo paso", rm2_title:"Lanzamiento comercial y propuesta institucional", rm2_desc:"Sitio orientado a vender el servicio. Deck ejecutivo para municipios y provincias. Casos de uso concretos.",
+    rm3_phase:"Validación", rm3_title:"Primer cliente piloto", rm3_desc:"Un municipio o provincia como caso testigo. Implementación a precio de costo a cambio de testimonio y visibilidad.",
+    rm4_phase:"Escala", rm4_title:"Escalar a otros niveles y sector privado", rm4_desc:"Abrir la oferta a más organismos y sumar el segmento empresas: due diligence, auditoría de cadena de valor.",
+    author_bio:"Investigador en economía política y fenómenos de corrupción. Doctor en Ciencias Económicas. Publicaciones en Journal of Financial Crime (Emerald Publishing). Asesor en transparencia y auditoría algorítmica del gasto público."
+  },
+  en: {
+    nav_monitors:"Monitors", nav_services:"Services", nav_model:"Model",
+    nav_contracts:"Contracts", nav_contact:"Contact",
+    hero_eyebrow:"Algorithmic institutional transparency services",
+    hero_title1:"Audit technology", hero_title2_pre:"for the ",
+    hero_title2_em:"transparent State",
+    hero_lead:"Turnkey monitoring platforms for governments and organizations. 7 active monitors covering the 3 branches of government, with scientific basis published in the Journal of Financial Crime.",
+    badge1:"7 monitors in production", badge2:"Academic basis (Ph.D.)",
+    badge3:"Explainable XAI", badge4:"Official data · daily updates",
+    stat1:"Active<br>monitors", stat2:"Branches of<br>government",
+    stat3:"Reachable<br>municipalities", stat4:"Own<br>algorithm",
+    sec_monitors:"What's already built — differentiating assets",
+    tag_live:"LIVE", tag_own:"OWN ALGORITHM", tag_dev:"IN DEVELOPMENT",
+    open_arrow:"Open →",
+    mon1_name:"Executive Monitor", mon1_desc:"Chief of Staff · SGP · Presidency · Payroll · Contracts · Real-time alerts",
+    mon2_name:"Contracts Monitor v1 & v2", mon2_desc:"COMPR.AR · TGN · BORA · XAI detection of irregularities",
+    mon3_name:"Legislative Monitor", mon3_desc:"Deputies & Senators · ICE · Attendance · Cost per capita",
+    mon4_name:"Judicial Monitor", mon4_desc:"Supreme Court · Magistracy · Chambers · Federal courts · IRA",
+    mon5_name:"IRI Index", mon5_desc:"Composite score: R_Financial · R_Procurement · R_Operational · R_Data",
+    mon6_name:"Budget Adjustment Monitor", mon6_desc:"Execution vs approved · Inflation adjustment · Budget modifications",
+    sec_clients:"Client segments",
+    cl1_name:"Municipalities", cl1_desc:"Local contract monitor, payroll, budget execution, adapted IRI traffic light. Mass market — over 2,300 municipalities in Argentina.",
+    cl2_name:"Provinces & National", cl2_desc:"Full platforms: legislative, judicial, executive, IRI. Larger-scale and longer-duration contracts.",
+    cl3_name:"Private companies", cl3_desc:"Counterparty due diligence, institutional risk monitoring, state supplier auditing.",
+    see_offer:"See offer →",
+    sec_model:"Combined business model",
+    th_modality:"Modality", th_desc:"Description", th_client:"Typical client", th_ticket:"Estimated ticket",
+    biz1_mod:"Turnkey", biz1_desc:"Own platform implementation. Setup + branding + local data.", biz1_client:"Municipalities, provinces",
+    biz2_mod:"Monthly SaaS", biz2_desc:"Access to monitors as a service. Continuous updates included.", biz2_client:"Small agencies, NGOs",
+    biz3_mod:"Consulting + license", biz3_desc:"Strategic advisory + XAI algorithm license for internal use.", biz3_client:"Provinces, large companies",
+    biz4_mod:"On-demand reports", biz4_desc:"Specific risk analysis of an agency, company or contract.", biz4_client:"Mid-size private companies",
+    sec_roadmap:"Roadmap",
+    rm1_phase:"Current phase", rm1_title:"Complete the base platform", rm1_desc:"Integrate the budget adjustment monitor. Polish the Transparency Map as the central hub. Document the API for clients.",
+    rm2_phase:"Next step", rm2_title:"Commercial launch and institutional proposal", rm2_desc:"Site oriented to selling the service. Executive deck for municipalities and provinces. Concrete use cases.",
+    rm3_phase:"Validation", rm3_title:"First pilot client", rm3_desc:"A municipality or province as a test case. Implementation at cost in exchange for testimonial and visibility.",
+    rm4_phase:"Scale", rm4_title:"Scale to other levels and private sector", rm4_desc:"Open the offer to more agencies and add the corporate segment: due diligence, value chain auditing.",
+    author_bio:"Researcher in political economy and corruption phenomena. Doctor of Economic Sciences. Publications in Journal of Financial Crime (Emerald Publishing). Advisor on transparency and algorithmic public spending auditing."
+  },
+  fr: {
+    nav_monitors:"Moniteurs", nav_services:"Services", nav_model:"Modèle",
+    nav_contracts:"Contrats", nav_contact:"Contact",
+    hero_eyebrow:"Services algorithmiques de transparence institutionnelle",
+    hero_title1:"Technologie d'audit", hero_title2_pre:"pour l'",
+    hero_title2_em:"État transparent",
+    hero_lead:"Plateformes de monitoring clés en main pour gouvernements et organisations. 7 moniteurs actifs couvrant les 3 pouvoirs de l'État, avec base scientifique publiée dans le Journal of Financial Crime.",
+    badge1:"7 moniteurs en production", badge2:"Base académique (Ph.D.)",
+    badge3:"XAI explicable", badge4:"Données officielles · mise à jour quotidienne",
+    stat1:"Moniteurs<br>actifs", stat2:"Pouvoirs de<br>l'État",
+    stat3:"Municipalités<br>accessibles", stat4:"Algorithme<br>propre",
+    sec_monitors:"Ce qui est déjà construit — actifs différenciateurs",
+    tag_live:"EN DIRECT", tag_own:"ALGORITHME PROPRE", tag_dev:"EN DÉVELOPPEMENT",
+    open_arrow:"Ouvrir →",
+    mon1_name:"Moniteur Exécutif", mon1_desc:"Chef de cabinet · SGP · Présidence · Masse salariale · Contrats · Alertes en temps réel",
+    mon2_name:"Moniteur Contrats v1 et v2", mon2_desc:"COMPR.AR · TGN · BORA · Détection XAI d'irrégularités",
+    mon3_name:"Moniteur Législatif", mon3_desc:"Députés et Sénateurs · ICE · Présence · Coût par habitant",
+    mon4_name:"Moniteur Judiciaire", mon4_desc:"Cour Suprême · Magistrature · Chambres · Tribunaux fédéraux · IRA",
+    mon5_name:"Indice IRI", mon5_desc:"Score composite: R_Financier · R_Marchés · R_Opérationnel · R_Données",
+    mon6_name:"Moniteur Ajustement Budgétaire", mon6_desc:"Exécution vs approuvé · Ajustement inflation · Modifications de budget",
+    sec_clients:"Segments de clients",
+    cl1_name:"Municipalités", cl1_desc:"Moniteur de contrats locaux, masse salariale, exécution budgétaire, feu tricolore IRI adapté. Marché de masse.",
+    cl2_name:"Provinces et État national", cl2_desc:"Plateformes complètes: législatif, judiciaire, exécutif, IRI. Contrats de plus grande échelle.",
+    cl3_name:"Entreprises privées", cl3_desc:"Due diligence de contreparties, surveillance des risques institutionnels, audit des fournisseurs de l'État.",
+    see_offer:"Voir l'offre →",
+    sec_model:"Modèle économique combiné",
+    th_modality:"Modalité", th_desc:"Description", th_client:"Client typique", th_ticket:"Ticket estimé",
+    biz1_mod:"Clé en main", biz1_desc:"Implémentation de plateforme propre. Setup + branding + données locales.", biz1_client:"Municipalités, provinces",
+    biz2_mod:"SaaS mensuel", biz2_desc:"Accès aux moniteurs comme service. Mises à jour continues incluses.", biz2_client:"Petits organismes, ONG",
+    biz3_mod:"Conseil + licence", biz3_desc:"Conseil stratégique + licence de l'algorithme XAI pour usage interne.", biz3_client:"Provinces, grandes entreprises",
+    biz4_mod:"Rapports à la demande", biz4_desc:"Analyse spécifique du risque d'un organisme, entreprise ou contrat.", biz4_client:"PME privées",
+    sec_roadmap:"Feuille de route",
+    rm1_phase:"Phase actuelle", rm1_title:"Compléter la plateforme de base", rm1_desc:"Intégrer le moniteur d'ajustement budgétaire. Peaufiner la Carte de Transparence comme hub central.",
+    rm2_phase:"Prochaine étape", rm2_title:"Lancement commercial et proposition institutionnelle", rm2_desc:"Site orienté vers la vente du service. Deck exécutif pour municipalités et provinces.",
+    rm3_phase:"Validation", rm3_title:"Premier client pilote", rm3_desc:"Une municipalité ou province comme cas test. Implémentation à prix coûtant en échange d'un témoignage.",
+    rm4_phase:"Échelle", rm4_title:"Élargir aux autres niveaux et au secteur privé", rm4_desc:"Ouvrir l'offre à plus d'organismes et ajouter le segment entreprises: due diligence, audit de chaîne de valeur.",
+    author_bio:"Chercheur en économie politique et phénomènes de corruption. Docteur en Sciences Économiques. Publications dans le Journal of Financial Crime (Emerald Publishing). Conseiller en transparence et audit algorithmique des dépenses publiques."
+  },
+  de: {
+    nav_monitors:"Monitore", nav_services:"Dienste", nav_model:"Modell",
+    nav_contracts:"Verträge", nav_contact:"Kontakt",
+    hero_eyebrow:"Algorithmische institutionelle Transparenzdienstleistungen",
+    hero_title1:"Prüfungstechnologie", hero_title2_pre:"für den ",
+    hero_title2_em:"transparenten Staat",
+    hero_lead:"Schlüsselfertige Überwachungsplattformen für Regierungen und Organisationen. 7 aktive Monitore für alle 3 Staatsgewalten, mit wissenschaftlicher Grundlage im Journal of Financial Crime.",
+    badge1:"7 Monitore in Produktion", badge2:"Akademische Basis (Ph.D.)",
+    badge3:"Erklärbares XAI", badge4:"Offizielle Daten · tägliche Aktualisierung",
+    stat1:"Aktive<br>Monitore", stat2:"Staatsgewalten",
+    stat3:"Erreichbare<br>Gemeinden", stat4:"Eigener<br>Algorithmus",
+    sec_monitors:"Was bereits gebaut ist — differenzierende Assets",
+    tag_live:"LIVE", tag_own:"EIGENER ALGORITHMUS", tag_dev:"IN ENTWICKLUNG",
+    open_arrow:"Öffnen →",
+    mon1_name:"Exekutiv-Monitor", mon1_desc:"Kabinettschef · SGP · Präsidium · Gehaltsabrechnung · Verträge · Echtzeit-Alarme",
+    mon2_name:"Vertrags-Monitor v1 & v2", mon2_desc:"COMPR.AR · TGN · BORA · XAI-Erkennung von Unregelmäßigkeiten",
+    mon3_name:"Legislativer Monitor", mon3_desc:"Abgeordnete & Senatoren · ICE · Anwesenheit · Kosten pro Kopf",
+    mon4_name:"Justizieller Monitor", mon4_desc:"Oberster Gerichtshof · Magistratur · Kammern · Bundesgerichte · IRA",
+    mon5_name:"IRI-Index", mon5_desc:"Zusammengesetzter Score: R_Finanziell · R_Beschaffung · R_Operativ · R_Daten",
+    mon6_name:"Haushaltanpassungs-Monitor", mon6_desc:"Ausführung vs. genehmigt · Inflationsanpassung · Haushaltsänderungen",
+    sec_clients:"Kundensegmente",
+    cl1_name:"Gemeinden", cl1_desc:"Lokaler Vertragsmonitor, Gehaltsabrechnung, Haushaltsausführung, angepasste IRI-Ampel. Massenmarkt.",
+    cl2_name:"Bundesländer & Nation", cl2_desc:"Vollständige Plattformen: Legislative, Justiz, Exekutive, IRI. Größere Verträge.",
+    cl3_name:"Privatunternehmen", cl3_desc:"Counterparty Due Diligence, institutionelle Risikoüberwachung, Lieferantenprüfung.",
+    see_offer:"Angebot ansehen →",
+    sec_model:"Kombiniertes Geschäftsmodell",
+    th_modality:"Modalität", th_desc:"Beschreibung", th_client:"Typischer Kunde", th_ticket:"Geschätztes Ticket",
+    biz1_mod:"Schlüsselfertig", biz1_desc:"Implementierung einer eigenen Plattform. Setup + Branding + lokale Daten.", biz1_client:"Gemeinden, Bundesländer",
+    biz2_mod:"Monatliches SaaS", biz2_desc:"Zugang zu Monitoren als Service. Kontinuierliche Updates inklusive.", biz2_client:"Kleine Behörden, NGOs",
+    biz3_mod:"Beratung + Lizenz", biz3_desc:"Strategische Beratung + XAI-Algorithmus-Lizenz für internen Gebrauch.", biz3_client:"Bundesländer, Großunternehmen",
+    biz4_mod:"Berichte auf Abruf", biz4_desc:"Spezifische Risikoanalyse einer Behörde, eines Unternehmens oder Vertrags.", biz4_client:"Mittelständische Privatunternehmen",
+    sec_roadmap:"Fahrplan",
+    rm1_phase:"Aktuelle Phase", rm1_title:"Basisplattform vervollständigen", rm1_desc:"Haushaltanpassungsmonitor integrieren. Transparenzkarte als zentralen Hub ausbauen.",
+    rm2_phase:"Nächster Schritt", rm2_title:"Kommerzieller Start und institutioneller Vorschlag", rm2_desc:"Auf den Serviceverkauf ausgerichtete Website. Executive Deck für Gemeinden und Bundesländer.",
+    rm3_phase:"Validierung", rm3_title:"Erster Pilotkunde", rm3_desc:"Eine Gemeinde oder ein Bundesland als Testfall. Implementierung zum Selbstkostenpreis gegen Zeugnis.",
+    rm4_phase:"Skalierung", rm4_title:"Auf andere Ebenen und Privatsektor ausweiten", rm4_desc:"Angebot auf mehr Behörden ausweiten und das Unternehmenssegment hinzufügen: Due Diligence, Wertschöpfungskettenprüfung.",
+    author_bio:"Forscher für politische Ökonomie und Korruptionsphänomene. Doktor der Wirtschaftswissenschaften. Veröffentlichungen im Journal of Financial Crime (Emerald Publishing). Berater für Transparenz und algorithmische Prüfung öffentlicher Ausgaben."
+  },
+  it: {
+    nav_monitors:"Monitor", nav_services:"Servizi", nav_model:"Modello",
+    nav_contracts:"Contratti", nav_contact:"Contatto",
+    hero_eyebrow:"Servizi algoritmici di trasparenza istituzionale",
+    hero_title1:"Tecnologia di audit", hero_title2_pre:"per lo ",
+    hero_title2_em:"Stato trasparente",
+    hero_lead:"Piattaforme di monitoraggio chiavi in mano per governi e organizzazioni. 7 monitor attivi che coprono i 3 poteri dello Stato, con base scientifica pubblicata nel Journal of Financial Crime.",
+    badge1:"7 monitor in produzione", badge2:"Base accademica (Ph.D.)",
+    badge3:"XAI spiegabile", badge4:"Dati ufficiali · aggiornamento giornaliero",
+    stat1:"Monitor<br>attivi", stat2:"Poteri dello<br>Stato",
+    stat3:"Comuni<br>raggiungibili", stat4:"Algoritmo<br>proprio",
+    sec_monitors:"Cosa è già costruito — asset differenziatori",
+    tag_live:"IN DIRETTA", tag_own:"ALGORITMO PROPRIO", tag_dev:"IN SVILUPPO",
+    open_arrow:"Apri →",
+    mon1_name:"Monitor Esecutivo", mon1_desc:"Capo di Gabinetto · SGP · Presidenza · Libro paga · Contratti · Allarmi in tempo reale",
+    mon2_name:"Monitor Contratti v1 e v2", mon2_desc:"COMPR.AR · TGN · BORA · Rilevamento XAI di irregolarità",
+    mon3_name:"Monitor Legislativo", mon3_desc:"Deputati e Senatori · ICE · Presenze · Costo pro capite",
+    mon4_name:"Monitor Giudiziario", mon4_desc:"Corte Suprema · Magistratura · Camere · Tribunali federali · IRA",
+    mon5_name:"Indice IRI", mon5_desc:"Score composito: R_Finanziario · R_Appalti · R_Operativo · R_Dati",
+    mon6_name:"Monitor Aggiustamento Bilancio", mon6_desc:"Esecuzione vs approvato · Aggiustamento inflazione · Modifiche di bilancio",
+    sec_clients:"Segmenti di clienti",
+    cl1_name:"Comuni", cl1_desc:"Monitor contratti locali, libro paga, esecuzione bilancio, semaforo IRI adattato. Mercato di massa.",
+    cl2_name:"Province e Nazione", cl2_desc:"Piattaforme complete: legislativo, giudiziario, esecutivo, IRI. Contratti di maggiore scala.",
+    cl3_name:"Aziende private", cl3_desc:"Due diligence di controparti, monitoraggio rischio istituzionale, audit fornitori dello Stato.",
+    see_offer:"Vedi offerta →",
+    sec_model:"Modello di business combinato",
+    th_modality:"Modalità", th_desc:"Descrizione", th_client:"Cliente tipico", th_ticket:"Ticket stimato",
+    biz1_mod:"Chiavi in mano", biz1_desc:"Implementazione di piattaforma propria. Setup + branding + dati locali.", biz1_client:"Comuni, province",
+    biz2_mod:"SaaS mensile", biz2_desc:"Accesso ai monitor come servizio. Aggiornamenti continui inclusi.", biz2_client:"Piccoli enti, ONG",
+    biz3_mod:"Consulenza + licenza", biz3_desc:"Consulenza strategica + licenza algoritmo XAI per uso interno.", biz3_client:"Province, grandi aziende",
+    biz4_mod:"Report su richiesta", biz4_desc:"Analisi specifica del rischio di un ente, azienda o contratto.", biz4_client:"PMI private",
+    sec_roadmap:"Tabella di marcia",
+    rm1_phase:"Fase attuale", rm1_title:"Completare la piattaforma base", rm1_desc:"Integrare il monitor di aggiustamento bilancio. Perfezionare la Mappa della Trasparenza come hub centrale.",
+    rm2_phase:"Prossimo passo", rm2_title:"Lancio commerciale e proposta istituzionale", rm2_desc:"Sito orientato alla vendita del servizio. Deck esecutivo per comuni e province.",
+    rm3_phase:"Validazione", rm3_title:"Primo cliente pilota", rm3_desc:"Un comune o provincia come caso di test. Implementazione a prezzo di costo in cambio di testimonianza.",
+    rm4_phase:"Scala", rm4_title:"Scalare ad altri livelli e settore privato", rm4_desc:"Aprire l'offerta a più enti e aggiungere il segmento aziendale: due diligence, audit della catena del valore.",
+    author_bio:"Ricercatore in economia politica e fenomeni di corruzione. Dottore in Scienze Economiche. Pubblicazioni nel Journal of Financial Crime (Emerald Publishing). Consulente in trasparenza e audit algoritmico della spesa pubblica."
+  },
+  pt: {
+    nav_monitors:"Monitores", nav_services:"Serviços", nav_model:"Modelo",
+    nav_contracts:"Contratos", nav_contact:"Contato",
+    hero_eyebrow:"Serviços algorítmicos de transparência institucional",
+    hero_title1:"Tecnologia de auditoria", hero_title2_pre:"para o ",
+    hero_title2_em:"Estado transparente",
+    hero_lead:"Plataformas de monitoramento chave na mão para governos e organizações. 7 monitores ativos cobrindo os 3 poderes do Estado, com base científica publicada no Journal of Financial Crime.",
+    badge1:"7 monitores em produção", badge2:"Base acadêmica (Ph.D.)",
+    badge3:"XAI explicável", badge4:"Dados oficiais · atualização diária",
+    stat1:"Monitores<br>ativos", stat2:"Poderes do<br>Estado",
+    stat3:"Municípios<br>alcançáveis", stat4:"Algoritmo<br>próprio",
+    sec_monitors:"O que já está construído — ativos diferenciadores",
+    tag_live:"AO VIVO", tag_own:"ALGORITMO PRÓPRIO", tag_dev:"EM DESENVOLVIMENTO",
+    open_arrow:"Abrir →",
+    mon1_name:"Monitor Executivo", mon1_desc:"Chefe de Gabinete · SGP · Presidência · Folha de pagamento · Contratos · Alertas em tempo real",
+    mon2_name:"Monitor de Contratos v1 e v2", mon2_desc:"COMPR.AR · TGN · BORA · Detecção XAI de irregularidades",
+    mon3_name:"Monitor Legislativo", mon3_desc:"Deputados e Senadores · ICE · Presença · Custo per capita",
+    mon4_name:"Monitor Judicial", mon4_desc:"Supremo Tribunal · Magistratura · Câmaras · Tribunais federais · IRA",
+    mon5_name:"Índice IRI", mon5_desc:"Score composto: R_Financeiro · R_Contratação · R_Operacional · R_Dados",
+    mon6_name:"Monitor Ajuste Orçamentário", mon6_desc:"Execução vs aprovado · Ajuste por inflação · Modificações de dotações",
+    sec_clients:"Segmentos de clientes",
+    cl1_name:"Municípios", cl1_desc:"Monitor de contratos locais, folha de pagamento, execução orçamentária, semáforo IRI adaptado. Mercado de massa.",
+    cl2_name:"Estados e União", cl2_desc:"Plataformas completas: legislativo, judicial, executivo, IRI. Contratos de maior escala.",
+    cl3_name:"Empresas privadas", cl3_desc:"Due diligence de contrapartes, monitoramento de risco institucional, auditoria de fornecedores do Estado.",
+    see_offer:"Ver oferta →",
+    sec_model:"Modelo de negócio combinado",
+    th_modality:"Modalidade", th_desc:"Descrição", th_client:"Cliente típico", th_ticket:"Ticket estimado",
+    biz1_mod:"Chave na mão", biz1_desc:"Implementação de plataforma própria. Setup + branding + dados locais.", biz1_client:"Municípios, estados",
+    biz2_mod:"SaaS mensal", biz2_desc:"Acesso aos monitores como serviço. Atualizações contínuas incluídas.", biz2_client:"Pequenos órgãos, ONGs",
+    biz3_mod:"Consultoria + licença", biz3_desc:"Assessoria estratégica + licença do algoritmo XAI para uso interno.", biz3_client:"Estados, grandes empresas",
+    biz4_mod:"Relatórios sob demanda", biz4_desc:"Análise específica de risco de um órgão, empresa ou contrato.", biz4_client:"Médias empresas privadas",
+    sec_roadmap:"Roteiro",
+    rm1_phase:"Fase atual", rm1_title:"Completar a plataforma base", rm1_desc:"Integrar o monitor de ajuste orçamentário. Aprimorar o Mapa de Transparência como hub central.",
+    rm2_phase:"Próximo passo", rm2_title:"Lançamento comercial e proposta institucional", rm2_desc:"Site orientado à venda do serviço. Deck executivo para municípios e estados.",
+    rm3_phase:"Validação", rm3_title:"Primeiro cliente piloto", rm3_desc:"Um município ou estado como caso de teste. Implementação a preço de custo em troca de depoimento.",
+    rm4_phase:"Escala", rm4_title:"Escalar para outros níveis e setor privado", rm4_desc:"Abrir a oferta para mais órgãos e adicionar o segmento empresas: due diligence, auditoria de cadeia de valor.",
+    author_bio:"Pesquisador em economia política e fenômenos de corrupção. Doutor em Ciências Econômicas. Publicações no Journal of Financial Crime (Emerald Publishing). Assessor em transparência e auditoria algorítmica dos gastos públicos."
+  }
+};
+
+function setLang(lang) {
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+  });
+  document.documentElement.lang = lang;
+}
+</script>
 </body>
 </html>
