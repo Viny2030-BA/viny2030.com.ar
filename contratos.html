@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tipos de Contrato · Transparencia Institucional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep:   #0b1929;
+    --navy:        #0f2340;
+    --navy-mid:    #163158;
+    --navy-light:  #1e4080;
+    --gold:        #c9a84c;
+    --gold-light:  #e8c96a;
+    --gold-dim:    #a07830;
+    --white:       #f0eeea;
+    --white-dim:   #c8c4bc;
+    --white-faint: #8a8880;
+    --border:      rgba(255,255,255,0.1);
+    --border-gold: rgba(201,168,76,0.35);
+    --surface:     rgba(255,255,255,0.04);
+    --green:       #4ade80;
+    --sky:         #93c5fd;
+    --amber:       #fbbf24;
+    --purple:      #c084fc;
+    --red:         #f87171;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--navy-deep); color:var(--white);
+    font-family:'Source Serif 4',serif; font-size:16px;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+
+  /* TOPBAR */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:200;height:56px;
+    background:rgba(11,25,41,0.96); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;padding:0 40px;justify-content:space-between;
+  }
+  .topbar-logo{
+    font-family:'DM Mono',monospace;font-size:13px;font-weight:500;
+    letter-spacing:0.06em;color:var(--white);text-decoration:none;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:28px;height:28px;border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--gold);
+  }
+  .topbar-nav{display:flex;gap:32px;list-style:none}
+  .topbar-nav a{
+    font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;
+    color:var(--white-faint);text-decoration:none;transition:color .2s;
+  }
+  .topbar-nav a:hover,.topbar-nav a.active{color:var(--white)}
+  .topbar-cta{
+    font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;
+    color:var(--navy-deep);background:var(--gold);border:none;
+    padding:8px 20px;cursor:pointer;text-decoration:none;transition:background .2s;
+  }
+  .topbar-cta:hover{background:var(--gold-light)}
+
+  /* PAGE HEADER */
+  .page-header{
+    padding-top:56px;
+    background:linear-gradient(160deg, var(--navy-mid) 0%, var(--navy-deep) 60%);
+    border-bottom:1px solid var(--border);
+  }
+  .page-header-inner{
+    max-width:1140px;margin:0 auto;padding:64px 48px 52px;
+  }
+  .breadcrumb{
+    font-family:'DM Mono',monospace;font-size:11px;
+    color:var(--white-faint);margin-bottom:20px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .breadcrumb a{color:var(--white-faint);text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--white)}
+  h1.page-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(32px,4.5vw,56px);font-weight:700;
+    color:var(--white);margin-bottom:20px;line-height:1.1;
+  }
+  .page-sub{
+    font-size:15px;font-weight:300;color:var(--white-dim);
+    max-width:700px;line-height:1.75;
+    border-left:3px solid var(--gold);padding-left:20px;
+  }
+  .page-sub strong{color:var(--white);font-weight:600}
+
+  /* SECTIONS */
+  .sec{padding:72px 0}
+  .sec.alt{background:var(--navy)}
+  .sec-inner{max-width:1140px;margin:0 auto;padding:0 48px}
+  .sec-label{
+    font-family:'DM Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--white-faint);
+    display:flex;align-items:center;gap:14px;margin-bottom:32px;
+  }
+  .sec-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:280px}
+
+  /* CONTRACT TABLE */
+  .ct{width:100%;border-collapse:collapse;border:1px solid var(--border)}
+  .ct thead th{
+    font-family:'DM Mono',monospace;font-size:10px;
+    letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--white-faint);text-align:left;
+    padding:14px 20px;border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,0.03);
+  }
+  .ct tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+  .ct tbody tr:last-child{border-bottom:none}
+  .ct tbody tr:hover{background:var(--surface)}
+  .ct td{padding:22px 20px;font-size:13px;color:var(--white-faint);vertical-align:top;font-weight:300}
+  .td-type{
+    font-family:'Playfair Display',serif;font-size:15px;
+    font-weight:600;color:var(--white);margin-bottom:6px;
+  }
+  .tag{
+    display:inline-block;font-family:'DM Mono',monospace;
+    font-size:9px;letter-spacing:0.08em;
+    padding:3px 8px;border-radius:1px;border:1px solid;
+  }
+  .t-nac{color:var(--green);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.07)}
+  .t-conc{color:var(--sky);border-color:rgba(147,197,253,.3);background:rgba(147,197,253,.07)}
+  .t-rap{color:var(--amber);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.07)}
+  .t-ent{color:var(--purple);border-color:rgba(192,132,252,.3);background:rgba(192,132,252,.07)}
+  .t-bid{color:var(--sky);border-color:rgba(147,197,253,.3);background:rgba(147,197,253,.07)}
+  .t-mul{color:var(--green);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.07)}
+  .t-g2g{color:var(--amber);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.07)}
+  .t-priv{color:var(--red);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.07)}
+  .td-tick{
+    font-family:'DM Mono',monospace;font-size:14px;
+    font-weight:500;color:var(--gold-light);white-space:nowrap;
+  }
+  .td-plazo{
+    font-family:'DM Mono',monospace;font-size:12px;
+    color:var(--white-faint);white-space:nowrap;
+  }
+
+  /* REQ GRID */
+  .req-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .req-card{
+    border:1px solid var(--border);padding:30px 32px;transition:border-color .2s;
+  }
+  .req-card:hover{border-color:var(--border-gold)}
+  .req-title{
+    font-family:'Playfair Display',serif;font-size:16px;
+    font-weight:600;color:var(--white);margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .rdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .rg{background:var(--green)} .rb{background:var(--sky)}
+  .ra{background:var(--amber)} .rp{background:var(--purple)}
+  .req-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+  .req-list li{
+    font-size:13px;color:var(--white-faint);
+    padding-left:16px;position:relative;line-height:1.55;font-weight:300;
+  }
+  .req-list li::before{content:'—';position:absolute;left:0;color:var(--white-faint);opacity:.4}
+  .req-btn{
+    font-family:'DM Mono',monospace;font-size:11px;
+    color:var(--white-dim);border:1px solid var(--border);
+    background:transparent;padding:8px 16px;
+    display:inline-block;text-decoration:none;transition:all .2s;
+  }
+  .req-btn:hover{color:var(--gold);border-color:var(--border-gold)}
+
+  /* CTA */
+  .cta-strip{
+    padding:72px 0;
+    background:linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
+    border-top:1px solid var(--border);text-align:center;
+  }
+  .cta-inner{max-width:560px;margin:0 auto;padding:0 40px}
+  .cta-title{
+    font-family:'Playfair Display',serif;font-size:30px;
+    font-weight:700;color:var(--white);margin-bottom:12px;
+  }
+  .cta-desc{font-size:14px;color:var(--white-faint);margin-bottom:36px;line-height:1.7;font-weight:300}
+  .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-p{
+    font-family:'DM Mono',monospace;font-size:12px;
+    color:var(--navy-deep);background:var(--gold);
+    border:none;padding:12px 28px;text-decoration:none;transition:background .2s;
+  }
+  .btn-p:hover{background:var(--gold-light)}
+  .btn-s{
+    font-family:'DM Mono',monospace;font-size:12px;
+    color:var(--white-dim);background:transparent;
+    border:1px solid var(--border);padding:12px 28px;
+    text-decoration:none;transition:all .2s;
+  }
+  .btn-s:hover{border-color:var(--white-dim);color:var(--white)}
+
+  /* FOOTER */
+  footer{
+    padding:24px 48px;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ft{font-family:'DM Mono',monospace;font-size:11px;color:var(--white-faint)}
+  .ft-links{display:flex;gap:24px}
+  .ft-links a{
+    font-family:'DM Mono',monospace;font-size:11px;
+    color:var(--white-faint);text-decoration:none;transition:color .2s;
+  }
+  .ft-links a:hover{color:var(--white-dim)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .a{animation:fadeUp .5s ease forwards;opacity:0}
+  .d1{animation-delay:.1s}.d2{animation-delay:.2s}
+
+  @media(max-width:900px){
+    .topbar-nav{display:none}
+    .req-grid{grid-template-columns:1fr}
+    footer{flex-direction:column;gap:12px;text-align:center}
+    .cta-btns{flex-direction:column;align-items:center}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <div class="logo-mark">T</div>
+    TRANSPARENCIA.AR
+  </a>
+  <ul class="topbar-nav">
+    <li><a href="index.html#monitores">Monitores</a></li>
+    <li><a href="index.html#servicios">Servicios</a></li>
+    <li><a href="index.html#negocio">Modelo</a></li>
+    <li><a href="contratos.html" class="active">Contratos</a></li>
+    <li><a href="https://mapatransparencia-production.up.railway.app/" target="_blank">→ Mapa en vivo</a></li>
+  </ul>
+  <a href="mailto:vhmonte@retina.ar" class="topbar-cta">Contactar</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb a d1">
+      <a href="index.html">Inicio</a> <span>/</span> <span>Tipos de contrato</span>
+    </div>
+    <h1 class="page-title a d1">Cómo se contratan<br>los servicios</h1>
+    <p class="page-sub a d2">
+      Los contratos con gobiernos no se cierran como SaaS. Se instrumentan como
+      <strong>contratos de consultoría técnica</strong>, <strong>convenios marco</strong>,
+      <strong>licitaciones de servicios profesionales</strong> o
+      <strong>proyectos financiados por organismos multilaterales</strong>.
+      Los tickets son significativamente más altos y los plazos más largos.
+    </p>
+  </div>
+</div>
+
+<!-- NACIONAL -->
+<section class="sec" id="nacional">
+  <div class="sec-inner">
+    <div class="sec-label">Tipos de contrato — Nacional</div>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th style="width:22%">Tipo de contrato</th>
+          <th>Mecanismo</th>
+          <th style="width:20%">Cliente</th>
+          <th style="width:14%">Ticket real</th>
+          <th style="width:11%">Plazo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="td-type">Convenio marco</div><span class="tag t-nac">Nacional</span></td>
+          <td>Acuerdo directo con organismo. Sin licitación si está por debajo del umbral.</td>
+          <td>Municipio / provincia</td>
+          <td class="td-tick">USD 10k–50k</td>
+          <td class="td-plazo">12–24 meses</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Licitación pública</div><span class="tag t-conc">Concurso</span></td>
+          <td>El organismo llama a concurso. Se presenta propuesta técnica + económica.</td>
+          <td>Provincia / Nación</td>
+          <td class="td-tick">USD 50k–300k</td>
+          <td class="td-plazo">18–36 meses</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Contratación directa</div><span class="tag t-rap">Rápido</span></td>
+          <td>Por especialidad única / urgencia / monto bajo. El más accesible para empezar.</td>
+          <td>Municipio / organismo chico</td>
+          <td class="td-tick">USD 5k–25k</td>
+          <td class="td-plazo">3–12 meses</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Proyecto piloto</div><span class="tag t-ent">Puerta de entrada</span></td>
+          <td>Acuerdo informal / POC a bajo costo. Se convierte en contrato formal si funciona.</td>
+          <td>Cualquier nivel</td>
+          <td class="td-tick">USD 2k–8k</td>
+          <td class="td-plazo">3–6 meses</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- INTERNACIONAL -->
+<section class="sec alt" id="internacional">
+  <div class="sec-inner">
+    <div class="sec-label">Tipos de contrato — Internacional</div>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th style="width:22%">Tipo de contrato</th>
+          <th>Mecanismo</th>
+          <th style="width:20%">Cliente</th>
+          <th style="width:14%">Ticket real</th>
+          <th style="width:11%">Plazo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="td-type">Consultor individual</div><span class="tag t-bid">BID / BM / PNUD</span></td>
+          <td>Contrato como consultor experto. Modalidad IC (Individual Consultant).</td>
+          <td>BID, Banco Mundial, CAF, PNUD</td>
+          <td class="td-tick">USD 400–800/día</td>
+          <td class="td-plazo">30–150 días</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Proyecto financiado</div><span class="tag t-mul">Multilateral</span></td>
+          <td>Organismo multilateral financia a un gobierno para contratar la plataforma.</td>
+          <td>Gobierno + BID/BM como financiador</td>
+          <td class="td-tick">USD 100k–500k</td>
+          <td class="td-plazo">24–48 meses</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Cooperación técnica</div><span class="tag t-g2g">Gobierno a gobierno</span></td>
+          <td>Acuerdo entre países para transferir tecnología y metodología.</td>
+          <td>Gobiernos LAC / Europa</td>
+          <td class="td-tick">USD 30k–150k</td>
+          <td class="td-plazo">12–24 meses</td>
+        </tr>
+        <tr>
+          <td><div class="td-type">Empresa privada internacional</div><span class="tag t-priv">Sector privado</span></td>
+          <td>Due diligence, compliance, auditoría de cadena de valor con exposición al Estado.</td>
+          <td>Corporaciones, fondos, bancos</td>
+          <td class="td-tick">USD 20k–100k</td>
+          <td class="td-plazo">Proyecto / retainer</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- REQUISITOS -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-label">Lo que necesitás para acceder a cada tipo</div>
+    <div class="req-grid">
+
+      <div class="req-card">
+        <div class="req-title"><span class="rdot rg"></span>Para contratos nacionales</div>
+        <ul class="req-list">
+          <li>Estar inscripto como proveedor del Estado (SIPRO / COMPR.AR)</li>
+          <li>Razón social o UTE con un socio habilitado</li>
+          <li>Propuesta técnica + económica estandarizada</li>
+          <li>Referencia de un caso piloto funcionando</li>
+        </ul>
+        <a href="mailto:vhmonte@retina.ar?subject=Contratos nacionales" class="req-btn">Ver pasos →</a>
+      </div>
+
+      <div class="req-card">
+        <div class="req-title"><span class="rdot rb"></span>Para contratos internacionales</div>
+        <ul class="req-list">
+          <li>CV académico y publicaciones (ya tenés <em>Journal of Financial Crime</em>)</li>
+          <li>Perfil en el roster de consultores del BID / Banco Mundial</li>
+          <li>Plataforma en inglés (ya tenés la versión /en)</li>
+          <li>Carta de presentación institucional</li>
+        </ul>
+        <a href="mailto:vhmonte@retina.ar?subject=Contratos internacionales" class="req-btn">Ver pasos →</a>
+      </div>
+
+      <div class="req-card">
+        <div class="req-title"><span class="rdot ra"></span>Para proyectos financiados por multilaterales</div>
+        <ul class="req-list">
+          <li>Identificar proyectos activos de transparencia en LAC (BID, BM, CAF tienen repositorios públicos)</li>
+          <li>Contactar al TTL (Task Team Leader) del proyecto</li>
+          <li>Presentarse como proveedor de componente tecnológico</li>
+        </ul>
+        <a href="mailto:vhmonte@retina.ar?subject=Multilaterales" class="req-btn">Ver pasos →</a>
+      </div>
+
+      <div class="req-card">
+        <div class="req-title"><span class="rdot rp"></span>Para empresas privadas</div>
+        <ul class="req-list">
+          <li>Landing comercial orientada a compliance y due diligence</li>
+          <li>Informe de muestra (demo del output para una empresa)</li>
+          <li>Red de contactos en estudios jurídicos, fondos y banca</li>
+        </ul>
+        <a href="mailto:vhmonte@retina.ar?subject=Empresas privadas" class="req-btn">Ver pasos →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div class="cta-inner">
+    <div class="cta-title">¿Listo para empezar?</div>
+    <div class="cta-desc">Definamos juntos el tipo de contrato que mejor encaja con tu caso y el primer paso concreto.</div>
+    <div class="cta-btns">
+      <a href="mailto:vhmonte@retina.ar?subject=Consulta servicios de transparencia" class="btn-p">Escribir ahora</a>
+      <a href="https://mapatransparencia-production.up.railway.app/" target="_blank" class="btn-s">Ver los monitores</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft">© 2025 Ph.D. Vicente Humberto Monteverde · Transparencia Institucional</div>
+  <div class="ft-links">
+    <a href="https://mapatransparencia-production.up.railway.app/docs" target="_blank">API Docs</a>
+    <a href="https://mapatransparencia-production.up.railway.app/en" target="_blank">English</a>
+    <a href="index.html">Inicio</a>
+    <a href="mailto:vhmonte@retina.ar">Contacto</a>
+  </div>
+</footer>
+
+</body>
+</html>
