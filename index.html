@@ -1,809 +1,612 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta http-equiv="refresh" content="0; url=sobre_mi_monteverde.html">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viny2030 | Registro</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparencia Institucional · Ph.D. Vicente Monteverde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep:   #0b1929;
+    --navy:        #0f2340;
+    --navy-mid:    #163158;
+    --navy-light:  #1e4080;
+    --navy-pale:   #2a5298;
+    --sky:         #3b82f6;
+    --gold:        #c9a84c;
+    --gold-light:  #e8c96a;
+    --gold-dim:    #a07830;
+    --white:       #f0eeea;
+    --white-dim:   #c8c4bc;
+    --white-faint: #8a8880;
+    --border:      rgba(255,255,255,0.1);
+    --border-gold: rgba(201,168,76,0.35);
+    --surface:     rgba(255,255,255,0.04);
+    --surface-2:   rgba(255,255,255,0.07);
+    --green:       #4ade80;
+    --green-dim:   rgba(74,222,128,0.15);
+  }
 
-        :root {
-            --bg: #e8f4fd;
-            --surface: #ffffff;
-            --border: #b3d4f0;
-            --accent: #1a6fb5;
-            --accent2: #0a9d6e;
-            --danger: #e53e3e;
-            --text: #1a3a5c;
-            --muted: #5a7fa0;
-            --input-bg: #f0f7ff;
-        }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--navy-deep);
+    color: var(--white);
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Share Tech Mono', monospace;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            background-image: 
-                radial-gradient(ellipse at 20% 50%, rgba(26,111,181,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(10,157,110,0.06) 0%, transparent 60%);
-        }
+  /* ── TOPBAR ── */
+  .topbar {
+    position: fixed; top:0; left:0; right:0; z-index:200;
+    height: 56px;
+    background: rgba(11,25,41,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 40px;
+    justify-content: space-between;
+  }
+  .topbar-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; font-weight:500;
+    letter-spacing: 0.06em;
+    color: var(--white); text-decoration:none;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-mark {
+    width:28px; height:28px;
+    border: 1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--gold);
+  }
+  .topbar-nav { display:flex; gap:32px; list-style:none; }
+  .topbar-nav a {
+    font-family:'DM Mono',monospace; font-size:11px;
+    letter-spacing:0.06em; color:var(--white-faint);
+    text-decoration:none; transition:color .2s;
+  }
+  .topbar-nav a:hover, .topbar-nav a.active { color:var(--white); }
+  .topbar-cta {
+    font-family:'DM Mono',monospace; font-size:11px;
+    letter-spacing:0.05em; color:var(--navy-deep);
+    background: var(--gold); border:none;
+    padding: 8px 20px; cursor:pointer;
+    text-decoration:none; transition:background .2s;
+  }
+  .topbar-cta:hover { background: var(--gold-light); }
 
-        /* Subtle top border */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            z-index: 100;
-        }
+  /* ── HERO ── */
+  .hero {
+    padding-top: 56px;
+    min-height: 100vh;
+    display: flex; flex-direction:column; justify-content:center;
+    position: relative; overflow:hidden;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(30,64,128,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  }
+  .hero-lines {
+    position:absolute; inset:0; pointer-events:none;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 100% 72px;
+  }
+  .hero-inner {
+    position:relative; z-index:2;
+    max-width:1140px; margin:0 auto;
+    padding: 100px 48px 80px;
+  }
+  .hero-eyebrow {
+    font-family:'DM Mono',monospace; font-size:11px;
+    letter-spacing:0.18em; text-transform:uppercase;
+    color: var(--gold); margin-bottom:24px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .hero-eyebrow::before { content:''; width:40px; height:1px; background:var(--gold); }
 
-        .container {
-            width: 100%;
-            max-width: 680px;
-        }
+  h1.hero-title {
+    font-family:'Playfair Display',serif;
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight:700; line-height:1.08;
+    color: var(--white);
+    max-width: 820px; margin-bottom:28px;
+    letter-spacing:-0.01em;
+  }
+  h1.hero-title em { font-style:italic; color:var(--gold-light); }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeDown 0.6s ease;
-        }
+  .hero-lead {
+    font-size:17px; font-weight:300;
+    color: var(--white-dim);
+    max-width:560px; margin-bottom:44px;
+    line-height:1.75;
+  }
 
-        .logo {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2em;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
+  .hero-badges {
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:56px;
+  }
+  .badge {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.06em; padding:5px 13px;
+    border:1px solid; border-radius:1px;
+  }
+  .b-gold  { color:var(--gold);      border-color:rgba(201,168,76,0.4);  background:rgba(201,168,76,0.07); }
+  .b-sky   { color:#93c5fd;          border-color:rgba(147,197,253,0.3); background:rgba(147,197,253,0.06);}
+  .b-green { color:var(--green);     border-color:rgba(74,222,128,0.3);  background:rgba(74,222,128,0.06); }
+  .b-dim   { color:var(--white-faint);border-color:var(--border);         background:var(--surface); }
 
-        .logo span { color: var(--accent2); }
+  .hero-stats {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--border-gold); max-width:580px;
+  }
+  .stat {
+    padding:20px 24px;
+    border-right:1px solid var(--border-gold);
+  }
+  .stat:last-child { border-right:none; }
+  .stat-n {
+    font-family:'Playfair Display',serif;
+    font-size:32px; font-weight:700;
+    color:var(--gold-light); line-height:1; margin-bottom:4px;
+  }
+  .stat-l {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.06em; color:var(--white-faint); line-height:1.4;
+  }
 
-        .tagline {
-            color: var(--muted);
-            font-size: 0.75em;
-            margin-top: 8px;
-            letter-spacing: 2px;
-        }
+  /* ── DIVIDER ── */
+  .divider {
+    height:1px; background:var(--border);
+    max-width:1140px; margin:0 auto;
+  }
 
-        /* Lang selector */
-        .lang-bar {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 32px;
-            animation: fadeDown 0.6s ease 0.1s both;
-        }
+  /* ── SECTION SHELL ── */
+  .sec { padding: 80px 0; }
+  .sec.alt { background: var(--navy); }
+  .sec-inner { max-width:1140px; margin:0 auto; padding:0 48px; }
 
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 6px 14px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75em;
-            cursor: pointer;
-            border-radius: 2px;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-        }
+  .sec-label {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--white-faint);
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:36px;
+  }
+  .sec-label::after {
+    content:''; flex:1; height:1px; background:var(--border); max-width:240px;
+  }
 
-        .lang-btn:hover, .lang-btn.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(0,212,255,0.05);
-        }
+  /* ── MONITORS GRID ── */
+  .monitors-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:1px; background:var(--border);
+    border:1px solid var(--border);
+  }
+  .mon-card {
+    background:var(--navy-deep);
+    padding:28px 28px 24px;
+    text-decoration:none; color:inherit;
+    display:block; transition:background .2s;
+    position:relative;
+  }
+  .mon-card:hover { background:var(--navy-mid); }
+  .mon-card.span2 { grid-column:span 2; }
 
-        /* Form card */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 40px;
-            box-shadow: 0 8px 40px rgba(26,111,181,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
-            animation: fadeUp 0.6s ease 0.2s both;
-        }
+  .mon-status {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.08em; display:flex; align-items:center; gap:8px;
+    margin-bottom:14px;
+  }
+  .live-dot {
+    width:7px; height:7px; border-radius:50%;
+    background:var(--green);
+    animation: livepulse 2.2s infinite;
+  }
+  @keyframes livepulse {
+    0%,100%{ box-shadow:0 0 0 0 rgba(74,222,128,.5); }
+    50%{ box-shadow:0 0 0 5px rgba(74,222,128,0); }
+  }
+  .s-live  { color:var(--green); }
+  .s-xai   { color:var(--gold); }
+  .s-dev   { color:var(--white-faint); }
 
-        .section-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.7em;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
+  .mon-name {
+    font-family:'Playfair Display',serif;
+    font-size:18px; font-weight:600;
+    color:var(--white); margin-bottom:8px;
+  }
+  .mon-desc {
+    font-size:13px; color:var(--white-faint);
+    line-height:1.55; margin-bottom:18px; font-weight:300;
+  }
+  .mon-arrow {
+    font-family:'DM Mono',monospace; font-size:11px;
+    color:var(--gold); transition:letter-spacing .2s;
+  }
+  .mon-card:hover .mon-arrow { letter-spacing:0.12em; }
 
-        .section-title::before { content: '> '; color: var(--accent2); }
+  /* ── CLIENTS ── */
+  .clients-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  .client-card {
+    border:1px solid var(--border);
+    padding:32px 28px;
+    transition:border-color .2s;
+  }
+  .client-card:hover { border-color:var(--gold-dim); }
+  .client-card.feat { border-color:var(--border-gold); background:rgba(201,168,76,0.04); }
+  .client-icon { font-size:26px; margin-bottom:16px; }
+  .client-name {
+    font-family:'Playfair Display',serif;
+    font-size:20px; font-weight:600; color:var(--white);
+    margin-bottom:10px;
+  }
+  .client-desc {
+    font-size:13px; color:var(--white-faint);
+    line-height:1.65; font-weight:300; margin-bottom:24px;
+  }
+  .client-btn {
+    font-family:'DM Mono',monospace; font-size:11px;
+    color:var(--white-dim); border:1px solid var(--border);
+    background:transparent; padding:8px 16px;
+    text-decoration:none; display:inline-block;
+    transition:all .2s;
+  }
+  .client-btn:hover { color:var(--gold); border-color:var(--border-gold); }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+  /* ── BUSINESS TABLE ── */
+  .biz-table {
+    width:100%; border-collapse:collapse;
+    border:1px solid var(--border);
+  }
+  .biz-table thead th {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--white-faint); text-align:left;
+    padding:14px 20px; border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,0.03);
+  }
+  .biz-table tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
+  .biz-table tbody tr:last-child { border-bottom:none; }
+  .biz-table tbody tr:hover { background:var(--surface); }
+  .biz-table td { padding:20px; font-size:13px; color:var(--white-faint); vertical-align:top; font-weight:300; }
+  .td-mod {
+    font-family:'DM Mono',monospace; font-size:12px;
+    font-weight:500; color:var(--white);
+  }
+  .td-tick {
+    font-family:'DM Mono',monospace; font-size:13px;
+    font-weight:500; color:var(--gold-light); white-space:nowrap;
+  }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+  /* ── ROADMAP ── */
+  .roadmap { border:1px solid var(--border); }
+  .rm-item {
+    display:grid; grid-template-columns:64px 1fr;
+    border-bottom:1px solid var(--border);
+    transition:background .15s;
+  }
+  .rm-item:last-child { border-bottom:none; }
+  .rm-item:hover { background:var(--surface); }
+  .rm-num {
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:28px 0;
+    font-family:'DM Mono',monospace; font-size:11px;
+    color:var(--white-faint); border-right:1px solid var(--border);
+  }
+  .rm-body { padding:28px 36px; }
+  .rm-phase {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:6px;
+  }
+  .rm-title {
+    font-family:'Playfair Display',serif; font-size:17px;
+    font-weight:600; color:var(--white); margin-bottom:6px;
+  }
+  .rm-desc { font-size:13px; color:var(--white-faint); line-height:1.6; font-weight:300; }
 
-        .form-group.full { grid-column: 1 / -1; }
+  /* ── AUTHOR ── */
+  .author-bar {
+    padding:52px 0;
+    border-top:1px solid var(--border);
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
+  }
+  .author-inner {
+    max-width:1140px; margin:0 auto; padding:0 48px;
+    display:flex; align-items:center; gap:36px;
+  }
+  .author-photo {
+    width:72px; height:72px; border-radius:50%;
+    object-fit:cover; flex-shrink:0;
+    border:2px solid var(--border-gold);
+  }
+  .author-name {
+    font-family:'Playfair Display',serif; font-size:19px;
+    font-weight:600; color:var(--white); margin-bottom:6px;
+  }
+  .author-bio { font-size:13px; color:var(--white-faint); font-weight:300; line-height:1.6; max-width:580px; }
+  .author-links { display:flex; gap:10px; flex-shrink:0; margin-left:auto; }
+  .author-link {
+    font-family:'DM Mono',monospace; font-size:11px;
+    color:var(--white-faint); text-decoration:none;
+    border:1px solid var(--border); padding:7px 16px;
+    transition:all .2s;
+  }
+  .author-link:hover { color:var(--gold); border-color:var(--border-gold); }
 
-        label {
-            font-size: 0.7em;
-            color: var(--muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+  /* ── FOOTER ── */
+  footer {
+    padding:24px 48px; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .ft { font-family:'DM Mono',monospace; font-size:11px; color:var(--white-faint); }
+  .ft-links { display:flex; gap:24px; }
+  .ft-links a {
+    font-family:'DM Mono',monospace; font-size:11px;
+    color:var(--white-faint); text-decoration:none; transition:color .2s;
+  }
+  .ft-links a:hover { color:var(--white-dim); }
 
-        input, select, textarea {
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 10px 14px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85em;
-            border-radius: 2px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            width: 100%;
-        }
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .a { animation:fadeUp .65s ease forwards; opacity:0; }
+  .d1{animation-delay:.1s} .d2{animation-delay:.22s}
+  .d3{animation-delay:.34s} .d4{animation-delay:.46s}
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(0,212,255,0.1);
-        }
-
-        select option { background: var(--surface); }
-
-        textarea { resize: vertical; min-height: 80px; }
-
-        /* Radio group */
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 4px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--input-bg);
-        }
-
-        .radio-option:hover {
-            border-color: var(--accent);
-            background: rgba(26,111,181,0.04);
-        }
-
-        /* Círculo visual custom */
-        .radio-circle {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            background: white;
-        }
-
-        .radio-circle::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .radio-option input[type="radio"] {
-            display: none;
-        }
-
-        .radio-option input[type="radio"]:checked ~ .radio-circle {
-            border-color: var(--accent);
-        }
-
-        .radio-option input[type="radio"]:checked ~ .radio-circle::after {
-            opacity: 1;
-        }
-
-        .radio-option:has(input:checked) {
-            border-color: var(--accent);
-            background: rgba(26,111,181,0.06);
-        }
-
-        .radio-option:has(input:checked) .radio-text {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .radio-text { font-size: 0.82em; line-height: 1.4; color: var(--text); }
-
-        /* NDA */
-        .nda-box {
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-left: 3px solid var(--accent2);
-            padding: 16px 20px;
-            margin: 24px 0;
-            font-size: 0.75em;
-            color: var(--muted);
-            line-height: 1.7;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .nda-box strong { color: var(--text); }
-
-        .checkbox-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .checkbox-row input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-top: 3px;
-            accent-color: var(--accent2);
-            flex-shrink: 0;
-            cursor: pointer;
-            position: relative;
-            z-index: 10;
-        }
-
-        .checkbox-label {
-            font-size: 0.78em;
-            color: var(--muted);
-            line-height: 1.5;
-            cursor: pointer;
-        }
-
-        .checkbox-label strong { color: var(--accent2); }
-
-        /* Divider */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 28px 0;
-        }
-
-        /* Submit */
-        .btn-submit {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 14px 24px;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1em;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 2px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-submit::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-submit:hover::before { left: 100%; }
-
-        .btn-submit:hover {
-            background: rgba(0,212,255,0.08);
-            box-shadow: 0 0 20px rgba(0,212,255,0.2);
-        }
-
-        /* Success */
-        .success {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .success-icon {
-            font-size: 3em;
-            color: var(--accent2);
-            margin-bottom: 16px;
-        }
-
-        .success h2 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5em;
-            color: var(--accent2);
-            letter-spacing: 3px;
-            margin-bottom: 12px;
-        }
-
-        .success p { color: var(--muted); font-size: 0.85em; line-height: 1.7; }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            color: var(--muted);
-            font-size: 0.7em;
-            letter-spacing: 1px;
-            animation: fadeUp 0.6s ease 0.4s both;
-        }
-
-        /* Animations */
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 560px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .card { padding: 24px 20px; }
-            .logo { font-size: 1.6em; }
-        }
-    </style>
+  @media(max-width:900px){
+    .topbar-nav{display:none}
+    .monitors-grid{grid-template-columns:1fr}
+    .mon-card.span2{grid-column:span 1}
+    .clients-grid{grid-template-columns:1fr}
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .author-inner{flex-direction:column;text-align:center}
+    .author-links{margin-left:0;justify-content:center}
+    footer{flex-direction:column;gap:12px;text-align:center}
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
+<nav class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <div class="logo-mark">T</div>
+    TRANSPARENCIA.AR
+  </a>
+  <ul class="topbar-nav">
+    <li><a href="#monitores">Monitores</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#negocio">Modelo</a></li>
+    <li><a href="contratos.html">Contratos</a></li>
+    <li><a href="https://mapatransparencia-production.up.railway.app/" target="_blank">→ Mapa en vivo</a></li>
+  </ul>
+  <a href="mailto:vhmonte@retina.ar" class="topbar-cta">Contactar</a>
+</nav>
 
-    <div class="header">
-        <div class="logo">VINY<span>2030</span></div>
-        <div class="tagline" id="tagline">MOTOR DE DECISIONES PARA TU NEGOCIO</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow a d1">Servicios algorítmicos de transparencia institucional</div>
+    <h1 class="hero-title a d2">
+      Tecnología de auditoría<br>para el <em>Estado argentino</em>
+    </h1>
+    <p class="hero-lead a d3">
+      Plataformas de monitoreo llave en mano para gobiernos y organizaciones.
+      7 monitores activos cubriendo los 3 poderes del Estado, con base científica
+      publicada en <em>Journal of Financial Crime</em>.
+    </p>
+    <div class="hero-badges a d3">
+      <span class="badge b-green">7 monitores en producción</span>
+      <span class="badge b-gold">Base académica (Ph.D.)</span>
+      <span class="badge b-sky">XAI explicable</span>
+      <span class="badge b-dim">Datos oficiales · actualización diaria</span>
     </div>
-
-    <div class="lang-bar">
-        <button class="lang-btn active" onclick="setLang('es')">🇦🇷 ES</button>
-        <button class="lang-btn" onclick="setLang('en')">🇺🇸 EN</button>
-        <button class="lang-btn" onclick="setLang('fr')">🇫🇷 FR</button>
-        <button class="lang-btn" onclick="setLang('de')">🇩🇪 DE</button>
-        <button class="lang-btn" onclick="setLang('it')">🇮🇹 IT</button>
+    <div class="hero-stats a d4">
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">Monitores<br>activos</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Poderes del<br>Estado</div></div>
+      <div class="stat"><div class="stat-n">2.3k</div><div class="stat-l">Municipios<br>alcanzables</div></div>
+      <div class="stat"><div class="stat-n">XAI</div><div class="stat-l">Algoritmo<br>propio</div></div>
     </div>
+  </div>
+</section>
 
-    <div class="card">
-        <div id="form-section">
+<!-- MONITORS -->
+<section class="sec alt" id="monitores">
+  <div class="sec-inner">
+    <div class="sec-label">Lo que ya tenés construido — activos diferenciadores</div>
+    <div class="monitors-grid">
 
-            <!-- BLOQUE 1: DATOS PERSONALES -->
-            <div class="section-title" id="lbl-block1">DATOS DE CONTACTO</div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label id="lbl-nombre">NOMBRE</label>
-                    <input type="text" id="nombre" placeholder="Vicente" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-apellido">APELLIDO</label>
-                    <input type="text" id="apellido" placeholder="Monteverde" required>
-                </div>
-                <div class="form-group full">
-                    <label id="lbl-email">EMAIL</label>
-                    <input type="email" id="email" placeholder="nombre@empresa.com" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-pais">PAÍS</label>
-                    <input type="text" id="pais" placeholder="Argentina" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-telefono">TELÉFONO (opcional)</label>
-                    <input type="tel" id="telefono" placeholder="+54 11 xxxx-xxxx">
-                </div>
-                <div class="form-group full">
-                    <label id="lbl-empresa">EMPRESA / ORGANIZACIÓN</label>
-                    <input type="text" id="empresa" placeholder="Nombre de tu empresa" required>
-                </div>
-            </div>
+      <a href="https://jefaturagabinete-production.up.railway.app" target="_blank" class="mon-card">
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
+        <div class="mon-name">Monitor Ejecutivo</div>
+        <div class="mon-desc">JGM · SGP · Presidencia · Nómina · Contratos · Alertas en tiempo real</div>
+        <div class="mon-arrow">Abrir →</div>
+      </a>
 
-            <hr class="divider">
+      <a href="https://gobbocomprartgn-production.up.railway.app" target="_blank" class="mon-card">
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span>&nbsp;<span class="s-xai">· XAI</span></div>
+        <div class="mon-name">Monitor de Contratos v1 y v2</div>
+        <div class="mon-desc">COMPR.AR · TGN · BORA · Detección XAI de irregularidades</div>
+        <div class="mon-arrow">Abrir →</div>
+      </a>
 
-            <!-- BLOQUE 2: INTENCIÓN -->
-            <div class="section-title" id="lbl-block2">¿QUÉ TE TRAJO HASTA ACÁ?</div>
-            <div class="form-group full" style="margin-bottom: 24px;">
-                <div class="radio-group" id="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="intencion" value="A">
-                        <div class="radio-circle"></div>
-                        <span class="radio-text" id="opt-a">Tengo datos pero no sé qué hacer con ellos</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="intencion" value="B">
-                        <div class="radio-circle"></div>
-                        <span class="radio-text" id="opt-b">Tengo un problema de negocio sin resolver</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="intencion" value="C">
-                        <div class="radio-circle"></div>
-                        <span class="radio-text" id="opt-c">Quiero saber si la IA aplica a mi empresa</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="intencion" value="D">
-                        <div class="radio-circle"></div>
-                        <span class="radio-text" id="opt-d">Me recomendaron el servicio</span>
-                    </label>
-                </div>
-            </div>
+      <a href="https://monitorlegistativo-production.up.railway.app" target="_blank" class="mon-card">
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
+        <div class="mon-name">Monitor Legislativo</div>
+        <div class="mon-desc">Diputados y Senadores · ICE · Asistencia · Costo per cápita</div>
+        <div class="mon-arrow">Abrir →</div>
+      </a>
 
-            <hr class="divider">
+      <a href="https://justicia-production-6a54.up.railway.app" target="_blank" class="mon-card">
+        <div class="mon-status"><span class="live-dot"></span><span class="s-live">EN VIVO</span></div>
+        <div class="mon-name">Monitor Judicial</div>
+        <div class="mon-desc">CSJN · Magistratura · Cámaras · Juzgados federales · IRA</div>
+        <div class="mon-arrow">Abrir →</div>
+      </a>
 
-            <!-- BLOQUE 3: NDA -->
-            <div class="section-title" id="lbl-block3">ACUERDO DE CONFIDENCIALIDAD</div>
+      <a href="https://monitor-production-f053.up.railway.app" target="_blank" class="mon-card">
+        <div class="mon-status"><span class="s-xai">ALGORITMO PROPIO</span></div>
+        <div class="mon-name">Índice IRI</div>
+        <div class="mon-desc">Score compuesto: R_Financiero · R_Contratación · R_Operativo · R_Datos</div>
+        <div class="mon-arrow">Abrir →</div>
+      </a>
 
-            <div class="nda-box" id="nda-text">
-                <strong>Declaración de Confidencialidad — Viny2030</strong><br><br>
-                Al completar este formulario, el solicitante declara que toda la información 
-                provista es verídica y de su propiedad o tiene autorización para compartirla.<br><br>
-                <strong>Viny2030</strong> se compromete a:<br>
-                • Tratar toda la información con estricta confidencialidad.<br>
-                • Usar los datos exclusivamente para el diagnóstico contratado.<br>
-                • No compartir, vender ni transferir información a terceros.<br>
-                • Conservar los datos por un máximo de 90 días tras la entrega del diagnóstico.<br><br>
-                Este acuerdo aplica a todas las fases del servicio.
-            </div>
+      <div class="mon-card" style="opacity:.4;cursor:default;">
+        <div class="mon-status"><span class="s-dev">EN DESARROLLO</span></div>
+        <div class="mon-name">Monitor Ajuste Presupuestario</div>
+        <div class="mon-desc">Ejecución vs aprobado · Ajuste por inflación · Modificaciones de partidas</div>
+      </div>
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label id="lbl-firma-nombre">NOMBRE (firma)</label>
-                    <input type="text" id="firma-nombre" placeholder="Vicente" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-firma-apellido">APELLIDO (firma)</label>
-                    <input type="text" id="firma-apellido" placeholder="Monteverde" required>
-                </div>
-                <div class="form-group full">
-                    <label id="lbl-fecha">FECHA</label>
-                    <input type="text" id="fecha" readonly>
-                </div>
-            </div>
+    </div>
+  </div>
+</section>
 
-            <div class="checkbox-row">
-                <input type="checkbox" id="acepto" required>
-                <label class="checkbox-label" for="acepto" id="lbl-acepto">
-                    Leí y acepto el <strong>Acuerdo de Confidencialidad</strong> de Viny2030. 
-                    Entiendo que mis datos serán tratados con estricta reserva y utilizados 
-                    únicamente para el diagnóstico algorítmico contratado.
-                </label>
-            </div>
+<!-- CLIENTS -->
+<section class="sec" id="servicios">
+  <div class="sec-inner">
+    <div class="sec-label">Segmentos de clientes</div>
+    <div class="clients-grid">
+      <div class="client-card feat">
+        <div class="client-icon">🏘️</div>
+        <div class="client-name">Municipios</div>
+        <div class="client-desc">Monitor de contratos locales, nómina, ejecución presupuestaria, semáforo IRI adaptado. Mercado masivo — más de 2.300 municipios en Argentina.</div>
+        <a href="contratos.html#nacional" class="client-btn">Ver oferta →</a>
+      </div>
+      <div class="client-card">
+        <div class="client-icon">🏛️</div>
+        <div class="client-name">Provincias y Nación</div>
+        <div class="client-desc">Plataformas completas: legislativo, judicial, ejecutivo, IRI. Contratos de mayor escala y duración.</div>
+        <a href="contratos.html#nacional" class="client-btn">Ver oferta →</a>
+      </div>
+      <div class="client-card">
+        <div class="client-icon">🏢</div>
+        <div class="client-name">Empresas privadas</div>
+        <div class="client-desc">Due diligence de contrapartes, monitoreo de riesgo institucional, auditoría de proveedores del Estado.</div>
+        <a href="contratos.html#internacional" class="client-btn">Ver oferta →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <hr class="divider">
+<!-- BUSINESS MODEL -->
+<section class="sec alt" id="negocio">
+  <div class="sec-inner">
+    <div class="sec-label">Modelo de negocio combinado</div>
+    <table class="biz-table">
+      <thead>
+        <tr>
+          <th>Modalidad</th><th>Descripción</th>
+          <th>Cliente típico</th><th>Ticket estimado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="td-mod">Llave en mano</div></td>
+          <td>Implementación de plataforma propia. Setup + branding + datos locales.</td>
+          <td>Municipios, provincias</td>
+          <td class="td-tick">USD 5k–50k</td>
+        </tr>
+        <tr>
+          <td><div class="td-mod">SaaS mensual</div></td>
+          <td>Acceso a los monitores como servicio. Actualización continua incluida.</td>
+          <td>Organismos chicos, ONGs</td>
+          <td class="td-tick">USD 250–500/mes</td>
+        </tr>
+        <tr>
+          <td><div class="td-mod">Consultoría + licencia</div></td>
+          <td>Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.</td>
+          <td>Provincias, empresas grandes</td>
+          <td class="td-tick">USD 10k–30k</td>
+        </tr>
+        <tr>
+          <td><div class="td-mod">Informes a demanda</div></td>
+          <td>Análisis específico de riesgo de un organismo, empresa o contrato.</td>
+          <td>Empresas privadas medianas</td>
+          <td class="td-tick">USD 500–5k c/informe</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-            <button class="btn-submit" onclick="enviarFormulario()" id="btn-enviar">
-                INICIAR DIAGNÓSTICO → USD 10
-            </button>
-
+<!-- ROADMAP -->
+<section class="sec" id="ruta">
+  <div class="sec-inner">
+    <div class="sec-label">Hoja de ruta</div>
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-num">01</div>
+        <div class="rm-body">
+          <div class="rm-phase">Fase actual</div>
+          <div class="rm-title">Completar la plataforma base</div>
+          <div class="rm-desc">Integrar el monitor de ajuste presupuestario. Pulir el Mapa de Transparencia como hub central. Documentar la API para clientes.</div>
         </div>
-
-        <!-- SUCCESS STATE -->
-        <div class="success" id="success-section">
-            <div class="success-icon">✓</div>
-            <h2 id="success-title">REGISTRO COMPLETADO</h2>
-            <p id="success-msg">
-                Recibimos tu solicitud. En las próximas <strong>24 horas</strong> 
-                te enviaremos al email registrado los datos de pago para activar 
-                tu diagnóstico algorítmico.<br><br>
-                <span style="color: var(--accent);">Código provisional generado.</span><br>
-                Revisá tu bandeja de entrada.
-            </p>
+      </div>
+      <div class="rm-item">
+        <div class="rm-num">02</div>
+        <div class="rm-body">
+          <div class="rm-phase">Próximo paso</div>
+          <div class="rm-title">Lanzamiento comercial y propuesta institucional</div>
+          <div class="rm-desc">Sitio orientado a vender el servicio. Deck ejecutivo para municipios y provincias. Casos de uso concretos.</div>
         </div>
-
+      </div>
+      <div class="rm-item">
+        <div class="rm-num">03</div>
+        <div class="rm-body">
+          <div class="rm-phase">Validación</div>
+          <div class="rm-title">Primer cliente piloto</div>
+          <div class="rm-desc">Un municipio o provincia como caso testigo. Implementación a precio de costo a cambio de testimonio y visibilidad.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-num">04</div>
+        <div class="rm-body">
+          <div class="rm-phase">Escala</div>
+          <div class="rm-title">Escalar a otros niveles y sector privado</div>
+          <div class="rm-desc">Abrir la oferta a más organismos y sumar el segmento empresas: due diligence, auditoría de cadena de valor.</div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="footer" id="footer-text">
-        © 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL
+<!-- AUTHOR -->
+<div class="author-bar">
+  <div class="author-inner">
+    <img src="https://raw.githubusercontent.com/Viny2030/Mapa_Transparencia/main/foto.jpg"
+         alt="Ph.D. Vicente Humberto Monteverde" class="author-photo">
+    <div>
+      <div class="author-name">Ph.D. Vicente Humberto Monteverde</div>
+      <div class="author-bio">Investigador en economía política y fenómenos de corrupción. Doctor en Ciencias Económicas. Publicaciones en <em>Journal of Financial Crime</em> (Emerald Publishing). Asesor en transparencia y auditoría algorítmica del gasto público.</div>
     </div>
-
+    <div class="author-links">
+      <a href="mailto:vhmonte@retina.ar" class="author-link">✉ Email</a>
+      <a href="https://mapatransparencia-production.up.railway.app/" target="_blank" class="author-link">→ Mapa</a>
+    </div>
+  </div>
 </div>
 
-<script>
-// Language strings
-const langs = {
-    es: {
-        tagline: 'MOTOR DE DECISIONES PARA TU NEGOCIO',
-        block1: 'DATOS DE CONTACTO',
-        block2: '¿QUÉ TE TRAJO HASTA ACÁ?',
-        block3: 'ACUERDO DE CONFIDENCIALIDAD',
-        nombre: 'NOMBRE', apellido: 'APELLIDO', email: 'EMAIL',
-        pais: 'PAÍS', telefono: 'TELÉFONO (opcional)', empresa: 'EMPRESA / ORGANIZACIÓN',
-        optA: 'Tengo datos pero no sé qué hacer con ellos',
-        optB: 'Tengo un problema de negocio sin resolver',
-        optC: 'Quiero saber si la IA aplica a mi empresa',
-        optD: 'Me recomendaron el servicio',
-        ndaTitle: 'Declaración de Confidencialidad — Viny2030',
-        ndaBody: 'Al completar este formulario, el solicitante declara que toda la información provista es verídica y de su propiedad o tiene autorización para compartirla.',
-        ndaList: ['Tratar toda la información con estricta confidencialidad.','Usar los datos exclusivamente para el diagnóstico contratado.','No compartir, vender ni transferir información a terceros.','Conservar los datos por un máximo de 90 días tras la entrega del diagnóstico.'],
-        ndaFinal: 'Este acuerdo aplica a todas las fases del servicio.',
-        firmaNombre: 'NOMBRE (firma)', firmaApellido: 'APELLIDO (firma)', fecha: 'FECHA',
-        acepto: 'Leí y acepto el <strong>Acuerdo de Confidencialidad</strong> de Viny2030. Entiendo que mis datos serán tratados con estricta reserva y utilizados únicamente para el diagnóstico algorítmico contratado.',
-        btn: 'INICIAR DIAGNÓSTICO → USD 10',
-        successTitle: 'REGISTRO COMPLETADO',
-        successMsg: 'Recibimos tu solicitud. En las próximas <strong>24 horas</strong> te enviaremos al email registrado los datos de pago para activar tu diagnóstico algorítmico.<br><br><span style="color: var(--accent);">Código provisional generado.</span><br>Revisá tu bandeja de entrada.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENCIAL'
-    },
-    en: {
-        tagline: 'DECISION ENGINE FOR YOUR BUSINESS',
-        block1: 'CONTACT INFORMATION',
-        block2: 'WHAT BROUGHT YOU HERE?',
-        block3: 'CONFIDENTIALITY AGREEMENT',
-        nombre: 'FIRST NAME', apellido: 'LAST NAME', email: 'EMAIL',
-        pais: 'COUNTRY', telefono: 'PHONE (optional)', empresa: 'COMPANY / ORGANIZATION',
-        optA: 'I have data but don\'t know what to do with it',
-        optB: 'I have an unresolved business problem',
-        optC: 'I want to know if AI applies to my business',
-        optD: 'I was referred to this service',
-        ndaTitle: 'Confidentiality Declaration — Viny2030',
-        ndaBody: 'By completing this form, the applicant declares that all information provided is truthful and owned by them or they have authorization to share it.',
-        ndaList: ['Treat all information with strict confidentiality.','Use the data exclusively for the contracted diagnosis.','Not share, sell or transfer information to third parties.','Retain data for a maximum of 90 days after diagnosis delivery.'],
-        ndaFinal: 'This agreement applies to all phases of the service.',
-        firmaNombre: 'FIRST NAME (signature)', firmaApellido: 'LAST NAME (signature)', fecha: 'DATE',
-        acepto: 'I have read and accept the <strong>Confidentiality Agreement</strong> of Viny2030. I understand that my data will be treated with strict confidentiality and used solely for the contracted algorithmic diagnosis.',
-        btn: 'START DIAGNOSIS → USD 10',
-        successTitle: 'REGISTRATION COMPLETE',
-        successMsg: 'We received your request. Within the next <strong>24 hours</strong> we will send payment details to your registered email to activate your algorithmic diagnosis.<br><br><span style="color: var(--accent);">Provisional code generated.</span><br>Check your inbox.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — CONFIDENTIAL'
-    },
-    fr: {
-        tagline: 'MOTEUR DE DÉCISION POUR VOTRE ENTREPRISE',
-        block1: 'COORDONNÉES',
-        block2: 'QU\'EST-CE QUI VOUS A AMENÉ ICI?',
-        block3: 'ACCORD DE CONFIDENTIALITÉ',
-        nombre: 'PRÉNOM', apellido: 'NOM', email: 'EMAIL',
-        pais: 'PAYS', telefono: 'TÉLÉPHONE (optionnel)', empresa: 'ENTREPRISE / ORGANISATION',
-        optA: 'J\'ai des données mais je ne sais pas quoi en faire',
-        optB: 'J\'ai un problème commercial non résolu',
-        optC: 'Je veux savoir si l\'IA s\'applique à mon entreprise',
-        optD: 'On m\'a recommandé ce service',
-        ndaTitle: 'Déclaration de Confidentialité — Viny2030',
-        ndaBody: 'En remplissant ce formulaire, le demandeur déclare que toutes les informations fournies sont véridiques et lui appartiennent ou qu\'il est autorisé à les partager.',
-        ndaList: ['Traiter toutes les informations avec une stricte confidentialité.','Utiliser les données exclusivement pour le diagnostic contracté.','Ne pas partager, vendre ou transférer des informations à des tiers.','Conserver les données pendant 90 jours maximum après la livraison du diagnostic.'],
-        ndaFinal: 'Cet accord s\'applique à toutes les phases du service.',
-        firmaNombre: 'PRÉNOM (signature)', firmaApellido: 'NOM (signature)', fecha: 'DATE',
-        acepto: 'J\'ai lu et j\'accepte l\'<strong>Accord de Confidentialité</strong> de Viny2030. Je comprends que mes données seront traitées avec une stricte confidentialité et utilisées uniquement pour le diagnostic algorithmique contracté.',
-        btn: 'DÉMARRER LE DIAGNOSTIC → USD 10',
-        successTitle: 'INSCRIPTION COMPLÈTE',
-        successMsg: 'Nous avons reçu votre demande. Dans les prochaines <strong>24 heures</strong> nous vous enverrons les détails de paiement à votre email enregistré.<br><br><span style="color: var(--accent);">Code provisoire généré.</span><br>Vérifiez votre boîte de réception.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINE — CONFIDENTIEL'
-    },
-    de: {
-        tagline: 'ENTSCHEIDUNGSMOTOR FÜR IHR UNTERNEHMEN',
-        block1: 'KONTAKTDATEN',
-        block2: 'WAS HAT SIE HIERHER GEBRACHT?',
-        block3: 'VERTRAULICHKEITSVEREINBARUNG',
-        nombre: 'VORNAME', apellido: 'NACHNAME', email: 'E-MAIL',
-        pais: 'LAND', telefono: 'TELEFON (optional)', empresa: 'UNTERNEHMEN / ORGANISATION',
-        optA: 'Ich habe Daten, weiß aber nicht, was ich damit machen soll',
-        optB: 'Ich habe ein ungelöstes Geschäftsproblem',
-        optC: 'Ich möchte wissen, ob KI für mein Unternehmen geeignet ist',
-        optD: 'Mir wurde dieser Service empfohlen',
-        ndaTitle: 'Vertraulichkeitserklärung — Viny2030',
-        ndaBody: 'Mit dem Ausfüllen dieses Formulars erklärt der Antragsteller, dass alle bereitgestellten Informationen wahrheitsgemäß sind und ihm gehören oder er berechtigt ist, sie zu teilen.',
-        ndaList: ['Alle Informationen streng vertraulich behandeln.','Die Daten ausschließlich für die beauftragte Diagnose verwenden.','Informationen nicht an Dritte weitergeben, verkaufen oder übertragen.','Daten maximal 90 Tage nach Lieferung der Diagnose aufbewahren.'],
-        ndaFinal: 'Diese Vereinbarung gilt für alle Phasen des Dienstes.',
-        firmaNombre: 'VORNAME (Unterschrift)', firmaApellido: 'NACHNAME (Unterschrift)', fecha: 'DATUM',
-        acepto: 'Ich habe die <strong>Vertraulichkeitsvereinbarung</strong> von Viny2030 gelesen und akzeptiere sie. Ich verstehe, dass meine Daten streng vertraulich behandelt und ausschließlich für die beauftragte algorithmische Diagnose verwendet werden.',
-        btn: 'DIAGNOSE STARTEN → USD 10',
-        successTitle: 'REGISTRIERUNG ABGESCHLOSSEN',
-        successMsg: 'Wir haben Ihre Anfrage erhalten. Innerhalb der nächsten <strong>24 Stunden</strong> senden wir Ihnen die Zahlungsdetails an Ihre registrierte E-Mail.<br><br><span style="color: var(--accent);">Vorläufiger Code generiert.</span><br>Überprüfen Sie Ihren Posteingang.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINIEN — VERTRAULICH'
-    },
-    it: {
-        tagline: 'MOTORE DECISIONALE PER LA TUA AZIENDA',
-        block1: 'DATI DI CONTATTO',
-        block2: 'COSA TI HA PORTATO QUI?',
-        block3: 'ACCORDO DI RISERVATEZZA',
-        nombre: 'NOME', apellido: 'COGNOME', email: 'EMAIL',
-        pais: 'PAESE', telefono: 'TELEFONO (opzionale)', empresa: 'AZIENDA / ORGANIZZAZIONE',
-        optA: 'Ho dati ma non so cosa farne',
-        optB: 'Ho un problema aziendale irrisolto',
-        optC: 'Voglio sapere se l\'IA si applica alla mia azienda',
-        optD: 'Mi è stato raccomandato questo servizio',
-        ndaTitle: 'Dichiarazione di Riservatezza — Viny2030',
-        ndaBody: 'Compilando questo modulo, il richiedente dichiara che tutte le informazioni fornite sono veritiere e di sua proprietà o ha l\'autorizzazione a condividerle.',
-        ndaList: ['Trattare tutte le informazioni con stretta riservatezza.','Utilizzare i dati esclusivamente per la diagnosi contrattata.','Non condividere, vendere o trasferire informazioni a terzi.','Conservare i dati per un massimo di 90 giorni dopo la consegna della diagnosi.'],
-        ndaFinal: 'Questo accordo si applica a tutte le fasi del servizio.',
-        firmaNombre: 'NOME (firma)', firmaApellido: 'COGNOME (firma)', fecha: 'DATA',
-        acepto: 'Ho letto e accetto l\'<strong>Accordo di Riservatezza</strong> di Viny2030. Capisco che i miei dati saranno trattati con stretta riservatezza e utilizzati esclusivamente per la diagnosi algoritmica contrattata.',
-        btn: 'AVVIA DIAGNOSI → USD 10',
-        successTitle: 'REGISTRAZIONE COMPLETATA',
-        successMsg: 'Abbiamo ricevuto la tua richiesta. Nelle prossime <strong>24 ore</strong> ti invieremo i dettagli di pagamento all\'email registrata.<br><br><span style="color: var(--accent);">Codice provvisorio generato.</span><br>Controlla la tua casella di posta.',
-        footer: '© 2026 VINY2030.COM.AR — BUENOS AIRES, ARGENTINA — RISERVATO'
-    }
-};
+<footer>
+  <div class="ft">© 2025 Ph.D. Vicente Humberto Monteverde · Transparencia Institucional</div>
+  <div class="ft-links">
+    <a href="https://mapatransparencia-production.up.railway.app/docs" target="_blank">API Docs</a>
+    <a href="https://mapatransparencia-production.up.railway.app/en" target="_blank">English</a>
+    <a href="contratos.html">Contratos</a>
+    <a href="mailto:vhmonte@retina.ar">Contacto</a>
+  </div>
+</footer>
 
-let currentLang = 'es';
-
-function setLang(lang) {
-    currentLang = lang;
-    const t = langs[lang];
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
-
-    document.getElementById('tagline').textContent = t.tagline;
-    document.getElementById('lbl-block1').textContent = t.block1;
-    document.getElementById('lbl-block2').textContent = t.block2;
-    document.getElementById('lbl-block3').textContent = t.block3;
-    document.getElementById('lbl-nombre').textContent = t.nombre;
-    document.getElementById('lbl-apellido').textContent = t.apellido;
-    document.getElementById('lbl-email').textContent = t.email;
-    document.getElementById('lbl-pais').textContent = t.pais;
-    document.getElementById('lbl-telefono').textContent = t.telefono;
-    document.getElementById('lbl-empresa').textContent = t.empresa;
-    document.getElementById('opt-a').textContent = t.optA;
-    document.getElementById('opt-b').textContent = t.optB;
-    document.getElementById('opt-c').textContent = t.optC;
-    document.getElementById('opt-d').textContent = t.optD;
-    document.getElementById('lbl-firma-nombre').textContent = t.firmaNombre;
-    document.getElementById('lbl-firma-apellido').textContent = t.firmaApellido;
-    document.getElementById('lbl-fecha').textContent = t.fecha;
-    document.getElementById('lbl-acepto').innerHTML = t.acepto;
-    document.getElementById('btn-enviar').textContent = t.btn;
-    document.getElementById('footer-text').textContent = t.footer;
-
-    // Update NDA
-    document.getElementById('nda-text').innerHTML = `
-        <strong>${t.ndaTitle}</strong><br><br>
-        ${t.ndaBody}<br><br>
-        <strong>Viny2030</strong> ${lang === 'es' ? 'se compromete a' : lang === 'en' ? 'commits to' : lang === 'fr' ? 's\'engage à' : lang === 'de' ? 'verpflichtet sich' : 'si impegna a'}:<br>
-        ${t.ndaList.map(i => `• ${i}`).join('<br>')}<br><br>
-        ${t.ndaFinal}
-    `;
-
-    // Update date format
-    const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    document.getElementById('fecha').value = new Date().toLocaleDateString(
-        lang === 'en' ? 'en-US' : lang === 'fr' ? 'fr-FR' : lang === 'de' ? 'de-DE' : lang === 'it' ? 'it-IT' : 'es-AR',
-        dateOptions
-    );
-}
-
-async function enviarFormulario() {
-    const t = langs[currentLang];
-    const nombre = document.getElementById('nombre').value.trim();
-    const apellido = document.getElementById('apellido').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const pais = document.getElementById('pais').value.trim();
-    const empresa = document.getElementById('empresa').value.trim();
-    const firmaNombre = document.getElementById('firma-nombre').value.trim();
-    const firmaApellido = document.getElementById('firma-apellido').value.trim();
-    const acepto = document.getElementById('acepto').checked;
-    const intencion = document.querySelector('input[name="intencion"]:checked');
-
-    if (!nombre || !apellido || !email || !pais || !empresa || !firmaNombre || !firmaApellido) {
-        alert(currentLang === 'es' ? 'Por favor completá todos los campos obligatorios.' :
-              currentLang === 'en' ? 'Please complete all required fields.' :
-              currentLang === 'fr' ? 'Veuillez remplir tous les champs obligatoires.' :
-              currentLang === 'de' ? 'Bitte füllen Sie alle Pflichtfelder aus.' :
-              'Per favore compila tutti i campi obbligatori.');
-        return;
-    }
-
-    if (!intencion) {
-        alert(currentLang === 'es' ? 'Por favor seleccioná una opción.' :
-              currentLang === 'en' ? 'Please select an option.' :
-              currentLang === 'fr' ? 'Veuillez sélectionner une option.' :
-              currentLang === 'de' ? 'Bitte wählen Sie eine Option.' :
-              'Per favore seleziona un\'opzione.');
-        return;
-    }
-
-    if (!acepto) {
-        alert(currentLang === 'es' ? 'Debés aceptar el acuerdo de confidencialidad.' :
-              currentLang === 'en' ? 'You must accept the confidentiality agreement.' :
-              currentLang === 'fr' ? 'Vous devez accepter l\'accord de confidentialité.' :
-              currentLang === 'de' ? 'Sie müssen die Vertraulichkeitsvereinbarung akzeptieren.' :
-              'Devi accettare l\'accordo di riservatezza.');
-        return;
-    }
-
-    const nombreCompleto = `${nombre} ${apellido}`;
-    const emailCliente   = document.getElementById('email').value.trim();
-
-    // Deshabilitar botón mientras procesa
-    const btn = document.getElementById('btn-enviar');
-    btn.disabled = true;
-    btn.textContent = '...';
-
-    try {
-        // 1. Enviar al backend → genera código VNY y envía email
-        const res = await fetch('https://www.viny2030.com.ar/api/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: nombreCompleto,
-                email: emailCliente,
-                amount: 10,
-                lang: currentLang,
-                product: 'Diagnóstico Algorítmico'
-            })
-        });
-
-        const data = await res.json();
-
-        if (!data.success) throw new Error(data.error || 'Error del servidor');
-
-        // 2. También enviar a Google Sheets (en paralelo, sin bloquear)
-        fetch('https://script.google.com/macros/s/AKfycbxUSFBRkHGtMbZf0O5DI-JR7gkvH1mmsbD1DxCLLEsFA78p4ifQAwO20RC6YXwspyfpgg/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nombre, apellido,
-                email: emailCliente,
-                pais: document.getElementById('pais').value.trim(),
-                telefono: document.getElementById('telefono').value.trim(),
-                empresa: document.getElementById('empresa').value.trim(),
-                intencion: intencion.value,
-                firmaNombre: document.getElementById('firma-nombre').value.trim(),
-                firmaApellido: document.getElementById('firma-apellido').value.trim(),
-                fecha: document.getElementById('fecha').value,
-                idioma: currentLang,
-                codigoOrden: data.orderCode
-            })
-        }).catch(() => {}); // silencioso si falla Sheets
-
-        // 3. Mostrar pantalla de éxito
-        document.getElementById('form-section').style.display = 'none';
-        const s = document.getElementById('success-section');
-        s.style.display = 'block';
-        document.getElementById('success-title').textContent = t.successTitle;
-        document.getElementById('success-msg').innerHTML =
-            t.successMsg + `<br><br><span style="font-family:monospace;font-size:1.1em;color:var(--accent2);">${data.orderCode}</span>`;
-
-    } catch (err) {
-        btn.disabled = false;
-        btn.textContent = t.btn;
-        alert('❌ Error al procesar: ' + err.message + '\n\nAsegurate de que el servidor esté corriendo.');
-    }
-}
-
-// Set today's date
-document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR', {
-    day: '2-digit', month: '2-digit', year: 'numeric'
-});
-
-// Detect lang from URL parameter and initialize
-const urlLang = new URLSearchParams(window.location.search).get('lang');
-if (urlLang && langs[urlLang]) {
-    setLang(urlLang);
-} else {
-    setLang('es');
-}
-</script>
-
-
-<script>window.location.replace("sobre_mi_monteverde.html");</script>
 </body>
 </html>
