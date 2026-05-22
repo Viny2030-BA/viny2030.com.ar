@@ -275,7 +275,7 @@
           <th data-i18n="th_modality">Modalidad</th>
           <th data-i18n="th_desc">Descripción</th>
           <th data-i18n="th_client">Cliente típico</th>
-          <th data-i18n="th_ticket">Ticket estimado</th>
+          <th data-i18n="th_ticket">Presupuesto</th>
         </tr>
       </thead>
       <tbody>
@@ -283,25 +283,25 @@
           <td><div class="td-mod" data-i18n="biz1_mod">Llave en mano</div></td>
           <td data-i18n="biz1_desc">Implementación de plataforma propia. Setup + branding + datos locales.</td>
           <td data-i18n="biz1_client">Municipios, provincias</td>
-          <td class="td-tick">USD 5k–50k</td>
+          <td class="td-tick" data-i18n="price_conv">Presupuesto a convenir</td>
         </tr>
         <tr>
           <td><div class="td-mod" data-i18n="biz2_mod">SaaS mensual</div></td>
           <td data-i18n="biz2_desc">Acceso a los monitores como servicio. Actualización continua incluida.</td>
           <td data-i18n="biz2_client">Organismos chicos, ONGs</td>
-          <td class="td-tick">USD 250–500/mes</td>
+          <td class="td-tick" data-i18n="price_conv">Presupuesto a convenir</td>
         </tr>
         <tr>
           <td><div class="td-mod" data-i18n="biz3_mod">Consultoría + licencia</div></td>
           <td data-i18n="biz3_desc">Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.</td>
           <td data-i18n="biz3_client">Provincias, empresas grandes</td>
-          <td class="td-tick">USD 10k–30k</td>
+          <td class="td-tick" data-i18n="price_conv">Presupuesto a convenir</td>
         </tr>
         <tr>
           <td><div class="td-mod" data-i18n="biz4_mod">Informes a demanda</div></td>
           <td data-i18n="biz4_desc">Análisis específico de riesgo de un organismo, empresa o contrato.</td>
           <td data-i18n="biz4_client">Empresas privadas medianas</td>
-          <td class="td-tick">USD 500–5k c/informe</td>
+          <td class="td-tick" data-i18n="price_conv">Presupuesto a convenir</td>
         </tr>
       </tbody>
     </table>
@@ -402,7 +402,7 @@ const i18n = {
     cl3_name:"Empresas privadas", cl3_desc:"Due diligence de contrapartes, monitoreo de riesgo institucional, auditoría de proveedores del Estado.",
     see_offer:"Ver oferta →",
     sec_model:"Modelo de negocio combinado",
-    th_modality:"Modalidad", th_desc:"Descripción", th_client:"Cliente típico", th_ticket:"Ticket estimado",
+    th_modality:"Modalidad", th_desc:"Descripción", th_client:"Cliente típico", th_ticket:"Presupuesto", price_conv:"Presupuesto a convenir",
     biz1_mod:"Llave en mano", biz1_desc:"Implementación de plataforma propia. Setup + branding + datos locales.", biz1_client:"Municipios, provincias",
     biz2_mod:"SaaS mensual", biz2_desc:"Acceso a los monitores como servicio. Actualización continua incluida.", biz2_client:"Organismos chicos, ONGs",
     biz3_mod:"Consultoría + licencia", biz3_desc:"Asesoramiento estratégico + licencia del algoritmo XAI para uso interno.", biz3_client:"Provincias, empresas grandes",
@@ -440,7 +440,7 @@ const i18n = {
     cl3_name:"Private companies", cl3_desc:"Counterparty due diligence, institutional risk monitoring, state supplier auditing.",
     see_offer:"See offer →",
     sec_model:"Combined business model",
-    th_modality:"Modality", th_desc:"Description", th_client:"Typical client", th_ticket:"Estimated ticket",
+    th_modality:"Modality", th_desc:"Description", th_client:"Typical client", th_ticket:"Budget", price_conv:"Budget on request",
     biz1_mod:"Turnkey", biz1_desc:"Own platform implementation. Setup + branding + local data.", biz1_client:"Municipalities, provinces",
     biz2_mod:"Monthly SaaS", biz2_desc:"Access to monitors as a service. Continuous updates included.", biz2_client:"Small agencies, NGOs",
     biz3_mod:"Consulting + license", biz3_desc:"Strategic advisory + XAI algorithm license for internal use.", biz3_client:"Provinces, large companies",
@@ -478,7 +478,7 @@ const i18n = {
     cl3_name:"Entreprises privées", cl3_desc:"Due diligence de contreparties, surveillance des risques institutionnels, audit des fournisseurs de l'État.",
     see_offer:"Voir l'offre →",
     sec_model:"Modèle économique combiné",
-    th_modality:"Modalité", th_desc:"Description", th_client:"Client typique", th_ticket:"Ticket estimé",
+    th_modality:"Modalité", th_desc:"Description", th_client:"Client typique", th_ticket:"Budget", price_conv:"Budget à convenir",
     biz1_mod:"Clé en main", biz1_desc:"Implémentation de plateforme propre. Setup + branding + données locales.", biz1_client:"Municipalités, provinces",
     biz2_mod:"SaaS mensuel", biz2_desc:"Accès aux moniteurs comme service. Mises à jour continues incluses.", biz2_client:"Petits organismes, ONG",
     biz3_mod:"Conseil + licence", biz3_desc:"Conseil stratégique + licence de l'algorithme XAI pour usage interne.", biz3_client:"Provinces, grandes entreprises",
@@ -516,7 +516,7 @@ const i18n = {
     cl3_name:"Privatunternehmen", cl3_desc:"Counterparty Due Diligence, institutionelle Risikoüberwachung, Lieferantenprüfung.",
     see_offer:"Angebot ansehen →",
     sec_model:"Kombiniertes Geschäftsmodell",
-    th_modality:"Modalität", th_desc:"Beschreibung", th_client:"Typischer Kunde", th_ticket:"Geschätztes Ticket",
+    th_modality:"Modalität", th_desc:"Beschreibung", th_client:"Typischer Kunde", th_ticket:"Budget", price_conv:"Budget nach Vereinbarung",
     biz1_mod:"Schlüsselfertig", biz1_desc:"Implementierung einer eigenen Plattform. Setup + Branding + lokale Daten.", biz1_client:"Gemeinden, Bundesländer",
     biz2_mod:"Monatliches SaaS", biz2_desc:"Zugang zu Monitoren als Service. Kontinuierliche Updates inklusive.", biz2_client:"Kleine Behörden, NGOs",
     biz3_mod:"Beratung + Lizenz", biz3_desc:"Strategische Beratung + XAI-Algorithmus-Lizenz für internen Gebrauch.", biz3_client:"Bundesländer, Großunternehmen",
@@ -554,7 +554,7 @@ const i18n = {
     cl3_name:"Aziende private", cl3_desc:"Due diligence di controparti, monitoraggio rischio istituzionale, audit fornitori dello Stato.",
     see_offer:"Vedi offerta →",
     sec_model:"Modello di business combinato",
-    th_modality:"Modalità", th_desc:"Descrizione", th_client:"Cliente tipico", th_ticket:"Ticket stimato",
+    th_modality:"Modalità", th_desc:"Descrizione", th_client:"Cliente tipico", th_ticket:"Budget", price_conv:"Preventivo su richiesta",
     biz1_mod:"Chiavi in mano", biz1_desc:"Implementazione di piattaforma propria. Setup + branding + dati locali.", biz1_client:"Comuni, province",
     biz2_mod:"SaaS mensile", biz2_desc:"Accesso ai monitor come servizio. Aggiornamenti continui inclusi.", biz2_client:"Piccoli enti, ONG",
     biz3_mod:"Consulenza + licenza", biz3_desc:"Consulenza strategica + licenza algoritmo XAI per uso interno.", biz3_client:"Province, grandi aziende",
@@ -592,7 +592,7 @@ const i18n = {
     cl3_name:"Empresas privadas", cl3_desc:"Due diligence de contrapartes, monitoramento de risco institucional, auditoria de fornecedores do Estado.",
     see_offer:"Ver oferta →",
     sec_model:"Modelo de negócio combinado",
-    th_modality:"Modalidade", th_desc:"Descrição", th_client:"Cliente típico", th_ticket:"Ticket estimado",
+    th_modality:"Modalidade", th_desc:"Descrição", th_client:"Cliente típico", th_ticket:"Presupuesto", price_conv:"Presupuesto a convenir",
     biz1_mod:"Chave na mão", biz1_desc:"Implementação de plataforma própria. Setup + branding + dados locais.", biz1_client:"Municípios, estados",
     biz2_mod:"SaaS mensal", biz2_desc:"Acesso aos monitores como serviço. Atualizações contínuas incluídas.", biz2_client:"Pequenos órgãos, ONGs",
     biz3_mod:"Consultoria + licença", biz3_desc:"Assessoria estratégica + licença do algoritmo XAI para uso interno.", biz3_client:"Estados, grandes empresas",
